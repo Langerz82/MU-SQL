@@ -10,6 +10,10 @@
 #include "MasterLevelSkillTreeSystem.h"
 #include "readscript.h"
 #include "util.h"
+#include "GameProtocol.h"
+#include "GOFunctions.h"
+#include "IOCP.h"
+#include "iniReader/IniReader.h"
 
 CConfigMichi g_Michi;
 
@@ -48,8 +52,8 @@ void CConfigMichi::GCFireworksSend(CGameObject &Obj, int x, int y) // OK
 	ServerCmd.X = x;
 	ServerCmd.Y = y;
 
-	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&ServerCmd, ServerCmd.h.size);
-	MsgSendV2(lpObj, (BYTE*)&ServerCmd, ServerCmd.h.size);
+	GIOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&ServerCmd, ServerCmd.h.size);
+	MsgSendV2(&Obj, (BYTE*)&ServerCmd, ServerCmd.h.size);
 }
 
 
@@ -59,7 +63,7 @@ void CConfigMichi::UseHealingPotion(CItemObject * CItemObject, int pos, CGameObj
 	{
 		if (GetTickCount() - Obj.m_PlayerData->PotionTime < this->FixHackPotions.m_CheckAutoHealingPotionHackTolerance)
 		{
-			GCReFillSend(Obj.m_Index, Obj.Life, 0xFD, 1, Obj.iShield);
+			GCReFillSend(&Obj, Obj.Life, 0xFD, 1, Obj.iShield);
 			return;
 		}
 	}
@@ -117,7 +121,7 @@ void CConfigMichi::UseHealingPotion(CItemObject * CItemObject, int pos, CGameObj
 			Obj.FillLife = 0;
 		}
 
-		GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, FALSE, Obj.iShield);
+		GCReFillSend(&Obj, Obj.Life, 0xFF, FALSE, Obj.iShield);
 	}
 
 	Obj.FillLifeMax = tLife;
@@ -136,11 +140,11 @@ void CConfigMichi::UseHealingPotion(CItemObject * CItemObject, int pos, CGameObj
 		Obj.FillLifeCount = 3;
 	}
 
-	if (!gObjSearchItemMinus(getGameObject(Obj.m_Index), pos, 1))
+	if (!gObjSearchItemMinus(Obj), pos, 1))
 	{
-		gObjInventoryItemSet(lpObj, pos, -1);
+		gObjInventoryItemSet(Obj, pos, -1);
 		Obj.pntInventory[pos]->Clear();
-		GSProtocol.GCInventoryItemDeleteSend(lpObj, pos, 1);
+		GSProtocol.GCInventoryItemDeleteSend(&Obj, pos, 1);
 	}
 }
 

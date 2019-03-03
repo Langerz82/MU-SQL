@@ -11,6 +11,7 @@
 
 #include "User/CUserData.h"
 
+/*
 struct PBMSG_HEAD;
 struct PMSG_ANS_CL_ENTERCOUNT;
 struct PMSG_ANS_LUCKYCOININFO;
@@ -24,8 +25,8 @@ struct PMSG_REQ_REG_DL_OFFLINE_GIFT;
 struct PMSG_REQ_REG_HT_OFFLINE_GIFT;
 struct PMSG_REQ_SANTAGIFT;
 struct PMSG_SERVERCMD;
+*/
 
-/*
 struct PMSG_REGEVENTCHIP_RESULT
 {
 	PBMSG_HEAD2 h;	// C1:95
@@ -245,7 +246,7 @@ struct PMSG_ANS_SANTAGIFT
 	WORD Result;
 	WORD UseCount;
 };
-*/
+
 
 extern CGameObject pEventObj;
 

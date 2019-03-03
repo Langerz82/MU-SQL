@@ -1789,73 +1789,6 @@ struct PMSG_GETMUTONUMBER_RESULT
 	short MutoNum[3];	// 4
 };
 
-struct _CS_NPC_DATA
-{
-	_CS_NPC_DATA();
-	virtual ~_CS_NPC_DATA();
-	void Clear();
-	void SetBaseValue();
-
-	BOOL m_bIN_USE;
-
-	int m_iNPC_NUM;
-	int m_iNPC_INDEX;
-
-	BOOL m_bNPC_DBSAVE;
-	int m_iNPC_SIDE;
-	int m_iNPC_OBJINDEX;
-	int m_iNPC_DF_LEVEL;
-	int m_iNPC_RG_LEVEL;
-	int m_iNPC_MAXHP;
-	int m_iNPC_HP;
-	int m_iNPC_SX;
-	int m_iNPC_SY;
-	int m_iNPC_DX;
-	int m_iNPC_DY;
-	int m_iNPC_DIR;
-	int m_iNPC_BASE_DF_LEVEL;
-	int m_iNPC_BASE_RG_LEVEL;
-	int m_iNPC_BASE_MAXHP;
-	int m_iNPC_BASE_HP;
-	int m_iNPC_BASE_SX;
-	int m_iNPC_BASE_SY;
-	int m_iNPC_BASE_DX;
-	int m_iNPC_BASE_DY;
-	int m_iNPC_BASE_DIR;
-	int m_iCS_GATE_LEVER_INDEX;
-	int m_iNPC_LIVE;
-	int m_iNPC_AUTH;
-
-	union
-	{
-		struct
-		{
-			BYTE m_btCsNpcExistVal1;
-			BYTE m_btCsNpcExistVal2;
-			BYTE m_btCsNpcExistVal3;
-			BYTE m_btCsNpcExistVal4;
-		};
-		int m_iCsNpcExistVal;
-	};
-};
-
-
-struct PMSG_MASTER_LEVEL_UP_SEND
-{
-	PBMSG_HEAD2 h;
-	WORD MasterLevel;
-	WORD GainPoint;
-	WORD MLPoint;
-	WORD MaxPoint;
-	WORD MaxLife;
-	WORD MaxMana;
-	WORD MaxShield;
-	WORD MaxBP;
-	int IGCMaxLife;
-	int IGCMaxMana;
-};
-
-
 struct PMSG_REQ_LUCKYCOIN
 {
 	PBMSG_HEAD2 h;
@@ -1955,13 +1888,6 @@ typedef struct ITEMEFFECT
 } ITEMEFFECT, *LPITEMEFFECT;
 
 
-struct PMSG_REQ_AB_REG_MEMBER_CNT_DS
-{
-	PBMSG_HEAD2 h;
-	int iIndex;
-	int iGuildNumber;
-};
-
 struct PMSG_ANS_REGISTERED_MEMBER_CNT
 {
 	PBMSG_HEAD2 h;
@@ -1975,13 +1901,6 @@ struct PMSG_CCF_RANK_INFO
 	PWMSG_HEAD2 h;
 	BYTE btResult;
 	BYTE btCnt;
-};
-
-struct PMSG_ANS_AB_REG_MEMBER_CNT
-{
-	PBMSG_HEAD2 h;
-	BYTE btResult;
-	BYTE btRegMemCnt;
 };
 
 struct STR_EFFECTLIST
@@ -2005,7 +1924,7 @@ struct PMSG_ITEMVIEWPORTCREATE
 	BYTE ItemInfo[MAX_ITEM_INFO];
 };
 
-typedef struct
+typedef struct _PMSG_VIEWPORTCREATE
 {
 	BYTE	NumberH;
 	BYTE	NumberL;
@@ -2042,7 +1961,7 @@ typedef struct
 	BYTE    unk3;
 } PMSG_VIEWPORTCREATE, *LPPMSG_VIEWPORTCREATE;
 
-typedef struct
+typedef struct _PMSG_VIEWPORTCREATE_CHANGE
 {
 	BYTE	NumberH;
 	BYTE	NumberL;
@@ -2081,7 +2000,7 @@ typedef struct
 	BYTE    unk3;
 } PMSG_VIEWPORTCREATE_CHANGE, *LPPMSG_VIEWPORTCREATE_CHANGE;
 
-typedef struct
+typedef struct _PMSG_VIEWPORTDESTROY
 {
 	BYTE	NumberH;
 	BYTE	NumberL;

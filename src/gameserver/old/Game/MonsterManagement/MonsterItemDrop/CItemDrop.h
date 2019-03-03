@@ -10,6 +10,53 @@
 #include "StdAfx.h"
 #include "User/CUserData.h"
 
+struct ITEMDROP_ITEM
+{
+	BYTE btItemType;
+	WORD wItemIndex;
+	BYTE btItemMinLevel;
+	BYTE btItemMaxLevel;
+	BYTE btItemDurability;
+	BYTE btIsSkill;
+	BYTE btIsLuck;
+	BYTE btIsOption;
+	BYTE btIsExc[9];
+	BYTE btIsSetItem;
+	BYTE btSocketCount;
+	BYTE btIsElementalItem;
+	BYTE btMuunEvoItemType;
+	WORD wMuunEvoItemIndex;
+	DWORD dwItemDropRate;
+	DWORD dwPeriodDuration;
+};
+
+struct ITEMDROP_MONSTER
+{
+	ITEMDROP_MONSTER()
+	{
+		this->m_vtItems.clear();
+	}
+
+	WORD wMonsterID;
+	WORD wMonsterMinLevel;
+	WORD wMonsterMaxLevel;
+	BYTE btMonsterMapNumber;
+	DWORD dwItemDropRate;
+	BYTE btItemCount;
+	bool bIsCoinReward;
+	BYTE btCoinType;
+	DWORD dwCoinValue;
+	WORD wPlayerMinLevel;
+	WORD wPlayerMaxLevel;
+	std::vector<boost::shared_ptr<ITEMDROP_ITEM>> m_vtItems;
+};
+
+struct ZEN_DROP
+{
+	BYTE btMapNumber;
+	DWORD dwMinMoney;
+	DWORD dwMaxMoney;
+};
 
 class CItemObjectDrop
 {

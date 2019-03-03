@@ -629,13 +629,6 @@ struct PMSG_REQ_AB_REG_MEMBER_CNT_DS
 	int iGuildNumber;
 };
 
-struct PMSG_ANS_REGISTERED_MEMBER_CNT
-{
-	PBMSG_HEAD2 h;
-	BYTE unk1;
-	BYTE unk2;
-};
-
 struct PMSG_ANS_AB_WIN_GUILD_INFO_DS
 {
 	PBMSG_HEAD2 h;
@@ -907,7 +900,7 @@ public:
 	bool LoadScriptArcaBattle(char *lpszFileName);
 	void BootyExchange(CGameObject &Obj);
 	int LoadScriptBootyMix(char *lpszFileName);
-	int GetBootyRewardItem(int iBootyCnt,ARCA_BATTLE_BOOTY_REWARD *pBootyRewardItem);
+	int GetBootyRewardItem(int iBootyCnt,_tagARCA_BATTLE_BOOTY_REWARD *pBootyRewardItem);
 
 	WORD GetObeliskAttrToRewardBuffIndex(int iObeliskAttr);
 	void SendArcaBattlePlayInfo(CGameObject &obj, WORD wGuildGroupNum);
@@ -962,7 +955,7 @@ public:
 	int GetJoinMemberCnt();
 
 	int EnterArcaBattleEvent(CGameObject &Obj);
-	ArcaBattleUserInfo * GetUserInfo(char *szName);
+	_tagArcaBattleUserInfo * GetUserInfo(char *szName);
 
 	void SendObeliskLife();
 	void SendObeliskState();
@@ -1079,13 +1072,13 @@ public:
 
 private: // variables
 	bool m_bDoEvent;
-	ARCA_BATTLE_BOOTY_MIX m_stBootyMix[10];
+	_tagARCA_BATTLE_BOOTY_MIX m_stBootyMix[10];
 	int m_iBootyMixCnt;
-	ArcaBattleUserInfo m_UserData[300];
-	OBELISK_INFO m_stObeliskInfo[5];
-	OBELISK_STATE m_stObeliskState[5];
-	ARCA_BATTLE_RESULT_INFO m_stArcaBattleResultInfo[5];
-	OccupyGuildInfo m_stOccupyGuildInfo[5];
+	_tagArcaBattleUserInfo m_UserData[300];
+	_tagOBELISK_INFO m_stObeliskInfo[5];
+	_tagOBELISK_STATE m_stObeliskState[5];
+	_tagARCA_BATTLE_RESULT_INFO m_stArcaBattleResultInfo[5];
+	_tagOccupyGuildInfo m_stOccupyGuildInfo[5];
 	_stABWinGuildInfo m_stABWinGuildInfo[5];
 	int m_iWinGuildCnt;
 	bool m_bReqABWinGuildInfo;
@@ -1108,7 +1101,7 @@ private: // variables
 	int m_iAB_PlayNotifyTimeMin;
 	int m_iAB_PlayTimeMin;
 	int m_iAB_ChannelTimeMin;
-	std::vector<ARCA_BATTLE_START_TIME> m_vtArcaBattleOpenTime;
+	std::vector<_tagARCA_BATTLE_START_TIME> m_vtArcaBattleOpenTime;
 	int m_iCurUserCount;
 	int m_iObeliskCnt;
 	_stABMonPosition m_stMonsterPosition[50];
@@ -1121,7 +1114,7 @@ private: // variables
 	bool m_bABInitState;
 	bool m_bWindowClose;
 	int m_iAuraChk;
-	AB_GUILD_MEMBER_INFO_LOG m_stGuildMemberInfoLog[10];
+	_tagAB_GUILD_MEMBER_INFO_LOG m_stGuildMemberInfoLog[10];
 };
 
 extern CArcaBattle g_ArcaBattle;

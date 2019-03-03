@@ -15,6 +15,7 @@
 #include "ArcaBattle.h"
 #include "configread.h"
 #include "ObjUseSkill.h"
+#include "GOFunctions.h"
 
 CBuffEffect	g_BuffEffect;
 
@@ -87,7 +88,7 @@ void CBuffEffect::SetBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectVal
 		Obj.m_MagicDamageMax += EffectValue;
 		break;
 	case EFFECTTYPE_IMPROVE_MELEE_DEFENSE:
-		Obj.m_SkillInfo.SoulBarrierDefence = EffectValue;
+		Obj.m_SkillInfo->SoulBarrierDefence = EffectValue;
 		break;
 	case EFFECTTYPE_IMPROVE_MAGIC_DEFENSE:
 		Obj.m_MagicDefense += EffectValue;
@@ -117,8 +118,8 @@ void CBuffEffect::SetBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectVal
 			Obj.AddLife -= (int)((float)(fAddLife));
 			Obj.Life = ( (float)(Obj.Life) < ( (float)(Obj.AddLife) + (float)(Obj.MaxLife) ) )?( (float)(Obj.Life) ):( ( (float)(Obj.AddLife) + (float)(Obj.MaxLife) ) );
 
-			GSProtocol.GCReFillSend(Obj.m_Index, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
-			GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+			GSProtocol.GCReFillSend(&Obj, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
+			GSProtocol.GCReFillSend(&Obj, Obj.Life, 0xFF, 0, Obj.iShield);
 		}
 		break;
 	case EFFECTTYPE_MAGICPOWER_INC:
@@ -144,23 +145,23 @@ void CBuffEffect::SetBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectVal
 		break;
 	case EFFECTTYPE_AG_UP:
 		Obj.AddBP += EffectValue * (Obj.Level + Obj.m_PlayerData->MasterLevel);
-		GSProtocol.GCManaSend(Obj.m_Index, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
-		GSProtocol.GCManaSend(Obj.m_Index, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
+		GSProtocol.GCManaSend(&Obj, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
+		GSProtocol.GCManaSend(&Obj, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
 		break;
 	case EFFECTTYPE_SD_UP:
 		Obj.iAddShield += EffectValue * (Obj.Level + Obj.m_PlayerData->MasterLevel);
-		GSProtocol.GCReFillSend(Obj.m_Index, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
-		GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+		GSProtocol.GCReFillSend(&Obj, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
+		GSProtocol.GCReFillSend(&Obj, Obj.Life, 0xFF, 0, Obj.iShield);
 		break;
 	case EFFECTTYPE_SD_UP_VALUE:
 		Obj.iAddShield += EffectValue;
-		GSProtocol.GCReFillSend(Obj.m_Index, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
-		GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+		GSProtocol.GCReFillSend(&Obj, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
+		GSProtocol.GCReFillSend(&Obj, Obj.Life, 0xFF, 0, Obj.iShield);
 		break;
 	case EFFECTTYPE_AG_UP_VALUE:
 		Obj.AddBP += EffectValue;
-		GSProtocol.GCManaSend(Obj.m_Index, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
-		GSProtocol.GCManaSend(Obj.m_Index, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
+		GSProtocol.GCManaSend(&Obj, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
+		GSProtocol.GCManaSend(&Obj, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
 		break;
 	case EFFECTTYPE_IMPROVE_DEFENSE_RATE:
 		Obj.m_SuccessfulBlocking += EffectValue;
@@ -184,9 +185,7 @@ void CBuffEffect::SetBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectVal
 
 void CBuffEffect::ClearBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectValue)
 {
-	if(lpObj == NULL || EffectType < EFFECTTYPE_NONE)	return;
-
-	if(Obj.Connected < PLAYER_PLAYING)	return;
+	if(EffectType < EFFECTTYPE_NONE)	return;
 
 	switch(EffectType)
 	{
@@ -202,15 +201,15 @@ void CBuffEffect::ClearBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectV
 		Obj.AddLife -= EffectValue;
 		if(Obj.AddLife <= 0.0)
 			Obj.AddLife = 0.0;
-		GSProtocol.GCReFillSend(Obj.m_Index, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
-		GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+		GSProtocol.GCReFillSend(&Obj, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
+		GSProtocol.GCReFillSend(&Obj, Obj.Life, 0xFF, 0, Obj.iShield);
 		break;
 	case EFFECTTYPE_MANA:
 		Obj.AddMana -= EffectValue;
 		if(Obj.AddMana <= 0.0)
 			Obj.AddMana = 0.0;
-		GSProtocol.GCManaSend(Obj.m_Index, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
-		GSProtocol.GCManaSend(Obj.m_Index, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
+		GSProtocol.GCManaSend(&Obj, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
+		GSProtocol.GCManaSend(&Obj, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
 		break;
 	case EFFECTTYPE_STRENGTH:
 		Obj.AddStrength -= EffectValue;
@@ -241,7 +240,7 @@ void CBuffEffect::ClearBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectV
 		Obj.m_MagicDamageMax -= EffectValue;
 		break;
 	case EFFECTTYPE_IMPROVE_MELEE_DEFENSE:
-		Obj.m_SkillInfo.SoulBarrierDefence -= EffectValue;
+		Obj.m_SkillInfo->SoulBarrierDefence -= EffectValue;
 		break;
 	case EFFECTTYPE_IMPROVE_MAGIC_DEFENSE:
 		Obj.m_MagicDefense -= EffectValue;
@@ -253,7 +252,7 @@ void CBuffEffect::ClearBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectV
 		Obj.m_AttackRating += EffectValue;
 		break;
 	case EFFECTTYPE_MELEE_DEFENSE_DOWN_MANA:
-		Obj.m_SkillInfo.SoulBarrierManaRate = 0;
+		Obj.m_SkillInfo->SoulBarrierManaRate = 0;
 		break;
 	case EFFECTTYPE_BERSERKER_UP:
 		Obj.AddMana -= (int)( (((float)(EffectValue) * (float)(Obj.MaxMana))) / 100.0f);
@@ -261,8 +260,8 @@ void CBuffEffect::ClearBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectV
 			Obj.AddMana = 0.0;
 		Obj.Mana = ( (float)(Obj.Mana) < ( (float)(Obj.AddMana) + (float)(Obj.MaxMana) ) )?( (float)(Obj.Mana) ):( ( (float)(Obj.AddMana) + (float)(Obj.MaxMana) ) );
 		
-		GSProtocol.GCManaSend(Obj.m_Index, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
-		GSProtocol.GCManaSend(Obj.m_Index, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
+		GSProtocol.GCManaSend(&Obj, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
+		GSProtocol.GCManaSend(&Obj, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
 		break;
 	case EFFECTTYPE_BERSERKER_DOWN:
 		{
@@ -274,8 +273,8 @@ void CBuffEffect::ClearBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectV
 
 			Obj.AddLife += (int)(fAddLife);
 
-			GSProtocol.GCReFillSend(Obj.m_Index, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
-			GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+			GSProtocol.GCReFillSend(&Obj, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
+			GSProtocol.GCReFillSend(&Obj, Obj.Life, 0xFF, 0, Obj.iShield);
 		}
 		break;
 	case EFFECTTYPE_MAGICPOWER_INC:
@@ -302,23 +301,23 @@ void CBuffEffect::ClearBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectV
 		break;
 	case EFFECTTYPE_AG_UP:
 		Obj.AddBP -= EffectValue * (Obj.Level + Obj.m_PlayerData->MasterLevel);
-		GSProtocol.GCManaSend(Obj.m_Index, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
-		GSProtocol.GCManaSend(Obj.m_Index, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
+		GSProtocol.GCManaSend(&Obj, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
+		GSProtocol.GCManaSend(&Obj, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
 		break;
 	case EFFECTTYPE_SD_UP:
 		Obj.iAddShield -= EffectValue * (Obj.Level + Obj.m_PlayerData->MasterLevel);
-		GSProtocol.GCReFillSend(Obj.m_Index, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
-		GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+		GSProtocol.GCReFillSend(&Obj, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
+		GSProtocol.GCReFillSend(&Obj, Obj.Life, 0xFF, 0, Obj.iShield);
 		break;
 	case EFFECTTYPE_SD_UP_VALUE:
 		Obj.iAddShield -= EffectValue;
-		GSProtocol.GCReFillSend(Obj.m_Index, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
-		GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+		GSProtocol.GCReFillSend(&Obj, Obj.AddLife+Obj.MaxLife, 0xFE, 0, Obj.iAddShield+Obj.iMaxShield);
+		GSProtocol.GCReFillSend(&Obj, Obj.Life, 0xFF, 0, Obj.iShield);
 		break;
 	case EFFECTTYPE_AG_UP_VALUE:
 		Obj.AddBP -= EffectValue;
-		GSProtocol.GCManaSend(Obj.m_Index, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
-		GSProtocol.GCManaSend(Obj.m_Index, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
+		GSProtocol.GCManaSend(&Obj, (WORD)(Obj.MaxMana + Obj.AddMana), 0xFE, 0, (WORD)(Obj.MaxBP+Obj.AddBP));
+		GSProtocol.GCManaSend(&Obj, (WORD)Obj.Mana, 0xFF, 0, (WORD)Obj.BP);
 		break;
 	case EFFECTTYPE_IMPROVE_DEFENSE_RATE:
 		Obj.m_SuccessfulBlocking -= EffectValue;
@@ -333,7 +332,7 @@ void CBuffEffect::ClearBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectV
 			pMsg.result = 0x12;
 			pMsg.btStatValue = EffectValue;
 			pMsg.btFruitType = 0x07;
-			IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+			GIOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		}
 		break;
 	case EFFECTTYPE_BLIND:
@@ -348,19 +347,19 @@ void CBuffEffect::ClearBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectV
 	}
 }
 
-void CBuffEffect::SetActiveBuffEffect(class CGameObject* lpObj, BYTE EffectType, int EffectValue)
+void CBuffEffect::SetActiveBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectValue)
 {
 	if(EffectType <= EFFECTTYPE_NONE)	return;
 
 	switch(EffectType)
 	{
-		case EFFECTTYPE_GIVE_DMG_TICK:		GiveDamageEffect(*lpObj, EffectValue);			break;
-		case EFFECTTYPE_POISON_DMG_TICK:	PoisonEffect(*lpObj, EffectValue);				break;
-		case EFFECTTYPE_FILLHP:				GiveDamageFillHPEffect(*lpObj, EffectValue);		break;
+		case EFFECTTYPE_GIVE_DMG_TICK:		GiveDamageEffect(Obj, EffectValue);			break;
+		case EFFECTTYPE_POISON_DMG_TICK:	PoisonEffect(Obj, EffectValue);				break;
+		case EFFECTTYPE_FILLHP:				GiveDamageFillHPEffect(Obj, EffectValue);		break;
 	}
 }
 
-void CBuffEffect::GiveDamageEffect(class CGameObject* lpObj, int Damage)
+void CBuffEffect::GiveDamageEffect(CGameObject &Obj, int Damage)
 {
 	int DecreaseHealthPoint = 0;
 	int DecreaseShiledPoint = 0;
@@ -368,41 +367,41 @@ void CBuffEffect::GiveDamageEffect(class CGameObject* lpObj, int Damage)
 	DecreaseHealthPoint = Damage;
 	DecreaseShiledPoint = DecreaseHealthPoint;
 
-	if(lpObj->Live == 0)	return;
+	if(Obj.Live == 0)	return;
 
-	if( lpObj->lpAttackObj != NULL && 
-		lpObj->Type == OBJ_USER && lpObj->m_bOffLevel == FALSE && lpObj->lpAttackObj->Type == OBJ_USER)
+	if( Obj.lpAttackObj != NULL && 
+		Obj.Type == OBJ_USER && Obj.m_bOffLevel == FALSE && Obj.lpAttackObj->Type == OBJ_USER)
 	{
 		DecreaseShiledPoint = 90 * DecreaseHealthPoint / 100;
 		DecreaseHealthPoint -= DecreaseShiledPoint;
 
-		if(lpObj->iShield-DecreaseShiledPoint > 0)
+		if(Obj.iShield-DecreaseShiledPoint > 0)
 		{
-			lpObj->iShield -= DecreaseShiledPoint;
-			lpObj->Life -= DecreaseHealthPoint;
+			Obj.iShield -= DecreaseShiledPoint;
+			Obj.Life -= DecreaseHealthPoint;
 		}
 		else
 		{
-			DecreaseHealthPoint += DecreaseShiledPoint - lpObj->iShield;
-			DecreaseShiledPoint = lpObj->iShield;
-			lpObj->Life -= DecreaseHealthPoint;
-			lpObj->iShield = 0;
+			DecreaseHealthPoint += DecreaseShiledPoint - Obj.iShield;
+			DecreaseShiledPoint = Obj.iShield;
+			Obj.Life -= DecreaseHealthPoint;
+			Obj.iShield = 0;
 		}
 	}
 	else
 	{
 		DecreaseShiledPoint = 0;
-		lpObj->Life -= DecreaseHealthPoint;
+		Obj.Life -= DecreaseHealthPoint;
 	}
 
-	if(lpObj->Life < 0.0f)
+	if(Obj.Life < 0.0f)
 	{
-		lpObj->Life = 0.0f;
+		Obj.Life = 0.0f;
 	}
 
-	if(lpObj->lpAttackObj != NULL)
+	if(Obj.lpAttackObj != NULL)
 	{
-		gObjLifeCheck(*lpObj, lpObj->lpAttackObj, DecreaseHealthPoint, 3, 0, 0, 0, DecreaseShiledPoint, 0);
+		gObjLifeCheck(Obj, *Obj.lpAttackObj, DecreaseHealthPoint, 3, 0, 0, 0, DecreaseShiledPoint, 0);
 	}
 }
 
@@ -423,7 +422,7 @@ void CBuffEffect::PoisonEffect(CGameObject &Obj, BYTE PoisonRate)
 	DecreaseShiledPoint = DecreaseHealthPoint;
 
 	if(Obj.lpAttackObj != NULL && 
-		Obj.Type == OBJ_USER && Obj.m_bOffLevel == FALSE && Obj.lpAttackObj.Type == OBJ_USER)
+		Obj.Type == OBJ_USER && Obj.m_bOffLevel == FALSE && Obj.lpAttackObj->Type == OBJ_USER)
 	{
 		if(Obj.iShield-DecreaseShiledPoint > 0)
 		{
@@ -451,7 +450,7 @@ void CBuffEffect::PoisonEffect(CGameObject &Obj, BYTE PoisonRate)
 
 	if(Obj.lpAttackObj != NULL)
 	{
-		gObjLifeCheck(lpObj, *Obj.lpAttackObj, DecreaseHealthPoint, 2, 0, 0, 1, DecreaseShiledPoint, 0);
+		gObjLifeCheck(Obj, *Obj.lpAttackObj, DecreaseHealthPoint, 2, 0, 0, 1, DecreaseShiledPoint, 0);
 	}
 }
 
@@ -466,7 +465,7 @@ void CBuffEffect::GiveDamageFillHPEffect(CGameObject &Obj, int Damage)
 	if (Obj.Live == 0)	return;
 
 	if (Obj.lpAttackObj != NULL &&
-		Obj.Type == OBJ_USER && Obj.lpAttackObj.Type == OBJ_USER)
+		Obj.Type == OBJ_USER && Obj.lpAttackObj->Type == OBJ_USER)
 	{
 		DecreaseShiledPoint = 90 * DecreaseHealthPoint / 100;
 		DecreaseHealthPoint -= DecreaseShiledPoint;
@@ -497,17 +496,15 @@ void CBuffEffect::GiveDamageFillHPEffect(CGameObject &Obj, int Damage)
 
 	if (Obj.lpAttackObj != NULL)
 	{
-		gObjLifeCheck(lpObj, *Obj.lpAttackObj, DecreaseHealthPoint, 3, 0, 0, 0, DecreaseShiledPoint, 0);
+		gObjLifeCheck(Obj, *Obj.lpAttackObj, DecreaseHealthPoint, 3, 0, 0, 0, DecreaseShiledPoint, 0);
 	}
 
-	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BLEEDING) == true)
+	if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BLEEDING) == true)
 	{
 		int value1 = 0, value2 = 0;
-		gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_BLEEDING, &value1, &value2);
+		gObjGetValueOfBuffIndex(Obj, BUFFTYPE_BLEEDING, &value1, &value2);
 
-		if (ObjectMaxRange(value2) == false)	return;
-
-		CGameObject lpTarget = getGameObject(value2);
+		CGameObject* lpTarget = getGameObject(value2);
 
 		if ((Obj.AddLife + Obj.MaxLife) >= (Obj.Life+DecreaseHealthPoint))
 		{
@@ -519,14 +516,12 @@ void CBuffEffect::GiveDamageFillHPEffect(CGameObject &Obj, int Damage)
 			Obj.Life = Obj.AddLife + Obj.MaxLife;
 		}
 
-		GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+		GSProtocol.GCReFillSend(&Obj, Obj.Life, 0xFF, 0, Obj.iShield);
 	}
 }
 
 void CBuffEffect::SetPrevEffect(CGameObject &Obj)
 {
-	if(lpObj == NULL)	return;
-
 	int BuffCount = 0;
 
 	for(int i = 0; i < MAX_BUFFEFFECT; i++)
@@ -548,7 +543,7 @@ void CBuffEffect::SetPrevEffect(CGameObject &Obj)
 		case EFFECTTYPE_SD_UP_VALUE:
 		case EFFECTTYPE_AG_UP_VALUE:
 			BuffCount++;
-			SetBuffEffect(lpObj, Obj.pntBuffEffectList[i]->EffectType1, Obj.pntBuffEffectList[i]->EffectValue1);
+			SetBuffEffect(Obj, Obj.pntBuffEffectList[i]->EffectType1, Obj.pntBuffEffectList[i]->EffectValue1);
 			break;
 		default:
 			break;
@@ -569,7 +564,7 @@ void CBuffEffect::SetPrevEffect(CGameObject &Obj)
 		case EFFECTTYPE_SD_UP_VALUE:
 		case EFFECTTYPE_AG_UP_VALUE:
 			BuffCount++;
-			SetBuffEffect(lpObj, Obj.pntBuffEffectList[i]->EffectType2, Obj.pntBuffEffectList[i]->EffectValue2);
+			SetBuffEffect(Obj, Obj.pntBuffEffectList[i]->EffectType2, Obj.pntBuffEffectList[i]->EffectValue2);
 			break;
 		default:
 			break;
@@ -579,8 +574,6 @@ void CBuffEffect::SetPrevEffect(CGameObject &Obj)
 
 void CBuffEffect::SetNextEffect(CGameObject &Obj)
 {
-	if(lpObj == NULL)	return;
-
 	int BuffCount = 0;
 
 	for(int i = 0; i < MAX_BUFFEFFECT; i++)
@@ -604,7 +597,7 @@ void CBuffEffect::SetNextEffect(CGameObject &Obj)
 			break;
 		default:
 			BuffCount++;
-			SetBuffEffect(lpObj, Obj.pntBuffEffectList[i]->EffectType1, Obj.pntBuffEffectList[i]->EffectValue1);
+			SetBuffEffect(Obj, Obj.pntBuffEffectList[i]->EffectType1, Obj.pntBuffEffectList[i]->EffectValue1);
 			break;
 		}
 
@@ -625,7 +618,7 @@ void CBuffEffect::SetNextEffect(CGameObject &Obj)
 			break;
 		default:
 			BuffCount++;
-			SetBuffEffect(lpObj, Obj.pntBuffEffectList[i]->EffectType2, Obj.pntBuffEffectList[i]->EffectValue2);
+			SetBuffEffect(Obj, Obj.pntBuffEffectList[i]->EffectType2, Obj.pntBuffEffectList[i]->EffectValue2);
 			break;
 		}
 	}
@@ -633,7 +626,6 @@ void CBuffEffect::SetNextEffect(CGameObject &Obj)
 
 void CBuffEffect::ClearPrevEffect(CGameObject &Obj)
 {
-	if(lpObj == NULL)	return;
 
 	int BuffCount = 0;
 
@@ -656,7 +648,7 @@ void CBuffEffect::ClearPrevEffect(CGameObject &Obj)
 		case EFFECTTYPE_SD_UP_VALUE:
 		case EFFECTTYPE_AG_UP_VALUE:
 			BuffCount++;
-			ClearBuffEffect(lpObj, Obj.pntBuffEffectList[i]->EffectType1, Obj.pntBuffEffectList[i]->EffectValue1);
+			ClearBuffEffect(Obj, Obj.pntBuffEffectList[i]->EffectType1, Obj.pntBuffEffectList[i]->EffectValue1);
 			break;
 		default:
 			break;
@@ -677,7 +669,7 @@ void CBuffEffect::ClearPrevEffect(CGameObject &Obj)
 		case EFFECTTYPE_SD_UP_VALUE:
 		case EFFECTTYPE_AG_UP_VALUE:
 			BuffCount++;
-			ClearBuffEffect(lpObj, Obj.pntBuffEffectList[i]->EffectType2, Obj.pntBuffEffectList[i]->EffectValue2);
+			ClearBuffEffect(Obj, Obj.pntBuffEffectList[i]->EffectType2, Obj.pntBuffEffectList[i]->EffectValue2);
 			break;
 		default:
 			break;
@@ -708,7 +700,7 @@ void CBuffEffect::RequestGuildPeriodBuffInsert(char *szGuildName,PeriodBuffInfo 
 	pMsg.lExpireDate = g_PeriodItemEx.GetExpireDate(lpBuffInfo->lDuration);
 	PHeadSubSetB((BYTE*)&pMsg, 0x53, 1, sizeof(pMsg));
  
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.head.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.head.size); // TODO
   
 	sLog->outBasic("[PeriodBuff][Insert] Request Insert Guild PeriodBuff. GuildName : %s, BuffIndex : %d, Duration : %d, lExpireDate : %d",
 		szGuildName, lpBuffInfo->wBuffIndex, lpBuffInfo->lDuration, pMsg.lExpireDate);
@@ -731,7 +723,7 @@ void CBuffEffect::RequestGuildPeriodBuffDelete(WORD *wBuffIndex, char btGuildCnt
 	pMsg.btGuildCnt = btGuildCnt;
 	PHeadSubSetB((BYTE*)&pMsg, 0x53, 2, sizeof(pMsg));
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.head.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.head.size); // TODO
 	sLog->outBasic("[PeriodBuff][Delete] Request All Delete Guild PeriodBuff");
 }
 
@@ -743,7 +735,7 @@ struct PMSG_REQ_PERIODBUFF_DELETE
 	char szCharacterName[11];
 };
 
-void CBuffEffect::RequestPeriodBuffDelete(CGameObject lpObj, WORD wBuffIndex)
+void CBuffEffect::RequestPeriodBuffDelete(CGameObject &Obj, WORD wBuffIndex)
 {
 	PMSG_REQ_PERIODBUFF_DELETE pMsg;
 
@@ -752,8 +744,8 @@ void CBuffEffect::RequestPeriodBuffDelete(CGameObject lpObj, WORD wBuffIndex)
 	std::memcpy(pMsg.szCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	PHeadSubSetB((BYTE*)&pMsg, 0xE4, 2, sizeof(pMsg));
   
-	wsDataCli.DataSend((char*)&pMsg, pMsg.head.size);
-	sLog->outBasic("[PeriodBuff][Delete] Request Delete PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d", Obj.AccountID, Obj.DBNumber, Obj.Name, wBuffIndex);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.head.size); // TODO
+	sLog->outBasic("[PeriodBuff][Delete] Request Delete PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d", Obj.m_PlayerData->ConnectUser->AccountID, Obj.DBNumber, Obj.Name, wBuffIndex);
 }
 
 void CBuffEffect::RequestPeriodBuffDelete(char *szName, WORD wBuffIndex)
@@ -765,7 +757,7 @@ void CBuffEffect::RequestPeriodBuffDelete(char *szName, WORD wBuffIndex)
 	std::memcpy(pMsg.szCharacterName, szName, MAX_ACCOUNT_LEN + 1);
 	PHeadSubSetB((BYTE*)&pMsg, 0xE4, 2, sizeof(pMsg));
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.head.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.head.size); // TODO
 	sLog->outBasic("[PeriodBuff][Delete] Request Delete PeriodBuff.Name : %s, BuffIndex : %d", szName, wBuffIndex);
 }
 
@@ -781,7 +773,7 @@ struct PMSG_REQ_PERIODBUFF_INSERT
 	time_t lExpireDate;
 };
 
-void CBuffEffect::RequestPeriodBuffInsert(CGameObject lpObj,PeriodBuffInfo *lpBuffInfo)
+void CBuffEffect::RequestPeriodBuffInsert(CGameObject &Obj, PeriodBuffInfo *lpBuffInfo)
 {
 	PMSG_REQ_PERIODBUFF_INSERT pMsg; 
 
@@ -794,9 +786,9 @@ void CBuffEffect::RequestPeriodBuffInsert(CGameObject lpObj,PeriodBuffInfo *lpBu
 	pMsg.lExpireDate = g_PeriodItemEx.GetExpireDate(lpBuffInfo->lDuration);
 	PHeadSubSetB((BYTE*)&pMsg, 0xE4, 1, sizeof(pMsg));
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.head.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.head.size); // TODO
 	sLog->outBasic("[PeriodBuff][Insert] Request Insert PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d, Duration %d, lExpireDate%d",
-	Obj.AccountID, Obj.DBNumber, Obj.Name, lpBuffInfo->wBuffIndex, lpBuffInfo->lDuration, pMsg.lExpireDate);
+	Obj.m_PlayerData->ConnectUser->AccountID, Obj.DBNumber, Obj.Name, lpBuffInfo->wBuffIndex, lpBuffInfo->lDuration, pMsg.lExpireDate);
 }
 
 struct PMSG_REQ_PERIODBUFF_SELECT
@@ -814,24 +806,14 @@ void CBuffEffect::RequestPeriodBuffSelect(CGameObject &Obj)
 	std::memcpy(pMsg.szCharacterName, Obj.Name, MAX_ACCOUNT_LEN+1);
 	PHeadSubSetB((BYTE*)&pMsg, 0xE4, 3, sizeof(pMsg));
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.head.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.head.size); // TODO
 }
 
 void CBuffEffect::DGPeriodItemExSelect(PMSG_ANS_PERIODBUFF_SELECT *lpMsg)
 {
-	if (!ObjectMaxRange(lpMsg->wUserIndex))
-	{
-		return;
-	}
+	CGameObject* lpObj = getGameObject(lpMsg->wUserIndex);
 
-	CGameObject lpObj = getGameObject(lpMsg->wUserIndex);
-
-	if ( Obj.Connected < PLAYER_LOGGED )
-	{
-		return;
-	}
-
-	if ( Obj.Type != OBJ_USER )
+	if ( lpObj->Type != OBJ_USER )
 	{
 		return;
 	}
@@ -850,20 +832,16 @@ void CBuffEffect::DGPeriodItemExSelect(PMSG_ANS_PERIODBUFF_SELECT *lpMsg)
 
 	time_t lLeftDate = g_PeriodItemEx.GetLeftDate(lpMsg->lExpireDate);
 
-	if ( gObjAddPeriodBuffEffect(lpObj, lpPeriBuff, lLeftDate) == FALSE )
+	if ( gObjAddPeriodBuffEffect(*lpObj, lpPeriBuff, lLeftDate) == FALSE )
 	{
 		sLog->outBasic("[PeriodBuff][Error][Select] Answer Select PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d Type1 : %d Type2 : %d ExpireDate : %d ResultCode : %d",
-			Obj.AccountID, Obj.DBNumber, Obj.Name, lpMsg->wBuffIndex, lpMsg->btEffectType1, lpMsg->btEffectType2, lpMsg->lExpireDate, lpMsg->btResultCode);
+			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->DBNumber, lpObj->Name, lpMsg->wBuffIndex, lpMsg->btEffectType1, lpMsg->btEffectType2, lpMsg->lExpireDate, lpMsg->btResultCode);
 	}
 
 	else
 	{
 		sLog->outBasic("[PeriodBuff][Select] Answer Select PeriodBuff. User Id : %s(%d), Name : %s, BuffIndex : %d Type1 : %d Type2 : %d ExpireDate : %d ResultCode : %d",
-			Obj.AccountID, Obj.DBNumber, Obj.Name, lpMsg->wBuffIndex, lpMsg->btEffectType1, lpMsg->btEffectType2, lpMsg->lExpireDate, lpMsg->btResultCode);
+			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->DBNumber, lpObj->Name, lpMsg->wBuffIndex, lpMsg->btEffectType1, lpMsg->btEffectType2, lpMsg->lExpireDate, lpMsg->btResultCode);
 	}
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
 

@@ -10,6 +10,58 @@
 #include "StdAfx.h"
 #include "User/CUserData.h"
 
+struct PMSG_ANS_EVENTUSERSCORE
+{
+	PBMSG_HEAD2 h;	// C1:01
+	char AccountID[10];	// 3
+	char GameID[10];	// D
+	int ServerCode;	// 18
+	int Score;	// 1C
+	int Class;	// 20
+	int SquareNum;	// 24
+};
+
+
+struct DevilSquareMonsterInfo
+{
+	WORD m_Type;	// 0
+	int m_RegenStartTime;	// 4
+	int m_RegenEndTime;	// 8
+	int m_iDevilSquareNumber;	// C
+};
+
+struct DevilSquareBossMonsterInfo
+{
+	WORD m_Type;	// 0
+	int m_RegenStartTime;	// 4
+	int m_RegenEndTime;	// 8
+	int X;	// C
+	int Y;	// 10
+	int TX;	// 14
+	int TY;	// 18
+	int m_iDevilSquareNumber;	// 1C
+};
+
+
+struct DevilSquareScoreInfo
+{
+	char Name[10];	// 0
+	int TotalScore;	// C
+	int BonusExp;	// 10
+	int BonusZen;	// 14
+};
+
+#pragma pack(1)
+
+struct PMSG_DEVILSQUARERESULT
+{
+	PBMSG_HEAD h;	// C1:93
+	BYTE MyRank;	// 3
+	BYTE Count;	// 4
+	DevilSquareScoreInfo Score[11];	// 5
+};
+
+#pragma pack()
 
 class CDevilSquareGround	// size 0x494
 {

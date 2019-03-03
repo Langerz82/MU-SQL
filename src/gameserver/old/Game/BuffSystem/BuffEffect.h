@@ -84,6 +84,18 @@ enum EFFECTTYPE_DEFINE
 	EFFECTTYPE_WRATH_INC_DAMAGE = 0x5A
 };
 
+struct PMSG_ANS_PERIODBUFF_SELECT
+{
+	PBMSG_HEAD2 h;
+	WORD wUserIndex;
+	char szCharacterName[MAX_ACCOUNT_LEN + 1];
+	BYTE btResultCode;
+	WORD wBuffIndex;
+	BYTE btEffectType1;
+	BYTE btEffectType2;
+	time_t lExpireDate;
+};
+
 class CBuffEffect  
 {
 public:
@@ -101,9 +113,9 @@ public:
 	void GiveDamageFillHPEffect(CGameObject &Obj, int Damage);
 	void RequestGuildPeriodBuffInsert(char *szGuildName,PeriodBuffInfo *lpBuffInfo);
 	void RequestGuildPeriodBuffDelete(WORD *wBuffIndex, char btGuildCnt);
-	void RequestPeriodBuffDelete(CGameObject lpObj, WORD wBuffIndex);
+	void RequestPeriodBuffDelete(CGameObject &Obj, WORD wBuffIndex);
 	void RequestPeriodBuffDelete(char *szName, WORD wBuffIndex);
-	void RequestPeriodBuffInsert(CGameObject lpObj,PeriodBuffInfo *lpBuffInfo);
+	void RequestPeriodBuffInsert(CGameObject &Obj, PeriodBuffInfo *lpBuffInfo);
 	void RequestPeriodBuffSelect(CGameObject &Obj);
 	void DGPeriodItemExSelect(PMSG_ANS_PERIODBUFF_SELECT *lpMsg);
 };
