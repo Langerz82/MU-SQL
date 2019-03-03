@@ -168,7 +168,7 @@ void CCrywolfUtil::SendCrywolfChattingMsg(int iObjIndex, LPSTR lpszMsg, ...)
 
 			if ( ObjectMaxRange(iTargetNumber) != FALSE )
 			{
-				gGameProtocol.ChatTargetSend(lpObj, szChat, iTargetNumber);
+				GSProtocol.ChatTargetSend(lpObj, szChat, iTargetNumber);
 			}
 		}
 	}
@@ -206,7 +206,7 @@ int CCrywolfUtil::CrywolfMVPLevelUp(CGameObject &Obj, int iAddExp)
 
 	if ( getGameObject(iUserIndex)->Level >= g_ConfigRead.data.common.UserMaxLevel)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,45), getGameObject(iUserIndex)->m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,45), getGameObject(iUserIndex)->m_Index, 1);
 		return 0;
 	}
 
@@ -251,7 +251,7 @@ int CCrywolfUtil::CrywolfMVPLevelUp(CGameObject &Obj, int iAddExp)
 		getGameObject(iUserIndex)->Mana = getGameObject(iUserIndex)->MaxMana;
 		gObjNextExpCal(getGameObject(iUserIndex));
 		gObjSetBP(iUserIndex);
-		gGameProtocol.GCLevelUpMsgSend(getGameObject(iUserIndex)->m_Index, 1);
+		GSProtocol.GCLevelUpMsgSend(getGameObject(iUserIndex)->m_Index, 1);
 		gObjCalcMaxLifePower(getGameObject(iUserIndex)->m_Index);
 
 		sLog->outBasic("Level Up [%s][%s][%d]", getGameObject(iUserIndex)->AccountID,

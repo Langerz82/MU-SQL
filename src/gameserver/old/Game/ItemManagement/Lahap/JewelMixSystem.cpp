@@ -207,7 +207,7 @@ BOOL CJewelMixSystem::MixJewel( int iIndex, int iJewelType, int iMixType)
 		sLog->outBasic("[JewelMix] [%s][%s] Chaos Mix is already working",
 			Obj.AccountID, Obj.Name);
 
-		gGameProtocol.GCAnsJewelMix(iIndex, 0);
+		GSProtocol.GCAnsJewelMix(iIndex, 0);
 		return FALSE;
 	}
 
@@ -219,7 +219,7 @@ BOOL CJewelMixSystem::MixJewel( int iIndex, int iJewelType, int iMixType)
 			Obj.AccountID, Obj.Name, iJewelType);
 
 		Obj.ChaosLock = FALSE;
-		gGameProtocol.GCAnsJewelMix(iIndex, 2);
+		GSProtocol.GCAnsJewelMix(iIndex, 2);
 		return FALSE;
 	}
 
@@ -229,7 +229,7 @@ BOOL CJewelMixSystem::MixJewel( int iIndex, int iJewelType, int iMixType)
 			Obj.AccountID, Obj.Name, iMixType);
 
 		Obj.ChaosLock = FALSE;
-		gGameProtocol.GCAnsJewelMix(iIndex, 3);
+		GSProtocol.GCAnsJewelMix(iIndex, 3);
 		return FALSE;
 	}
 
@@ -241,7 +241,7 @@ BOOL CJewelMixSystem::MixJewel( int iIndex, int iJewelType, int iMixType)
 	if ( iJewelCount <= 0 )
 	{
 		Obj.ChaosLock = FALSE;
-		gGameProtocol.GCAnsJewelMix(iIndex, 0);
+		GSProtocol.GCAnsJewelMix(iIndex, 0);
 		return FALSE;
 	}
 
@@ -254,7 +254,7 @@ BOOL CJewelMixSystem::MixJewel( int iIndex, int iJewelType, int iMixType)
 			iUserJewelCount, iJewelCount);
 
 		Obj.ChaosLock = FALSE;
-		gGameProtocol.GCAnsJewelMix(iIndex, 4);
+		GSProtocol.GCAnsJewelMix(iIndex, 4);
 		return FALSE;
 	}
 
@@ -265,7 +265,7 @@ BOOL CJewelMixSystem::MixJewel( int iIndex, int iJewelType, int iMixType)
 			Obj.m_PlayerData->Money, iMixMoney);
 
 		Obj.ChaosLock = FALSE;
-		gGameProtocol.GCAnsJewelMix(iIndex, 5);
+		GSProtocol.GCAnsJewelMix(iIndex, 5);
 		return FALSE;
 	}
 
@@ -307,7 +307,7 @@ BOOL CJewelMixSystem::MixJewel( int iIndex, int iJewelType, int iMixType)
 			iDelJewelCount, iJewelCount);
 
 		Obj.ChaosLock = FALSE;
-		gGameProtocol.GCAnsJewelMix(iIndex, 0);
+		GSProtocol.GCAnsJewelMix(iIndex, 0);
 		return FALSE;
 	}
 
@@ -318,8 +318,8 @@ BOOL CJewelMixSystem::MixJewel( int iIndex, int iJewelType, int iMixType)
 
 	Obj.ChaosLock = FALSE;
 	Obj.m_PlayerData->Money -= iMixMoney;
-	gGameProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
-	gGameProtocol.GCAnsJewelMix(iIndex, 1);
+	GSProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
+	GSProtocol.GCAnsJewelMix(iIndex, 1);
 
 	sLog->outBasic("[JewelMix] [%s][%s] jewel mix succeed : ItemType:%d, JewelCount:%d",
 		Obj.AccountID, Obj.Name,
@@ -357,7 +357,7 @@ BOOL CJewelMixSystem::UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLev
 		sLog->outBasic("[JewelMix] [%s][%s] Chaos Mix is already working",
 			Obj.AccountID, Obj.Name);
 
-		gGameProtocol.GCAnsJewelUnMix(iIndex, 0);
+		GSProtocol.GCAnsJewelUnMix(iIndex, 0);
 		return FALSE;
 	}
 
@@ -369,7 +369,7 @@ BOOL CJewelMixSystem::UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLev
 			Obj.AccountID, Obj.Name, iJewelType);
 
 		Obj.ChaosLock = FALSE;
-		gGameProtocol.GCAnsJewelUnMix(iIndex, 2);
+		GSProtocol.GCAnsJewelUnMix(iIndex, 2);
 		return FALSE;
 	}
 
@@ -379,7 +379,7 @@ BOOL CJewelMixSystem::UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLev
 			Obj.AccountID, Obj.Name, iInventoryPos);
 
 		Obj.ChaosLock = FALSE;
-		gGameProtocol.GCAnsJewelUnMix(iIndex, 5);
+		GSProtocol.GCAnsJewelUnMix(iIndex, 5);
 		return FALSE;
 	}
 
@@ -400,7 +400,7 @@ BOOL CJewelMixSystem::UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLev
 				Obj.pntInventory[iInventoryPos]->m_Level, iJewelLevel);
 
 			Obj.ChaosLock = FALSE;
-			gGameProtocol.GCAnsJewelUnMix(iIndex, 3);
+			GSProtocol.GCAnsJewelUnMix(iIndex, 3);
 			return FALSE;
 		}
 	}
@@ -410,7 +410,7 @@ BOOL CJewelMixSystem::UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLev
 			Obj.AccountID, Obj.Name);
 	
 		Obj.ChaosLock = FALSE;
-		gGameProtocol.GCAnsJewelUnMix(iIndex, 4);
+		GSProtocol.GCAnsJewelUnMix(iIndex, 4);
 		return FALSE;
 	}
 
@@ -420,7 +420,7 @@ BOOL CJewelMixSystem::UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLev
 			Obj.AccountID, Obj.Name, iInventoryItemLevel);
 
 		Obj.ChaosLock = FALSE;
-		gGameProtocol.GCAnsJewelUnMix(iIndex, 3);
+		GSProtocol.GCAnsJewelUnMix(iIndex, 3);
 		return FALSE;
 	}
 
@@ -436,7 +436,7 @@ BOOL CJewelMixSystem::UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLev
 			iInventoryItemType, iItemType);
 
 		Obj.ChaosLock = FALSE;
-		gGameProtocol.GCAnsJewelUnMix(iIndex, 6);
+		GSProtocol.GCAnsJewelUnMix(iIndex, 6);
 		return FALSE;
 	}
 
@@ -447,7 +447,7 @@ BOOL CJewelMixSystem::UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLev
 			Obj.m_PlayerData->Money, iMixMoney);
 
 		Obj.ChaosLock = FALSE;
-		gGameProtocol.GCAnsJewelUnMix(iIndex, 8);
+		GSProtocol.GCAnsJewelUnMix(iIndex, 8);
 		return FALSE;
 	}
 
@@ -460,7 +460,7 @@ BOOL CJewelMixSystem::UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLev
 			iEmptyCount, iJewelCount);
 
 		Obj.ChaosLock = FALSE;
-		gGameProtocol.GCAnsJewelUnMix(iIndex, 7);
+		GSProtocol.GCAnsJewelUnMix(iIndex, 7);
 		return FALSE;
 	}
 
@@ -472,7 +472,7 @@ BOOL CJewelMixSystem::UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLev
 
 	gObjInventoryItemSet(iIndex, iInventoryPos, 0xFF);
 	gObjInventoryDeleteItem(iIndex, iInventoryPos);
-	gGameProtocol.GCInventoryItemDeleteSend(iIndex, iInventoryPos, 1);
+	GSProtocol.GCInventoryItemDeleteSend(iIndex, iInventoryPos, 1);
 
 	int iCrtJewelCount = 0;
 	BOOL bItemCrtOK = FALSE;
@@ -498,8 +498,8 @@ BOOL CJewelMixSystem::UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLev
 			iItemType, iJewelCount);
 
 		Obj.m_PlayerData->Money -= iMixMoney;
-		gGameProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
-		gGameProtocol.GCAnsJewelUnMix(iIndex, 1);
+		GSProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
+		GSProtocol.GCAnsJewelUnMix(iIndex, 1);
 	}
 	else
 	{
@@ -507,7 +507,7 @@ BOOL CJewelMixSystem::UnMixJewel(CGameObject &Obj, int iJewelType, int iJewelLev
 			Obj.AccountID, Obj.Name,
 			iItemType, iJewelCount);
 
-		gGameProtocol.GCAnsJewelUnMix(iIndex, 0);
+		GSProtocol.GCAnsJewelUnMix(iIndex, 0);
 	}
 
 	return TRUE;

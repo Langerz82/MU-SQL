@@ -13,8 +13,40 @@
 
 class CItemObject;
 
-struct JEWELOFHARMONY_ITEM_EFFECT;
-struct JEWELOFHARMONY_ITEM_OPTION;
+
+struct JEWELOFHARMONY_ITEM_OPTION
+{
+	BOOL bValid;	// 0
+	BYTE iRandomWeight;	// 4
+	BYTE iRequireLevel;	// 5
+	BYTE iItemEffectValue[MAX_JOH_ITEM_OPTION];	// 6
+	DWORD iZenForRestore[MAX_JOH_ITEM_OPTION];	// 14
+	char szOptionName[256];	// 4C
+};
+
+struct JEWELOFHARMONY_ITEM_EFFECT
+{
+	short HJOpAddMinAttackDamage;	// 0
+	short HJOpAddMaxAttackDamage;	// 2
+	short HJOpRequireStr;	// 4
+	short HJOpRequireDex;	// 6
+	short HJOpAddAttackDamage;	// 8
+	short HJOpAddCriticalDamage;	// A
+	short HJOpAddSkillAttack;	// C
+	short HJOpAddAttackSuccessRatePVP;	// E
+	short HJOpDecreaseSDRate;	// 10
+	short HJOpAddIgnoreSDRate;	// 12
+	short HJOpAddMagicPower;	// 14
+	short HJOpAddDefense;	// 16
+	short HJOpAddMaxAG;	// 18
+	short HJOpAddMaxHP;	// 1A
+	short HJOpAddRefillHP;	// 1C
+	short HJOpAddRefillMP;	// 1E
+	short HJOpAddDefenseSuccessRatePvP;	// 20
+	short HJOpAddDamageDecrease;	// 22
+	short HJOpAddSDRate;	// 24
+};
+
 
 class CJewelOfHarmonySystem
 {

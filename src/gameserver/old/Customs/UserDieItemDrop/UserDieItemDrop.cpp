@@ -224,7 +224,7 @@ void UserDieItemDrop::Drop(CGameObject &User, CGameObject &Killer)
 				lpMsg.px = lpUser.X;
 				lpMsg.py = lpUser.Y;
 				// ----
-				if (gGameProtocol.CGItemDropRequest(&lpMsg, lpUser.m_Index, 1))
+				if (GSProtocol.CGItemDropRequest(&lpMsg, lpUser.m_Index, 1))
 				{
 					sLog->outBasic("[UserDieItemDrop] [%s][%s] Item has been droped (Slot: %d)",	lpUser.AccountID, lpUser.Name);
 					break;

@@ -358,7 +358,7 @@ void CKanturuUtil::SendKanturuChattingMsg(CGameObject &Obj, LPSTR lpMsg, ...)
 
 			if ( number >= 0 || number < g_ConfigRead.server.GetObjectMax() )
 			{
-				gGameProtocol.ChatTargetSend(lpObj, szChat, number);
+				GSProtocol.ChatTargetSend(lpObj, szChat, number);
 			}
 		}
 	}

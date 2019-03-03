@@ -611,14 +611,14 @@ void CBotSystem::BuffPlayer(WORD  wBufferindex,CGameObject &Obj)
 	CGameObject gBotObj = getGameObject(lpBot->Obj.m_Index);
 	if(Obj.m_PlayerData->Money < lpBot->iCoinValue)
 	{
-		gGameProtocol.ChatTargetSend(getGameObject(lpBot->Obj.m_Index), Lang.GetText(0,364),Obj.m_Index);
+		GSProtocol.ChatTargetSend(getGameObject(lpBot->Obj.m_Index), Lang.GetText(0,364),Obj.m_Index);
 		MsgOutput(Obj.m_Index, Lang.GetText(0,365), lpBot->iCoinValue);
 		return;
 	}
 
 	if(Obj.m_PlayerData->VipType == 0 && lpBot->btVipType > 0)
 	{
-		gGameProtocol.ChatTargetSend(getGameObject(lpBot->Obj.m_Index), Lang.GetText(0,366), Obj.m_Index);
+		GSProtocol.ChatTargetSend(getGameObject(lpBot->Obj.m_Index), Lang.GetText(0,366), Obj.m_Index);
 		return;
 	}
 
@@ -627,7 +627,7 @@ void CBotSystem::BuffPlayer(WORD  wBufferindex,CGameObject &Obj)
 		char szTemp[256];
 		sprintf(szTemp, Lang.GetText(0,636), g_VipSystem.GetVipName(lpBot->btVipType));
 
-		gGameProtocol.ChatTargetSend(getGameObject(lpBot->Obj.m_Index), szTemp, Obj.m_Index);
+		GSProtocol.ChatTargetSend(getGameObject(lpBot->Obj.m_Index), szTemp, Obj.m_Index);
 		return;
 	}
 
@@ -646,9 +646,9 @@ void CBotSystem::BuffPlayer(WORD  wBufferindex,CGameObject &Obj)
 			gObjAddBuffEffect(getGameObject(Obj.m_Index), gBotObj.pntBotBuffs[i]->wBuffId, gBotObj.pntBotBuffs[i]->wEffectType, gBotObj.pntBotBuffs[i]->iEffect, 0, 0, gBotObj.pntBotBuffs[i)->wDuration);
 		}
 	}
-	gGameProtocol.ChatTargetSend(gBotObj, Lang.GetText(0,367), Obj.m_Index);
+	GSProtocol.ChatTargetSend(gBotObj, Lang.GetText(0,367), Obj.m_Index);
 	Obj.m_PlayerData->Money -= lpBot->iCoinValue;
-	gGameProtocol.GCMoneySend(Obj.m_Index,Obj.m_PlayerData->Money);
+	GSProtocol.GCMoneySend(Obj.m_Index,Obj.m_PlayerData->Money);
 }
 
 BYTE CBotSystem::GetBotType(CGameObject &Obj)
@@ -770,12 +770,12 @@ bool CBotSystem::CheckAlchemist(CGameObject &Obj, int botIndex)
 	{
 		BYTE ItemBuf[13];
 		ItemByteConvert(ItemBuf,rewardItem);
-		gGameProtocol.GCTradeOtherAdd(Obj.m_Index,1,ItemBuf);
-		//int gGameProtocol::GCTradeOtherAdd(CGameObject &Obj, BYTE tradeindex, BYTE* iteminfo)
+		GSProtocol.GCTradeOtherAdd(Obj.m_Index,1,ItemBuf);
+		//int GSProtocol::GCTradeOtherAdd(CGameObject &Obj, BYTE tradeindex, BYTE* iteminfo)
 	}
 	else
 	{
-		gGameProtocol.GCTradeOtherDel(Obj.m_Index,1);
+		GSProtocol.GCTradeOtherDel(Obj.m_Index,1);
 	}
 	return true;
 }
@@ -829,7 +829,7 @@ void CBotSystem::AlchemistTradeOk(CGameObject &Obj, int botIndex)
 		Obj.m_IfState->use = 0;
 		Obj.TradeOk = 0;
 		Obj.TradeMoney = 0;
-		gGameProtocol.CGTradeResult(lpObj,1);
+		GSProtocol.CGTradeResult(lpObj,1);
 	}
 	else
 	{
@@ -851,7 +851,7 @@ void CBotSystem::AlchemistTradeOpen(CGameObject &Obj, int botIndex)
 	lpBot->TargetNumber = Obj.m_Index;
 	PMSG_TRADE_RESPONSE tr;
 	tr.Response = true;
-	gGameProtocol.CGTradeResponseRecv(&tr, *lpBot);
+	GSProtocol.CGTradeResponseRecv(&tr, *lpBot);
 
 }
 

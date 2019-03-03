@@ -705,7 +705,7 @@ int CMasterLevelSkillTreeSystem::CheckSkillCondition(CGameObject &Obj, int iMLSk
 {
 	if (gObjIsConnected(lpObj) == FALSE)
 	{
-		gGameProtocol.GCResultSend(Obj.m_Index, 0x51, 0x03);
+		GSProtocol.GCResultSend(Obj.m_Index, 0x51, 0x03);
 		return 2;
 	}
 
@@ -987,7 +987,7 @@ int CMasterLevelSkillTreeSystem::gObjMagicAdd_MLS(CGameObject lpObj, int iMLSkil
 
 				if (MagicDamageC.GetSkillUseType(iMLSkill) == 4 && !MagicDamageC.GetBrandOfSkill(iMLSkill))
 				{
-					gGameProtocol.GCMagicListOneSend(Obj.m_Index, n, Obj.Magic[n].m_Skill, Obj.Magic[n].m_Level, 0, 0);
+					GSProtocol.GCMagicListOneSend(Obj.m_Index, n, Obj.Magic[n].m_Skill, Obj.Magic[n].m_Level, 0, 0);
 				}
 
 				return n;
@@ -1009,7 +1009,7 @@ void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkillTree(CGameObject &Obj)
 {
 	if (gObjIsConnected(Obj.m_Index) == FALSE)
 	{
-		gGameProtocol.GCSendDisableReconnect(Obj.m_Index);
+		GSProtocol.GCSendDisableReconnect(Obj.m_Index);
 		//IOCP.CloseClient(Obj.m_Index); // lol
 		return;
 	}
@@ -1071,7 +1071,7 @@ void CMasterLevelSkillTreeSystem::CGReqGetMasterLevelSkill(PMSG_REQ_MASTERLEVEL_
 {
 	if (!gObjIsConnected(Obj.m_Index))
 	{
-		gGameProtocol.GCSendDisableReconnect(Obj.m_Index);
+		GSProtocol.GCSendDisableReconnect(Obj.m_Index);
 		//IOCP.CloseClient(Obj.m_Index);
 		return;
 	}
@@ -1534,7 +1534,7 @@ void CMasterLevelSkillTreeSystem::MLS_WizardMagicDefense(CGameObject &Obj, int a
 	float fSkillValue = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 
 	gObjAddBuffEffect(lpTargetObj, BUFFTYPE_MELEE_DEFENSE_INC, EFFECTTYPE_IMPROVE_MELEE_DEFENSE, fEffectValue + fSkillValue, EFFECTTYPE_MELEE_DEFENSE_DOWN_MANA, g_SkillAdditionInfo.GetSoulBarrierManaRate_Level(lpMagic->m_Level), iSkillTime);
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_Healing(CGameObject &Obj, int aTargetIndex, CMagicInf* lpMagic)
@@ -1576,8 +1576,8 @@ void CMasterLevelSkillTreeSystem::MLS_Healing(CGameObject &Obj, int aTargetIndex
 
 	if (lpTargetObj.Type == OBJ_USER)
 	{
-		gGameProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+		GSProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 
 		for (int n = 0; n < MAX_VIEWPORT; n++)
 		{
@@ -1595,7 +1595,7 @@ void CMasterLevelSkillTreeSystem::MLS_Healing(CGameObject &Obj, int aTargetIndex
 
 	else if (lpTargetObj.m_RecallMon >= 0)
 	{
-		gGameProtocol.GCRecallMonLife(lpTargetObj.m_RecallMon, lpTargetObj.MaxLife, lpTargetObj.Life);
+		GSProtocol.GCRecallMonLife(lpTargetObj.m_RecallMon, lpTargetObj.MaxLife, lpTargetObj.Life);
 	}
 }
 
@@ -1937,7 +1937,7 @@ void CMasterLevelSkillTreeSystem::MLS_KnightSkillAddLife(CGameObject &Obj, CMagi
 	if (partynum == -1)
 	{
 		gObjAddBuffEffect(lpObj, BUFFTYPE_HP_INC, EFFECTTYPE_HP, (Obj.MaxLife * faddLifepower / 100.0), 0, 0, iLifeTime);
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 	}
 
 	else
@@ -1947,7 +1947,7 @@ void CMasterLevelSkillTreeSystem::MLS_KnightSkillAddLife(CGameObject &Obj, CMagi
 			if (ApplyPartyIndex[i] != -1)
 			{
 				gObjAddBuffEffect(getGameObject(ApplyPartyIndex[i]], BUFFTYPE_HP_INC, EFFECTTYPE_HP, (getGameObject(ApplyPartyIndex[i))->MaxLife * faddLifepower / 100.0), 0, 0, iLifeTime);
-				gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, ApplyPartyIndex[i], TRUE);
+				GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, ApplyPartyIndex[i], TRUE);
 			}
 		}
 	}
@@ -2058,7 +2058,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillFulKnightSkillAddLife(CGameObject &Ob
 	if (partynum == -1)
 	{
 		gObjAddBuffEffect(lpObj, BUFFTYPE_HP_INC_STR, EFFECTTYPE_HP, (Obj.MaxLife * faddLifepower / 100.0), EFFECTTYPE_MANA, (Obj.MaxMana * faddManapower / 100.0), iLifeTime);
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 	}
 
 	else
@@ -2068,7 +2068,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillFulKnightSkillAddLife(CGameObject &Ob
 			if (ApplyPartyIndex[i] != -1)
 			{
 				gObjAddBuffEffect(getGameObject(ApplyPartyIndex[i]], BUFFTYPE_HP_INC_STR, EFFECTTYPE_HP, (getGameObject(ApplyPartyIndex[i]]->MaxLife * faddLifepower / 100.0), EFFECTTYPE_MANA, (getGameObject(ApplyPartyIndex[i))->MaxMana * faddManapower / 100.0), iLifeTime);
-				gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, ApplyPartyIndex[i], TRUE);
+				GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, ApplyPartyIndex[i], TRUE);
 			}
 		}
 	}
@@ -2197,7 +2197,7 @@ void CMasterLevelSkillTreeSystem::MLS_MasteryKnightSkillAddLife(CGameObject &Obj
 	{
 		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMaxBP = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 		gObjAddBuffEffect(lpObj, BUFFTYPE_HP_INC_STR, EFFECTTYPE_HP, (Obj.MaxLife * faddLifepower / 100.0), EFFECTTYPE_MANA, (Obj.MaxMana * faddManapower / 100.0), iLifeTime);
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 	}
 
 	else
@@ -2208,7 +2208,7 @@ void CMasterLevelSkillTreeSystem::MLS_MasteryKnightSkillAddLife(CGameObject &Obj
 			{
 				getGameObject(ApplyPartyIndex[i])->m_PlayerData->m_MPSkillOpt.iMpsIncMaxBP = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 				gObjAddBuffEffect(getGameObject(ApplyPartyIndex[i]], BUFFTYPE_HP_INC_STR, EFFECTTYPE_HP, (getGameObject(ApplyPartyIndex[i]]->MaxLife * faddLifepower / 100.0), EFFECTTYPE_MANA, (getGameObject(ApplyPartyIndex[i))->MaxMana * faddManapower / 100.0), iLifeTime);
-				gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, ApplyPartyIndex[i], TRUE);
+				GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, ApplyPartyIndex[i], TRUE);
 			}
 		}
 	}
@@ -2237,7 +2237,7 @@ int CMasterLevelSkillTreeSystem::MLS_SkillStrengthenMagicPower(CGameObject &Obj,
 	gObjAddBuffEffect(lpObj, BUFFTYPE_MAGIC_POWER_INC_STR, EFFECTTYPE_MAGICPOWER_INC, ((Obj.m_PlayerData->Energy + Obj.AddEnergy) / 9.0 * 0.20),
 		EFFECTTYPE_MAGICPOWERMAX_INC, (Obj.m_MagicDamageMax / 100.0 * this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level)), 1800);
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 	return true;
 }
 
@@ -2262,7 +2262,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillSkillfulMagicPower(CGameObject &Obj, 
 	gObjAddBuffEffect(lpObj, BUFFTYPE_MAGIC_POWER_INC_MAS, EFFECTTYPE_MAGICPOWER_INC, ((Obj.m_PlayerData->Energy + Obj.AddEnergy) / 9.0 * 0.20),
 		EFFECTTYPE_MAGICPOWERMAX_INC, (Obj.m_MagicDamageMax / 100.0 * this->GetBrandOfMasterSkillValue(lpObj, lpMagic->m_Skill, 1)), 1800);
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 	//return true;
 }
 
@@ -2294,7 +2294,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenInferno(CGameObject &Obj, C
 void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenHellFire(CGameObject lpObj, CMagicInf *lpMagic)
 {
 	int count = 0;
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 
 	while (true)
 	{
@@ -2468,7 +2468,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillWizardMagicDefense(CGameObject &Obj, 
 		EFFECTTYPE_MELEE_DEFENSE_DOWN_MANA, g_SkillAdditionInfo.GetSoulBarrierManaRate_Level(lpMagic->m_Level),
 		iSkillTime + this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level));
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, lpTargetObj.m_Index, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, lpTargetObj.m_Index, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenPenetration(CGameObject lpObj, CMagicInf *lpMagic, int aTargetIndex)
@@ -2512,7 +2512,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillInfinityArrow(CGameObject &Obj, int a
 
 	Obj.m_SkillInfo.fInfinityArrowIncRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 	gObjAddBuffEffect(lpObj, BUFFTYPE_INFINITY_ARROW_STR, 0, 0, 0, 0, -10);
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 
 	sLog->outBasic("[%s][%s] Use Infinity Arrow Skill (Time:%d)(Character Level : %d)(ChangeUp: %d)",
 		Obj.AccountID, Obj.Name, g_SkillAdditionInfo.GetInfinityArrowSkillTime(), Obj.Level, Obj.m_PlayerData->ChangeUP);
@@ -2545,7 +2545,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenBerserker(CGameObject &Obj,
 	}
 
 	gObjAddBuffEffect(lpObj, BUFFTYPE_BERSERKER_STR, EFFECTTYPE_BERSERKER_UP, iEffectUPValue, EFFECTTYPE_BERSERKER_DOWN, iEffectDownValue, iDuration);
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_SkillSkillfulBerserker(CGameObject &Obj, CMagicInf *lpMagic)
@@ -2577,7 +2577,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillSkillfulBerserker(CGameObject &Obj, C
 	}
 
 	gObjAddBuffEffect(lpObj, BUFFTYPE_BERSERKER_MAS, EFFECTTYPE_BERSERKER_UP, iEffectUPValue, EFFECTTYPE_BERSERKER_DOWN, iEffectDownValue, iDuration);
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_SkillMasteryBerserker(CGameObject &Obj, CMagicInf *lpMagic)
@@ -2609,7 +2609,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMasteryBerserker(CGameObject &Obj, CM
 	}
 
 	gObjAddBuffEffect(lpObj, BUFFTYPE_BERSERKER_PRO, EFFECTTYPE_BERSERKER_UP, iEffectUPValue, EFFECTTYPE_BERSERKER_DOWN, iEffectDownValue, iDuration);
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenBlast(CGameObject &Obj, CMagicInf* lpMagic, int aTargetIndex)
@@ -2665,7 +2665,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrendthenAddCriticalDamage(CGameObje
 	{
 		gObjAddBuffEffect(lpObj, BUFFTYPE_CRITICAL_DMG_INC, EFFECTTYPE_CRITICAL_DMG, addcriticaldamagevalue, 0, 0, SkillTime);
 		MsgOutput(Obj.m_Index, Lang.GetText(0, 134), SkillTime);
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 	}
 
 	else
@@ -2678,7 +2678,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrendthenAddCriticalDamage(CGameObje
 
 				gObjAddBuffEffect(lpPartyObj, BUFFTYPE_CRITICAL_DMG_INC, EFFECTTYPE_CRITICAL_DMG, addcriticaldamagevalue, 0, 0, SkillTime);
 				MsgOutput(ApplyPartyIndex[n], Lang.GetText(0, 134), SkillTime);
-				gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, lpPartyObj.m_Index, TRUE);
+				GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, lpPartyObj.m_Index, TRUE);
 			}
 		}
 	}
@@ -2728,7 +2728,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillSkillFulAddCriticalDamage(CGameObject
 	{
 		gObjAddBuffEffect(lpObj, BUFFTYPE_CRITICAL_DMG_INC, EFFECTTYPE_CRITICAL_DMG, addcriticaldamagevalue, 0, 0, SkillTime);
 		MsgOutput(Obj.m_Index, Lang.GetText(0, 134), SkillTime);
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 	}
 
 	else
@@ -2741,7 +2741,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillSkillFulAddCriticalDamage(CGameObject
 
 				gObjAddBuffEffect(lpPartyObj, BUFFTYPE_CRITICAL_DMG_INC, EFFECTTYPE_CRITICAL_DMG, addcriticaldamagevalue, 0, 0, SkillTime);
 				MsgOutput(ApplyPartyIndex[n], Lang.GetText(0, 134), SkillTime);
-				gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, lpPartyObj.m_Index, TRUE);
+				GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, lpPartyObj.m_Index, TRUE);
 			}
 		}
 	}
@@ -2793,7 +2793,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMasteryAddCriticalDamage(CGameObject 
 	{
 		gObjAddBuffEffect(lpObj, BUFFTYPE_CRITICAL_DMG_INC_STR, EFFECTTYPE_CRITICAL_DMG, addcriticaldamagevalue, EFFECTTYPE_CRITICALDAMAGE, fRate, SkillTime);
 		MsgOutput(Obj.m_Index, Lang.GetText(0, 134), SkillTime);
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 	}
 
 	else
@@ -2806,7 +2806,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMasteryAddCriticalDamage(CGameObject 
 
 				gObjAddBuffEffect(lpPartyObj, BUFFTYPE_CRITICAL_DMG_INC_STR, EFFECTTYPE_CRITICAL_DMG, addcriticaldamagevalue, EFFECTTYPE_CRITICALDAMAGE, fRate, SkillTime);
 				MsgOutput(ApplyPartyIndex[n], Lang.GetText(0, 134), SkillTime);
-				gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, lpPartyObj.m_Index, TRUE);
+				GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, lpPartyObj.m_Index, TRUE);
 			}
 		}
 	}
@@ -2829,7 +2829,7 @@ void CMasterLevelSkillTreeSystem::MLS_DarkHorseAttack(CGameObject &Obj, int aTar
 	int tObjNum;
 	BOOL EnableAttack;
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 
 	while (true)
 	{
@@ -2901,7 +2901,7 @@ void CMasterLevelSkillTreeSystem::MLS_FireBurst(CGameObject &Obj, int aTargetInd
 	int tObjNum;
 	BOOL EnableAttack;
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 	gObjAttack(lpObj, lpTargetObj, lpMagic, 0, TRUE, 0, 0, 0, 0);
 
 	while (true)
@@ -2971,7 +2971,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenSpear(CGameObject &Obj, int
 	
 	int count = 0;
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 
 	if (Obj.SkillLongSpearChange == false)
 	{
@@ -3197,7 +3197,7 @@ void CMasterLevelSkillTreeSystem::MLS_KnightBlow(CGameObject &Obj, int aTargetIn
 	int tObjNum;
 	BOOL EnableAttack;
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 
 	while (true)
 	{
@@ -3384,7 +3384,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillDefense(CGameObject &Obj, int aTarget
 
 	if (gObjCheckPowerfulEffect(lpTargetObj, BUFFTYPE_DEFENSE_POWER_INC, skill_defense, 0) == TRUE)
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
@@ -3402,7 +3402,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillDefense(CGameObject &Obj, int aTarget
 		}
 	}
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_SkillAttack(CGameObject &Obj, int aTargetIndex, CMagicInf* lpMagic)
@@ -3437,31 +3437,31 @@ void CMasterLevelSkillTreeSystem::MLS_SkillAttack(CGameObject &Obj, int aTargetI
 	{
 		if (gObjCheckPowerfulEffect(lpTargetObj, BUFFTYPE_ATTACK_POWER_INC, skill_attack, 0) == TRUE)
 		{
-			gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+			GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 			return;
 		}
 
 		else if (gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_BERSERKER) == TRUE)
 		{
-			gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+			GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 			return;
 		}
 
 		else if (gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_BERSERKER_STR) == TRUE)
 		{
-			gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+			GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 			return;
 		}
 
 		else if (gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_BERSERKER_MAS) == TRUE)
 		{
-			gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+			GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 			return;
 		}
 
 		else if (gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_BERSERKER_PRO) == TRUE)
 		{
-			gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+			GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 			return;
 		}
 	}
@@ -3480,7 +3480,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillAttack(CGameObject &Obj, int aTargetI
 		}
 	}
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_SkillStrenghtenAttack(CGameObject &Obj, int aTargetIndex, CMagicInf* lpMagic)
@@ -3528,31 +3528,31 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrenghtenAttack(CGameObject &Obj, in
 
 	if (gObjCheckPowerfulEffect(lpTargetObj, BUFFTYPE_ATTACK_POWER_INC, skill_attack, 0) == TRUE)
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
 	else if (gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_BERSERKER) == TRUE)
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
 	else if (gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_BERSERKER_STR) == TRUE)
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
 	else if (gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_BERSERKER_MAS) == TRUE)
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
 	else if (gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_BERSERKER_PRO) == TRUE)
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
@@ -3570,7 +3570,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrenghtenAttack(CGameObject &Obj, in
 		}
 	}
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenDefense(CGameObject &Obj, int aTargetIndex, CMagicInf* lpMagic)
@@ -3619,7 +3619,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenDefense(CGameObject &Obj, i
 
 	if (gObjCheckPowerfulEffect(lpTargetObj, BUFFTYPE_DEFENSE_POWER_INC, skill_defense, 0) == TRUE)
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
@@ -3637,7 +3637,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenDefense(CGameObject &Obj, i
 		}
 	}
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_MaGumSkillDefenseDown(CGameObject &Obj, int aTargetIndex)
@@ -3654,7 +3654,7 @@ void CMasterLevelSkillTreeSystem::MLS_MaGumSkillDefenseDown(CGameObject &Obj, in
 	if (retCalcSkillResistance(lpTargetObj, R_POISON))
 	{
 		gObjAddBuffEffect(lpTargetObj, BUFFTYPE_DEFENSE_POWER_DEC, EFFECTTYPE_DECREASE_DEFENSE, 10, 0, 0, 10);
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_MSKILL_MG_FIRESLASH1, lpTargetObj.m_Index, skillSuccess);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, AT_MSKILL_MG_FIRESLASH1, lpTargetObj.m_Index, skillSuccess);
 	}
 }
 
@@ -4138,7 +4138,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenBlockRate(CGameObject &Obj,
 	if (partynum == -1)
 	{
 		gObjAddBuffEffect(lpObj, BUFFTYPE_MONK_INCREASE_DEFENSE_RATE_STR, EFFECTTYPE_IMPROVE_DEFENSE_RATE, nEffectValue, 0, 0, Obj.m_PlayerData->Energy / 5 + 60);
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 	}
 
 	else
@@ -4148,7 +4148,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenBlockRate(CGameObject &Obj,
 			if (ApplyPartyIndex[i] != -1)
 			{
 				gObjAddBuffEffect(getGameObject(ApplyPartyIndex[i]), BUFFTYPE_MONK_INCREASE_DEFENSE_RATE_STR, EFFECTTYPE_IMPROVE_DEFENSE_RATE, nEffectValue, 0, 0, Obj.m_PlayerData->Energy / 5 + 60);
-				gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, ApplyPartyIndex[i], TRUE);
+				GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, ApplyPartyIndex[i], TRUE);
 			}
 		}
 	}
@@ -4207,7 +4207,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMasteryBlockRate(CGameObject &Obj, CM
 	if (partynum == -1)
 	{
 		gObjAddBuffEffect(lpObj, BUFFTYPE_MONK_INCREASE_DEFENSE_RATE_STR, EFFECTTYPE_IMPROVE_DEFENSE_RATE, nEffectValue, EFFECTTYPE_IMPROVE_DEFENSE, fDefenseValue, Obj.m_PlayerData->Energy / 5 + 60);
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 	}
 
 	else
@@ -4217,7 +4217,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMasteryBlockRate(CGameObject &Obj, CM
 			if (ApplyPartyIndex[i] != -1)
 			{
 				gObjAddBuffEffect(getGameObject(ApplyPartyIndex[i]), BUFFTYPE_MONK_INCREASE_DEFENSE_RATE_STR, EFFECTTYPE_IMPROVE_DEFENSE_RATE, nEffectValue, EFFECTTYPE_IMPROVE_DEFENSE, fDefenseValue, Obj.m_PlayerData->Energy / 5 + 60);
-				gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, ApplyPartyIndex[i], TRUE);
+				GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, ApplyPartyIndex[i], TRUE);
 			}
 		}
 	}
@@ -4272,7 +4272,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenIncVital(CGameObject &Obj, 
 	if (partynum == -1)
 	{
 		gObjAddBuffEffect(lpObj, BUFFTYPE_MONK_INCREASE_HEALTH_STR, EFFECTTYPE_MONK_VITALITY, nEffectValue, 0, 0, Obj.m_PlayerData->Energy / 5 + 60);
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 		gObjCalCharacter.CalcCharacter(Obj.m_Index);
 	}
 
@@ -4283,7 +4283,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenIncVital(CGameObject &Obj, 
 			if (ApplyPartyIndex[i] != -1)
 			{
 				gObjAddBuffEffect(getGameObject(ApplyPartyIndex[i]), BUFFTYPE_MONK_INCREASE_HEALTH_STR, EFFECTTYPE_MONK_VITALITY, nEffectValue, 0, 0, Obj.m_PlayerData->Energy / 5 + 60);
-				gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, ApplyPartyIndex[i], TRUE);
+				GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, ApplyPartyIndex[i], TRUE);
 				gObjCalCharacter.CalcCharacter(ApplyPartyIndex[i]);
 			}
 		}
@@ -4315,7 +4315,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenIgnoreEnemyDefense(CGameObj
 		nEffectValue = 10;
 
 	gObjAddBuffEffect(lpObj, BUFFTYPE_MONK_IGNORE_ENEMY_DEFENSE, EFFECTTYPE_DECREASE_DEFENSE_RATE, nEffectValue, EFFECTTYPE_MONK_DECREASE_DEFENSE, this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level), Obj.m_PlayerData->Energy / 5 + 60);
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 }
 
 // eX700 skills
@@ -4525,7 +4525,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillPoisonArrow(CGameObject &Obj, CMagicI
 	}
 
 	gObjAttack(lpObj, lpTargetObj, lpMagic, 1, 0, 0, isCombo, 0, 0);
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_SkillCure(CGameObject &Obj, CMagicInf *lpMagic, int aTargetIndex)
@@ -4543,7 +4543,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillCure(CGameObject &Obj, CMagicInf *lpM
 	}
 
 	gObjRemoveOneDebuffEffect(lpTargetObj);
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_SkillMonsterCall(CGameObject &Obj, int MonsterType, int x, int y)
@@ -4565,7 +4565,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMonsterCall(CGameObject &Obj, int Mon
 
 	if (Obj.m_RecallMon >= 0)
 	{
-		gGameProtocol.GCRecallMonLife(Obj.m_Index, 60, 0);
+		GSProtocol.GCRecallMonLife(Obj.m_Index, 60, 0);
 		gObjMonsterCallKill(Obj.m_Index);
 		return;
 	}
@@ -4609,7 +4609,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMonsterCall(CGameObject &Obj, int Mon
 			getGameObject(result)->m_AttackDamageMax += getGameObject(result)->m_AttackDamageMax * Obj.m_PlayerData->m_MPSkillOpt->iMpsCallMonAttack / 100.0;
 		}
 
-		gGameProtocol.GCRecallMonLife(getGameObject(result)->m_RecallMon, getGameObject(result)->MaxLife, getGameObject(result)->Life);
+		GSProtocol.GCRecallMonLife(getGameObject(result)->m_RecallMon, getGameObject(result)->MaxLife, getGameObject(result)->Life);
 	}
 }
 
@@ -4653,7 +4653,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillPartyHealing(CGameObject &Obj, int aT
 		return;
 	}
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 
 	nChainTarget[0] = aTargetIndex;
 	count++;
@@ -4757,7 +4757,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillPartyHealing(CGameObject &Obj, int aT
 			IOCP.DataSend(Obj.m_Index, (BYTE*)&SendByte, nOffset);
 		}
 
-		gGameProtocol.MsgSendV2(lpObj, (BYTE*)&SendByte, nOffset);
+		GSProtocol.MsgSendV2(lpObj, (BYTE*)&SendByte, nOffset);
 	}
 
 	int nHP = 0;
@@ -4792,7 +4792,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillBless(CGameObject &Obj, int aTargetIn
 
 	if (lpTargetObj.Type != OBJ_USER)
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
@@ -4811,31 +4811,31 @@ void CMasterLevelSkillTreeSystem::MLS_SkillBless(CGameObject &Obj, int aTargetIn
 
 	if ((Strength + iEffectValue) > g_MaxStatsInfo.GetClass.MaxStats[Obj.Class][0])
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
 	if ((Dexterity + iEffectValue) > g_MaxStatsInfo.GetClass.MaxStats[Obj.Class][1])
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
 	if ((Vitality + iEffectValue) > g_MaxStatsInfo.GetClass.MaxStats[Obj.Class][2])
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
 	if ((Energy + iEffectValue) > g_MaxStatsInfo.GetClass.MaxStats[Obj.Class][3])
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
 	if ((Leadership + iEffectValue) > g_MaxStatsInfo.GetClass.MaxStats[Obj.Class][4])
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
@@ -4855,7 +4855,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillBless(CGameObject &Obj, int aTargetIn
 	LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 
 	gObjCalCharacter.CalcCharacter(aTargetIndex);
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenBless(CGameObject &Obj, int aTargetIndex, CMagicInf* lpMagic)
@@ -4869,7 +4869,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenBless(CGameObject &Obj, int
 
 	if (lpTargetObj.Type != OBJ_USER)
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
@@ -4890,31 +4890,31 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenBless(CGameObject &Obj, int
 
 	if ((Strength + fValue) > g_MaxStatsInfo.GetClass.MaxStats[Obj.Class][0])
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
 	if ((Dexterity + fValue) > g_MaxStatsInfo.GetClass.MaxStats[Obj.Class][1])
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
 	if ((Vitality + fValue) > g_MaxStatsInfo.GetClass.MaxStats[Obj.Class][2])
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
 	if ((Energy + fValue) > g_MaxStatsInfo.GetClass.MaxStats[Obj.Class][3])
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
 	if ((Leadership + fValue) > g_MaxStatsInfo.GetClass.MaxStats[Obj.Class][4])
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, FALSE);
 		return;
 	}
 
@@ -4935,7 +4935,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenBless(CGameObject &Obj, int
 	LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 
 	gObjCalCharacter.CalcCharacter(aTargetIndex);
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_SkillBlind(CGameObject &Obj, int aTargetIndex, CMagicInf* lpMagic)
@@ -4954,7 +4954,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillBlind(CGameObject &Obj, int aTargetIn
 		gObjAttack(lpObj, lpTargetObj, lpMagic, 1, 1, 0, 0, 0, 0);
 	}
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::SkillIronDefenseDK(CGameObject &Obj, int aTargetIndex, CMagicInf* lpMagic)
@@ -4984,7 +4984,7 @@ void CMasterLevelSkillTreeSystem::SkillIronDefenseDK(CGameObject &Obj, int aTarg
 	AddDefense = (AddDefense * 10) / 20;
 
 	gObjAddBuffEffect(lpTargetObj, BuffNumber, EFFECTTYPE_IMPROVE_DEFENSE, AddDefense, EFFECTTYPE_HP, AddLife, g_ConfigRead.m_Arg3DK);
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::SkillIronDefenseDL(CGameObject &Obj, int aTargetIndex, CMagicInf* lpMagic)
@@ -5014,7 +5014,7 @@ void CMasterLevelSkillTreeSystem::SkillIronDefenseDL(CGameObject &Obj, int aTarg
 	AddDefense = (AddDefense * 10) / 20;
 
 	gObjAddBuffEffect(lpTargetObj, BuffNumber, EFFECTTYPE_IMPROVE_DEFENSE, AddDefense, EFFECTTYPE_HP, AddLife, g_ConfigRead.m_Arg3DL);
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_SkillBloodHowling(CGameObject &Obj, int aTargetIndex, CMagicInf* lpMagic)
@@ -5027,7 +5027,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillBloodHowling(CGameObject &Obj, int aT
 	CGameObject lpTargetObj = getGameObject(aTargetIndex);
 
 	gObjAddBuffEffect(lpTargetObj, BUFFTYPE_BLOOD_HOWL, 0, 0, 0, 0, MagicDamageC.GetSkillKeepTime(lpMagic->m_Skill));
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenBloodHowling(CGameObject &Obj, int aTargetIndex, CMagicInf* lpMagic)
@@ -5046,7 +5046,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenBloodHowling(CGameObject &O
 
 	gObjAddBuffEffect(lpTargetObj, BUFFTYPE_BLOOD_HOWL_STR, 0, 0, 0, 0, MagicDamageC.GetSkillKeepTime(lpMagic->m_Skill));
 	lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsIncDamageBloodHowling = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_SkillfulKnightBlow(CGameObject &Obj, int aTargetIndex, CMagicInf* lpMagic, BOOL isCombo)
@@ -5065,7 +5065,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillfulKnightBlow(CGameObject &Obj, int a
 	int tObjNum;
 	BOOL EnableAttack;
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 	float fValue = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 
 	while (true)
@@ -5191,7 +5191,7 @@ void CMasterLevelSkillTreeSystem::MLS_MasteryKnightBlow(CGameObject &Obj, int aT
 	int tObjNum;
 	BOOL EnableAttack;
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 
 	int iStunTime = 0;
 	
@@ -5857,7 +5857,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillHellBust(CGameObject &Obj, int aTarge
 		}
 	}
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, 1);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, 1);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_SkillHellBustStart(CGameObject &Obj, CMagicInf * lpMagic)
@@ -5879,7 +5879,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillHellBustStart(CGameObject &Obj, CMagi
 	Obj.m_PlayerData->SkillStrengthenHellFire2State = 1;
 	Obj.m_PlayerData->SkillStrengthenHellFire2Count = 0;
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, 395, Obj.m_Index, 1);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, 395, Obj.m_Index, 1);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_SkillMasteryWizardMagicDefense(CGameObject &Obj, CMagicInf *lpMagic, int aTargetIndex)
@@ -5922,7 +5922,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMasteryWizardMagicDefense(CGameObject
 	lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsMasManaRate_Wizard = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 
 	gObjAddBuffEffect(lpTargetObj, BUFFTYPE_MELEE_DEFENSE_INC_STR, EFFECTTYPE_IMPROVE_MELEE_DEFENSE, fDefenseValue, EFFECTTYPE_MELEE_DEFENSE_DOWN_MANA, g_SkillAdditionInfo.GetSoulBarrierManaRate_Level(lpMagic->m_Skill), fSkillValidTime);
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 }
 
 void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenWeakness(CGameObject &Obj, CMagicInf *lpMagic, BYTE x, BYTE y, int aTargetIndex)
@@ -5935,7 +5935,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenWeakness(CGameObject &Obj, 
 	int tObjNum;
 	BOOL EnableAttack;
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 
 	while (true)
 	{
@@ -6022,7 +6022,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenEnervation(CGameObject &Obj
 	int tObjNum;
 	BOOL EnableAttack;
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 
 	while (true)
 	{
@@ -6347,7 +6347,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMasteryDefenseDown(CGameObject &Obj, 
 	if (retCalcSkillResistance(lpTargetObj, 1))
 	{
 		gObjAddBuffEffect(lpTargetObj, BUFFTYPE_DECREASE_DEFENSE_RATE, EFFECTTYPE_DECREASE_DEFENSE, fDownValue, 0, 0, 10);
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 	}
 }
 
@@ -6398,7 +6398,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMasteryAddCriticalDamage2(CGameObject
 		Obj.m_PlayerData->m_MPSkillOpt->iMpsIncExcellentDamageRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 		gObjAddBuffEffect(lpObj, BUFFTYPE_CRITICAL_DMG_INC_MAS, EFFECTTYPE_CRITICAL_DMG, addcriticaldamagevalue, EFFECTTYPE_CRITICALDAMAGE, fRate, SkillTime);
 		MsgOutput(Obj.m_Index, Lang.GetText(0, 134), SkillTime);
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 	}
 
 	else
@@ -6411,7 +6411,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMasteryAddCriticalDamage2(CGameObject
 				lpPartyObj.m_PlayerData->m_MPSkillOpt->iMpsIncExcellentDamageRate = this->GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 				gObjAddBuffEffect(lpPartyObj, BUFFTYPE_CRITICAL_DMG_INC_MAS, EFFECTTYPE_CRITICAL_DMG, addcriticaldamagevalue, EFFECTTYPE_CRITICALDAMAGE, fRate, SkillTime);
 				MsgOutput(ApplyPartyIndex[n], Lang.GetText(0, 134), SkillTime);
-				gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, lpPartyObj.m_Index, TRUE);
+				GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, lpPartyObj.m_Index, TRUE);
 			}
 		}
 	}
@@ -6640,7 +6640,7 @@ bool CMasterLevelSkillTreeSystem::MLS_WeaponSkillDel(CGameObject &Obj, WORD aSki
 					{
 						if (MagicDamageC.IsItemAttachedSkill(BrandSkill) && this->IsExistMLSBasedSkill(lpObj, iBaseMLS) == false)
 						{
-							gGameProtocol.GCMagicListOneDelSend(Obj.m_Index, iCount, Obj.Magic[iCount].m_Skill, Obj.Magic[iCount].m_Level, 0, 0);
+							GSProtocol.GCMagicListOneDelSend(Obj.m_Index, iCount, Obj.Magic[iCount].m_Skill, Obj.Magic[iCount].m_Level, 0, 0);
 							return true;
 						}
 					}
@@ -6667,7 +6667,7 @@ bool CMasterLevelSkillTreeSystem::MLS_WeaponSkillAdd(CGameObject &Obj, WORD aSki
 					if (aSkill == MagicDamageC.GetNormalBrandOfSkill(iBaseMLS) &&
 						!this->IsExistMLSBasedSkill(lpObj, iBaseMLS))
 					{
-						gGameProtocol.GCMagicListOneSend(Obj.m_Index, iCount, Obj.Magic[iCount].m_Skill, Obj.Magic[iCount].m_Level, 0, 0);
+						GSProtocol.GCMagicListOneSend(Obj.m_Index, iCount, Obj.Magic[iCount].m_Skill, Obj.Magic[iCount].m_Level, 0, 0);
 						return true;
 					}
 				}
@@ -6727,7 +6727,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillSleep(CGameObject &Obj, int aTargetIn
 	int DuelIndex;
 	BOOL bEnableAttack;
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, 1);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, 1);
 
 	DuelIndex = Obj.m_iDuelUser;
 
@@ -6816,7 +6816,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillChainLightning(CGameObject &Obj, int 
 	int DuelIndex;
 	BOOL EnableAttack;
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, 1);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, 1);
 
 	DuelIndex = Obj.m_iDuelUser;
 
@@ -6928,7 +6928,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillChainLightning(CGameObject &Obj, int 
 	if (Obj.Type == OBJ_USER)
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, SendByte, pMsg.h.size);
 
-	gGameProtocol.MsgSendV2(lpObj, SendByte, pMsg.h.size);
+	GSProtocol.MsgSendV2(lpObj, SendByte, pMsg.h.size);
 
 	for (int n = 0; n<3; n++)
 	{
@@ -7023,7 +7023,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillDrainLife(CGameObject &Obj, int aTarg
 	int tObjNum;
 	int count = 0;
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, 1);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, 1);
 
 	int DuelIndex = Obj.m_iDuelUser;
 	BOOL EnableAttack;
@@ -8116,7 +8116,7 @@ void CMasterLevelSkillTreeSystem::SkillCircleShieldGrowLancer(CGameObject &Obj, 
 
 		Obj.m_SkillInfo.fCircleShieldRate = skill_improve2;
 		gObjAddBuffEffect(lpObj, BUFFTYPE_CIRCLE_SHIELD_STR, EFFECTTYPE_AG_OPPONENT_DECREASE, skill_improve, 0, 0, skill_time);
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 	}
 	else if (lpMagic->m_Skill == AT_MSKILL_CIRCLE_SHIELD_MASTERY)
 	{
@@ -8126,7 +8126,7 @@ void CMasterLevelSkillTreeSystem::SkillCircleShieldGrowLancer(CGameObject &Obj, 
 
 		Obj.m_SkillInfo.fCircleShieldRate = skill_improve2;
 		gObjAddBuffEffect(lpObj, BUFFTYPE_CIRCLE_SHIELD_MAS, EFFECTTYPE_AG_OPPONENT_DECREASE, skill_improve, 0, 0, skill_time);
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 	}
 	else
 	{
@@ -8172,7 +8172,7 @@ int CMasterLevelSkillTreeSystem::SkillWrathPowUpGrowLancer(CGameObject &Obj, CMa
 		return FALSE;
 	}
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 	return TRUE;
 }
 
@@ -8212,7 +8212,7 @@ int CMasterLevelSkillTreeSystem::SkillWrathProficiencyGrowLancer(CGameObject &Ob
 		return FALSE;
 	}
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 	return TRUE;
 }
 
@@ -8244,7 +8244,7 @@ int CMasterLevelSkillTreeSystem::SkillWrathMasteryGrowLancer(CGameObject &Obj, C
 
 	gObjAddBuffEffect(lpObj, BUFFTYPE_WRATH_MAS, EFFECTTYPE_WRATH_INC_DAMAGE, skill_improve, EFFECTTYPE_DECREASE_DEFENSE, skill_improve2, skill_time);
 	
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_MSKILL_WRATH_MASTERY, Obj.m_Index, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, AT_MSKILL_WRATH_MASTERY, Obj.m_Index, TRUE);
 	return TRUE;
 }
 
@@ -8311,7 +8311,7 @@ int CMasterLevelSkillTreeSystem::SkillObsidianPowUpGrowLancer(CGameObject &Obj, 
 		}
 	}
 
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, Obj.m_Index, TRUE);
 	return TRUE;
 }
 
@@ -8339,7 +8339,7 @@ void CMasterLevelSkillTreeSystem::SkillBurstMasteryGrowLancer(CGameObject &Obj, 
 	}
 
 	gObjAddBuffEffect(lpObj, BuffNumber, EFFECTTYPE_IMPROVE_DEFENSE, AddDefense, 0, 0, AddTime);
-	gGameProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
+	GSProtocol.GCMagicAttackNumberSend(lpObj, lpMagic->m_Skill, aTargetIndex, TRUE);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

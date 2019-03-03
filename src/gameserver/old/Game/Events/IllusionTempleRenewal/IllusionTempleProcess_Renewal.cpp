@@ -268,7 +268,7 @@ void CIllusionTempleProcess_Renewal::Proc_ITRState_None(int nCurTime)
 				char szTemp[128];
 				sprintf(szTemp, Lang.GetText(0, 496), this->m_nRemainTimeMin);
 
-				gGameProtocol.CGEventEntryNotice(EVENT_NOTIFICATION_ILLUSION_TEMPLE, 1);
+				GSProtocol.CGEventEntryNotice(EVENT_NOTIFICATION_ILLUSION_TEMPLE, 1);
 
 				int MapServerGroup = g_MapServerManager.GetMapSvrGroup();
 				GS_GDReqMapSvrMsgMultiCast(MapServerGroup, szTemp);
@@ -325,7 +325,7 @@ void CIllusionTempleProcess_Renewal::Proc_ITRState_None(int nCurTime)
 					char szTemp[128];
 					sprintf(szTemp, Lang.GetText(0, 497), this->m_nRemainTimeMin);
 
-					gGameProtocol.CGEventEntryNotice(EVENT_NOTIFICATION_ILLUSION_TEMPLE, 0);
+					GSProtocol.CGEventEntryNotice(EVENT_NOTIFICATION_ILLUSION_TEMPLE, 0);
 
 					int MapServerGroup = g_MapServerManager.GetMapSvrGroup();
 					GS_GDReqMapSvrMsgMultiCast(MapServerGroup, szTemp);
@@ -544,7 +544,7 @@ void CIllusionTempleProcess_Renewal::Proc_ITRState_End(int nCurTime)
 						if (getGameObject(this->m_UserData[i]->m_nIndex]->pntInventory[this->m_UserData[i]->m_nRelicsInvenPos)->m_Type == ITEMGET(14, 223))
 						{
 							gObjInventoryDeleteItem(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos);
-							gGameProtocol.GCInventoryItemDeleteSend(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos, 0);
+							GSProtocol.GCInventoryItemDeleteSend(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos, 0);
 							this->m_UserData[i].m_nRelicsInvenPos = -1;
 						}
 					}
@@ -750,7 +750,7 @@ BOOL CIllusionTempleProcess_Renewal::EnterUserIllusionTemple(CGameObject &Obj, B
 	if (nItemPos >= 0 && Obj.pntInventory[nItemPos]->m_Type == ITEMGET(14, 223))
 	{
 		gObjInventoryDeleteItem(Obj.m_Index, nItemPos);
-		gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, nItemPos, 0);
+		GSProtocol.GCInventoryItemDeleteSend(Obj.m_Index, nItemPos, 0);
 	}
 
 	BOOL bResult = FALSE;
@@ -1076,7 +1076,7 @@ void CIllusionTempleProcess_Renewal::DeleteAllRelicsItem()
 						this->m_nTempleNumber + 1, Obj.AccountID, Obj.Name, Obj.pntInventory[this->m_UserData[i]->m_nRelicsInvenPos]->m_Number);
 
 					gObjInventoryDeleteItem(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos);
-					gGameProtocol.GCInventoryItemDeleteSend(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos, 0);
+					GSProtocol.GCInventoryItemDeleteSend(this->m_UserData[i].m_nIndex, this->m_UserData[i].m_nRelicsInvenPos, 0);
 					this->m_UserData[i].m_nRelicsInvenPos = -1;
 				}
 			}
@@ -1800,7 +1800,7 @@ void CIllusionTempleProcess_Renewal::RegisterRelics(CGameObject &Npc, CGameObjec
 										this->m_nTempleNumber + 1, Obj.AccountID, Obj.Name, Obj.pntInventory[this->m_UserData[nRegisterRelicsUserArray]->m_nRelicsInvenPos]->m_Number);
 
 									gObjInventoryDeleteItem(Obj.m_Index, this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos);
-									gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos, 0);
+									GSProtocol.GCInventoryItemDeleteSend(Obj.m_Index, this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos, 0);
 									this->m_UserData[nRegisterRelicsUserArray].m_nRelicsInvenPos = -1;
 								}
 							}
@@ -2326,7 +2326,7 @@ void CIllusionTempleProcess_Renewal::Send_ITR_SkillEnd(CGameObject lpObj, WORD w
 	pMsg.wObjIndex = Obj.m_Index;
 
 	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
-	gGameProtocol.MsgSendV2(lpObj, (BYTE*)&pMsg, pMsg.h.size);
+	GSProtocol.MsgSendV2(lpObj, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 int CIllusionTempleProcess_Renewal::UseSkillProdection(CGameObject &Obj)
@@ -2460,7 +2460,7 @@ int CIllusionTempleProcess_Renewal::UseSkillShieldBurn(CGameObject &Obj, CGameOb
 
 	if (lpTargetObj.iShield <= 1)
 	{
-		gGameProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
+		GSProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
 		return TRUE;
 	}
 
@@ -2468,7 +2468,7 @@ int CIllusionTempleProcess_Renewal::UseSkillShieldBurn(CGameObject &Obj, CGameOb
 
 	lpTargetObj.iShield = nShieldDamage;
 
-	gGameProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, 0, nShieldDamage);
+	GSProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, 0, nShieldDamage);
 	return TRUE;
 }
 
@@ -2487,7 +2487,7 @@ void CIllusionTempleProcess_Renewal::SendUseSkillResult(int nIndex, int nTargetI
 
 	if (btResult == TRUE)
 	{
-		gGameProtocol.MsgSendV2(getGameObject(nIndex), (BYTE*)&pResult, pResult.h.size);
+		GSProtocol.MsgSendV2(getGameObject(nIndex), (BYTE*)&pResult, pResult.h.size);
 	}
 
 	sLog->outBasic("[ ITR ] SendUseSkillResult Success:[%d], Index:[%d], Target:[%d], Skill:[%d] ",

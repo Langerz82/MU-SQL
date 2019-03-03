@@ -8,6 +8,171 @@
 #include "ItemObject.h"
 #include "PentagramSystem.h"
 
+struct REFINE_OPTION
+{
+	void Clear()
+	{
+		this->RefineIndex = 0;
+		this->RefineSuccessRate = 0;
+
+		for (int i = 0; i < 4; i++)
+		{
+			this->NeedItem_Type[i] = 0;
+			this->NeedItem_Index[i] = 0;
+			this->NeedItem_Num[i] = 0;
+		}
+
+		this->NeedMoney = 0;
+	}
+
+	int RefineIndex;
+	int RefineSuccessRate;
+
+	int NeedItem_Type[4];
+	int NeedItem_Index[4];
+	int NeedItem_Num[4];
+
+	int NeedMoney;
+};
+
+struct REFINE_SUCCESS_OPTION
+{
+	void Clear()
+	{
+		this->SuccessRefineIndex = 0;
+
+		for (int i = 0; i < 5; i++)
+		{
+			this->Success_AcquisitionRate[i] = 0;
+			this->Success_AcquisitionItem_Type[i] = 0;
+			this->Success_AcquisitionItem_Index[i] = 0;
+			this->Success_AcquisitionItem_Num[i] = 0;
+		}
+	}
+
+	int SuccessRefineIndex;
+
+	int Success_AcquisitionRate[5];
+	int Success_AcquisitionItem_Type[5];
+	int Success_AcquisitionItem_Index[5];
+	int Success_AcquisitionItem_Num[5];
+};
+
+struct JEWEL_LEVEL_UPGRADE_NEED_ITEM
+{
+	void Clear()
+	{
+		this->TargetItemLevel = 0;
+		this->MainSourceItemLevel = 0;
+		this->MainSourceItemNum = 0;
+
+		for (int i = 0; i < 4; i++)
+		{
+			this->NeedSourceItem_Type[i] = 0;
+			this->NeedSourceItem_Index[i] = 0;
+			this->NeedSourceItem_Num[i] = 0;
+		}
+
+		this->NeedMoney = 0;
+	}
+
+	int TargetItemLevel;
+	int MainSourceItemLevel;
+	int MainSourceItemNum;
+
+	int NeedSourceItem_Type[4];
+	int NeedSourceItem_Index[4];
+	int NeedSourceItem_Num[4];
+
+	int NeedMoney;
+};
+
+struct JEWEL_RANK_UPGRADE_NEED_ITEM
+{
+	void Clear()
+	{
+		this->TargetItemRank = 0;
+		this->MainSourceItemRank = 0;
+		this->MainSourceItemNum = 0;
+
+		for (int i = 0; i < 4; i++)
+		{
+			this->NeedSourceItem_Type[i] = 0;
+			this->NeedSourceItem_Index[i] = 0;
+			this->NeedSourceItem_Num[i] = 0;
+		}
+
+		this->NeedMoney = 0;
+	}
+
+	int TargetItemRank;
+	int MainSourceItemRank;
+	int MainSourceItemNum;
+
+	int NeedSourceItem_Type[4];
+	int NeedSourceItem_Index[4];
+	int NeedSourceItem_Num[4];
+
+	int NeedMoney;
+};
+
+struct PENTAGRAM_JEWEL_ITEM_OPTION
+{
+	void Clear()
+	{
+		this->JewelIndex = 0;
+		this->PentagramJewel_Type = 0;
+		this->PentagramJewel_Index = 0;
+		this->ItemRank = 0;
+		this->RankOptionNum = 0;
+		this->RankOptionNumRate = 0;
+		this->RON = 0;
+
+		for (int i = 0; i < 11; i++)
+		{
+			this->LevelValue[i] = 0;
+			this->LevelUpgradeValue[i] = 0;
+		}
+	}
+
+	int JewelIndex;
+	int PentagramJewel_Type;
+	int PentagramJewel_Index;
+	int ItemRank;
+	int RankOptionNum;
+	int RankOptionNumRate;
+	int RON;
+
+	int LevelValue[11];
+	int LevelUpgradeValue[11];
+};
+
+struct JEWEL_RANK_UPGRADE_DETERMINE_RATE
+{
+	void Clear()
+	{
+		this->RankStep = 0;
+
+		for (int i = 0; i < 4; i++)
+		{
+			this->RankRate[i] = 0;
+		}
+
+		this->RankUpgradeSuccessRate = 0;
+	}
+
+	int RankStep;
+	int RankRate[4];
+	int RankUpgradeSuccessRate;
+};
+
+struct PMSG_PENTAGRAM_JEWEL_REFINE_RECV
+{
+	PBMSG_HEAD2 header; // C1:EC:02
+	BYTE type;
+};
+
+
 class CPentagramMixSystem
 {
 public:

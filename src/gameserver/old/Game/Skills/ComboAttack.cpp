@@ -97,37 +97,37 @@ BOOL CComboAttack::CheckCombo(CGameObject &Obj, int skillnum)
 
 		if ( sp == 0 )
 		{
-			Obj.m_PlayerData->comboSkill.ProgressIndex  = 0;
-			Obj.m_PlayerData->comboSkill.dwTime = GetTickCount() + 3000;
-			Obj.m_PlayerData->comboSkill.Skill[0]  = skillnum;
+			Obj.m_PlayerData->comboSkill->ProgressIndex  = 0;
+			Obj.m_PlayerData->comboSkill->dwTime = GetTickCount() + 3000;
+			Obj.m_PlayerData->comboSkill->Skill[0]  = skillnum;
 		}
 		else if ( sp == 1 )
 		{
-			if ( Obj.m_PlayerData->comboSkill.Skill[0]  == 0xFFFF )
+			if ( Obj.m_PlayerData->comboSkill->Skill[0]  == 0xFFFF )
 			{
-				Obj.m_PlayerData->comboSkill.Init();
+				Obj.m_PlayerData->comboSkill->Init();
 				return 0;
 			}
 
 			int Time =GetTickCount();
 
-			if (Obj.m_PlayerData->comboSkill.dwTime < GetTickCount() )
+			if (Obj.m_PlayerData->comboSkill->dwTime < GetTickCount() )
 			{
-				Obj.m_PlayerData->comboSkill.Init();
+				Obj.m_PlayerData->comboSkill->Init();
 				return 0;
 			}
 
-			if ( Obj.m_PlayerData->comboSkill.ProgressIndex == 0 )
+			if ( Obj.m_PlayerData->comboSkill->ProgressIndex == 0 )
 			{
-				Obj.m_PlayerData->comboSkill.ProgressIndex = 1;
-				Obj.m_PlayerData->comboSkill.dwTime = GetTickCount() + 3000;
-				Obj.m_PlayerData->comboSkill.Skill[1] = skillnum;
+				Obj.m_PlayerData->comboSkill->ProgressIndex = 1;
+				Obj.m_PlayerData->comboSkill->dwTime = GetTickCount() + 3000;
+				Obj.m_PlayerData->comboSkill->Skill[1] = skillnum;
 			}
-			else if ( Obj.m_PlayerData->comboSkill.Skill[1] != skillnum )
+			else if ( Obj.m_PlayerData->comboSkill->Skill[1] != skillnum )
 			{
-				Obj.m_PlayerData->comboSkill.Init();
+				Obj.m_PlayerData->comboSkill->Init();
 
-				if((GetTickCount() - Obj.m_PlayerData->comboSkill.dwTime) < 1000)
+				if((GetTickCount() - Obj.m_PlayerData->comboSkill->dwTime) < 1000)
 				{
 					return 0;
 				}
@@ -136,14 +136,14 @@ BOOL CComboAttack::CheckCombo(CGameObject &Obj, int skillnum)
 			}
 			else
 			{
-				Obj.m_PlayerData->comboSkill.Init();
+				Obj.m_PlayerData->comboSkill->Init();
 			}
 		}
 		else
 		{
-			Obj.m_PlayerData->comboSkill.ProgressIndex= -1;
-			Obj.m_PlayerData->comboSkill.dwTime = 0;
-			Obj.m_PlayerData->comboSkill.Skill[0] = -1;
+			Obj.m_PlayerData->comboSkill->ProgressIndex= -1;
+			Obj.m_PlayerData->comboSkill->dwTime = 0;
+			Obj.m_PlayerData->comboSkill->Skill[0] = -1;
 		}
 	}
 

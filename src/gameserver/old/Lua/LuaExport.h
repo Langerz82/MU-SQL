@@ -31,7 +31,7 @@ public:
 
 	static BOOL		LuaChatTargetSend(lua_State * Lua)
 	{
-		gGameProtocol.ChatTargetSend(getGameObject(lua_tointeger(Lua, 2)), (char*)lua_tostring(Lua, 1), lua_tointeger(Lua, 3));
+		GSProtocol.ChatTargetSend(getGameObject(lua_tointeger(Lua, 2)), (char*)lua_tostring(Lua, 1), lua_tointeger(Lua, 3));
 		return true;
 	};
 
@@ -49,7 +49,7 @@ public:
 
 	static BOOL		LuaGCServerMsgStringSend(lua_State * Lua)
 	{
-		gGameProtocol.GCServerMsgStringSend((char*)lua_tostring(Lua, 1), lua_tointeger(Lua, 2), lua_tointeger(Lua, 3));
+		GSProtocol.GCServerMsgStringSend((char*)lua_tostring(Lua, 1), lua_tointeger(Lua, 2), lua_tointeger(Lua, 3));
 		return true;
 	};
 
@@ -62,7 +62,7 @@ public:
 		ServerCmd.X = getGameObject(lua_tointeger(Lua, 1))->X;
 		ServerCmd.Y = getGameObject(lua_tointeger(Lua, 1))->Y;
 
-		gGameProtocol.MsgSendV2(getGameObject(lua_tointeger(Lua, 1)), (LPBYTE)&ServerCmd, sizeof(ServerCmd));
+		GSProtocol.MsgSendV2(getGameObject(lua_tointeger(Lua, 1)), (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 		IOCP.DataSend(lua_tointeger(Lua, 1), (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 
 		return true;
@@ -77,7 +77,7 @@ public:
 
 	static BOOL		LuaGCServerCmd(lua_State * Lua)
 	{
-		gGameProtocol.GCServerCmd(lua_tointeger(Lua, 1), lua_tointeger(Lua, 2), lua_tointeger(Lua, 3), lua_tointeger(Lua, 4));
+		GSProtocol.GCServerCmd(lua_tointeger(Lua, 1), lua_tointeger(Lua, 2), lua_tointeger(Lua, 3), lua_tointeger(Lua, 4));
 		return true;
 	};
 
@@ -97,13 +97,13 @@ public:
 
 	static BOOL		LuaGCReFillSend(lua_State * Lua)
 	{
-		gGameProtocol.GCReFillSend(lua_tointeger(Lua, 1), lua_tointeger(Lua, 2), lua_tointeger(Lua, 3), lua_tointeger(Lua, 4), lua_tointeger(Lua, 5));
+		GSProtocol.GCReFillSend(lua_tointeger(Lua, 1), lua_tointeger(Lua, 2), lua_tointeger(Lua, 3), lua_tointeger(Lua, 4), lua_tointeger(Lua, 5));
 		return true;
 	};
 
 	static BOOL		LuaGCManaSend(lua_State * Lua)
 	{
-		gGameProtocol.GCManaSend(lua_tointeger(Lua, 1), lua_tointeger(Lua, 2), lua_tointeger(Lua, 3), lua_tointeger(Lua, 4), lua_tointeger(Lua, 5));
+		GSProtocol.GCManaSend(lua_tointeger(Lua, 1), lua_tointeger(Lua, 2), lua_tointeger(Lua, 3), lua_tointeger(Lua, 4), lua_tointeger(Lua, 5));
 		return true;
 	};
 

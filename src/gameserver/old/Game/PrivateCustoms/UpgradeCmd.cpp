@@ -193,7 +193,7 @@ int CUpgradeCmd::DoUpgrade(CGameObject &Obj)
 			CItemObject NewItem;
 
 			gObjInventoryDeleteItem(Obj.m_Index, i);
-			gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, i, 1);
+			GSProtocol.GCInventoryItemDeleteSend(Obj.m_Index, i, 1);
 
 			NewItem.m_Type = It->second.m_GetItem.wItemID;
 			NewItem.m_Level = It->second.m_GetItem.btItemLevel;

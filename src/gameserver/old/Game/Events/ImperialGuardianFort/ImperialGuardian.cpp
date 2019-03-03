@@ -766,7 +766,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 		{
 			char szMsg[256];
 			wsprintf(szMsg, Lang.GetText(0,346));
-			gGameProtocol.GCServerMsgStringSend(szMsg, *lpObj, 1);
+			GSProtocol.GCServerMsgStringSend(szMsg, *lpObj, 1);
 
 			if ( nDestZoneIndex )
 			{
@@ -799,7 +799,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 				{
 					char szMsg[256];
 					wsprintf(szMsg, Lang.GetText(0,347));
-					gGameProtocol.GCServerMsgStringSend(szMsg, *lpObj, 1);
+					GSProtocol.GCServerMsgStringSend(szMsg, *lpObj, 1);
 
 					pMsg.m_btResult = 1;
 					this->GCSendDataToUser(nUserIndex, (char *)&pMsg, pMsg.h.size);
@@ -821,7 +821,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 				{
 					char szMsg[256];
 					wsprintf(szMsg, Lang.GetText(0,348));
-					gGameProtocol.GCServerMsgStringSend(szMsg, *lpObj, 1);
+					GSProtocol.GCServerMsgStringSend(szMsg, *lpObj, 1);
 
 					pMsg.m_btResult = 1;
 					this->GCSendDataToUser(nUserIndex, (char *)&pMsg, pMsg.h.size);
@@ -832,7 +832,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 				{
 					char szMsg[256];
 					wsprintf(szMsg, Lang.GetText(0,348));
-					gGameProtocol.GCServerMsgStringSend(szMsg, *lpObj, 1);
+					GSProtocol.GCServerMsgStringSend(szMsg, *lpObj, 1);
 
 					pMsg.m_btResult = 1;
 					this->GCSendDataToUser(nUserIndex, (char *)&pMsg, pMsg.h.size);
@@ -843,7 +843,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 				{
 					char szMsg[256];
 					wsprintf(szMsg, Lang.GetText(0,350));
-					gGameProtocol.GCServerMsgStringSend(szMsg, *lpObj, 1);
+					GSProtocol.GCServerMsgStringSend(szMsg, *lpObj, 1);
 
 					pMsg.m_btResult = 3;
 					this->GCSendDataToUser(nUserIndex, (char *)&pMsg, pMsg.h.size);
@@ -857,7 +857,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 				{
 					char szMsg[256];
 					wsprintf(szMsg, Lang.GetText(0,351));
-					gGameProtocol.GCServerMsgStringSend(szMsg, *getGameObject(nUserIndex), 1);
+					GSProtocol.GCServerMsgStringSend(szMsg, *getGameObject(nUserIndex), 1);
 
 					this->RollBackUserPos(nUserIndex);
 					return;
@@ -938,13 +938,13 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 
 							if ( lpObj->pntInventory[nEnterItemPos]->m_Durability > 0.0 )
 							{
-								gGameProtocol.GCItemObjectDurSend2(*getGameObject(nUserIndex), nEnterItemPos, lpObj->pntInventory[nEnterItemPos).m_Durability, 0);
+								GSProtocol.GCItemObjectDurSend2(*getGameObject(nUserIndex), nEnterItemPos, lpObj->pntInventory[nEnterItemPos).m_Durability, 0);
 							}
 
 							else
 							{
 								gObjInventoryDeleteItem(*getGameObject(nUserIndex), nEnterItemPos);
-								gGameProtocol.GCInventoryItemDeleteSend(*getGameObject(nUserIndex), nEnterItemPos, 1);
+								GSProtocol.GCInventoryItemDeleteSend(*getGameObject(nUserIndex), nEnterItemPos, 1);
 							}
 						}
 					}
@@ -952,7 +952,7 @@ void CImperialGuardian::CGEnterPortal(int nUserIndex, int nDestZoneIndex)
 					else
 					{
 						gObjInventoryDeleteItem(*getGameObject(nUserIndex), nEnterItemPos);
-						gGameProtocol.GCInventoryItemDeleteSend(*getGameObject(nUserIndex), nEnterItemPos, 1);
+						GSProtocol.GCInventoryItemDeleteSend(*getGameObject(nUserIndex), nEnterItemPos, 1);
 					}
 				}
 
@@ -1491,7 +1491,7 @@ bool CImperialGuardian::GCNotifyAllZoneClear(int nZoneIndex)
 
 		if ( g_MasterLevelSkillTreeSystem.IsMasterLevelUser(*getGameObject(nUserIndex[i])) == false )
 		{
-			gGameProtocol.GCKillPlayerExpSend(*getGameObject(nUserIndex[i]), -1, pMsg.m_nRewardExp, 0, 0);
+			GSProtocol.GCKillPlayerExpSend(*getGameObject(nUserIndex[i]), -1, pMsg.m_nRewardExp, 0, 0);
 		}
 
 		this->GCSendDataToUser(nUserIndex[i], (char*)&pMsg, pMsg.h.size);
@@ -1502,7 +1502,7 @@ bool CImperialGuardian::GCNotifyAllZoneClear(int nZoneIndex)
 		memset(szText, 0x00, sizeof(szText));
 
 		wsprintf(szText, Lang.GetText(0,352));
-		gGameProtocol.GCServerMsgStringSend(szText, *getGameObject(nUserIndex[i]), 0);
+		GSProtocol.GCServerMsgStringSend(szText, *getGameObject(nUserIndex[i]), 0);
 	}
 
 	return true;
@@ -1544,7 +1544,7 @@ void CImperialGuardian::GCMissionFail(int nZoneIndex)
 		memset(szText, 0x00, sizeof(szText));
 
 		wsprintf(szText, Lang.GetText(0, 353));
-		gGameProtocol.GCServerMsgStringSend(szText, *getGameObject(nUserIndex[i]), 0);
+		GSProtocol.GCServerMsgStringSend(szText, *getGameObject(nUserIndex[i]), 0);
 	}
 }
 
@@ -1563,7 +1563,7 @@ void CImperialGuardian::GCMissionFailUserDie(CGameObject &Obj)
 	memset(szText, 0x00, sizeof(szText));
 	
 	wsprintf(szText, Lang.GetText(0,354));
-	gGameProtocol.GCServerMsgStringSend(szText, *getGameObject(nUserNumber), 0);
+	GSProtocol.GCServerMsgStringSend(szText, *getGameObject(nUserNumber), 0);
 }
 
 void CImperialGuardian::GCSendDataToUser(int nIndex, char* lpMsg, int nSize)
@@ -1963,7 +1963,7 @@ void CImperialGuardian::RollBackUserPos(int nUserNumber)
 		getGameObject(nUserNumber)->RegenMapY = getGameObject(nUserNumber)->Y;
 
 		gObjClearViewport(*getGameObject(nUserNumber));
-		gGameProtocol.GCTeleportSend(*getGameObject(nUserNumber), -1, getGameObject(nUserNumber)->MapNumber, getGameObject(nUserNumber)->X, getGameObject(nUserNumber)->Y, getGameObject(nUserNumber)->Dir);
+		GSProtocol.GCTeleportSend(*getGameObject(nUserNumber), -1, getGameObject(nUserNumber)->MapNumber, getGameObject(nUserNumber)->X, getGameObject(nUserNumber)->Y, getGameObject(nUserNumber)->Dir);
 		
 		if ( getGameObject(nUserNumber)->m_Change >= 0 )
 			gObjViewportListProtocolCreate(getGameObject(nUserNumber));
@@ -2211,7 +2211,7 @@ void CImperialGuardian::GCSendServerMsgAll(int nZoneIndex, char* szMsg)
 
 	for (int i = 0; i < nCount; i++)
 	{
-		gGameProtocol.GCServerMsgStringSend(szMsg, *getGameObject(nUserIndex[i]), 0);
+		GSProtocol.GCServerMsgStringSend(szMsg, *getGameObject(nUserIndex[i]), 0);
 	}
 }
 
@@ -2239,7 +2239,7 @@ int CImperialGuardian::ImperialGuardianLevelUp(CGameObject &Obj, int iAddExp)
 
 	if ( Obj.Level >= g_ConfigRead.data.common.UserMaxLevel)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,45), *getGameObject(iIndex), 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,45), *getGameObject(iIndex), 1);
 		return 0;
 	}
 
@@ -2279,7 +2279,7 @@ int CImperialGuardian::ImperialGuardianLevelUp(CGameObject &Obj, int iAddExp)
 		Obj.Mana = Obj.MaxMana;
 		gObjNextExpCal(*getGameObject(iIndex));
 		gObjSetBP(*getGameObject(iIndex));
-		gGameProtocol.GCLevelUpMsgSend(*getGameObject(iIndex), 1);
+		GSProtocol.GCLevelUpMsgSend(*getGameObject(iIndex), 1);
 		gObjCalcMaxLifePower(*getGameObject(iIndex));
 		sLog->outBasic("Level Up [%s][%s][%d]", Obj.AccountID, Obj.Name, Obj.Level);
 		return 0;

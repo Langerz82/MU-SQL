@@ -433,7 +433,7 @@ BOOL TMonsterAIElement::ApplyElementAttack(CGameObject &Obj, int iTargetIndex, T
 			pAttackMsg.NumberH = SET_NUMBERH(iTargetNumber);
 			pAttackMsg.NumberL = SET_NUMBERL(iTargetNumber);
 
-			gGameProtocol.GCActionSend(lpObj, 0x78, Obj.m_Index, iTargetNumber);
+			GSProtocol.GCActionSend(lpObj, 0x78, Obj.m_Index, iTargetNumber);
 			gObjAttack(lpObj, getGameObject(iTargetNumber), 0, 0, 0, 0, 0, 0, 0);
 		}
 		else
@@ -463,8 +463,8 @@ BOOL TMonsterAIElement::ApplyElementAttack(CGameObject &Obj, int iTargetIndex, T
 		pAttackMsg.NumberH = SET_NUMBERH(iTargetNumber);
 		pAttackMsg.NumberL = SET_NUMBERL(iTargetNumber);
 
-		gGameProtocol.CGAttack((PMSG_ATTACK *)&pAttackMsg, Obj.m_Index);
-		gGameProtocol.GCActionSend(lpObj, 0x78, Obj.m_Index, lpTargetObj.m_Index);
+		GSProtocol.CGAttack((PMSG_ATTACK *)&pAttackMsg, Obj.m_Index);
+		GSProtocol.GCActionSend(lpObj, 0x78, Obj.m_Index, lpTargetObj.m_Index);
 		gObjAttack(lpObj, getGameObject(iTargetNumber), 0, 0, 0, 0, 0, 0, 0);
 
 		return FALSE;
@@ -668,7 +668,7 @@ BOOL TMonsterAIElement::ApplyElementNightmareSummon(CGameObject &Obj, int iTarge
 
 	if (lpSkillUnit)
 	{
-		gGameProtocol.GCUseMonsterSkillSend(Obj, getGameObject(iTargetIndex), lpSkillUnit->m_iUnitNumber);
+		GSProtocol.GCUseMonsterSkillSend(Obj, getGameObject(iTargetIndex), lpSkillUnit->m_iUnitNumber);
 
 		if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 		{
@@ -700,7 +700,7 @@ BOOL TMonsterAIElement::ApplyElementNightmareWarp(CGameObject &Obj, int iTargetI
 	if ( Obj.Type == OBJ_USER )
 		IOCP.DataSend(Obj.m_Index,(BYTE *)&pAttack,pAttack.h.size);
 
-	gGameProtocol.MsgSendV2(lpObj,(BYTE*)&pAttack,pAttack.h.size);
+	GSProtocol.MsgSendV2(lpObj,(BYTE*)&pAttack,pAttack.h.size);
 
 	gObjTeleportMagicUse(iIndex,x,y);
 	Obj.TargetNumber = -1;

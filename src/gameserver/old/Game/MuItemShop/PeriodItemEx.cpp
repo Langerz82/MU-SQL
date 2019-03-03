@@ -262,7 +262,7 @@ BOOL CPeriodItemEx::RemovePeriodItemData(CGameObject &Obj, BYTE ItemType, WORD I
 		this->SetDisableItemToExpire(lpObj, pos);
 		//auto-deleting
 		gObjInventoryDeleteItem(Obj.m_Index, pos);
-		gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, pos, 1);
+		GSProtocol.GCInventoryItemDeleteSend(Obj.m_Index, pos, 1);
 		gObjCalCharacter.CalcCharacter(Obj.m_Index);
 		// ----
 		if (pos < 12)
@@ -285,7 +285,7 @@ BOOL CPeriodItemEx::RemovePeriodItemData(CGameObject &Obj, BYTE ItemType, WORD I
 				pChange.ItemInfo[5] = 0xF1;
 
 			IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pChange, pChange.h.size);
-			gGameProtocol.MsgSendV2(lpObj, (BYTE*)&pChange, pChange.h.size);
+			GSProtocol.MsgSendV2(lpObj, (BYTE*)&pChange, pChange.h.size);
 		}
 	}
 

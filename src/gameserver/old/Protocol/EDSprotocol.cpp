@@ -305,25 +305,25 @@ void ExDataServerProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen)
 				switch ( lpMsg->subcode )
 				{
 					case 0x02:
-						DGAnsGensInfo((_tagPMSG_ANS_GENS_INFO_EXDB *)aRecv);
+						DGAnsGensInfo((PMSG_ANS_GENS_INFO_EXDB *)aRecv);
 						break;
 					case 0x04:
-						DGAnsRegGensMember((_tagPMSG_ANS_REG_GENS_MEMBER_EXDB *)aRecv);
+						DGAnsRegGensMember((PMSG_ANS_REG_GENS_MEMBER_EXDB *)aRecv);
 						break;
 					case 0x06:
-						DGAnsSecedeGensMember((_tagPMSG_ANS_SECEDE_GENS_MEMBER_EXDB *)aRecv);
+						DGAnsSecedeGensMember((PMSG_ANS_SECEDE_GENS_MEMBER_EXDB *)aRecv);
 						break;
 					case 0x0A:
-						DGAnsAbusingInfo((_tagPMSG_ANS_ABUSING_INFO *)aRecv);
+						DGAnsAbusingInfo((PMSG_ANS_ABUSING_INFO *)aRecv);
 						break;
 					case 0x0D:
-						DGAnsGensReward((_tagPMSG_ANS_GENS_REWARD_EXDB *)aRecv);
+						DGAnsGensReward((PMSG_ANS_GENS_REWARD_EXDB *)aRecv);
 						break;
 					case 0x10:
-						DGAnsGensMemberCount((_tagPMSG_ANS_GENS_MEMBER_COUNT_EXDB *)aRecv);
+						DGAnsGensMemberCount((PMSG_ANS_GENS_MEMBER_COUNT_EXDB *)aRecv);
 						break;
 					case 0x14:
-						DGAnsGensRewardDayCheck((_tagPMSG_ANS_GENS_REWARD_DAY_CHECK_EXDB *)aRecv);
+						DGAnsGensRewardDayCheck((PMSG_ANS_GENS_REWARD_DAY_CHECK_EXDB *)aRecv);
 						break;
 				}
 			}
@@ -3278,7 +3278,7 @@ void FriendRoomInvitationRecv(FHP_FRIEND_INVITATION_RET* lpMsg)
 		Name.GetBuffer(), pMsg.Result);
 }
 
-void DGAnsGensInfo(_tagPMSG_ANS_GENS_INFO_EXDB *lpMsg)
+void DGAnsGensInfo(PMSG_ANS_GENS_INFO_EXDB *lpMsg)
 {
 	int iObjIndex = MAKE_NUMBERW(lpMsg->wIndexH, lpMsg->wIndexL);
 
@@ -3324,7 +3324,7 @@ void DGAnsGensInfo(_tagPMSG_ANS_GENS_INFO_EXDB *lpMsg)
 }
 
 //-> Completed
-void DGAnsRegGensMember(_tagPMSG_ANS_REG_GENS_MEMBER_EXDB *lpMsg)
+void DGAnsRegGensMember(PMSG_ANS_REG_GENS_MEMBER_EXDB *lpMsg)
 {
 	int iObjIndex = MAKE_NUMBERW(lpMsg->bIndexH, lpMsg->bIndexL);
 
@@ -3332,7 +3332,7 @@ void DGAnsRegGensMember(_tagPMSG_ANS_REG_GENS_MEMBER_EXDB *lpMsg)
 
 	if (gObjIsConnectedGP(lpObj->m_Index))
 	{
-		_tagPMSG_ANS_REG_GENS_MEBMER pMsg;
+		PMSG_ANS_REG_GENS_MEBMER pMsg;
 
 		if (!lpMsg->bResult)
 		{
@@ -3385,7 +3385,7 @@ void DGAnsRegGensMember(_tagPMSG_ANS_REG_GENS_MEMBER_EXDB *lpMsg)
 }
 
 //-> Completed
-void DGAnsSecedeGensMember(_tagPMSG_ANS_SECEDE_GENS_MEMBER_EXDB *lpMsg)
+void DGAnsSecedeGensMember(PMSG_ANS_SECEDE_GENS_MEMBER_EXDB *lpMsg)
 {
 	int iObjIndex = MAKE_NUMBERW(lpMsg->bIndexH, lpMsg->bIndexL);
 
@@ -3430,7 +3430,7 @@ void DGAnsSecedeGensMember(_tagPMSG_ANS_SECEDE_GENS_MEMBER_EXDB *lpMsg)
 			g_GensSystem.SetGensRanking(lpObj, 0);
 		}
 
-		_tagPMSG_ANS_SECEDE_GENS_MEMBER_EXDB pMsg;
+		PMSG_ANS_SECEDE_GENS_MEMBER_EXDB pMsg;
 		
 		PHeadSubSetBE((LPBYTE)&pMsg, 0xF8, 0x04, sizeof(pMsg)); 
 		pMsg.bResult = lpMsg->bResult;		
@@ -3443,7 +3443,7 @@ void DGAnsSecedeGensMember(_tagPMSG_ANS_SECEDE_GENS_MEMBER_EXDB *lpMsg)
 }
 
 //-> Completed
-void DGAnsAbusingInfo(_tagPMSG_ANS_ABUSING_INFO *lpMsg)
+void DGAnsAbusingInfo(PMSG_ANS_ABUSING_INFO *lpMsg)
 {
 	int iObjIndex = MAKE_NUMBERW(lpMsg->bIndexH, lpMsg->bIndexL);
 
@@ -3469,7 +3469,7 @@ void DGAnsAbusingInfo(_tagPMSG_ANS_ABUSING_INFO *lpMsg)
 }
 
 //-> Completed
-void DGAnsGensReward(_tagPMSG_ANS_GENS_REWARD_EXDB *lpMsg)
+void DGAnsGensReward(PMSG_ANS_GENS_REWARD_EXDB *lpMsg)
 {
 	unsigned char btResult;
 
@@ -3509,14 +3509,14 @@ void DGAnsGensReward(_tagPMSG_ANS_GENS_REWARD_EXDB *lpMsg)
 }
 
 //-> Completed
-void DGAnsGensMemberCount(_tagPMSG_ANS_GENS_MEMBER_COUNT_EXDB *lpMsg)
+void DGAnsGensMemberCount(PMSG_ANS_GENS_MEMBER_COUNT_EXDB *lpMsg)
 {
 	g_GensSystem.SetGensMemberCount(1, lpMsg->iVanertMemberCount);
 	g_GensSystem.SetGensMemberCount(2, lpMsg->iDuprianMemberCount);
 }
 
 //-> Completed
-void DGAnsGensRewardDayCheck(_tagPMSG_ANS_GENS_REWARD_DAY_CHECK_EXDB *lpMsg)
+void DGAnsGensRewardDayCheck(PMSG_ANS_GENS_REWARD_DAY_CHECK_EXDB *lpMsg)
 {
 	int iObjIndex = MAKE_NUMBERW(lpMsg->bIndexH, lpMsg->bIndexL);
 

@@ -173,12 +173,12 @@ void CVipSystem::Run()
 			{
 				if (iVipEffect == VIP_EFFECT_DAY)
 				{
-					gGameProtocol.GCServerMsgStringSend((char *)this->DayRateChangeMsg.c_str(), i, 1);
+					GSProtocol.GCServerMsgStringSend((char *)this->DayRateChangeMsg.c_str(), i, 1);
 				}
 
 				else if(iVipEffect == VIP_EFFECT_NIGHT)
 				{
-					gGameProtocol.GCServerMsgStringSend((char *)this->NightRateChangeMsg.c_str(), i, 1);
+					GSProtocol.GCServerMsgStringSend((char *)this->NightRateChangeMsg.c_str(), i, 1);
 				}
 			}
 		}

@@ -274,7 +274,7 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, CGameObject &Obj)
 		if (Obj.pntInventory[0]->m_Durability >= itMineSuccessInfo->second.iDurabilityDecrement)
 		{
 			Obj.pntInventory[0]->m_Durability -= itMineSuccessInfo->second.iDurabilityDecrement;
-			gGameProtocol.GCItemObjectDurSend(Obj.m_Index, 0, Obj.pntInventory[0]->m_Durability, 0);
+			GSProtocol.GCItemObjectDurSend(Obj.m_Index, 0, Obj.pntInventory[0]->m_Durability, 0);
 
 			if (this->SuccessOrFailure(it->second.wTwinkleType, it->second.iCurrentStage))
 			{
@@ -426,7 +426,7 @@ void CMineSystem::RewardMineTwinkle(PMSG_REQ_MINETWINKLE_REWARD *lpMsg, CGameObj
 				ServerCmd.CmdType = 0;
 				ServerCmd.X = Obj.X;
 				ServerCmd.Y = Obj.Y;
-				gGameProtocol.MsgSendV2(getGameObject(Obj.m_Index), (BYTE*)&ServerCmd, sizeof(ServerCmd));
+				GSProtocol.MsgSendV2(getGameObject(Obj.m_Index), (BYTE*)&ServerCmd, sizeof(ServerCmd));
 				IOCP.DataSend(Obj.m_Index, (BYTE*)&ServerCmd, sizeof(ServerCmd));
 			}
 
@@ -740,7 +740,7 @@ BOOL CMineSystem::CheckValidationMineState(CGameObject &Obj, WORD wTwinkleIndex,
 			Obj.AccountID, Obj.Name, byMapNumber, wTwinkleIndex);
 
 		*iResult = 20;
-		gGameProtocol.GCSendDisableReconnect(Obj.m_Index);
+		GSProtocol.GCSendDisableReconnect(Obj.m_Index);
 		//IOCP.CloseClient(Obj.m_Index);
 		return FALSE;
 	}
@@ -753,7 +753,7 @@ BOOL CMineSystem::CheckValidationMineState(CGameObject &Obj, WORD wTwinkleIndex,
 			Obj.AccountID, Obj.Name, byMapNumber, wTwinkleIndex, wTwinkleType);
 
 		*iResult = 14;
-		gGameProtocol.GCSendDisableReconnect(Obj.m_Index);
+		GSProtocol.GCSendDisableReconnect(Obj.m_Index);
 		//IOCP.CloseClient(Obj.m_Index);
 		return FALSE;
 	}
@@ -766,7 +766,7 @@ BOOL CMineSystem::CheckValidationMineState(CGameObject &Obj, WORD wTwinkleIndex,
 				Obj.AccountID, Obj.Name, byMapNumber, it->second.wTwinkleType, it->second.wTwinkleIndex, it->second.iCurrentStage);
 
 			*iResult = 7;
-			gGameProtocol.GCSendDisableReconnect(Obj.m_Index);
+			GSProtocol.GCSendDisableReconnect(Obj.m_Index);
 			//IOCP.CloseClient(Obj.m_Index);
 			return FALSE;
 		}

@@ -68,7 +68,7 @@ bool CMonsterBag::UseBag(CGameObject &Obj, int iMonsterIndex)
 		int iRuudValue = this->GetValueMinMax(this->m_BagData.dwMinGainRuud, this->m_BagData.dwMaxGainRuud);
 		Obj.m_PlayerData->Ruud += iRuudValue;
 
-		gGameProtocol.GCSendRuud(Obj.m_Index, Obj.m_PlayerData->Ruud, iRuudValue, true);
+		GSProtocol.GCSendRuud(Obj.m_Index, Obj.m_PlayerData->Ruud, iRuudValue, true);
 		return true;
 	}
 

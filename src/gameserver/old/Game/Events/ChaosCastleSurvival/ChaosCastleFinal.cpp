@@ -888,7 +888,7 @@ void ChaosCastleFinal::SendAllLoserFailMessage(int iWinnerIndex)
 				this->GD_Req_Save_CCF_Result(this->m_stCCFData.m_UserData[i].m_nIndex, getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex)->Name,
 					nPoint, this->Check_CCF_DayType());
 
-				gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,557), this->m_stCCFData.m_UserData[i].m_nIndex, 1);
+				GSProtocol.GCServerMsgStringSend(Lang.GetText(0,557), this->m_stCCFData.m_UserData[i].m_nIndex, 1);
 
 				PHeadSubSetB((BYTE*)&pMsg, 0xAF, 0x09, sizeof(pMsg));
 				pMsg.point = nPoint;
@@ -938,7 +938,7 @@ void ChaosCastleFinal::SendCCFWinMessage(int iWinnerIndex, int nPoint, bool bFin
 		PMSG_ANS_CCF_RESULT pMsg;
 		int nPoint = getGameObject(iWinnerIndex)->m_byKillMobCount + 2 * getGameObject(iWinnerIndex)->m_byKillUserCount;
 
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,558), iWinnerIndex, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,558), iWinnerIndex, 1);
 
 		PHeadSubSetB((BYTE*)&pMsg, 0xAF, 0x09, sizeof(pMsg));
 		pMsg.point = nPoint;
@@ -1635,7 +1635,7 @@ void ChaosCastleFinal::CheckUserInDieTile()
 						getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex)->DieRegen = 1;
 						getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex)->PathCount = 0;
 
-						gGameProtocol.GCDiePlayerSend(getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex),
+						GSProtocol.GCDiePlayerSend(getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex),
 							this->m_stCCFData.m_UserData[i].m_nIndex, 0, 0);
 
 						sLog->outBasic("[Chaos Castle Survival] [%s][%s] User Dead In Chaos Castle : Fall from Castle (X:%d, Y:%d)",
@@ -1670,7 +1670,7 @@ void ChaosCastleFinal::ProcessFallUser()
 				getGameObject(iFALL_INDEX)->DieRegen = 1;
 				getGameObject(iFALL_INDEX)->PathCount = 0;
 
-				gGameProtocol.GCDiePlayerSend(getGameObject(iFALL_INDEX), getGameObject(iFALL_INDEX)->m_Index, 0, 0);
+				GSProtocol.GCDiePlayerSend(getGameObject(iFALL_INDEX), getGameObject(iFALL_INDEX)->m_Index, 0, 0);
 			}
 		}
 	}
@@ -2350,7 +2350,7 @@ int ChaosCastleFinal::ObjSetPosition(CGameObject &Obj, int iX, int iY)
 		IOCP.DataSend(Obj.m_Index, (UCHAR *)&pMove2, pMove2.h.size);
 	}
 
-	gGameProtocol.MsgSendV2(Obj, (UCHAR *)&pMove2, pMove2.h.size);
+	GSProtocol.MsgSendV2(Obj, (UCHAR *)&pMove2, pMove2.h.size);
 
 	MapC[Obj.MapNumber].ClearStandAttr(Obj.m_OldX, Obj.m_OldY);
 	MapC[Obj.MapNumber].SetStandAttr(Obj.TX, Obj.TY);
@@ -2394,7 +2394,7 @@ void ChaosCastleFinal::GiveUserDamage(CGameObject &Obj, int iDamage)
 		getGameObject(iUserIndex)->DieRegen = 1;
 		getGameObject(iUserIndex)->PathCount = 0;
 
-		gGameProtocol.GCDiePlayerSend(getGameObject(iUserIndex), getGameObject(iUserIndex)->m_Index, 0, 0);
+		GSProtocol.GCDiePlayerSend(getGameObject(iUserIndex), getGameObject(iUserIndex)->m_Index, 0, 0);
 	}
 }
 
@@ -2412,7 +2412,7 @@ void ChaosCastleFinal::SendFailMessage(int iLoserIndex)
 
 	int nPoint = getGameObject(iLoserIndex)->m_byKillMobCount + 2 * getGameObject(iLoserIndex)->m_byKillUserCount;
 	this->GD_Req_Save_CCF_Result(iLoserIndex, getGameObject(iLoserIndex)->Name, nPoint, this->Check_CCF_DayType());
-	gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,559), iLoserIndex, 1);
+	GSProtocol.GCServerMsgStringSend(Lang.GetText(0,559), iLoserIndex, 1);
 
 	PMSG_ANS_CCF_RESULT pMsg;
 	PHeadSubSetB((BYTE*)&pMsg, 0xAF, 0x09, sizeof(pMsg));
@@ -2525,7 +2525,7 @@ BOOL ChaosCastleFinal::LevelUp(CGameObject &Obj, int iAddExp)
 
 	if (getGameObject(iUserIndex)->Level >= g_ConfigRead.data.common.UserMaxLevel)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,45), getGameObject(iUserIndex)->m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,45), getGameObject(iUserIndex)->m_Index, 1);
 		return 0;
 	}
 
@@ -2565,7 +2565,7 @@ BOOL ChaosCastleFinal::LevelUp(CGameObject &Obj, int iAddExp)
 		getGameObject(iUserIndex)->Mana = getGameObject(iUserIndex)->MaxMana;
 		gObjNextExpCal(getGameObject(iUserIndex));
 		gObjSetBP(iUserIndex);
-		gGameProtocol.GCLevelUpMsgSend(getGameObject(iUserIndex)->m_Index, 1);
+		GSProtocol.GCLevelUpMsgSend(getGameObject(iUserIndex)->m_Index, 1);
 		gObjCalcMaxLifePower(getGameObject(iUserIndex)->m_Index);
 		sLog->outBasic("Level Up [%s][%s][%d]", getGameObject(iUserIndex)->AccountID, getGameObject(iUserIndex)->Name, getGameObject(iUserIndex)->Level);
 		return 0;
@@ -2661,7 +2661,7 @@ void ChaosCastleFinal::CCF_Start_Fail_So_RollBack()
 				getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex)->m_PlayerData->Money += iPAYBACK_MONEY;
 				int iNOW_MONEY = getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex)->m_PlayerData->Money;
 
-				gGameProtocol.GCMoneySend(this->m_stCCFData.m_UserData[i].m_nIndex, getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex)->m_PlayerData->Money);
+				GSProtocol.GCMoneySend(this->m_stCCFData.m_UserData[i].m_nIndex, getGameObject(this->m_stCCFData.m_UserData[i]->m_nIndex)->m_PlayerData->Money);
 				gObjMoveGate(this->m_stCCFData.m_UserData[i].m_nIndex, 333);
 				sLog->outBasic("[Chaos Castle Survival][CCF_Start_Fail_So_RollBack] INDEX: %d ", this->m_stCCFData.m_UserData[i].m_nIndex);
 
@@ -2876,7 +2876,7 @@ BOOL ChaosCastleFinal::PayUserEnterMoney(CGameObject &Obj, int nCCFType)
 	}
 
 	getGameObject(iUserIndex)->m_PlayerData->Money -= g_nCCF_EnterFee[nCCFType);
-	gGameProtocol.GCMoneySend(iUserIndex, getGameObject(iUserIndex)->m_PlayerData->Money);
+	GSProtocol.GCMoneySend(iUserIndex, getGameObject(iUserIndex)->m_PlayerData->Money);
 
 	return TRUE;
 }
@@ -3160,7 +3160,7 @@ void ChaosCastleFinal::SendAllMemberOfCCF(int index)
 			{
 				char szMsg[128];
 				wsprintf(szMsg, "[CCF Entry]-> No.%d, Name:%s, Level:%d, MasterLevel:%d, Class%d", i, Obj.Name, Obj.Level, Obj.m_PlayerData->MasterLevel, Obj.Class);
-				gGameProtocol.GCServerMsgStringSend(szMsg, index, 1);
+				GSProtocol.GCServerMsgStringSend(szMsg, index, 1);
 			}
 		}
 	}
@@ -3351,7 +3351,7 @@ void ChaosCastleFinal::SetUBFGetReward(CGameObject &Obj, WORD wItemCode, UINT64 
 	}
 
 	gObjInventoryDeleteItem(iUserIndex, btItemPos);
-	gGameProtocol.GCInventoryItemDeleteSend(iUserIndex, btItemPos, 0);
+	GSProtocol.GCInventoryItemDeleteSend(iUserIndex, btItemPos, 0);
 
 	this->GDReqSetCCFReward_UBF(iUserIndex, this->Check_CCF_DayType(), 0);
 }

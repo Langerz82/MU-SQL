@@ -453,13 +453,13 @@ void CDevilSquareGround::SendScore()
 			(*(Itor))->m_PlayerData->Money += (*(Itor))->m_nEventMoney;
 		}
 
-		gGameProtocol.GCMoneySend((*(Itor))->m_Index, (*(Itor))->m_PlayerData->Money);
+		GSProtocol.GCMoneySend((*(Itor))->m_Index, (*(Itor))->m_PlayerData->Money);
 
 		if ( ret == true )
 		{
 			if ( iExp > 0 )
 			{
-				gGameProtocol.GCKillPlayerExpSend((*(Itor))->m_Index, (WORD)-1, iExp, 0, 0);
+				GSProtocol.GCKillPlayerExpSend((*(Itor))->m_Index, (WORD)-1, iExp, 0, 0);
 			}
 		}
 

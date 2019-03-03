@@ -145,7 +145,6 @@ struct PMSG_LAUNCHERERROR
 	BYTE ERRORCODE;
 };
 
-struct STR_CS_USER;
 struct STR_CS_USER
 {
 	STR_CS_USER() {}
@@ -785,6 +784,21 @@ struct PMSG_HELLO {
 	PBMSG_HEAD h;
 	UCHAR result;
 };
+
+struct _tagMuRummyCardUpdateDS
+{
+	_tagMuRummyCardUpdateDS()
+	{
+		this->btSlotNum = -1;
+		this->btSeq = -1;
+		this->btStatus = -1;
+	}
+
+	BYTE btSlotNum;
+	BYTE btSeq;
+	BYTE btStatus;
+};
+
 
 
 #endif

@@ -234,7 +234,7 @@ BOOL CMoveCommand::CheckEquipmentToMove(CGameObject &Obj, int iTargetMapNumber)
 
 		if ( Obj.m_RecallMon >= 0 )
 		{
-			gGameProtocol.GCRecallMonLife(Obj.m_Index, 60, 0);
+			GSProtocol.GCRecallMonLife(Obj.m_Index, 60, 0);
 			gObjMonsterCallKill(Obj.m_Index);
 		}
 	}
@@ -343,29 +343,29 @@ BOOL CMoveCommand::Move(CGameObject &Obj, int iMapIndex)
 	{
 		if (g_MaxStatsInfo.GetClass.IsNonPvP[Obj.MapNumber])
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,305), Obj.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,305), Obj.m_Index, 1);
 			return FALSE;
 		}
 
 		if ( !g_GensSystem.IsUserBattleZoneEnable(lpObj) )
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,499), Obj.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,499), Obj.m_Index, 1);
 			return FALSE;
 		}
 
 		if ( IMPERIAL_MAP_RANGE(Obj.MapNumber) != FALSE )
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,499), Obj.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,499), Obj.m_Index, 1);
 			return FALSE;
 		}
 
 		if ( IT_MAP_RANGE(Obj.MapNumber) != FALSE )
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,499), Obj.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,499), Obj.m_Index, 1);
 			return FALSE;
 		}
 
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,500), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,500), Obj.m_Index, 1);
 		g_GensSystem.MoveInBattleZonePartySplit(lpObj);
 	}
 	//sLog->outBasic("#4 TEST %d", g_CastleSiegeSync.GetCastleState());
@@ -427,7 +427,7 @@ BOOL CMoveCommand::Move(CGameObject &Obj, int iMapIndex)
 						Obj.m_bPShopRedrawAbs = true;
 						Obj.m_PlayerData->Money -= NeedZen;
 
-						gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
+						GSProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 
 						if (Obj.MapNumber == MAP_INDEX_HATCHERY)//Season 4.5 addon
 						{
@@ -439,14 +439,14 @@ BOOL CMoveCommand::Move(CGameObject &Obj, int iMapIndex)
 				}
 				else
 				{
-					gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 37), Obj.m_Index, 1);
+					GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 37), Obj.m_Index, 1);
 				}
 			}
 			else
 			{
 				char szTemp[256];
 				wsprintf(szTemp, Lang.GetText(0, 30), NeedLevel);
-				gGameProtocol.GCServerMsgStringSend(szTemp, Obj.m_Index, 1);
+				GSProtocol.GCServerMsgStringSend(szTemp, Obj.m_Index, 1);
 			}
 		}
 		else
@@ -460,7 +460,7 @@ BOOL CMoveCommand::Move(CGameObject &Obj, int iMapIndex)
 						Obj.m_bPShopRedrawAbs = true;
 						Obj.m_PlayerData->Money -= NeedZen;
 
-						gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
+						GSProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 
 						if (Obj.MapNumber == MAP_INDEX_HATCHERY)//Season 4.5 addon
 						{
@@ -472,14 +472,14 @@ BOOL CMoveCommand::Move(CGameObject &Obj, int iMapIndex)
 				}
 				else
 				{
-					gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 37), Obj.m_Index, 1);
+					GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 37), Obj.m_Index, 1);
 				}
 			}
 			else
 			{
 				char szTemp[256];
 				wsprintf(szTemp, Lang.GetText(0, 30), NeedLevel);
-				gGameProtocol.GCServerMsgStringSend(szTemp, Obj.m_Index, 1);
+				GSProtocol.GCServerMsgStringSend(szTemp, Obj.m_Index, 1);
 			}
 		}
 	}
@@ -508,29 +508,29 @@ BOOL CMoveCommand::Move(CGameObject &Obj, LPSTR mapname)
 	{
 		if (g_MaxStatsInfo.GetClass.IsNonPvP[Obj.MapNumber])
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 305), Obj.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 305), Obj.m_Index, 1);
 			return FALSE;
 		}
 
 		if (!g_GensSystem.IsUserBattleZoneEnable(lpObj))
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 499), Obj.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 499), Obj.m_Index, 1);
 			return FALSE;
 		}
 
 		if (IMPERIAL_MAP_RANGE(Obj.MapNumber) != FALSE)
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 499), Obj.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 499), Obj.m_Index, 1);
 			return FALSE;
 		}
 
 		if (IT_MAP_RANGE(Obj.MapNumber) != FALSE)
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 499), Obj.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 499), Obj.m_Index, 1);
 			return FALSE;
 		}
 
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 500), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 500), Obj.m_Index, 1);
 		g_GensSystem.MoveInBattleZonePartySplit(lpObj);
 	}
 	//sLog->outBasic("#4 TEST %d", g_CastleSiegeSync.GetCastleState());
@@ -592,7 +592,7 @@ BOOL CMoveCommand::Move(CGameObject &Obj, LPSTR mapname)
 						Obj.m_bPShopRedrawAbs = true;
 						Obj.m_PlayerData->Money -= NeedZen;
 
-						gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
+						GSProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 
 						if (Obj.MapNumber == MAP_INDEX_HATCHERY)//Season 4.5 addon
 						{
@@ -604,7 +604,7 @@ BOOL CMoveCommand::Move(CGameObject &Obj, LPSTR mapname)
 				}
 				else
 				{
-					gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 37), Obj.m_Index, 1);
+					GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 37), Obj.m_Index, 1);
 				}
 			}
 			else
@@ -618,7 +618,7 @@ BOOL CMoveCommand::Move(CGameObject &Obj, LPSTR mapname)
 							Obj.m_bPShopRedrawAbs = true;
 							Obj.m_PlayerData->Money -= NeedZen;
 
-							gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
+							GSProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 
 							if (Obj.MapNumber == MAP_INDEX_HATCHERY)//Season 4.5 addon
 							{
@@ -630,7 +630,7 @@ BOOL CMoveCommand::Move(CGameObject &Obj, LPSTR mapname)
 					}
 					else
 					{
-						gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 37), Obj.m_Index, 1);
+						GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 37), Obj.m_Index, 1);
 					}
 				}
 			}
@@ -639,7 +639,7 @@ BOOL CMoveCommand::Move(CGameObject &Obj, LPSTR mapname)
 		{
 			char szTemp[256];
 			wsprintf(szTemp, Lang.GetText(0, 30), NeedLevel);
-			gGameProtocol.GCServerMsgStringSend(szTemp, Obj.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend(szTemp, Obj.m_Index, 1);
 		}
 	}
 

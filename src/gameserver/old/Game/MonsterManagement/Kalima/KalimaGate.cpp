@@ -110,7 +110,7 @@ BOOL CKalimaGate::CreateKalimaGate(CGameObject &Obj, BYTE btLevel, BYTE cTX, BYT
 
 		if ( Obj.m_cKalimaGateExist == TRUE )
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,150), iIndex, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,150), iIndex, 1);
 			sLog->outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate - Already Have Gate (SummonIndex:%d)",
 				Obj.AccountID, Obj.Name, Obj.m_iKalimaGateIndex);
 			return false;
@@ -223,7 +223,7 @@ void CKalimaGate::KalimaGateAct(CGameObject &Obj)
 	{
 		sLog->outBasic("[Kalima] Kalima Gate Vanished - Summoner Vanished (SummonIndex:%d, EnterCount:%d)",
 			iIndex, Obj.m_cKalimaGateEnterCount );
-		gGameProtocol.GCDiePlayerSend( Obj, iIndex, 0, 0);
+		GSProtocol.GCDiePlayerSend( Obj, iIndex, 0, 0);
 		gObjDel(Obj.m_Index);
 		gObjCharZeroSet(Obj.m_Index);
 		return;
@@ -423,7 +423,7 @@ BOOL CKalimaGate::DeleteKalimaGate(CGameObject &Obj, CGameObject &ObjOwner)
 
 	__try
 	{
-		gGameProtocol.GCDiePlayerSend( getGameObject(iKalimaGateIndex), iKalimaGateIndex, 0 , 0);
+		GSProtocol.GCDiePlayerSend( getGameObject(iKalimaGateIndex), iKalimaGateIndex, 0 , 0);
 		getGameObject(iCallOwnerIndex)->m_cKalimaGateExist = FALSE;
 		getGameObject(iCallOwnerIndex)->m_iKalimaGateIndex = -1;
 		gObjDel(iKalimaGateIndex);
@@ -482,7 +482,7 @@ BOOL CKalimaGate::CreateKalimaGate2(CGameObject &Obj, int iMonMapNumber, BYTE cT
 
 		if ( Obj.m_cKalimaGateExist == TRUE )
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,150), iIndex, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,150), iIndex, 1);
 
 			sLog->outBasic("[Kalima] [%s][%s] Failed to Summon Kalima Gate (NextMap) - Already Have Gate (SummonIndex:%d)",
 				Obj.AccountID, Obj.Name, Obj.m_iKalimaGateIndex);
@@ -589,7 +589,7 @@ void CKalimaGate::KalimaGateAct2(CGameObject &Obj)
 		sLog->outBasic("[Kalima] Kalima Gate Vanished (NextMap) - Summoner Vanished (SummonIndex:%d, EnterCount:%d)",
 			iIndex, Obj.m_cKalimaGateEnterCount);
 
-		gGameProtocol.GCDiePlayerSend(Obj, iIndex, 0, 0);
+		GSProtocol.GCDiePlayerSend(Obj, iIndex, 0, 0);
 		gObjDel(Obj.m_Index);
 		gObjCharZeroSet(Obj.m_Index);
 

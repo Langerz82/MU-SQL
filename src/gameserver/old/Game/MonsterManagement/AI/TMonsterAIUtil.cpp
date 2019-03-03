@@ -466,7 +466,7 @@ void TMonsterAIUtil::SendChattingMsg(int iObjIndex, char* lpszMsg, ...)
 
 			if ( ObjectMaxRange(tObjNum) )
 			{
-				gGameProtocol.ChatTargetSend(lpObj, szChat, tObjNum);
+				GSProtocol.ChatTargetSend(lpObj, szChat, tObjNum);
 			}
 		}
 	}

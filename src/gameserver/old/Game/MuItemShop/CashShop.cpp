@@ -857,7 +857,7 @@ void CItemObjectShop::GCCashInventoryItemUse(CGameObject &Obj, int Result, int U
 
 	if (Iter->second.btItemType == 4)
 	{
-		gGameProtocol.GCJoinBillCheckSend(Obj.AccountID, Obj.m_Index);
+		GSProtocol.GCJoinBillCheckSend(Obj.AccountID, Obj.m_Index);
 	}
 }
 

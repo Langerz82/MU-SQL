@@ -66,8 +66,8 @@ void CGuardian::GuardianAct(CGameObject &Obj)
 							if (getGameObject(tObjNum)->BP > getGameObject(tObjNum)->MaxBP)
 								getGameObject(tObjNum)->BP = getGameObject(tObjNum)->MaxBP;
 
-							gGameProtocol.GCReFillSend(tObjNum, getGameObject(tObjNum)->Life, 0xFF, 1, getGameObject(tObjNum)->iShield);
-							gGameProtocol.GCManaSend(tObjNum, getGameObject(tObjNum)->Mana, 0xFF, 0, getGameObject(tObjNum)->BP);
+							GSProtocol.GCReFillSend(tObjNum, getGameObject(tObjNum)->Life, 0xFF, 1, getGameObject(tObjNum)->iShield);
+							GSProtocol.GCManaSend(tObjNum, getGameObject(tObjNum)->Mana, 0xFF, 0, getGameObject(tObjNum)->BP);
 						}
 					}
 				}

@@ -370,14 +370,14 @@ SHOP_DATA * CShopMng::GetShop(CGameObject &Obj, CGameObject &Npc)
 	{
 		if (Obj.m_PlayerData->VipType == 0)
 		{
-			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 579), Obj.m_Index);
+			GSProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 579), Obj.m_Index);
 		}
 
 		else
 		{
 			char szMsg[256];
 			sprintf(szMsg, Lang.GetText(0, 605), g_VipSystem.GetVipName(Obj.m_PlayerData->VipType), g_VipSystem.GetVipName(ItShopData->btReqVipLevel));
-			gGameProtocol.ChatTargetSend(lpNpc, szMsg, Obj.m_Index);
+			GSProtocol.ChatTargetSend(lpNpc, szMsg, Obj.m_Index);
 		}
 
 		return NULL;
@@ -387,7 +387,7 @@ SHOP_DATA * CShopMng::GetShop(CGameObject &Obj, CGameObject &Npc)
 	{
 		if ((Obj.Authority & 0x20) != 0x20 || (Obj.GameMaster & GM_USE_GMSHOP) != GM_USE_GMSHOP)
 		{
-			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 580), Obj.m_Index);
+			GSProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 580), Obj.m_Index);
 			return NULL;
 		}
 	}
@@ -395,9 +395,9 @@ SHOP_DATA * CShopMng::GetShop(CGameObject &Obj, CGameObject &Npc)
 	if (ItShopData->m_ShopData.ItemCount < 1)
 	{
 		if ((rand() % 2) != 0)
-			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 51), Obj.m_Index);
+			GSProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 51), Obj.m_Index);
 		else
-			gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 52), Obj.m_Index);
+			GSProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 52), Obj.m_Index);
 
 		return NULL;
 	}
@@ -424,9 +424,9 @@ SHOP_DATA * CShopMng::GetShop(CGameObject &Obj, CGameObject &Npc)
 		if (bPlayerKiller == TRUE) //season 2.5 changed
 		{
 			if ((rand() % 2) != 0)
-				gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 53), Obj.m_Index);
+				GSProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 53), Obj.m_Index);
 			else
-				gGameProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 54), Obj.m_Index);
+				GSProtocol.ChatTargetSend(lpNpc, Lang.GetText(0, 54), Obj.m_Index);
 
 			return NULL;
 		}
@@ -703,15 +703,15 @@ void CCancelItemSale::DGAnsSoldItemList(BYTE* lpRecv)
 	{
 		if (lpMsg->btResult == 1)
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 626), iIndex, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 626), iIndex, 1);
 		}
 
 		else if (lpMsg->btResult == 2)
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 625), iIndex, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 625), iIndex, 1);
 		}
 
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 624), iIndex, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 624), iIndex, 1);
 	}
 
 	else
@@ -804,15 +804,15 @@ void CCancelItemSale::DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg)
 	{
 		if (lpMsg->btResult == 1)
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 626), iIndex, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 626), iIndex, 1);
 		}
 
 		else if (lpMsg->btResult == 2)
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 625), iIndex, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 625), iIndex, 1);
 		}
 
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 624), iIndex, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 624), iIndex, 1);
 		pMsg.btResult = lpMsg->btResult;
 		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 	}
@@ -821,7 +821,7 @@ void CCancelItemSale::DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg)
 	{
 		if (Obj.m_PlayerData->Money < lpMsg->dwSellPrice)
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 623), iIndex, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 623), iIndex, 1);
 			pMsg.btResult = 1;
 			IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 			return;
@@ -834,7 +834,7 @@ void CCancelItemSale::DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg)
 
 		if (CheckInventoryEmptySpace(Obj, p->Height * lpMsg->wItemCount, p->Width * lpMsg->wItemCount) == FALSE)
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 622), iIndex, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 622), iIndex, 1);
 			pMsg.btResult = 1;
 			IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 			return;
@@ -843,11 +843,11 @@ void CCancelItemSale::DGAnsGetReBuyItem(SDHP_ANS_SHOP_REBUY_GET_ITEM *lpMsg)
 		for (int i = 0; i < lpMsg->wItemCount; i++)
 		{
 			BYTE pos = gObjInventoryInsertItem(iIndex, Item);
-			gGameProtocol.GCInventoryItemOneSend(iIndex, pos);
+			GSProtocol.GCInventoryItemOneSend(iIndex, pos);
 		}
 
 		Obj.m_PlayerData->Money -= lpMsg->dwSellPrice;
-		gGameProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
+		GSProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
 
 		pMsg.btResult = 0;
 		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);

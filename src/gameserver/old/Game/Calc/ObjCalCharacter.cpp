@@ -1702,7 +1702,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 	if (Obj.iShield > (Obj.iMaxShield + Obj.iAddShield))
 	{
 		Obj.iShield = Obj.iMaxShield + Obj.iAddShield;
-		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+		GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 	}
 
 	int nEffectValue = 0;
@@ -1718,7 +1718,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		if (Obj.iShield > (Obj.iMaxShield + Obj.iAddShield))
 		{
 			Obj.iShield = Obj.iMaxShield + Obj.iAddShield;
-			gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+			GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 		}
 	}
 
@@ -1730,7 +1730,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		if ((Obj.MaxMana + Obj.AddMana) < Obj.Mana)
 		{
 			Obj.Mana = Obj.MaxMana + Obj.AddMana;
-			gGameProtocol.GCManaSend(Obj.m_Index, Obj.Mana, 0xFF, 0, Obj.BP);
+			GSProtocol.GCManaSend(Obj.m_Index, Obj.Mana, 0xFF, 0, Obj.BP);
 		}
 	}
 
@@ -1742,14 +1742,14 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		if ((Obj.MaxLife + Obj.AddLife) < Obj.Life)
 		{
 			Obj.Life = Obj.MaxLife + Obj.AddLife;
-			gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+			GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 		}
 	}
 
-	gGameProtocol.GCReFillSend(Obj.m_Index, iTotalMaxLife, 0xFE, 0, iTotalMaxShield);
-	gGameProtocol.GCManaSend(Obj.m_Index, iTotalMaxMana, 0xFE, 0, Obj.MaxBP + Obj.AddBP);
+	GSProtocol.GCReFillSend(Obj.m_Index, iTotalMaxLife, 0xFE, 0, iTotalMaxShield);
+	GSProtocol.GCManaSend(Obj.m_Index, iTotalMaxMana, 0xFE, 0, Obj.MaxBP + Obj.AddBP);
 	g_StatSpec.SendOptionList(Obj.;
-	gGameProtocol.GCSendAttackSpeed(Obj.m_Index);
+	GSProtocol.GCSendAttackSpeed(Obj.m_Index);
 
 #ifdef ENABLE_CUSTOM_ITEMOPTION
 	gItemOption.CalCItemObjectCommonOption(Obj. 0);
@@ -1769,8 +1769,8 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 	pAddStats.cmdadd = Obj.AddLeadership;
 	IOCP.DataSend(Obj.m_Index, (BYTE*)&pAddStats, pAddStats.h.size); */
 
-	gGameProtocol.GCPlayerStatsPanelNew(Obj.m_Index);
-	gGameProtocol.GCPlayerStatsPanelRates(Obj.m_Index);
+	GSProtocol.GCPlayerStatsPanelNew(Obj.m_Index);
+	GSProtocol.GCPlayerStatsPanelRates(Obj.m_Index);
 
 	for (int n = 0; n < INVENTORY_SIZE; n++)
 	{
@@ -2230,7 +2230,7 @@ void CObjCalCharacter::SetItemApply(CGameObject &Obj)
 	if ((Obj.MaxLife + Obj.AddLife) < Obj.Life)
 	{
 		Obj.Life = Obj.MaxLife + Obj.AddLife;
-		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+		GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 	}
 
 	gObjSetBP(lpObj);
@@ -2238,7 +2238,7 @@ void CObjCalCharacter::SetItemApply(CGameObject &Obj)
 	if ((Obj.MaxMana + Obj.AddMana) < Obj.Mana)
 	{
 		Obj.Mana = Obj.MaxMana + Obj.AddMana;
-		gGameProtocol.GCManaSend(Obj.m_Index, Obj.Mana, 0xFF, 0, Obj.BP);
+		GSProtocol.GCManaSend(Obj.m_Index, Obj.Mana, 0xFF, 0, Obj.BP);
 	}
 
 	Obj.m_Defense += Obj.m_PlayerData->SetOpAddDefence * 10 / 20;

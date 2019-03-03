@@ -2,7 +2,7 @@
 
 #include "resource.h"
 #include "WzUdp.h"
-#include "wsJoinServerCli.h"
+//#include "wsJoinServerCli.h"
 #include "IOCP.h"
 
 extern HWND hWnd;

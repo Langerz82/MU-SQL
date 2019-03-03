@@ -461,7 +461,7 @@ int QuestExpUserMng::SendQuestReward(int iEpisode, int iObjIndex)
 
 			if (gObjLevelUp(getGameObject(iObjIndex), iExp, 0, Lang.GetText(0,308)) == true)
 			{
-				gGameProtocol.GCKillPlayerMasterExpSend(iObjIndex, -1, iExp, 0, 0);
+				GSProtocol.GCKillPlayerMasterExpSend(iObjIndex, -1, iExp, 0, 0);
 			}
 
 			strcat(LogBuff, "Reward Exp [%s][%s] Exp[%I64d] Ep[%d] QS[%d]");
@@ -474,7 +474,7 @@ int QuestExpUserMng::SendQuestReward(int iEpisode, int iObjIndex)
 			RewardZen* pRewardZen = static_cast<RewardZen*>(pQuestExpReward);
 
 			getGameObject(iObjIndex)->m_PlayerData->Money += pRewardZen->GetRewardZen();
-			gGameProtocol.GCMoneySend(iObjIndex, getGameObject(iObjIndex)->m_PlayerData->Money);
+			GSProtocol.GCMoneySend(iObjIndex, getGameObject(iObjIndex)->m_PlayerData->Money);
 
 			strcat(LogBuff, "Reward Money [%s][%s] Money[%d] Ep[%d] QS[%d]");
 			sLog->outBasic(LogBuff, getGameObject(iObjIndex)->AccountID, getGameObject(iObjIndex)->Name, pRewardZen->GetRewardZen(), iEpisode, iQuestSwitch);
@@ -562,7 +562,7 @@ int QuestExpUserMng::SendQuestReward(int iEpisode, int iObjIndex)
 			char client_msg[128] = "";
 			wsprintf(client_msg, Lang.GetText(0,564), iContributePt, g_GensSystem.GetContributePoint(getGameObject(iObjIndex)));
 
-			gGameProtocol.GCServerMsgStringSend(client_msg, iObjIndex, 1);
+			GSProtocol.GCServerMsgStringSend(client_msg, iObjIndex, 1);
 		}
 		break;
 

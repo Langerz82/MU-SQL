@@ -365,7 +365,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					{
 						gCloseMsgTime = 300;
 						gCloseMsg=1;
-						gGameProtocol.AllSendServerMsg( Lang.GetText(0,38) );
+						GSProtocol.AllSendServerMsg( Lang.GetText(0,38) );
 					}
 					break;
 				case ID_DISCONNECTWITHMESSAGE_3MINUTES:
@@ -373,7 +373,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					{
 						gCloseMsgTime = 180;
 						gCloseMsg=2;
-						gGameProtocol.AllSendServerMsg(Lang.GetText(0,39) );
+						GSProtocol.AllSendServerMsg(Lang.GetText(0,39) );
 					}
 					break;
 				case ID_DISCONNECTWITHMESSAGE_1MINUTE:
@@ -381,7 +381,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					{
 						gCloseMsgTime = 60;
 						gCloseMsg=3;
-						gGameProtocol.AllSendServerMsg(Lang.GetText(0,40) );
+						GSProtocol.AllSendServerMsg(Lang.GetText(0,40) );
 					}
 					break;
 				case ID_EVENTS_RELOADBC:
@@ -820,7 +820,7 @@ LRESULT CALLBACK GSDisconnect(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 									GDReqBanUser(i, 1, 1);
 								}
 
-								//gGameProtocol.GCSendDisableReconnect(i);
+								//GSProtocol.GCSendDisableReconnect(i);
 								IOCP.CloseClient(i);
 								break;
 							}
@@ -859,7 +859,7 @@ LRESULT CALLBACK GSDisconnect(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 									GDReqBanUser(i, 0, 1);
 								}
 
-								//gGameProtocol.GCSendDisableReconnect(i);
+								//GSProtocol.GCSendDisableReconnect(i);
 								IOCP.CloseClient(i);
 								break;
 							}

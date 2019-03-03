@@ -229,7 +229,7 @@ void CRuudStore::CGReqBuyItem(PMSG_REQ_RUUD_STORE_BUYITEM * lpMsg, CGameObject &
 
 	Obj.m_PlayerData->Ruud -= It->second.dwRuudPrice;
 
-	gGameProtocol.GCSendRuud(iIndex, Obj.m_PlayerData->Ruud, 0, false);
+	GSProtocol.GCSendRuud(iIndex, Obj.m_PlayerData->Ruud, 0, false);
 
 	if (It->second.Item.m_Type == ITEMGET(5, 41) || It->second.Item.m_Type == ITEMGET(3, 19) || It->second.Item.m_Type == ITEMGET(0, 46) || It->second.Item.m_Type == ITEMGET(5, 43) || It->second.Item.m_Type == ITEMGET(2, 22) || It->second.Item.m_Type == ITEMGET(0, 42) || It->second.Item.m_Type == ITEMGET(4, 28) || It->second.Item.m_Type == ITEMGET(4, 34) || It->second.Item.m_Type == ITEMGET(5, 41) || It->second.Item.m_Type == ITEMGET(0, 44) )
 	{

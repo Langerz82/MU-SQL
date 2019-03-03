@@ -40,6 +40,7 @@ struct WHISPER_STRUCT;
 struct SKILL_INFO;
 struct MUUN_EFFECT_LIST;
 struct STR_CONNECT_USER;
+//struct STR_ACTION_STATE;
 
 std::map<int, CGameObject*> gGameObjects;
 std::map<int, CGameObject*> gGameUserObjects;
@@ -565,7 +566,7 @@ public:
 		this->cCertifyType = certify_type;
 		this->PayCode = pay;
 		this->EndTime = end_time;
-		strcpy(this->EndsDays, ends_days);
+		std::strcpy(this->EndsDays, ends_days);
 		return TRUE;
 	}	// line : 237
 

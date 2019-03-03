@@ -670,7 +670,7 @@ void COfflineLevelling::CheckAndPickUpItem(CGameObject &Obj, CMapItem* cMapItem,
 		PMSG_ITEMGETREQUEST pItemGetReq;
 		pItemGetReq.NumberH = SET_NUMBERH(tObjNum);
 		pItemGetReq.NumberL = SET_NUMBERL(tObjNum);
-		gGameProtocol.CGItemGetRequest(&pItemGetReq,Obj.m_Index, pItemGetReq.NumberH, pItemGetReq.NumberL);
+		GSProtocol.CGItemGetRequest(&pItemGetReq,Obj.m_Index, pItemGetReq.NumberH, pItemGetReq.NumberL);
 	}
 }
 
@@ -773,7 +773,7 @@ void COfflineLevelling::CheckRepairItems(CGameObject &Obj)
 				if (!IsRepairItem(Obj.pntInventory[i]->m_Type))
 					continue;
 
-				gGameProtocol.ItemDurRepaire(lpObj,&Obj.pntInventory[i],i,1);
+				GSProtocol.ItemDurRepaire(lpObj,&Obj.pntInventory[i],i,1);
 			}
 		}
 	}

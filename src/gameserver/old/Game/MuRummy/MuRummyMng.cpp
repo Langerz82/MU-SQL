@@ -288,7 +288,7 @@ void CMuRummyMng::CGReqMuRummyEventOpen(PMSG_REQ_MURUMMY_EVENT_OPEN *lpMsg, CGam
 	if (pMuRummyInfo->IsWaitReward() == true)
 	{
 		//sLog->outBasic("[MuRummy][DebugLog][%s][%s] Waiting Item Reward(Req Open)", Obj.AccountID, Obj.Name);
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,561), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,561), Obj.m_Index, 1);
 		return;
 	}
 
@@ -403,7 +403,7 @@ void CMuRummyMng::CGReqMuRummyStart(PMSG_REQ_MURUMMY_INFO *lpMsg, CGameObject &O
 				//sLog->outBasic("[%s][%s][Mu Rummy] Event Start", Obj.AccountID, Obj.Name);
 				//sLog->outBasic("[%s][%s][Mu Rummy] Event Card register success (%I64d)", Obj.AccountID, Obj.Name, Obj.pntEventInventory[x]->m_Number);
 				gObjEventInventoryDeleteItem(Obj.m_Index, x);
-				gGameProtocol.GCEventInventoryItemDeleteSend(Obj.m_Index, x, 1);
+				GSProtocol.GCEventInventoryItemDeleteSend(Obj.m_Index, x, 1);
 				bItem = true;
 				break;
 			}
@@ -1223,7 +1223,7 @@ void CMuRummyMng::CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, CGameObject &Obj)
 	if (pCMuRummyInfo->IsWaitReward() == true)
 	{
 		//sLog->outBasic("[MuRummy][DebugLog][%s][%s] Waiting Item Reward(Req End)", Obj.AccountID, Obj.Name);
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,561), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,561), Obj.m_Index, 1);
 		return;
 	}
 
@@ -1287,7 +1287,7 @@ void CMuRummyMng::CGReqMuRummyEnd(PMSG_REQ_MURUMMY_END *lpMsg, CGameObject &Obj)
 			{
 				this->GCSendMsg(Obj.m_Index, 10, 0);
 				Obj.m_PlayerData->Money += 500000;
-				gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
+				GSProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 
 				PMSG_ANS_MURUMMY_END pMsg;
 				pMsg.btResult = 1;
@@ -1484,7 +1484,7 @@ void CMuRummyMng::GDAnsCardInfo(PMSG_ANS_MURUMMY_SELECT_DS *lpMsg)
 		return;
 	}
 
-	gGameProtocol.GCSendEventBanner(Obj.m_Index, 0);
+	GSProtocol.GCSendEventBanner(Obj.m_Index, 0);
 
 	if (lpMsg->btResult)
 	{

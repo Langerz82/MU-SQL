@@ -90,7 +90,7 @@ void CUnityBattleField::GDReqJoinUnityBattleField(CGameObject &Obj)
 
 	if (Obj.m_bPShopOpen == true)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 633), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 633), Obj.m_Index, 1);
 		sLog->outBasic("[UBF][GDReqJoinUnityBattleField][%s][%s][%s][ServerCode:%d] Opened PShop can't be to Join UnityBattleField.",
 			Obj.AccountID, Obj.m_PlayerData->m_RealNameOfUBF, Obj.Name, Obj.m_PlayerData->m_nServerCodeOfHomeWorld);
 
@@ -213,13 +213,13 @@ void CUnityBattleField::DGAnsCopyCharacterInfo(CGameObject &Obj, BYTE result, BY
 
 	if (result != TRUE)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 630), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 630), Obj.m_Index, 1);
 		sLog->outBasic("[UBF][DGAnsCopyCharcterInfo][%s][%s] Character Move(Copy Fail) Result: %d (2,3:Fail), ErrCode: %d (2:No UserInfo / 3: No CharSlot)",
 			Obj.AccountID, Obj.Name, result, subResult);
 		return;
 	}
 
-	gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 629), Obj.m_Index, 1);
+	GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 629), Obj.m_Index, 1);
 	sLog->outBasic("[UBF][DGAnsCopyCharcterInfo][%s][%s] Character Move(Copy) Result: %d (1:Succes) ",
 		Obj.AccountID, Obj.Name, result);
 
@@ -323,7 +323,7 @@ void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCan
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
 		sLog->outBasic("[UBF][GDReqCancelUnityBattleField][%s][%s] In UBF, Can not be canceled", Obj.AccountID, Obj.Name);
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 628), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 628), Obj.m_Index, 1);
 		return;
 	}
 
@@ -358,7 +358,7 @@ void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCan
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
 		sLog->outBasic("[UBF][GDReqCancelUnityBattleField][%s][%s] In UBF, Can not be canceled", Obj.AccountID, Obj.Name);
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 628), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 628), Obj.m_Index, 1);
 		return;
 	}
 
@@ -392,7 +392,7 @@ void CUnityBattleField::DGAnsCancelUnityBattleField(CGameObject &Obj, BYTE aCanc
 
 	if (aCanceledResult == TRUE)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 627), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 627), Obj.m_Index, 1);
 		Obj.m_PlayerData->m_JoinUnityBattle = false;
 	}
 

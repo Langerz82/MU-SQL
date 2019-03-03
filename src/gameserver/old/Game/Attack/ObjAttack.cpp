@@ -293,7 +293,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 			if (magicsend)
 			{
-				gGameProtocol.GCMagicAttackNumberSend(lpObj, skill, TargetObj.m_Index, skillSuccess);
+				GSProtocol.GCMagicAttackNumberSend(lpObj, skill, TargetObj.m_Index, skillSuccess);
 			}
 
 			return TRUE;
@@ -322,13 +322,13 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 			if (bCheckAttackIsMagicType == FALSE)
 			{
-				gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
+				GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
 				return TRUE;
 			}
 
 			if (TargetObj.Class == 673)
 			{
-				gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
+				GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
 				return TRUE;
 			}
 		}
@@ -343,7 +343,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 		if (TargetObj.m_MonsterSkillElementInfo.m_iSkillElementImmuneAllTime > 0) //season4
 		{
-			gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 32, 0);
+			GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 32, 0);
 			return TRUE;
 		}
 
@@ -1085,7 +1085,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 				AttackDamage = AttackDamage + ((AttackDamage * g_ConfigRead.pet.SatanAddDamage) / 100); // 
 			}
 
-			gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+			GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 		}
 
 		if (gObjAngelSprite(TargetObj) == TRUE)
@@ -1133,7 +1133,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 				g_ConfigRead.m_ItemCalcLua.Generic_Call("Wings_CalcIncAttack", "iii>i", AttackDamage, Wing->m_Type, Wing->m_Level, &AttackDamage);
 			}
 
-			gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+			GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 		}
 
 		if (gObjWingSprite(TargetObj) == TRUE)
@@ -1251,7 +1251,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 				AttackDamage = AttackDamage * 115 / 100;
 			}
 
-			gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+			GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 		}
 
 		if (gObjDenorantSprite(TargetObj))
@@ -1269,7 +1269,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 				AttackDamage = AttackDamage * dinorantdecdamage / 100;
 			}
 
-			gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+			GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 		}
 
 		if (gObjDarkHorse(TargetObj))
@@ -1288,7 +1288,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 				AttackDamage = AttackDamage * decdamage / 100;
 			}
 
-			gGameProtocol.GCReFillSend(TargetObj.m_Index, TargetObj.Life, 0xFF, 0, TargetObj.iShield);
+			GSProtocol.GCReFillSend(TargetObj.m_Index, TargetObj.Life, 0xFF, 0, TargetObj.iShield);
 		}
 
 		if (TargetObj.Live)
@@ -1370,7 +1370,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 					Obj.Life = Obj.MaxLife + Obj.AddLife;
 				}
 
-				gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+				GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 			}
 			break;
 			case 216:
@@ -1399,7 +1399,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 						{
 							if (gObjCheckPowerfulEffect(TargetObj, BUFFTYPE_SLEEP, Time, 0) == TRUE)
 							{
-								gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_SLEEP, TargetObj.m_Index, 0);
+								GSProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_SLEEP, TargetObj.m_Index, 0);
 							}
 							else
 							{
@@ -1409,12 +1409,12 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 					}
 					else
 					{
-						gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
+						GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
 					}
 				}
 				else
 				{
-					gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
+					GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
 				}
 			}
 			return 0;
@@ -1436,7 +1436,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 				if (SuccessRate < rand() % 100)
 				{
-					gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
+					GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
 					return 0;
 				}
 
@@ -1446,7 +1446,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 					{
 						if (gObjCheckPowerfulEffect(TargetObj, BUFFTYPE_CURSED_ATTACK_DOWN, Value, 0) == TRUE)
 						{
-							gGameProtocol.GCMagicAttackNumberSend(lpObj, skill, TargetObj.m_Index, 0);
+							GSProtocol.GCMagicAttackNumberSend(lpObj, skill, TargetObj.m_Index, 0);
 							return 0;
 						}
 						else
@@ -1457,7 +1457,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 					}
 					else
 					{
-						gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
+						GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
 						return 0;
 					}
 				}
@@ -1481,7 +1481,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 				if (SuccessRate < rand() % 100)
 				{
-					gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
+					GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
 					return 0;
 				}
 
@@ -1491,7 +1491,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 					{
 						if (gObjCheckPowerfulEffect(TargetObj, BUFFTYPE_CURSED_DEFENSE_DOWN, Value, 0) == TRUE)
 						{
-							gGameProtocol.GCMagicAttackNumberSend(lpObj, skill, TargetObj.m_Index, 0);
+							GSProtocol.GCMagicAttackNumberSend(lpObj, skill, TargetObj.m_Index, 0);
 							return 0;
 						}
 						else
@@ -1502,7 +1502,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 					}
 					else
 					{
-						gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
+						GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
 						return 0;
 					}
 				}
@@ -2179,7 +2179,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 						if (rand() % 100 > iSuccessRate)
 						{
-							gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
+							GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
 							return FALSE;
 						}
 
@@ -2188,13 +2188,13 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 						if (iEffectTime < 1)
 						{
-							gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
+							GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
 							return FALSE;
 						}
 
 						if (gObjCheckPowerfulEffect(TargetObj, BUFFTYPE_WEAKEN, iEffectValue, 0) == TRUE)
 						{
-							gGameProtocol.GCMagicAttackNumberSend(lpObj, 459, TargetObj.m_Index, FALSE);
+							GSProtocol.GCMagicAttackNumberSend(lpObj, 459, TargetObj.m_Index, FALSE);
 							return FALSE;
 						}
 
@@ -2223,7 +2223,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 						if (rand() % 100 > iSuccessRate)
 						{
-							gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
+							GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
 							return FALSE;
 						}
 
@@ -2232,13 +2232,13 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 						if (iEffectTime < 1)
 						{
-							gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
+							GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
 							return FALSE;
 						}
 
 						if (gObjCheckPowerfulEffect(TargetObj, BUFFTYPE_INNOVATE, iEffectValue, 0) == TRUE)
 						{
-							gGameProtocol.GCMagicAttackNumberSend(lpObj, 460, TargetObj.m_Index, FALSE);
+							GSProtocol.GCMagicAttackNumberSend(lpObj, 460, TargetObj.m_Index, FALSE);
 							return FALSE;
 						}
 
@@ -2326,7 +2326,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 							Obj.Life = Obj.AddLife + Obj.MaxLife;
 						}
 
-						gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+						GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 
 						if (rand() % 100 <= 30)
 						{
@@ -2352,25 +2352,25 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 						if (rand() % 100 > (iSuccessRate + fSkillValue))
 						{
-							gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
+							GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
 							return FALSE;
 						}
 
 						if (iEffectTime < 1)
 						{
-							gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
+							GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
 							return FALSE;
 						}
 
 						if (gObjCheckUsedBuffEffect(TargetObj, BUFFTYPE_IRON_DEFENSE) == true || gObjCheckUsedBuffEffect(TargetObj, BUFFTYPE_IRON_DEFENSE_STR) == true)
 						{
-							gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
+							GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
 							return FALSE;
 						}
 
 						if (gObjCheckPowerfulEffect(TargetObj, BUFFTYPE_SLEEP, iEffectTime, 0) == TRUE)
 						{
-							gGameProtocol.GCMagicAttackNumberSend(lpObj, 219, TargetObj.m_Index, FALSE);
+							GSProtocol.GCMagicAttackNumberSend(lpObj, 219, TargetObj.m_Index, FALSE);
 							return FALSE;
 						}
 
@@ -2414,7 +2414,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 							Obj.Life = Obj.AddLife + Obj.MaxLife;
 						}
 
-						gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+						GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 					}
 					break;
 					case AT_MSKILL_DW_ICESTORM1:
@@ -2489,7 +2489,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			if (gObjCheckUsedBuffEffect(TargetObj, BUFFTYPE_TEMPLE_PROTECTION) == TRUE)
 			{
 				AttackDamage = 0;
-				gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
+				GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, 0, 0);
 				return 0;
 			}
 
@@ -2790,7 +2790,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 									lpEquipment->m_Durability = 0.0f;
 								}
 
-								gGameProtocol.GCItemObjectDurSend(TargetObj.m_Index, iEquipmentPos, lpEquipment->m_Durability, 0);
+								GSProtocol.GCItemObjectDurSend(TargetObj.m_Index, iEquipmentPos, lpEquipment->m_Durability, 0);
 							}
 						}
 					}
@@ -3039,7 +3039,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 								lpEquipment->m_Durability = 0.0f;
 							}
 
-							gGameProtocol.GCItemObjectDurSend(TargetObj.m_Index, item_num[iEquipmentPos], (BYTE)lpEquipment->m_Durability, 0);
+							GSProtocol.GCItemObjectDurSend(TargetObj.m_Index, item_num[iEquipmentPos], (BYTE)lpEquipment->m_Durability, 0);
 						}
 					}
 				}
@@ -3053,8 +3053,8 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			if (gObjCheckUsedBuffEffect(TargetObj, BUFFTYPE_STONE) == FALSE)
 			{
 				gObjRemoveBuffEffect(TargetObj, BUFFTYPE_STONE);
-				gGameProtocol.GCMagicCancelSend(TargetObj, 51);
-				gGameProtocol.GCMagicCancelSend(TargetObj, 424);
+				GSProtocol.GCMagicCancelSend(TargetObj, 51);
+				GSProtocol.GCMagicCancelSend(TargetObj, 424);
 			}
 		}
 
@@ -3096,7 +3096,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			{
 				gObjAddMsgSendDelay(TargetObj, 4, Obj.m_Index, 100, 0);
 				TargetObj.m_iMonsterBattleDelay = 10;
-				gGameProtocol.GCActionSend(TargetObj, 126, TargetObj.m_Index, Obj.m_Index);
+				GSProtocol.GCActionSend(TargetObj, 126, TargetObj.m_Index, Obj.m_Index);
 			}
 		}
 	}
@@ -3153,24 +3153,24 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 	if (ManaChange)
 	{
-		gGameProtocol.GCManaSend(TargetObj.m_Index, TargetObj.Mana, 0xFF, 0, TargetObj.BP);
+		GSProtocol.GCManaSend(TargetObj.m_Index, TargetObj.Mana, 0xFF, 0, TargetObj.BP);
 	}
 
 	if (magicsend)
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, skill, TargetObj.m_Index, skillSuccess);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, skill, TargetObj.m_Index, skillSuccess);
 	}
 
 	if (bCombo)
 	{
-		gGameProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_COMBO, TargetObj.m_Index, skillSuccess);
+		GSProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_COMBO, TargetObj.m_Index, skillSuccess);
 	}
 
 	if (Obj.Type == OBJ_USER)
 	{
 		if (Obj.m_Change == 9)
 		{
-			gGameProtocol.GCMagicAttackNumberSend(lpObj, 3, TargetObj.m_Index, 1);
+			GSProtocol.GCMagicAttackNumberSend(lpObj, 3, TargetObj.m_Index, 1);
 		}
 	}
 
@@ -3566,7 +3566,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 	{
 		if (Obj.Type != OBJ_MONSTER || Obj.m_iPentagramMainAttribute <= 0)
 		{
-			gGameProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, MsgDamage, 0);
+			GSProtocol.GCDamageSend(Obj.m_Index, TargetObj.m_Index, 0, 0, MsgDamage, 0);
 		}
 	}
 
@@ -3772,12 +3772,12 @@ BOOL CObjAttack::PentagramAttack(CGameObject &Obj, CGameObject lpTargetObj, CMag
 		{
 			if (PentagramDamageType2)
 			{
-				gGameProtocol.GCElementalDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, PentagramDamageType2);
+				GSProtocol.GCElementalDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, PentagramDamageType2);
 			}
 
 			else
 			{
-				gGameProtocol.GCElementalDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, PentagramDamageType1);
+				GSProtocol.GCElementalDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, PentagramDamageType1);
 			}
 		}
 
@@ -3831,7 +3831,7 @@ BOOL CObjAttack::PentagramAttack(CGameObject &Obj, CGameObject lpTargetObj, CMag
 
 			if (lpTargetObj.Type == OBJ_USER)
 			{
-				gGameProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
+				GSProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
 			}
 
 			if (PentagramDamageType2)
@@ -5368,7 +5368,7 @@ int CObjAttack::GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int i
 	{
 		if (!CC_MAP_RANGE(lpTargetObj.MapNumber) && lpTargetObj.MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 		{
-			gGameProtocol.GCSendEffectInfo(lpTargetObj.m_Index, 17);
+			GSProtocol.GCSendEffectInfo(lpTargetObj.m_Index, 17);
 		}
 	}
 

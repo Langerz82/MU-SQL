@@ -600,7 +600,7 @@ void GensSystem::PkPenaltyDropInvenItem(CGameObject &Obj)
 					pDropItem.px = Obj.X;
 					pDropItem.py = Obj.Y;
 
-					if (gGameProtocol.CGItemDropRequest(&pDropItem, Obj.m_Index, 1) == true)
+					if (GSProtocol.CGItemDropRequest(&pDropItem, Obj.m_Index, 1) == true)
 					{
 					}
 
@@ -849,7 +849,7 @@ void GensSystem::CalcContributePoint(CGameObject &Obj, CGameObject lpTargetObj)
 					
 							if (Obj.m_PlayerData->m_GensClass > 9 && iAddBonusValue + iAddValue >= this->GetNextContributePoint(lpObj))
 							{
-								gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,369), Obj.m_Index, 1);
+								GSProtocol.GCServerMsgStringSend(Lang.GetText(0,369), Obj.m_Index, 1);
 							}
 
 							this->AddContributePoint(lpObj, iAddValue);				
@@ -860,7 +860,7 @@ void GensSystem::CalcContributePoint(CGameObject &Obj, CGameObject lpTargetObj)
 							{
 								this->AddContributePoint(lpObj, iAddBonusValue);
 
-								gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,370), Obj.m_Index, 1);
+								GSProtocol.GCServerMsgStringSend(Lang.GetText(0,370), Obj.m_Index, 1);
 
 							}
 						}
@@ -937,13 +937,13 @@ int GensSystem::AbusingPenalty(CGameObject &Obj, int iKillUserIndex)
 		{
 			char szMsg[128];
 			wsprintf(szMsg, Lang.GetText(0,372), m_iGensAbusingPenaltyWarning, m_iGensAbusingPenaltyLimit);
-			gGameProtocol.GCServerMsgStringSend(szMsg, Obj.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend(szMsg, Obj.m_Index, 1);
 			return false;
 		}
 
 		else if (iKillUserCnt >= this->m_iGensAbusingPenaltyLimit)
 		{
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,371), Obj.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,371), Obj.m_Index, 1);
 
 			EnterCriticalSection((LPCRITICAL_SECTION)&criti);
 		
@@ -1014,8 +1014,8 @@ void GensSystem::MoveInBattleZonePartySplit(CGameObject &Obj)
 		if (pindex >= 0)
 		{
 			pMsg.Number = pindex;
-			gGameProtocol.CGPartyDelUser(&pMsg, Obj.m_Index, 0); 
-			gGameProtocol.GCResultSend(Obj.m_Index, 0x41, 0x7);
+			GSProtocol.CGPartyDelUser(&pMsg, Obj.m_Index, 0); 
+			GSProtocol.GCResultSend(Obj.m_Index, 0x41, 0x7);
 		}
 	}
 };

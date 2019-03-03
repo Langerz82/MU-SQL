@@ -85,11 +85,11 @@ void CGuardianStatue::GuardianStatueAct(CGameObject &Obj)
 
 							if( bIsMaxLife ) 
 							{
-								gGameProtocol.GCReFillSend(tObjNum, getGameObject(tObjNum)->Life, 0xFF, 1, getGameObject(tObjNum)->iShield);
+								GSProtocol.GCReFillSend(tObjNum, getGameObject(tObjNum)->Life, 0xFF, 1, getGameObject(tObjNum)->iShield);
 							}
 							if( bIsMaxMana || bIsMaxBP )
 							{
-								gGameProtocol.GCManaSend(tObjNum, getGameObject(tObjNum)->Mana, 0xFF, 0, getGameObject(tObjNum)->BP);
+								GSProtocol.GCManaSend(tObjNum, getGameObject(tObjNum)->Mana, 0xFF, 0, getGameObject(tObjNum)->BP);
 							}
 						}
 					}

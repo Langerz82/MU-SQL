@@ -6,6 +6,7 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
+#include "generalStructs.h"
 #include "QuestExpUserInfo.h"
 #include "TMonsterSkillInfo.h"
 #include "SkillDelay.h"
@@ -14,19 +15,6 @@
 
 struct CharacterNameOfUBF;
 
-struct ComboSkillData;
-struct EXC_WING_OPTION;
-struct ExMessageStateMachine;
-struct GREMORYCASE_ITEM_DATA;
-struct GUILD_INFO_STRUCT;
-struct ITEMOPTION_FOR380ITEM_EFFECT;
-
-struct MessageStateMachine;
-struct PENTAGRAM_OPTION;
-struct PENTAGRAMJEWEL_INFO;
-struct STAT_USER_OPTION;
-struct STR_CONNECT_USER;
-struct STR_USER_SHOP_REBUY_ITEM;
 
 class CUserData;
 class CAttackQueue;

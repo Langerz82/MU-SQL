@@ -76,14 +76,14 @@ void CPersonalStore::CGPShopReqSetItemPrice(PMSG_REQ_PSHOP_SETITEMPRICE * lpMsg,
 	if (gObjCheckSerial0ItemList(sitem) != FALSE)
 	{
 		MsgOutput(Obj.m_Index, Lang.GetText(0, 259));
-		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFD, 1, Obj.iShield);
+		GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFD, 1, Obj.iShield);
 
 		return;
 	}
 
 	if (gObjInventorySearchSerialNumber(getGameObject(Obj.m_Index), sitem->GetNumber()) == FALSE)
 	{
-		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFD, 1, Obj.iShield);
+		GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFD, 1, Obj.iShield);
 		return;
 	}
 
@@ -149,13 +149,13 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, CGameObject &Ob
 
 	if (g_NewPVP.IsDuel(getGameObject(Obj.m_Index)))
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 313), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 313), Obj.m_Index, 1);
 		return;
 	}
 
 	if (g_NewPVP.IsObserver(getGameObject(Obj.m_Index)))
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 314), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 314), Obj.m_Index, 1);
 		return;
 	}
 
@@ -175,21 +175,21 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, CGameObject &Ob
 
 	if (CC_MAP_RANGE(Obj.MapNumber))
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 115), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 115), Obj.m_Index, 1);
 		this->CGPShopAnsOpen(Obj.m_Index, 0);
 		return;
 	}
 
 	if (Obj.MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 563), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 563), Obj.m_Index, 1);
 		this->CGPShopAnsOpen(Obj.m_Index, 0);
 		return;
 	}
 
 	if (Obj.m_PlayerData->m_JoinUnityBattle == TRUE || g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 621), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 621), Obj.m_Index, 1);
 		this->CGPShopAnsOpen(Obj.m_Index, 0);
 		return;
 	}
@@ -267,7 +267,7 @@ void CPersonalStore::CGPShopReqOpen(PMSG_REQ_PSHOP_OPEN * lpMsg, CGameObject &Ob
 			std::memcpy(pMsg.btPShopText, lpMsg->szPShopText, sizeof(pMsg.btPShopText));
 			std::memcpy(pMsg.btName, Obj.Name, sizeof(pMsg.btName));
 
-			gGameProtocol.MsgSendV2(getGameObject(Obj.m_Index), (BYTE*)&pMsg, pMsg.h.size);
+			GSProtocol.MsgSendV2(getGameObject(Obj.m_Index), (BYTE*)&pMsg, pMsg.h.size);
 
 		}
 	}
@@ -306,13 +306,13 @@ void CPersonalStore::CGPShopReqClose(CGameObject &Obj)
 
 	if (g_NewPVP.IsDuel(getGameObject(Obj.m_Index)))
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 313), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 313), Obj.m_Index, 1);
 		return;
 	}
 
 	if (g_NewPVP.IsObserver(getGameObject(Obj.m_Index)))
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 314), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 314), Obj.m_Index, 1);
 		return;
 	}
 
@@ -334,7 +334,7 @@ void CPersonalStore::CGPShopAnsClose(CGameObject &Obj, BYTE btResult)
 	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, sizeof(pMsg));
 
 	if (btResult == 1)
-		gGameProtocol.MsgSendV2(getGameObject(Obj.m_Index), (BYTE*)&pMsg, pMsg.h.size);
+		GSProtocol.MsgSendV2(getGameObject(Obj.m_Index), (BYTE*)&pMsg, pMsg.h.size);
 }
 
 
@@ -375,15 +375,15 @@ void CPersonalStore::CGPShopReqBuyList(PMSG_REQ_BUYLIST_FROM_PSHOP * lpMsg, int 
 
 	if (Obj.m_PlayerData->ISBOT == true && g_BotSystem.GetBotType(Obj.m_Index) == BOT_SHOP)
 	{
-		gGameProtocol.GCAlterPShopVault(aSourceIndex, g_BotSystem.m_BotData[Obj.m_PlayerData->wBotIndex].m_Shop.iCoinType);
+		GSProtocol.GCAlterPShopVault(aSourceIndex, g_BotSystem.m_BotData[Obj.m_PlayerData->wBotIndex].m_Shop.iCoinType);
 	}
 	else if (Obj.m_bOff)
 	{
-		gGameProtocol.GCAlterPShopVault(aSourceIndex, g_ConfigRead.offtrade.CoinType);
+		GSProtocol.GCAlterPShopVault(aSourceIndex, g_ConfigRead.offtrade.CoinType);
 	}
 	else
 	{
-		gGameProtocol.GCAlterPShopVault(aSourceIndex, 0);
+		GSProtocol.GCAlterPShopVault(aSourceIndex, 0);
 	}
 	if (Obj.CloseCount >= 0)
 	{
@@ -399,13 +399,13 @@ void CPersonalStore::CGPShopReqBuyList(PMSG_REQ_BUYLIST_FROM_PSHOP * lpMsg, int 
 
 	if (g_NewPVP.IsDuel(getGameObject(aSourceIndex)))
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 313), aSourceIndex, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 313), aSourceIndex, 1);
 		return;
 	}
 
 	if (g_NewPVP.IsObserver(getGameObject(aSourceIndex)))
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 314), aSourceIndex, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 314), aSourceIndex, 1);
 		return;
 	}
 
@@ -421,7 +421,7 @@ void CPersonalStore::CGPShopReqBuyList(PMSG_REQ_BUYLIST_FROM_PSHOP * lpMsg, int 
 		Obj.m_PlayerData->m_JoinUnityBattle == TRUE ||
 		g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
-		gGameProtocol.GCServerMsgStringSend("Not Available in Battle Core", aSourceIndex, 1);
+		GSProtocol.GCServerMsgStringSend("Not Available in Battle Core", aSourceIndex, 1);
 		return;
 	}
 
@@ -578,13 +578,13 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 
 	if (g_NewPVP.IsDuel(getGameObject(aSourceIndex)))
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 313), aSourceIndex, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 313), aSourceIndex, 1);
 		return;
 	}
 
 	if (g_NewPVP.IsObserver(getGameObject(aSourceIndex)))
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 314), aSourceIndex, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 314), aSourceIndex, 1);
 		return;
 	}
 
@@ -649,20 +649,20 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 		if (gObjCheckSerial0ItemList(&Obj.pntInventory1[lpMsg->btItemPos]) != FALSE)
 		{
 			MsgOutput(Obj.m_Index, Lang.GetText(0, 259));
-			gGameProtocol.GCReFillSend(aSourceIndex, getGameObject(aSourceIndex)->Life, 0xFD, 1, getGameObject(aSourceIndex)->iShield);
+			GSProtocol.GCReFillSend(aSourceIndex, getGameObject(aSourceIndex)->Life, 0xFD, 1, getGameObject(aSourceIndex)->iShield);
 
 			return;
 		}
 
 		if (::gObjInventorySearchSerialNumber(getGameObject(aSourceIndex), Obj.pntInventory1[lpMsg->btItemPos)->GetNumber()) == FALSE)
 		{
-			gGameProtocol.GCReFillSend(aSourceIndex, getGameObject(aSourceIndex)->Life, 0xFD, 1, getGameObject(aSourceIndex)->iShield);
+			GSProtocol.GCReFillSend(aSourceIndex, getGameObject(aSourceIndex)->Life, 0xFD, 1, getGameObject(aSourceIndex)->iShield);
 			return;
 		}
 
 		if (::gObjInventorySearchSerialNumber(lpObj, Obj.pntInventory1[lpMsg->btItemPos]->GetNumber()) == FALSE)
 		{
-			gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFD, 1, Obj.iShield);
+			GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFD, 1, Obj.iShield);
 			return;
 		}
 
@@ -670,7 +670,7 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 		{
 			if (Obj.pntInventory1[lpMsg->btItemPos]->m_Number == (UINT64)-1)
 			{
-				gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFD, 1, Obj.iShield);
+				GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFD, 1, Obj.iShield);
 				return;
 			}
 		}
@@ -1007,7 +1007,7 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 				{
 					g_PersonalStore.gObjInventoryItemSet_PShop(Obj.m_Index, lpMsg->btItemPos, -1);
 					Obj.pntInventory1[lpMsg->btItemPos]->Clear();
-					gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, lpMsg->btItemPos, TRUE);
+					GSProtocol.GCInventoryItemDeleteSend(Obj.m_Index, lpMsg->btItemPos, TRUE);
 				}
 				if (Obj.m_bOff && Obj.m_PlayerData->ISBOT == false)
 				{
@@ -1078,8 +1078,8 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 					Obj.m_PlayerData->Money += (dwCost - round(dwCost * 0.01)); // tax
 				}
 
-				gGameProtocol.GCMoneySend(aSourceIndex, getGameObject(aSourceIndex)->m_PlayerData->Money);
-				gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
+				GSProtocol.GCMoneySend(aSourceIndex, getGameObject(aSourceIndex)->m_PlayerData->Money);
+				GSProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 
 				if (Obj.m_PlayerData->ISBOT == false)
 				{
@@ -1101,7 +1101,7 @@ void CPersonalStore::CGPShopReqBuyItem(BYTE* lpRecv, int aSourceIndex)
 				}
 				if (g_PersonalStore.PShop_CheckInventoryEmpty(Obj.m_Index) == true)
 				{
-					gGameProtocol.GCServerMsgStringSend(Lang.GetText(0, 113), Obj.m_Index, 1);
+					GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 113), Obj.m_Index, 1);
 					Obj.m_bPShopOpen = false;
 					memset(Obj.m_szPShopText, 0, sizeof(Obj.m_szPShopText));
 					g_PersonalStore.CGPShopAnsClose(Obj.m_Index, 1);

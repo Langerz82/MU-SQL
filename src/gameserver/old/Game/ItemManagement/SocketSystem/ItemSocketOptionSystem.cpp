@@ -1274,16 +1274,16 @@ void CItemObjectSocketOptionSystem::_SetWindEffect(CGameObject &Obj, BYTE btEffe
 	{
 		iAddValue = CalcEffectValue(Obj.MaxLife, wEffectValue, btEffectValueType);
 		Obj.AddLife += iAddValue;
-		gGameProtocol.GCReFillSend(Obj.m_Index, (Obj.AddLife + Obj.MaxLife), 0xFE, 0, (Obj.iMaxShield + Obj.iAddShield));
-		gGameProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+		GSProtocol.GCReFillSend(Obj.m_Index, (Obj.AddLife + Obj.MaxLife), 0xFE, 0, (Obj.iMaxShield + Obj.iAddShield));
+		GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
 	}
 	break;
 	case SEED_EFFECT_TYPE_MAX_MP_INC:
 	{
 		iAddValue = CalcEffectValue(Obj.MaxMana, wEffectValue, btEffectValueType);
 		Obj.AddMana += iAddValue;
-		gGameProtocol.GCManaSend(Obj.m_Index, (Obj.AddMana + Obj.MaxMana), 0xFE, 0, (Obj.MaxBP + Obj.AddBP));
-		gGameProtocol.GCManaSend(Obj.m_Index, Obj.Mana, 0xFF, 0, Obj.BP);
+		GSProtocol.GCManaSend(Obj.m_Index, (Obj.AddMana + Obj.MaxMana), 0xFE, 0, (Obj.MaxBP + Obj.AddBP));
+		GSProtocol.GCManaSend(Obj.m_Index, Obj.Mana, 0xFF, 0, Obj.BP);
 	}
 	break;
 	case SEED_EFFECT_TYPE_REFILL_MP_INC:
@@ -1296,8 +1296,8 @@ void CItemObjectSocketOptionSystem::_SetWindEffect(CGameObject &Obj, BYTE btEffe
 	{
 		iAddValue = CalcEffectValue(Obj.MaxBP, wEffectValue, btEffectValueType);
 		Obj.AddBP += iAddValue;
-		gGameProtocol.GCManaSend(Obj.m_Index, (Obj.AddMana + Obj.MaxMana), 0xFE, 0, (Obj.MaxBP + Obj.AddBP));
-		gGameProtocol.GCManaSend(Obj.m_Index, Obj.Mana, 0xFF, 0, Obj.BP);
+		GSProtocol.GCManaSend(Obj.m_Index, (Obj.AddMana + Obj.MaxMana), 0xFE, 0, (Obj.MaxBP + Obj.AddBP));
+		GSProtocol.GCManaSend(Obj.m_Index, Obj.Mana, 0xFF, 0, Obj.BP);
 	}
 	break;
 	case SEED_EFFECT_TYPE_REFILL_AG_INC:

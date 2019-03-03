@@ -363,7 +363,7 @@ void CChaosCastle::ProcState_Closed(int iChaosCastleIndex)
 				this->m_stChaosCastleData[iChaosCastleIndex].m_bCC_CAN_PARTY = true;
 			}
 
-			gGameProtocol.CGEventEntryNotice(EVENT_NOTIFICATION_CHAOS_CASTLE, this->m_stChaosCastleData[iChaosCastleIndex].m_bCC_CAN_ENTER ? 1 : 0);
+			GSProtocol.CGEventEntryNotice(EVENT_NOTIFICATION_CHAOS_CASTLE, this->m_stChaosCastleData[iChaosCastleIndex].m_bCC_CAN_ENTER ? 1 : 0);
 
 			if ( this->m_stChaosCastleData[iChaosCastleIndex].m_iCC_REMAIN_MSEC <= ( this->m_iCC_TIME_MIN_OPEN * 60 * 1000 ) && this->m_stChaosCastleData[iChaosCastleIndex].m_iCC_REMAIN_MSEC > 0 && (this->m_stChaosCastleData[iChaosCastleIndex].m_iCC_REMAIN_MSEC/60000) !=this->m_stChaosCastleData[iChaosCastleIndex].m_iCC_NOTIFY_COUNT)
 			{
@@ -1498,7 +1498,7 @@ void CChaosCastle::SendWinMessage(int iChaosCastleIndex, int iWinnerIndex)
 	}
 
 	g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_CHAOSCASTLE_CLEAR, getGameObject(iWinnerIndex), iChaosCastleIndex, 0);
-	gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,128), iWinnerIndex, 1);
+	GSProtocol.GCServerMsgStringSend(Lang.GetText(0,128), iWinnerIndex, 1);
 	this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[iChaosCastleSubIndex].m_bSendQuitMsg = true;
 }
 
@@ -1590,7 +1590,7 @@ void CChaosCastle::SendAllLoserFailMessage(int iChaosCastleIndex, int iWinnerInd
 					}
 
 					g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_CHAOSCASTLE_CLEAR, getGameObject(m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex), iChaosCastleIndex, 0);
-					gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,129), this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, 1);
+					GSProtocol.GCServerMsgStringSend(Lang.GetText(0,129), this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, 1);
 					this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_bSendQuitMsg = true;
 				}
 			}
@@ -1721,7 +1721,7 @@ void CChaosCastle::ProcessFallUser(int iChaosCastleIndex)
 				getGameObject(iFALL_INDEX)->DieRegen = 1;
 				getGameObject(iFALL_INDEX)->PathCount = 0;
 				
-				gGameProtocol.GCDiePlayerSend(getGameObject(iFALL_INDEX), getGameObject(iFALL_INDEX)->m_Index, 0, 0);
+				GSProtocol.GCDiePlayerSend(getGameObject(iFALL_INDEX), getGameObject(iFALL_INDEX)->m_Index, 0, 0);
 			}
 		}
 	}
@@ -1888,7 +1888,7 @@ BOOL CChaosCastle::PayUserEnterMoney(CGameObject &Obj, int iEnterLevel)
 	if ( getGameObject(iUserIndex)->m_PlayerData->Money >= ::g_iChaosCastle_EnterCost[iEnterLevel) )
 	{
 		getGameObject(iUserIndex)->m_PlayerData->Money -= ::g_iChaosCastle_EnterCost[iEnterLevel);
-		gGameProtocol.GCMoneySend(iUserIndex, getGameObject(iUserIndex)->m_PlayerData->Money);
+		GSProtocol.GCMoneySend(iUserIndex, getGameObject(iUserIndex)->m_PlayerData->Money);
 
 		return TRUE;
 	}
@@ -1930,7 +1930,7 @@ void CChaosCastle::GiveUserDamage(CGameObject &Obj, int iDamage)
 		getGameObject(iUserIndex)->DieRegen = 1;
 		getGameObject(iUserIndex)->PathCount = 0;
 		
-		gGameProtocol.GCDiePlayerSend(getGameObject(iUserIndex), getGameObject(iUserIndex)->m_Index, 0, 0);
+		GSProtocol.GCDiePlayerSend(getGameObject(iUserIndex), getGameObject(iUserIndex)->m_Index, 0, 0);
 	}
 }
 
@@ -1958,7 +1958,7 @@ BOOL CChaosCastle::LevelUp(CGameObject &Obj, int iAddExp)
 
 	if ( getGameObject(iUserIndex)->Level >= g_ConfigRead.data.common.UserMaxLevel)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,45), getGameObject(iUserIndex)->m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,45), getGameObject(iUserIndex)->m_Index, 1);
 		return 0;
 	}
 
@@ -1998,7 +1998,7 @@ BOOL CChaosCastle::LevelUp(CGameObject &Obj, int iAddExp)
 		getGameObject(iUserIndex)->Mana = getGameObject(iUserIndex)->MaxMana;
 		gObjNextExpCal(getGameObject(iUserIndex));
 		gObjSetBP(iUserIndex);
-		gGameProtocol.GCLevelUpMsgSend(getGameObject(iUserIndex)->m_Index, 1);
+		GSProtocol.GCLevelUpMsgSend(getGameObject(iUserIndex)->m_Index, 1);
 		gObjCalcMaxLifePower(getGameObject(iUserIndex)->m_Index);
 		sLog->outBasic("Level Up [%s][%s][%d]", getGameObject(iUserIndex)->AccountID, getGameObject(iUserIndex)->Name, getGameObject(iUserIndex)->Level);
 		return 0;
@@ -2406,7 +2406,7 @@ BOOL CChaosCastle::ObjSetPosition(CGameObject &Obj, int iX, int iY)
 		IOCP.DataSend(Obj.m_Index, (UCHAR *)&pMove2, pMove2.h.size);
 	}
 
-	gGameProtocol.MsgSendV2(Obj, (UCHAR *)&pMove2, pMove2.h.size);
+	GSProtocol.MsgSendV2(Obj, (UCHAR *)&pMove2, pMove2.h.size);
 
 	MapC[Obj.MapNumber].ClearStandAttr(Obj.m_OldX, Obj.m_OldY);
 	MapC[Obj.MapNumber].SetStandAttr(Obj.TX, Obj.TY);
@@ -2829,7 +2829,7 @@ void CChaosCastle::CheckUserInDieTile(int iChaosCastleIndex)
 						getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->DieRegen = 1;
 						getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->PathCount = 0;
 
-						gGameProtocol.GCDiePlayerSend(getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex),
+						GSProtocol.GCDiePlayerSend(getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex),
 							this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, 0, 0);
 
 						//sLog->outBasic("[Chaos Castle] (%d) [%s][%s] User Dead In Chaos Castle : Fall from Castle (X:%d, Y:%d)",	iChaosCastleIndex+1, getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->AccountID,
@@ -2863,7 +2863,7 @@ void CChaosCastle::PlayFailedRollBack(int iChaosCastleIndex)
 				getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex]->m_PlayerData->Money += g_iChaosCastle_EnterCost[iChaosCastleIndex] + g_iChaosCastle_GuardSetValue[iChaosCastleIndex);
 				int iNOW_MONEY = getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->m_PlayerData->Money;
 
-				gGameProtocol.GCMoneySend(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->m_PlayerData->Money);
+				GSProtocol.GCMoneySend(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, getGameObject(this->m_stChaosCastleData[iChaosCastleIndex]->m_UserData[i]->m_iIndex)->m_PlayerData->Money);
 				
 				if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 					gObjMoveGate(this->m_stChaosCastleData[iChaosCastleIndex].m_UserData[i].m_iIndex, 333);
@@ -3514,7 +3514,7 @@ void CChaosCastle::SetUBFGetReward(CGameObject &Obj, WORD wItemCode, UINT64 Item
 	}
 
 	gObjInventoryDeleteItem(iUserIndex, btItemPos);
-	gGameProtocol.GCInventoryItemDeleteSend(iUserIndex, btItemPos, 0);
+	GSProtocol.GCInventoryItemDeleteSend(iUserIndex, btItemPos, 0);
 	
 	this->GDReqSetUBFReward_CCBattle(iUserIndex, 0);
 }

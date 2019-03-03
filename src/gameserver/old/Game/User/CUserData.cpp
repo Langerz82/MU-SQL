@@ -50,7 +50,6 @@
 #include "GameProtocol.h"
 //#include "GameServer.h"
 #include "Gate.h"
-#include "generalStructs.h"
 #include "GensSystem.h"
 #include "GMMng.h"
 #include "gObjMonster.h"

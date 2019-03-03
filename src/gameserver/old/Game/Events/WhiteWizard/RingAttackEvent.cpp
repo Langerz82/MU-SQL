@@ -41,7 +41,7 @@ BOOL CRingMonsterHerd::MonsterHerdItemDrop(CGameObject &Obj)
 			itemnumber, 0, 0, 0, 0, 0, iIndex, 0, 0, 0, 0, 0);
 		char szTemp[256];
 		wsprintf(szTemp, Lang.GetText(0,101), Obj.Name, Lang.GetMap(0, Obj.MapNumber));	// #error Apply Deathway fix here
-		gGameProtocol.AllSendServerMsg( szTemp ); 
+		GSProtocol.AllSendServerMsg( szTemp ); 
 		sLog->outBasic("[Ring Event] White Wizard Killed by [%s][%s], MapNumber:%d",
 			Obj.AccountID, Obj.Name, Obj.MapNumber);
 
@@ -486,14 +486,14 @@ void CRingAttackEvent::ProcState_Closed()
 				{
 					char szTemp[256];
 					wsprintf(szTemp, Lang.GetText(0,102));
-					gGameProtocol.AllSendServerMsg(szTemp);
+					GSProtocol.AllSendServerMsg(szTemp);
 
 					PMSG_ANS_CL_EFFECT pMsg;
 
 					PHeadSetB((BYTE*)&pMsg, 0x9E, sizeof(pMsg));
 					pMsg.wEffectNum = 0;
 
-					gGameProtocol.DataSendAll((BYTE*)&pMsg, pMsg.h.size);
+					GSProtocol.DataSendAll((BYTE*)&pMsg, pMsg.h.size);
 
 					sLog->outBasic("[Ring Event] - Before 3 minutes - Advertise");
 				}
@@ -505,14 +505,14 @@ void CRingAttackEvent::ProcState_Closed()
 	{
 		char szTemp[256];
 		wsprintf(szTemp, Lang.GetText(0,103));
-		gGameProtocol.AllSendServerMsg(szTemp);
+		GSProtocol.AllSendServerMsg(szTemp);
 
 		PMSG_ANS_CL_EFFECT pMsg;
 
 		PHeadSetB((BYTE*)&pMsg, 0x9E, sizeof(pMsg));
 		pMsg.wEffectNum = 1;
 
-		gGameProtocol.DataSendAll((BYTE*)&pMsg, pMsg.h.size);
+		GSProtocol.DataSendAll((BYTE*)&pMsg, pMsg.h.size);
 
 		if ( this->m_bDoEvent )
 		{
@@ -589,14 +589,14 @@ void CRingAttackEvent::ProcState_Playing()
 	{
 		char szTemp[256];
 		wsprintf(szTemp, Lang.GetText(0,104));
-		gGameProtocol.AllSendServerMsg(szTemp);
+		GSProtocol.AllSendServerMsg(szTemp);
 
 		PMSG_ANS_CL_EFFECT pMsg;
 
 		PHeadSetB((BYTE*)&pMsg, 0x9E, sizeof(pMsg));
 		pMsg.wEffectNum = 2;
 
-		gGameProtocol.DataSendAll((BYTE*)&pMsg, pMsg.h.size);
+		GSProtocol.DataSendAll((BYTE*)&pMsg, pMsg.h.size);
 
 		if ( this->m_bDoEvent )
 		{
@@ -698,14 +698,14 @@ void CRingAttackEvent::Start_Menual()
 	char szTemp[256];
 
 	wsprintf(szTemp, Lang.GetText(0,103));
-	gGameProtocol.AllSendServerMsg(szTemp);
+	GSProtocol.AllSendServerMsg(szTemp);
 
 	PMSG_ANS_CL_EFFECT pMsg;
 
 	PHeadSetB((BYTE*)&pMsg, 0x9E, sizeof(pMsg));
 	pMsg.wEffectNum = 1;
 
-	gGameProtocol.DataSendAll((BYTE*)&pMsg, pMsg.h.size);
+	GSProtocol.DataSendAll((BYTE*)&pMsg, pMsg.h.size);
 	this->SetState(2);
 }
 

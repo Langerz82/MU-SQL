@@ -283,7 +283,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 					if (lpUser->PacketsPerSecond >= g_ConfigRead.PacketLimit)
 					{
 						sLog->outError("[ANTI-HACK] Packets Per Second: %d / %d", lpUser->PacketsPerSecond, g_ConfigRead.PacketLimit);
-						//gGameProtocol.GCSendDisableReconnect(uIndex);
+						//GSProtocol.GCSendDisableReconnect(uIndex);
 						IOCP.CloseClient(uIndex);
 						return 0;
 					}
@@ -340,7 +340,7 @@ bool CIOCP::RecvDataParse(_PER_IO_CONTEXT * lpIOContext, int uIndex)
 					if (lpObjUser->PacketsPerSecond >= g_ConfigRead.PacketLimit)
 					{
 						sLog->outError("[ANTI-HACK] Packets Per Second: %d / %d", lpObjUser->PacketsPerSecond, g_ConfigRead.PacketLimit);
-						//gGameProtocol.GCSendDisableReconnect(uIndex);
+						//GSProtocol.GCSendDisableReconnect(uIndex);
 						IOCP.CloseClient(uIndex);
 						return 0;
 					}

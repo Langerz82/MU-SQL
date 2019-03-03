@@ -2446,8 +2446,8 @@ void CPentagramSystem::DBANS_GetPentagramJewel(BYTE* lpRecv)
 		if (Obj.pntInventory[236]->IsItem() == TRUE)
 		{
 			this->CalcPentagramItem(Obj.m_Index, &Obj.pntInventory[236]);
-			gGameProtocol.GCReFillSend(Obj.m_Index, Obj.MaxLife + Obj.AddLife, 0xFE, 0, Obj.iAddShield + Obj.iMaxShield);
-			gGameProtocol.GCManaSend(Obj.m_Index, Obj.MaxMana + Obj.AddMana, 0xFE, 0, Obj.AddBP + Obj.MaxBP);
+			GSProtocol.GCReFillSend(Obj.m_Index, Obj.MaxLife + Obj.AddLife, 0xFE, 0, Obj.iAddShield + Obj.iMaxShield);
+			GSProtocol.GCManaSend(Obj.m_Index, Obj.MaxMana + Obj.AddMana, 0xFE, 0, Obj.AddBP + Obj.MaxBP);
 		}
 	}
 
@@ -2918,11 +2918,11 @@ BOOL CPentagramSystem::PentagramJewel_IN(CGameObject &Obj, int iPentagramItemPos
 		btRank1OptionNum, btRank1Level, btRank2OptionNum, btRank2Level, btRank3OptionNum, btRank3Level, btRank4OptionNum, btRank4Level, btRank5OptionNum, btRank5Level);
 
 	gObjInventoryDeleteItem(Obj.m_Index, iJewelItemPos);
-	gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, iJewelItemPos, 0);
-	gGameProtocol.GCAnsInJewelPentagramItem(Obj.m_Index, 1, btJewelPos, btJewelIndex, btItemType, wItemIndex, btMainAttribute, btJewelLevel, btRank1OptionNum, btRank1Level, btRank2OptionNum, btRank2Level, btRank3OptionNum, btRank3Level, btRank4OptionNum, btRank4Level, btRank5OptionNum, btRank5Level);
-	gGameProtocol.GCInventoryItemOneSend(Obj.m_Index, iPentagramItemPos);
+	GSProtocol.GCInventoryItemDeleteSend(Obj.m_Index, iJewelItemPos, 0);
+	GSProtocol.GCAnsInJewelPentagramItem(Obj.m_Index, 1, btJewelPos, btJewelIndex, btItemType, wItemIndex, btMainAttribute, btJewelLevel, btRank1OptionNum, btRank1Level, btRank2OptionNum, btRank2Level, btRank3OptionNum, btRank3Level, btRank4OptionNum, btRank4Level, btRank5OptionNum, btRank5Level);
+	GSProtocol.GCInventoryItemOneSend(Obj.m_Index, iPentagramItemPos);
 	BYTE btInOutResult = TRUE;
-	gGameProtocol.GCAnsPentagramJewelInOut(Obj.m_Index, 1);
+	GSProtocol.GCAnsPentagramJewelInOut(Obj.m_Index, 1);
 
 	BYTE ExOption[MAX_EXOPTION_SIZE];
 	ItemIsBufExOption(ExOption, &Obj.pntInventory[iPentagramItemPos]);
@@ -3037,7 +3037,7 @@ BOOL CPentagramSystem::PentagramJewel_OUT(CGameObject &Obj, int iPentagramItemPo
 
 			Obj.pntInventory[iPentagramItemPos]->m_SocketOption[btSocketIndex] = 0xFE;
 			this->DelPentagramJewelInfo(Obj.m_Index, 0, iJewelDBIndex);
-			gGameProtocol.GCInventoryItemOneSend(Obj.m_Index, iPentagramItemPos);
+			GSProtocol.GCInventoryItemOneSend(Obj.m_Index, iPentagramItemPos);
 			return iReturnValue;
 		}
 	}

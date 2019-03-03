@@ -128,7 +128,7 @@ int CChangeCmd::DoChange(CGameObject &Obj) // -1 - system off, 0 - no change mad
 			}
 
 			Obj.m_PlayerData->Money += It->second.CoinValue;
-			gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
+			GSProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 		}
 
 		else
@@ -139,7 +139,7 @@ int CChangeCmd::DoChange(CGameObject &Obj) // -1 - system off, 0 - no change mad
 		MsgOutput(Obj.m_Index, Lang.GetText(0, 638), Obj.pntInventory[i]->GetName(), It->second.CoinValue, szCoinNames[It->second.CoinType]);
 
 		gObjInventoryDeleteItem(Obj.m_Index, i);
-		gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, i, 1);
+		GSProtocol.GCInventoryItemDeleteSend(Obj.m_Index, i, 1);
 
 		iItemChangeCnt++;
 	}

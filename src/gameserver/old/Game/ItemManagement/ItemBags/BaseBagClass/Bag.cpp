@@ -287,7 +287,7 @@ int CBag::GetReadyItemToUse(CGameObject &Obj, CItemObject &pItem, time_t & Durat
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{
 		Obj.m_PlayerData->Money += this->m_BagData.dwDropMoney;
-		gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
+		GSProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 		MsgOutput(Obj.m_Index, "Obtained %d Zen", this->m_BagData.dwDropMoney);
 
 		return 2;
@@ -298,7 +298,7 @@ int CBag::GetReadyItemToUse(CGameObject &Obj, CItemObject &pItem, time_t & Durat
 		int iRuudValue = this->GetValueMinMax(this->m_BagData.dwMinGainRuud, this->m_BagData.dwMaxGainRuud);
 		Obj.m_PlayerData->Ruud += iRuudValue;
 
-		gGameProtocol.GCSendRuud(Obj.m_Index, Obj.m_PlayerData->Ruud, iRuudValue, true);
+		GSProtocol.GCSendRuud(Obj.m_Index, Obj.m_PlayerData->Ruud, iRuudValue, true);
 		return 3;
 	}
 
@@ -373,7 +373,7 @@ void CBag::MakeBagEffectUse(CGameObject &Obj, int iMonsterIndex)
 			break;
 	}
 
-	gGameProtocol.MsgSendV2(getGameObject(Obj.m_Index), (BYTE*)&ServerCmd, ServerCmd.h.size);
+	GSProtocol.MsgSendV2(getGameObject(Obj.m_Index), (BYTE*)&ServerCmd, ServerCmd.h.size);
 	IOCP.DataSend(Obj.m_Index, (BYTE*)&ServerCmd, ServerCmd.h.size);
 }
 

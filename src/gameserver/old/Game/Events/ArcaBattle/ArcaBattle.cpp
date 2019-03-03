@@ -2157,7 +2157,7 @@ void CArcaBattle::SendPlayResult()
 				
 			if (gObjLevelUp(getGameObject(n), iRewardExp, 0, "Arca Battle") == true)
 			{
-				gGameProtocol.GCKillPlayerMasterExpSend(n, -1, iRewardExp, 0, 0);
+				GSProtocol.GCKillPlayerMasterExpSend(n, -1, iRewardExp, 0, 0);
 			}
 
 			g_GensSystem.AddContributePoint(lpObj, pUserInfo->m_stAcquiredPoints.dwContributePoints);
@@ -3025,7 +3025,7 @@ void CArcaBattle::CGReqMarkRegButtonClick(CGameObject &Obj)
 
 	if (iArcaBattleState >= ARCA_STATE_MASTER_REG && iArcaBattleState <= ARCA_STATE_CHANNEL_CLOSE)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,532), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,532), Obj.m_Index, 1);
 		pMsg.Result = CB_ARCA_MARK_REG_ERROR;
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 
@@ -3080,7 +3080,7 @@ void CArcaBattle::CGReqMarkRegButtonClick(CGameObject &Obj)
 	}
 
 	g_MixSystem.ChaosBoxInit(lpObj);
-	gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
+	GSProtocol.GCUserChaosBoxSend(lpObj, 0);
 	gObjInventoryCommit(Obj.m_Index);
 
 	pMsg.Result = CB_ARCA_MARK_REG_SUCCESS;
@@ -3202,7 +3202,7 @@ void CArcaBattle::DGAnsMarkCnt(PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *lpMsg)
 		{
 			sLog->outBasic("[%s][%s] is Already Opening PShop, ChaosBox Failed",
 				Obj.AccountID, Obj.Name);
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,112), Obj.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,112), Obj.m_Index, 1);
 
 			return;
 		}
@@ -3769,10 +3769,10 @@ void CArcaBattle::BootyExchange(CGameObject &Obj)
 	if (bReward == 2)
 	{
 		g_MixSystem.ChaosBoxInit(lpObj);
-		gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
+		GSProtocol.GCUserChaosBoxSend(lpObj, 0);
 
 		sLog->outBasic("[ArcaBattle][Booty] Mix Fail [%s][%s] ", Obj.AccountID, Obj.Name);
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,333), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,333), Obj.m_Index, 1);
 
 		pMsg.Result = CB_ERROR;
 		Obj.ChaosLock = FALSE;

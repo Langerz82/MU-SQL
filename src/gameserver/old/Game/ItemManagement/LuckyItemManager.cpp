@@ -590,12 +590,12 @@ void LuckyItemManager::LuckyItemSmelting(CGameObject &Obj)
 		if( !bGambleLuckyItemSmelting )
 		{
 			g_MixSystem.ChaosBoxInit(lpObj);
-			gGameProtocol.GCUserChaosBoxSend(lpObj, 0);
+			GSProtocol.GCUserChaosBoxSend(lpObj, 0);
 			IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 			
 			sLog->outBasic("[LuckyItem][Smelt Item Mix] Mix Fail [%s][%s] ", Obj.AccountID, Obj.Name);
 			
-			gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,505), Obj.m_Index, 0x01);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,505), Obj.m_Index, 0x01);
 			Obj.ChaosLock = false;
 			return;
 		}
@@ -608,7 +608,7 @@ void LuckyItemManager::LuckyItemSmelting(CGameObject &Obj)
 			Obj.AccountID, Obj.Name, ItemAttribute[Type].Name, Type, level, dur, Op1, Op2, Op3);
 		
 		gObjInventoryCommit(Obj.m_Index);
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,504), Obj.m_Index, 0x01);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,504), Obj.m_Index, 0x01);
 		return;
 	}
 }
@@ -680,7 +680,7 @@ int LuckyItemManager::LuckyItemRepaire(CGameObject &Obj, int source, int target)
 	
 	if( !bLuckyItemEquipment )
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,506), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,506), Obj.m_Index, 1);
 		sLog->outBasic("[LuckyItem][RepaireItemUsed] - Fail - Not LuckyItem Equipment [%s][%s] Serial[%I64d]",
 			Obj.AccountID, Obj.Name, LuckyItemEquipment->m_serial);
 		return false;
@@ -688,7 +688,7 @@ int LuckyItemManager::LuckyItemRepaire(CGameObject &Obj, int source, int target)
 	
 	if( LuckyItemEquipment->m_Durability == 0.0f )
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,507), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,507), Obj.m_Index, 1);
 		sLog->outBasic("[LuckyItem][RepaireItemUsed] - Fail - Durability Zero [%s][%s] Serial[%I64d]",
 			Obj.AccountID, Obj.Name, LuckyItemEquipment->m_serial);
 		return false;
@@ -696,7 +696,7 @@ int LuckyItemManager::LuckyItemRepaire(CGameObject &Obj, int source, int target)
 	
 	if( ItemAttribute[LuckyItemEquipment->m_Type].Durability < LuckyItemEquipment->m_Durability )
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,508), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,508), Obj.m_Index, 1);
 		sLog->outBasic("[LuckyItem][RepaireItemUsed] - Fail - Equipment Full Durability [%s][%s] Serial[%I64d]",
 			Obj.AccountID, Obj.Name, LuckyItemEquipment->m_serial);
 		return false;
@@ -711,7 +711,7 @@ int LuckyItemManager::LuckyItemRepaire(CGameObject &Obj, int source, int target)
 		LuckyItemEquipment->m_Durability = ItemAttribute[LuckyItemEquipment->m_Type].Durability;
 	}
 	
-	gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,509), Obj.m_Index, 1);
+	GSProtocol.GCServerMsgStringSend(Lang.GetText(0,509), Obj.m_Index, 1);
 	sLog->outBasic("[LuckyItem][RepaireItemUsed] - Success - [%s][%s] Serial[%I64d]",
 		Obj.AccountID, Obj.Name, LuckyItemEquipment->m_serial);
 	

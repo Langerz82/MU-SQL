@@ -457,7 +457,7 @@ BYTE CPentagramMixSystem::PentagramJewelRefine(CGameObject &Obj, int iRefineType
 
 	Obj.m_PlayerData->Money -= iPentagramMixNeedMoney;
 	g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-	gGameProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
+	GSProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
 
 	int iSuccessRate = lpRefineOptionData->RefineSuccessRate;
 	int iResultItemType = 0;
@@ -793,7 +793,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 
 		Obj.m_PlayerData->Money -= iPentagramMixNeedMoney;
 		g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-		gGameProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
+		GSProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
 
 		int iPentagramMixSuccessRate = 0;
 
@@ -1114,7 +1114,7 @@ BYTE CPentagramMixSystem::PentagramJewel_Upgrade(CGameObject &Obj, int iUpgradeT
 
 		Obj.m_PlayerData->Money -= iPentagramMixNeedMoney;
 		g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-		gGameProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
+		GSProtocol.GCMoneySend(iIndex, Obj.m_PlayerData->Money);
 
 		int iRandRate = rand() % 10000;
 
@@ -1349,7 +1349,7 @@ BOOL CPentagramMixSystem::PentagramJewelMix(CGameObject &Obj) // OK
 	}
 
 	Obj.m_PlayerData->Money -= 100000;
-	gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
+	GSProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 
 	if ((rand() % 100) < 80)
 	{

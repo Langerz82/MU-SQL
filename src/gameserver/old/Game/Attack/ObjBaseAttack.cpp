@@ -63,12 +63,12 @@ BOOL CObjBaseAttack::DecreaseArrow(CGameObject &Obj)
 				}
 
 				Left->m_Durability -= 1.0f;
-				gGameProtocol.GCItemObjectDurSend(Obj.m_Index, 1, Left->m_Durability, 0);
+				GSProtocol.GCItemObjectDurSend(Obj.m_Index, 1, Left->m_Durability, 0);
 
 				if ( Left->m_Durability < 1.0f )
 				{
 					Obj.pntInventory[1]->Clear();
-					gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, 1, 0);
+					GSProtocol.GCInventoryItemDeleteSend(Obj.m_Index, 1, 0);
 				}
 			}
 			else
@@ -324,7 +324,7 @@ BOOL CObjBaseAttack::ResistanceCheck(CGameObject &Obj, CGameObject lpTargetObj, 
 	{
 		if (lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsImmuneRate > 0.0 && lpTargetObj.m_PlayerData->m_MPSkillOpt->iMpsImmuneRate >= (rand() % 100) && !gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_INVISIBLE2))
 		{
-			gGameProtocol.GCMagicAttackNumberSend(lpTargetObj, 323, lpTargetObj.m_Index, 1);
+			GSProtocol.GCMagicAttackNumberSend(lpTargetObj, 323, lpTargetObj.m_Index, 1);
 			gObjAddBuffEffect(lpTargetObj, BUFFTYPE_INVISIBLE2, 0, 0, 0, 0, 5);
 		}
 	}
@@ -531,13 +531,13 @@ BOOL CObjBaseAttack::MissCheck(CGameObject &Obj, CGameObject lpTargetObj, int sk
 			{
 				if (g_IT_Event.CheckSkillProdection(lpTargetObj.m_nITR_Index, lpTargetObj.MapNumber) == TRUE)
 				{
-					gGameProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
+					GSProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
 					return 0;
 				}
 
 				if (lpTargetObj.PartyNumber == Obj.PartyNumber)
 				{
-					gGameProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
+					GSProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
 					return 0;
 				}
 			}
@@ -626,11 +626,11 @@ BOOL CObjBaseAttack::MissCheck(CGameObject &Obj, CGameObject lpTargetObj, int sk
 					}
 				}
 
-				gGameProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, MSBDamage, 0);
+				GSProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, MSBDamage, 0);
 
 				if (magicsend != 0 )
 				{
-					gGameProtocol.GCMagicAttackNumberSend(lpObj, skill, lpTargetObj.m_Index, skillSuccess);
+					GSProtocol.GCMagicAttackNumberSend(lpObj, skill, lpTargetObj.m_Index, skillSuccess);
 				}
 
 				return FALSE;
@@ -688,11 +688,11 @@ BOOL CObjBaseAttack::MissCheck(CGameObject &Obj, CGameObject lpTargetObj, int sk
 					}
 				}
 
-				gGameProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, MSBDamage, 0);
+				GSProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, MSBDamage, 0);
 
 				if (magicsend != 0 )
 				{
-					gGameProtocol.GCMagicAttackNumberSend(lpObj, skill, lpTargetObj.m_Index, skillSuccess);
+					GSProtocol.GCMagicAttackNumberSend(lpObj, skill, lpTargetObj.m_Index, skillSuccess);
 				}
 
 				return FALSE;
@@ -739,13 +739,13 @@ BOOL CObjBaseAttack::MissCheckPvP(CGameObject &Obj , CGameObject lpTargetObj, in
 		{
 			if (g_IT_Event.CheckSkillProdection(lpTargetObj.m_nITR_Index, lpTargetObj.MapNumber) == TRUE)
 			{
-				gGameProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
+				GSProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
 				return 0;
 			}
 
 			if (lpTargetObj.PartyNumber == Obj.PartyNumber)
 			{
-				gGameProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
+				GSProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, 0, 0);
 				return 0;
 			}
 		}
@@ -858,7 +858,7 @@ BOOL CObjBaseAttack::MissCheckPvP(CGameObject &Obj , CGameObject lpTargetObj, in
 			}
 		}
 
-		gGameProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, MsgDamage, 0);
+		GSProtocol.GCDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, 0, MsgDamage, 0);
 
 		if ( g_ConfigRead.g_bShieldComboMissOptionOn == TRUE )
 		{

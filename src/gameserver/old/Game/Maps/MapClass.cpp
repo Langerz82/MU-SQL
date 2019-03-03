@@ -326,7 +326,7 @@ void MapClass::SetWeather(BYTE a_weather, BYTE a_variation)
 
 		if (Obj.Connected > PLAYER_CONNECTED && Obj.Live != 0 && Obj.MapNumber == this->thisMapNumber)
 		{
-			gGameProtocol.CGWeatherSend(n, weather);
+			GSProtocol.CGWeatherSend(n, weather);
 		}
 	}
 }
@@ -354,7 +354,7 @@ void MapClass::WeatherVariationProcess()
 
 			if (Obj.Connected > PLAYER_CONNECTED && Obj.Live != 0 && Obj.MapNumber == this->thisMapNumber)
 			{
-				gGameProtocol.CGWeatherSend(n, weather);
+				GSProtocol.CGWeatherSend(n, weather);
 			}
 		}
 	}
@@ -655,7 +655,7 @@ BOOL MapClass::ItemGive(CGameObject &Obj, int item_num, bool bFailNotSend)
 			char szTemp[256];
 
 			wsprintf(szTemp, Lang.GetText(0, 60), Obj.Name);
-			gGameProtocol.GCServerMsgStringSend(szTemp, Obj.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend(szTemp, Obj.m_Index, 1);
 
 		}
 

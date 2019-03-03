@@ -40,9 +40,9 @@ enum ARCA_BATTLE_STATE
 
 // Data arrays
 
-struct ARCA_USER_INFO
+struct _tagARCA_USER_INFO
 {
-	ARCA_USER_INFO()
+	_tagARCA_USER_INFO()
 	{
 		this->Clear();
 	}
@@ -59,9 +59,9 @@ struct ARCA_USER_INFO
 	char szUserName[MAX_ACCOUNT_LEN + 1];
 };
 
-struct AURA_INFO
+struct _tagAURA_INFO
 {
-	AURA_INFO()
+	_tagAURA_INFO()
 	{
 		this->m_iGroupNumber = -1;
 		this->m_iMapIndex = -1;
@@ -75,9 +75,9 @@ struct AURA_INFO
 	int m_iAuraPosY;
 };
 
-struct OBELISK_INFO
+struct _tagOBELISK_INFO
 {
-	OBELISK_INFO()
+	_tagOBELISK_INFO()
 	{
 		this->Clear();
 	}
@@ -107,18 +107,18 @@ struct OBELISK_INFO
 	int m_iMonsterNum;
 	ULONGLONG m_i64Tick;
 	ULONGLONG m_i64RegenTime;
-	AURA_INFO m_stAuraInfo[3];
+	_tagAURA_INFO m_stAuraInfo[3];
 };
 
-struct ARCA_BATTLE_BOOTY_REWARD
+struct _tagARCA_BATTLE_BOOTY_REWARD
 {
-	ARCA_BATTLE_BOOTY_REWARD() {
-	  this->iItemLink = 0;
-	  this->iItemType = 0;
-	  this->iItemIndex = 0;
-	  this->iItemLevel = 0;
-	  this->iDurab = 0;
-	  this->iRate = 0;
+	_tagARCA_BATTLE_BOOTY_REWARD() {
+		this->iItemLink = 0;
+		this->iItemType = 0;
+		this->iItemIndex = 0;
+		this->iItemLevel = 0;
+		this->iDurab = 0;
+		this->iRate = 0;
 	}
 
 	int iItemLink;
@@ -128,16 +128,16 @@ struct ARCA_BATTLE_BOOTY_REWARD
 	int iDurab;
 	int iRate;
 };
-struct ARCA_BATTLE_BOOTY_MIX
+struct _tagARCA_BATTLE_BOOTY_MIX
 {
-	ARCA_BATTLE_BOOTY_MIX(){
-		  this->iItemLink = 0;
-		  this->iMinCnt = 0;
-		  this->iMaxCnt = 0;
-		  this->iBaseRate = 0;
-		  this->iAddRate = 0;
-		  this->iBootyRewardCnt = 0;
-		 
+	_tagARCA_BATTLE_BOOTY_MIX() {
+		this->iItemLink = 0;
+		this->iMinCnt = 0;
+		this->iMaxCnt = 0;
+		this->iBaseRate = 0;
+		this->iAddRate = 0;
+		this->iBootyRewardCnt = 0;
+
 	}
 
 	int iItemLink;
@@ -146,28 +146,28 @@ struct ARCA_BATTLE_BOOTY_MIX
 	int iBaseRate;
 	int iAddRate;
 	int iBootyRewardCnt;
-	ARCA_BATTLE_BOOTY_REWARD stBootyReward[20];
+	_tagARCA_BATTLE_BOOTY_REWARD stBootyReward[20];
 };
 
 struct _stABAcquiredPoints
 {
 	_stABAcquiredPoints()
-	 {
-	  this->Clear();
-	 }
-
-	 void Clear()
 	{
-	  this->dwBootyCnt = 0;
-	  this->dwContributePoints = 0;
-	  this->dwKillPoints = 0;
-	 }
+		this->Clear();
+	}
 
-	 unsigned int dwBootyCnt;
-	 unsigned int dwContributePoints;
-	 unsigned int dwKillPoints;
+	void Clear()
+	{
+		this->dwBootyCnt = 0;
+		this->dwContributePoints = 0;
+		this->dwKillPoints = 0;
+	}
+
+	unsigned int dwBootyCnt;
+	unsigned int dwContributePoints;
+	unsigned int dwKillPoints;
 };
-struct ArcaBattleUserInfo
+struct _tagArcaBattleUserInfo
 {
 	void Clear()
 	{
@@ -183,9 +183,9 @@ struct ArcaBattleUserInfo
 	_stABAcquiredPoints m_stAcquiredPoints;
 };
 
-struct AURA_STATE
+struct _tagAURA_STATE
 {
-	AURA_STATE()
+	_tagAURA_STATE()
 	{
 		this->m_iGroupNumber = -1;
 		this->m_btAuraState = 0;
@@ -199,9 +199,9 @@ struct AURA_STATE
 	int m_iIndex;
 };
 
-struct OBELISK_STATE
+struct _tagOBELISK_STATE
 {
-	OBELISK_STATE()
+	_tagOBELISK_STATE()
 	{
 		this->Clear();
 	}
@@ -225,16 +225,16 @@ struct OBELISK_STATE
 	int m_iObeliskState;
 	int m_iOccupyGuildNum;
 	char m_szOccupyGuildName[9];
-	AURA_STATE m_stAuraState[3];
+	_tagAURA_STATE m_stAuraState[3];
 };
 
-struct ARCA_BATTLE_RESULT_INFO
+struct _tagARCA_BATTLE_RESULT_INFO
 {
 	int iGuildNum;
 	int iObeliskAttrKind;
 };
 
-struct OccupyGuildInfo
+struct _tagOccupyGuildInfo
 {
 	int iObeliskGroupNum;
 	int iGuildNum;
@@ -246,25 +246,25 @@ struct _stABWinGuildInfo
 {
 	void Clear()
 	{
-		  memset(this->szGuildName, 0, MAX_GUILD_LEN+1);
-		  this->dwGuild = 0;
-		  this->wOccupyObelisk = 0;
-		  this->wObeliskGroup = 0;
+		memset(this->szGuildName, 0, MAX_GUILD_LEN + 1);
+		this->dwGuild = 0;
+		this->wOccupyObelisk = 0;
+		this->wObeliskGroup = 0;
 	}
 
-	char szGuildName[MAX_GUILD_LEN+1];
+	char szGuildName[MAX_GUILD_LEN + 1];
 	DWORD dwGuild;
 	WORD wOccupyObelisk;
 	WORD wObeliskGroup;
 };
 
-struct ARCA_BATTLE_START_TIME
+struct _tagARCA_BATTLE_START_TIME
 {
-	ARCA_BATTLE_START_TIME()
+	_tagARCA_BATTLE_START_TIME()
 	{
-		  this->m_iHour = 0;
-		  this->m_iMinute = 0;
-		  this->m_btEvent = 0;
+		this->m_iHour = 0;
+		this->m_iMinute = 0;
+		this->m_btEvent = 0;
 	}
 
 	int m_iHour;
@@ -355,9 +355,9 @@ struct _stABMonGroupInfo
 	_stABMonAccountNumInfo m_stMonsterAccountNumInfo[255];
 };
 
-struct AB_USER_AREA
+struct _tagAB_USER_AREA
 {
-	AB_USER_AREA()
+	_tagAB_USER_AREA()
 	{
 		this->map_number = -1;
 		this->beginX = -1;
@@ -384,40 +384,40 @@ struct _stAB_USER_POSITION
 
 	int group_number;
 	int area_cnt;
-	AB_USER_AREA stUserPos[10];
+	_tagAB_USER_AREA stUserPos[10];
 };
 
-struct AB_GUILD_MEMBER_INFO_LOG
+struct _tagAB_GUILD_MEMBER_INFO_LOG
 {
-	AB_GUILD_MEMBER_INFO_LOG()
-	 {
-		 this->Clear();
-	 }
+	_tagAB_GUILD_MEMBER_INFO_LOG()
+	{
+		this->Clear();
+	}
 
-	 void Clear()
-	 {
-		 this->nGuildNum = -1;
-		 this->bLogPrint = false;
-	 }
-	  int nGuildNum;
-	  bool bLogPrint;
+	void Clear()
+	{
+		this->nGuildNum = -1;
+		this->bLogPrint = false;
+	}
+	int nGuildNum;
+	bool bLogPrint;
 };
 
 struct _stAB_GUILD_MASTER_GATE_INFO
 {
-	 _stAB_GUILD_MASTER_GATE_INFO()
-	 {
+	_stAB_GUILD_MASTER_GATE_INFO()
+	{
 		this->Clear();
-	 }
+	}
 
-	 void Clear()
-	 {
-		  this->nGuildNum = -1;
-		  this->nGateNum = -1;
-	 }
+	void Clear()
+	{
+		this->nGuildNum = -1;
+		this->nGateNum = -1;
+	}
 
-	 int nGuildNum;
-	 int nGateNum;
+	int nGuildNum;
+	int nGateNum;
 };
 
 struct _stAB_GUILD_MEMBER_GATE_INFO
@@ -442,18 +442,18 @@ struct _stAB_GUILD_MEMBER_GATE_INFO
 // Protocols
 struct _stAuraInfo
 {
-  int m_iAuraPosX;
-  int m_iAuraPosY;
+	int m_iAuraPosX;
+	int m_iAuraPosY;
 };
 
 struct _stArcaBattleObeliskInfo
 {
-  int iGroupNumber;
-  int iAttrKind;
-  int iMapIndex;
-  int iPosX;
-  int iPosY;
-  _stAuraInfo m_StAuraInfo[3];
+	int iGroupNumber;
+	int iAttrKind;
+	int iMapIndex;
+	int iPosX;
+	int iPosY;
+	_stAuraInfo m_StAuraInfo[3];
 };
 
 struct PMSG_ARCA_BATTLE_PLAY_INFO
@@ -463,57 +463,68 @@ struct PMSG_ARCA_BATTLE_PLAY_INFO
 	_stArcaBattleObeliskInfo m_stObeliskInfo[5];
 };
 
+struct PMSG_REQ_REMOVE_ALL_GUILD_BUFF_DS
+{
+	PBMSG_HEAD2 h;
+	WORD wMapSvrNum;
+};
+
+struct PMSG_ANS_REMOVE_ALL_GUILD_BUFF_DS
+{
+	PBMSG_HEAD2 h;
+};
+
 struct PMSG_ANS_REMOVE_GUILD_BUFF_DS
 {
-  PBMSG_HEAD2 h;
-  char szGuildName[9];
+	PBMSG_HEAD2 h;
+	char szGuildName[9];
 };
 
 struct PMSG_SEND_AB_WIN_GUILD_INFO
 {
-  PBMSG_HEAD2 h;
-  char szGuildName[9];
+	PBMSG_HEAD2 h;
+	char szGuildName[9];
 };
 
 /* 3635 */
 struct _stObeliskLife
 {
-  char btLife;
-  char btAttribute;
+	char btLife;
+	char btAttribute;
 };
 
 /* 3636 */
 struct PMSG_SEND_OBELISK_LIFE
 {
-  PBMSG_HEAD2 h;
-  _stObeliskLife m_stObeliskLife[5];
+	PBMSG_HEAD2 h;
+	_stObeliskLife m_stObeliskLife[5];
 };
 
 struct PMSG_SEND_OBELISK_STATE
 {
-  PBMSG_HEAD2 h;
-  char btObeliskAttribute;
-  char btObeliskState;
-  char btAuraState;
+	PBMSG_HEAD2 h;
+	char btObeliskAttribute;
+	char btObeliskState;
+	char btAuraState;
 };
 
 struct PMSG_ARCA_BATTLE_OBELISK_INFO
 {
-  PBMSG_HEAD2 h;
-  char m_btObeliskAttribute;
-  char m_btAuraState[3];
+	PBMSG_HEAD2 h;
+	char m_btObeliskAttribute;
+	char m_btAuraState[3];
 };
 
 struct PMSG_ARCA_BATTLE_STATE
 {
-  PBMSG_HEAD2 h;
-  char m_btArcaBattleState;
+	PBMSG_HEAD2 h;
+	char m_btArcaBattleState;
 };
 
 struct _stABObeliskOccupy
 {
-  unsigned __int16 wObeliskKind;
-  char szGuildName[9];
+	unsigned __int16 wObeliskKind;
+	char szGuildName[9];
 };
 
 struct PMSG_AB_RESULT
@@ -527,8 +538,17 @@ struct PMSG_AB_RESULT
 	_stABObeliskOccupy m_stABObeliskOccupy[5];
 };
 
+// DS
+struct PMSG_REQ_AB_WIN_GUILD_INFO_DS
+{
+	PBMSG_HEAD2 h;
+	WORD wNumber;
+};
 
-
+struct PMSG_REQ_AB_PROC_STATE_DS
+{
+	PBMSG_HEAD2 h;
+};
 
 struct _stABWinGuildInfoDS
 {
@@ -538,37 +558,75 @@ struct _stABWinGuildInfoDS
 	WORD wObeliskGroup;
 };
 
-
+struct PMSG_REQ_AB_WIN_GUILD_INFO_INSERT_DS
+{
+	PBMSG_HEAD2 h;
+	char btGuildCnt;
+	unsigned __int16 wMapSvrNum;
+	_stABWinGuildInfoDS m_stABWinGuildInfoDS[5];
+};
 
 struct PMSG_REQ_ARCA_BATTLE_INFO_DS
 {
 	PBMSG_HEAD2 h;
 };
 
+struct PMSG_REQ_AB_PROC_INSERT_DS
+{
+	PBMSG_HEAD2 h;
+	WORD wMapSvrNum;
+	BYTE btProcState;
+};
 
+struct PMSG_REQ_AB_JOIN_MEMBER_UNDER_DS
+{
+	PBMSG_HEAD2 h;
+	WORD wMapSvrNum;
+};
 
-
-
-
+struct PMSG_REQ_AB_JOIN_CANCEL_DS
+{
+	PBMSG_HEAD2 h;
+	BYTE btMinGuildMemNum;
+	WORD wMapSvrNum;
+};
 
 struct _stCancelGuildNames
 {
 	char szGuildNames[9];
 };
 
-
+struct PMSG_ANS_AB_JOIN_CANCEL_DS
+{
+	PBMSG_HEAD2 h;
+	BYTE btGuildCnt;
+	_stCancelGuildNames CancelGuildNames[6];
+};
 
 struct PMSG_SEND_AB_JOIN_CANCEL
 {
 	PBMSG_HEAD2 h;
 };
 
+struct PMSG_ANS_AB_REG_MEMBER_CNT_DS
+{
+	PBMSG_HEAD2 h;
+	WORD wNumber;
+	BYTE btRegMemCnt;
+};
 
 struct PMSG_ANS_AB_REG_MEMBER_CNT
 {
 	PBMSG_HEAD2 h;
 	BYTE btResult;
 	BYTE btRegMemCnt;
+};
+
+struct PMSG_REQ_AB_REG_MEMBER_CNT_DS
+{
+	PBMSG_HEAD2 h;
+	int iIndex;
+	int iGuildNumber;
 };
 
 struct PMSG_ANS_REGISTERED_MEMBER_CNT
@@ -578,35 +636,141 @@ struct PMSG_ANS_REGISTERED_MEMBER_CNT
 	BYTE unk2;
 };
 
+struct PMSG_ANS_AB_WIN_GUILD_INFO_DS
+{
+	PBMSG_HEAD2 h;
+	char btGuildCnt;
+	_stABWinGuildInfoDS m_stABWinGuildInfoDS[5];
+};
 
+struct PMSG_REQ_ARCA_BATTLE_IS_TOP_RANK
+{
+	PBMSG_HEAD2 h;
+	WORD wNumber;
+	DWORD dwGuildNum;
+};
 
 struct _stArcaBattleMarkTopRankDS
 {
 	BYTE btRank;
-	char szGuildNames[MAX_GUILD_LEN+1];
+	char szGuildNames[MAX_GUILD_LEN + 1];
 	DWORD dwMarkCnt;
+};
+
+struct PMSG_ANS_ARCA_BATTLE_MARK_RANK_DS
+{
+	PBMSG_HEAD2 h;
+	WORD wNumber;
+	BYTE btRank;
+	DWORD dwMarkCnt;
+	BYTE btGuildCnt;
+	_stArcaBattleMarkTopRankDS ArcaBattleMarkTopRank[6];
+};
+
+struct PMSG_REQ_ARCA_BATTLE_MARK_RANK_DS
+{
+	PBMSG_HEAD2 h;
+	WORD wNumber;
+	DWORD dwGuildNum;
+};
+
+struct PMSG_REQ_ARCA_BATTLE_MARK_CNT_DS
+{
+	PBMSG_HEAD2 h;
+	WORD wNumber;
+	DWORD dwGuildNum;
+};
+
+struct PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	WORD wNumber;
+	DWORD dwMarkCnt;
+};
+
+struct PMSG_REQ_ARCA_BATTLE_MARK_REG_DS
+{
+	PBMSG_HEAD2 h;
+	WORD wNumber;
+	char szGuildMaster[MAX_ACCOUNT_LEN + 1];
+	char szGuildName[MAX_GUILD_LEN + 1];
+	DWORD dwMarkCnt;
+	DWORD dwGuildNum;
+};
+
+struct PMSG_REQ_ARCA_BATTLE_MARK_REG_DEL_DS
+{
+	PBMSG_HEAD2 h;
+	WORD wNumber;
+	DWORD dwGuildNum;
+};
+
+struct PMSG_REQ_AB_MARK_REG_ALL_DEL_DS
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_ANS_ARCA_BATTLE_MARK_REG_DS
+{
+	PBMSG_HEAD2 h;
+	WORD wNumber;
+};
+
+struct PMSG_REQ_ALL_GUILD_MARK_CNT_DS
+{
+	PBMSG_HEAD2 h;
 };
 
 struct _stABAllGuildMark
 {
-	char szGuildName[MAX_GUILD_LEN+1];
+	char szGuildName[MAX_GUILD_LEN + 1];
 	DWORD dwMarkCnt;
+};
+
+struct PMSG_ANS_ALL_GUILD_MARK_CNT_DS
+{
+	PWMSG_HEAD2 h;
+	WORD wGuildCnt;
+	_stABAllGuildMark ABAllGuildMark[250];
+};
+
+struct PMSG_REQ_AB_MARK_REG_UPDATE_DS
+{
+	PBMSG_HEAD2 h;
+	DWORD dwGuildNum;
+	DWORD dwMarkCnt;
+};
+
+struct PMSG_REQ_GUILD_REG_INIT
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_REQ_AB_ALL_JOIN_USER_DS
+{
+	PBMSG_HEAD h;
 };
 
 struct _stABJoinUserInfoDS
 {
-	char szGuildName[MAX_GUILD_LEN+1];
+	char szGuildName[MAX_GUILD_LEN + 1];
 	DWORD dwGuild;
-	char szUserName[MAX_ACCOUNT_LEN+1];
+	char szUserName[MAX_ACCOUNT_LEN + 1];
 };
 
-
+struct PMSG_ANS_AB_ALL_JOIN_USER_DS
+{
+	PWMSG_HEAD h;
+	BYTE btUserCnt;
+	_stABJoinUserInfoDS stABJoinUserInfo[200];
+};
 
 #pragma pack (1)
 
 struct _stABCurJoinGuildUserInfo
 {
-	char szUserName[MAX_ACCOUNT_LEN+1];
+	char szUserName[MAX_ACCOUNT_LEN + 1];
 	BYTE btStatus;
 	BYTE btPosX;
 	BYTE btPosY;
@@ -620,7 +784,7 @@ struct _stPMSG_AB_JOIN_USER_COUNT
 		this->Result = 0;
 		this->btUserCnt = 0;
 		this->iGuildNumber = 0;
-		memset(this->szGuildMasterName, 0x00, MAX_ACCOUNT_LEN+1);
+		memset(this->szGuildMasterName, 0x00, MAX_ACCOUNT_LEN + 1);
 		this->dwGuildMasterGateNum = 0;
 		this->btGuildMasterPosX = 0;
 		this->btGuildMasterPosY = 0;
@@ -652,7 +816,7 @@ struct PMSG_ARCA_BATTLE_CURRENT_STATUS
 	int iAttrKind;
 	BYTE btCurStatus;
 	DWORD dwGuild;
-	char szGuildName[MAX_GUILD_LEN+1];
+	char szGuildName[MAX_GUILD_LEN + 1];
 };
 
 struct PMSG_ANS_MARK_REG
@@ -673,7 +837,7 @@ struct PMSG_ANS_MARK_REG_ERROR_CODE
 struct _stArcaBattleMarkTopRank
 {
 	BYTE btRank;
-	char szGuildNames[MAX_GUILD_LEN+1];
+	char szGuildNames[MAX_GUILD_LEN + 1];
 	BYTE btMarkCnt1;
 	BYTE btMarkCnt2;
 	BYTE btMarkCnt3;
@@ -717,19 +881,21 @@ struct _stABJoinUserInfo
 
 	void Clear()
 	{
-		memset(this->szGuildName, 0x00, MAX_GUILD_LEN+1);
+		memset(this->szGuildName, 0x00, MAX_GUILD_LEN + 1);
 		this->dwGuild = 0;
-		memset(this->szUserName, 0x00, MAX_ACCOUNT_LEN+1);
+		memset(this->szUserName, 0x00, MAX_ACCOUNT_LEN + 1);
 		this->wGuildMasterGateNum = 0;
 	}
 
-	char szGuildName[MAX_GUILD_LEN+1];
+	char szGuildName[MAX_GUILD_LEN + 1];
 	int dwGuild;
-	char szUserName[MAX_ACCOUNT_LEN+1];
+	char szUserName[MAX_ACCOUNT_LEN + 1];
 	WORD wGuildMasterGateNum;
 };
 
 #pragma pack ()
+
+
 
 class CArcaBattle
 {
@@ -961,8 +1127,3 @@ private: // variables
 extern CArcaBattle g_ArcaBattle;
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

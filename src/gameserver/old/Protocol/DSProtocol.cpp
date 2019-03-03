@@ -7,13 +7,11 @@
 // GS-n 0.99.60T 0x0041D4D0
 // GS-N	1.00.18	JNP	0x00424550	-	Completed
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DSProtocol.h"
-#include "TLog.h"
 #include "GameMain.h"
 #include "GameServer.h"
 #include "DevilSquare.h"
-#include "./Eventos/BloodCastle/BloodCastle.h"
 #include "MapServerManager.h"
 #include "CastleSiegeSync.h"
 #include "ChaosBox.h"
@@ -21,14 +19,16 @@
 #include "TNotice.h"
 #include "SProtocol.h"
 #include "EDSProtocol.h"
-#include "protocol.h"
-#include "user.h"
-#include "giocp.h"
+#include "GameProtocol.h"
+#include "CUserData.h"
+#include "CGameObject.h"
+#include "GOFunctions.h"
+#include "IOCP.h"
 #include "ObjUseSkill.h"
 #include "PeriodItemEx.h"
 #include "BuffEffect.h"
-#include "./Eventos/BloodCastle/BloodCastle.h"
-#include "winutil.h"
+#include "BloodCastle.h"
+#include "Utility/util.h"
 #include "ObjCalCharacter.h"
 #include "CrywolfSync.h"
 #include "CashShop.h"
@@ -36,7 +36,7 @@
 #include "configread.h"
 #include "VipSys.h"
 #include "GensSystem.h"
-#include "./Eventos/ArcaBattle/ArcaBattle.h"
+#include "ArcaBattle.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "Crywolf.h"
 #include "CastleSiege.h"
@@ -51,7 +51,7 @@
 #include "MineSystem.h"
 #include "PersonalStore.h"
 #include "KeyGenerater.h"
-#include "./Eventos/AcheronGuardianEvent/AcheronGuardianEvent.h"
+#include "AcheronGuardianEvent.h"
 #include "classdef.h"
 #include "Shop.h"
 #include "GamblingSystem.h"
@@ -65,7 +65,7 @@
 
 int gMapSrvGroupOnlineServer = 0;
 
-void(*ItemSerialCreateSend)(CGameObject* lpObj, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption, time_t lDuration, BYTE *SocketOption, BYTE MainAttribute);
+void(*ItemCreate)(CGameObject* lpObj, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption, time_t lDuration, BYTE *SocketOption, BYTE MainAttribute);
 
 void DataServerProtocolCore(BYTE protoNum, unsigned char* aRecv, int aLen)
 {
@@ -473,7 +473,7 @@ void DataServerProtocolCore(BYTE protoNum, unsigned char* aRecv, int aLen)
 	break;
 
 	case 0xE5:
-		g_ArcaBattle.DGAnsArcaBattleAllJoinUser((_tagPMSG_ANS_AB_ALL_JOIN_USER_DS *)aRecv);
+		g_ArcaBattle.DGAnsArcaBattleAllJoinUser((PMSG_ANS_AB_ALL_JOIN_USER_DS *)aRecv);
 		break;
 
 	case 0xE6:
@@ -481,7 +481,7 @@ void DataServerProtocolCore(BYTE protoNum, unsigned char* aRecv, int aLen)
 		break;
 
 	case 0xE8:
-		g_CMuRummyMng.GDAnsCardInfo((_tagPMSG_ANS_MURUMMY_SELECT_DS *)aRecv);
+		g_CMuRummyMng.GDAnsCardInfo((PMSG_ANS_MURUMMY_SELECT_DS *)aRecv);
 		break;
 
 	case 0xE9:
@@ -489,7 +489,7 @@ void DataServerProtocolCore(BYTE protoNum, unsigned char* aRecv, int aLen)
 		break;
 
 	case 0xF5:
-		g_ChaosCastleFinal.DG_Ans_CCF_Rank((_tagPMSG_ANS_CCF_RANK *)aRecv);
+		g_ChaosCastleFinal.DG_Ans_CCF_Rank((PMSG_ANS_CCF_RANK *)aRecv);
 		break;
 
 	case 0xF9:
@@ -549,53 +549,53 @@ void DataServerProtocolCore(BYTE protoNum, unsigned char* aRecv, int aLen)
 			switch (lpDef1->subcode)
 			{
 			case 0x2B:
-				DGAnsArcaBattleGuildJoinSelect((_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *)aRecv);
+				DGAnsArcaBattleGuildJoinSelect((PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *)aRecv);
 				break;
 			case 0x31:
-				DGAnsArcaBattleGuildJoin((_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *)aRecv);
+				DGAnsArcaBattleGuildJoin((PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *)aRecv);
 				break;
 			case 0x33:
-				DGAnsArcaBattleGuildMemberJoin((_tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)aRecv);
+				DGAnsArcaBattleGuildMemberJoin((PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *)aRecv);
 				break;
 			case 0x35:
-				DGAnsArcaBattleEnter((_tagPMSG_ANS_ARCA_BATTLE_ENTER_DS *)aRecv);
+				DGAnsArcaBattleEnter((PMSG_ANS_ARCA_BATTLE_ENTER_DS *)aRecv);
 				break;
 			case 0x3A:
-				DGAnsArcaBattleWinGuildInfo((_tagPMSG_ANS_AB_WIN_GUILD_INFO_DS *)aRecv);
+				DGAnsArcaBattleWinGuildInfo((PMSG_ANS_AB_WIN_GUILD_INFO_DS *)aRecv);
 				break;
 			case 0x40:
-				DGReqArcaBattleProcMultiCast((_tagPMSG_ANS_AB_PROC_STATE_DS *)aRecv);
+				DGReqArcaBattleProcMultiCast((PMSG_ANS_AB_PROC_STATE_DS *)aRecv);
 				break;
 			case 0x42:
-				GDAnsJoinMemberUnder((_tagPMSG_ANS_AB_JOIN_MEMBER_UNDER_DS *)aRecv);
+				GDAnsJoinMemberUnder((PMSG_ANS_AB_JOIN_MEMBER_UNDER_DS *)aRecv);
 				break;
 			case 0x44:
-				g_ArcaBattle.DGAnsArcaBattleJoinMemberUnderReq((_tagPMSG_ANS_AB_JOIN_CANCEL_DS *)aRecv);
+				g_ArcaBattle.DGAnsArcaBattleJoinMemberUnderReq((PMSG_ANS_AB_JOIN_CANCEL_DS *)aRecv);
 				break;
 			case 0x46:
-				g_ArcaBattle.DGAnsRegisteredMemberCnt((_tagPMSG_ANS_AB_REG_MEMBER_CNT_DS *)aRecv);
+				g_ArcaBattle.DGAnsRegisteredMemberCnt((PMSG_ANS_AB_REG_MEMBER_CNT_DS *)aRecv);
 				break;
 			case 0x48:
 				g_ArcaBattle.DGAnsRemoveAllRewardBuff();
 				break;
 			case 0x4C:
-				g_ArcaBattle.DGAnsRemoveRewardBuff((_tagPMSG_ANS_REMOVE_GUILD_BUFF_DS *)aRecv);
+				g_ArcaBattle.DGAnsRemoveRewardBuff((PMSG_ANS_REMOVE_GUILD_BUFF_DS *)aRecv);
 				break;
 			case 0x4E:
-				g_ArcaBattle.DGAnsMarkCnt((_tagPMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *)aRecv);
+				g_ArcaBattle.DGAnsMarkCnt((PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *)aRecv);
 				break;
 			case 0x50:
-				g_ArcaBattle.DGAnsMarkReg((_tagPMSG_ANS_ARCA_BATTLE_MARK_REG_DS *)aRecv);
+				g_ArcaBattle.DGAnsMarkReg((PMSG_ANS_ARCA_BATTLE_MARK_REG_DS *)aRecv);
 				break;
 			case 0x52:
-				g_ArcaBattle.DGAnsMarkRank((_tagPMSG_ANS_ARCA_BATTLE_MARK_RANK_DS *)aRecv);
+				g_ArcaBattle.DGAnsMarkRank((PMSG_ANS_ARCA_BATTLE_MARK_RANK_DS *)aRecv);
 				break;
 			case 0xF1:
-				g_AcheronGuardianEvent.DGAnsAcheronEventProcMultiCast((_tagPMSG_ANS_AE_PLAY_DS *)aRecv);
+				g_AcheronGuardianEvent.DGAnsAcheronEventProcMultiCast((PMSG_ANS_AE_PLAY_DS *)aRecv);
 				break;
 			default:
 				if (aRecv[4] == 0xFC)
-					g_ArcaBattle.DGAnsAllGuildMarkCnt((_tagPMSG_ANS_ALL_GUILD_MARK_CNT_DS *)aRecv);
+					g_ArcaBattle.DGAnsAllGuildMarkCnt((PMSG_ANS_ALL_GUILD_MARK_CNT_DS *)aRecv);
 				break;
 			}
 		}
@@ -3180,7 +3180,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 			else
 			{
-				_tagPMSG_ANS_MURUMMY_END pMsg;
+				PMSG_ANS_MURUMMY_END pMsg;
 
 				PHeadSubSetB((LPBYTE)&pMsg, 0x4D, 0x15, sizeof(pMsg));
 				pMsg.btResult = TRUE;
@@ -3393,7 +3393,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 			else
 			{
-				_tagPMSG_ANS_MURUMMY_END pMsg;
+				PMSG_ANS_MURUMMY_END pMsg;
 
 				PHeadSubSetB((LPBYTE)&pMsg, 0x4D, 0x15, sizeof(pMsg));
 				pMsg.btResult = TRUE;
@@ -7032,7 +7032,7 @@ void ReqSavePlayerKiller(short kIndex, short vIndex)
 
 void GDReqArcaBattleGuildJoin(CGameObject* lpObj)
 {
-	_tagPMSG_REQ_ARCA_BATTLE_GUILD_JOIN_DS pMsg;
+	PMSG_REQ_ARCA_BATTLE_GUILD_JOIN_DS pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -7045,9 +7045,9 @@ void GDReqArcaBattleGuildJoin(CGameObject* lpObj)
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
-void DGAnsArcaBattleGuildJoin(_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg)
+void DGAnsArcaBattleGuildJoin(PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg)
 {
-	_tagPMSG_ANS_ARCA_BATTLE_JOIN pMsg;
+	PMSG_ANS_ARCA_BATTLE_JOIN pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -7057,9 +7057,9 @@ void DGAnsArcaBattleGuildJoin(_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg)
 	IOCP.DataSend(lpMsg->wNumber, (LPBYTE)&pMsg, sizeof(pMsg));
 }
 
-void DGAnsArcaBattleGuildJoinSelect(_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg)
+void DGAnsArcaBattleGuildJoinSelect(PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg)
 {
-	_tagPMSG_ANS_ARCA_BATTLE_JOIN pMsg;
+	PMSG_ANS_ARCA_BATTLE_JOIN pMsg;
 	CGameObject* lpObj = lpMsg->wNumber;
 
 	if (ObjectMaxRange(aIndex) == false)
@@ -7119,7 +7119,7 @@ void DGAnsArcaBattleGuildJoinSelect(_tagPMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMs
 
 void GDReqArcaBattleGuildMemberJoin(CGameObject* lpObj)
 {
-	_tagPMSG_REQ_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS pMsg;
+	PMSG_REQ_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -7133,9 +7133,9 @@ void GDReqArcaBattleGuildMemberJoin(CGameObject* lpObj)
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
-void DGAnsArcaBattleGuildMemberJoin(_tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *lpMsg)
+void DGAnsArcaBattleGuildMemberJoin(PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *lpMsg)
 {
-	_tagPMSG_ANS_ARCA_BATTLE_JOIN pMsg;
+	PMSG_ANS_ARCA_BATTLE_JOIN pMsg;
 	CGameObject* lpObj = lpMsg->wNumber;
 
 	if (ObjectMaxRange(aIndex) == false)
@@ -7194,7 +7194,7 @@ void DGAnsArcaBattleGuildMemberJoin(_tagPMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_D
 
 void GDReqArcaBattleEnter(CGameObject* lpObj, BYTE btEnterSeq)
 {
-	_tagPMSG_REQ_ARCA_BATTLE_ENTER_DS pMsg;
+	PMSG_REQ_ARCA_BATTLE_ENTER_DS pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.headcode = 0xF8;
@@ -7207,7 +7207,7 @@ void GDReqArcaBattleEnter(CGameObject* lpObj, BYTE btEnterSeq)
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
-void DGAnsArcaBattleEnter(_tagPMSG_ANS_ARCA_BATTLE_ENTER_DS *lpMsg)
+void DGAnsArcaBattleEnter(PMSG_ANS_ARCA_BATTLE_ENTER_DS *lpMsg)
 {
 	CGameObject* lpObj = lpMsg->wNumber;
 
@@ -7247,7 +7247,7 @@ void DGAnsArcaBattleEnter(_tagPMSG_ANS_ARCA_BATTLE_ENTER_DS *lpMsg)
 		return;
 	}
 
-	_tagPMSG_ANS_ARCA_BATTLE_JOIN pMsg;
+	PMSG_ANS_ARCA_BATTLE_JOIN pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
@@ -7257,12 +7257,12 @@ void DGAnsArcaBattleEnter(_tagPMSG_ANS_ARCA_BATTLE_ENTER_DS *lpMsg)
 	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg));
 }
 
-void DGAnsArcaBattleWinGuildInfo(_tagPMSG_ANS_AB_WIN_GUILD_INFO_DS *lpMsg)
+void DGAnsArcaBattleWinGuildInfo(PMSG_ANS_AB_WIN_GUILD_INFO_DS *lpMsg)
 {
 	g_ArcaBattle.AddArcaBattleWinGuildInfo(lpMsg->m_stABWinGuildInfoDS, lpMsg->btGuildCnt);
 }
 
-void DGReqArcaBattleProcMultiCast(_tagPMSG_ANS_AB_PROC_STATE_DS *lpMsg)
+void DGReqArcaBattleProcMultiCast(PMSG_ANS_AB_PROC_STATE_DS *lpMsg)
 {
 	if (!g_ArcaBattle.IsArcaBattleServer())
 	{
@@ -7272,9 +7272,9 @@ void DGReqArcaBattleProcMultiCast(_tagPMSG_ANS_AB_PROC_STATE_DS *lpMsg)
 	g_Log.Add("[ArcaBattle] ArcaBattle Proc State [%d]", lpMsg->btProcState);
 }
 
-void GDAnsJoinMemberUnder(_tagPMSG_ANS_AB_JOIN_MEMBER_UNDER_DS *lpMsg)
+void GDAnsJoinMemberUnder(PMSG_ANS_AB_JOIN_MEMBER_UNDER_DS *lpMsg)
 {
-	_tagPMSG_ANS_AB_JOIN_MEMBER_UNDER pMsg;
+	PMSG_ANS_AB_JOIN_MEMBER_UNDER pMsg;
 
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);

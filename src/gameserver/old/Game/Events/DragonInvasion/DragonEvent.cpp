@@ -123,14 +123,14 @@ void CDragonEvent::Start()
 	strcat(szTemp, ", ");
 	strcat(szTemp, Lang.GetText(0,63));
 
-	gGameProtocol.AllSendServerMsg(szTemp);
+	GSProtocol.AllSendServerMsg(szTemp);
 	this->EventStartTime = GetTickCount64();
 }
 	
 	
 void CDragonEvent::End()
 {
-	gGameProtocol.GCMapEventStateSend(this->m_MapNumber, 0, 1);
+	GSProtocol.GCMapEventStateSend(this->m_MapNumber, 0, 1);
 	sLog->outBasic("[Red Dragon] Event End");
 	this->EventState=0;
 	this->ClearMonster();
@@ -237,7 +237,7 @@ void CDragonEvent::Run()
 		if ( ( GetTickCount64() - this->EventStartTime ) > 3000 )
 		{
 			this->EventState = 2;
-			gGameProtocol.GCMapEventStateSend(this->m_MapNumber , 1, 1 );
+			GSProtocol.GCMapEventStateSend(this->m_MapNumber , 1, 1 );
 			sLog->outBasic("[Red Dragon] Event Start");
 			this->DragonActive();
 			this->EventStartTime = GetTickCount64();

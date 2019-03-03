@@ -250,7 +250,7 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
 {
 	if (this->m_bSystemFor380ItemOption != TRUE)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,284), Obj, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,284), Obj, 1);
 		Obj.bIsChaosMixCompleted = false;
 
 		return FALSE;
@@ -344,7 +344,7 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
 	Obj.m_PlayerData->Money -= iMixPrice;
 	g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
 
-	gGameProtocol.GCMoneySend(Obj, Obj.m_PlayerData->Money);
+	GSProtocol.GCMoneySend(Obj, Obj.m_PlayerData->Money);
 	g_MixSystem.LogChaosItem(Obj, "[380Item][Item Mix");
 	sLog->outBasic("[380Item][Item Mix] - Mix Start");
 
@@ -374,7 +374,7 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
 	if (iRate < iRateSuccess)
 	{
 		this->_SetOption(pTargetItem, TRUE);
-		gGameProtocol.GCUserChaosBoxSend(Obj, 0);
+		GSProtocol.GCUserChaosBoxSend(Obj, 0);
 
 		sLog->outBasic("[380Item][ItemMix] Mix Success [%s][%s], Money(%d-%d) Rate(%d/%d) Option(%d,%d) OptionValue(%d,%d)",
 			Obj.AccountID, Obj.Name, Obj.m_PlayerData->Money,
@@ -386,7 +386,7 @@ BOOL CItemSystemFor380::ChaosMix380ItemOption(CGameObject &Obj)
 	}
 	else
 	{
-		gGameProtocol.GCUserChaosBoxSend(Obj, 0);
+		GSProtocol.GCUserChaosBoxSend(Obj, 0);
 		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 
 		sLog->outBasic("[380Item][ItemMix] Mix Fail [%s][%s], Money(%d-%d) Rate(%d/%d)",

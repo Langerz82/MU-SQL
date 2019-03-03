@@ -7,7 +7,8 @@
 
 #include "StdAfx.h"
 #include "GensSystemProtocol.h"
-//#include "ServerEngine.h"
+//#include "CGameObject.h"
+#include "ItemObject.h"
 
 #include <string>
 #include <map>
@@ -1106,7 +1107,7 @@ typedef struct ActionState
 	unsigned long Emotion : 4;	// 4
 	unsigned long EmotionCount : 8;	// 8
 
-} ACTION_STATE, *LPACTION_STATE;
+} STR_ACTION_STATE, *LPACTION_STATE;
 
 typedef struct InterfaceState
 {
@@ -1114,7 +1115,7 @@ typedef struct InterfaceState
 	DWORD state : 4;
 	DWORD type : 10;
 
-} INTERFACE_STATE, *LPINTERFACE_STATE;
+} STR_INTERFACE_STATE, *LPINTERFACE_STATE;
 
 extern short RoadPathTable[MAX_ROAD_PATH_TABLE];
 extern BOOL g_EnergyCheckOff;
@@ -1761,7 +1762,7 @@ struct GREMORYCASE_ITEM_DATA
 	BYTE btRewardInventory;
 	BYTE btRewardSource;
 	DWORD dwItemGUID;
-	CItemObject* ItemInfo;
+	class CItemObject* ItemInfo;
 	DWORD dwAuthCode;
 	DWORD dwReceiveDate;
 	DWORD dwExpireTime;
@@ -1892,13 +1893,29 @@ struct _stPMSG_CCF_RANK_INFO
 };
 
 
-struct _stPMSG_CCF_RANK_INFO
+struct PWMSG_COUNT
 {
-	PWMSG_HEAD2 h;
-	BYTE btResult;
-	BYTE btCnt;
+	PWMSG_HEAD h;
+	BYTE count;
 };
 
+struct PBMSG_COUNT
+{
+	PBMSG_HEAD h;
+	BYTE count;
+};
+
+struct PBMSG_COUNT2
+{
+	PBMSG_HEAD2 h;
+	BYTE count;
+};
+
+struct PWMSG_COUNT2
+{
+	PWMSG_HEAD2 h;
+	BYTE count;
+};
 
 struct JEWELOFHARMONY_ITEM_EFFECT
 {
@@ -1967,7 +1984,4559 @@ struct PMSG_ANS_AB_REG_MEMBER_CNT
 	BYTE btRegMemCnt;
 };
 
+struct STR_EFFECTLIST
+{
+	BYTE BuffIndex;
+	BYTE EffectCategory;
+	BYTE EffectType1;
+	BYTE EffectType2;
+	int EffectValue1;
+	int EffectValue2;
+	ULONGLONG EffectSetTime;
+	int EffectDuration;
+};
 
+struct PMSG_ITEMVIEWPORTCREATE
+{
+	BYTE NumberH;
+	BYTE NumberL;
+	BYTE px;
+	BYTE py;
+	BYTE ItemInfo[MAX_ITEM_INFO];
+};
+
+typedef struct
+{
+	BYTE	NumberH;
+	BYTE	NumberL;
+	BYTE	X;
+	BYTE	Y;
+	BYTE	CharSet[18];
+	char	Id[MAX_ACCOUNT_LEN];
+	BYTE	TX;
+	BYTE	TY;
+	BYTE	DirAndPkLevel;
+	BYTE	PentagramMainAttribute;
+	BYTE	MuunItemH;
+	BYTE	MuunItemL;
+	BYTE	unk;
+	BYTE	MuunSubItemH;
+	BYTE	MuunSubItemL;
+	BYTE    unk1;
+	BYTE	MuunRideItemH;
+	BYTE	MuunRideItemL;
+	BYTE    unk2;
+	BYTE	LevelH;
+	BYTE	LevelL;
+	BYTE	MaxLifeHH;
+	BYTE	MaxLifeHL;
+	BYTE	MaxLifeLH;
+	BYTE	MaxLifeLL;
+	BYTE	CurLifeHH;
+	BYTE	CurLifeHL;
+	BYTE	CurLifeLH;
+	BYTE	CurLifeLL;
+	WORD	nServerCodeOfHomeWorld;
+	BYTE	BuffEffectCount;
+	BYTE	BuffEffectList[MAX_BUFFEFFECT];
+	BYTE    unk3;
+} PMSG_VIEWPORTCREATE, *LPPMSG_VIEWPORTCREATE;
+
+typedef struct
+{
+	BYTE	NumberH;
+	BYTE	NumberL;
+	BYTE	X;
+	BYTE	Y;
+	BYTE	SkinH;
+	BYTE	SkinL;
+	char	Id[MAX_ACCOUNT_LEN];
+	BYTE	TX;
+	BYTE	TY;
+	BYTE	DirAndPkLevel;
+	BYTE	CharSet[18];
+	BYTE	PentagramMainAttribute;
+	BYTE	MuunItemH;
+	BYTE	MuunItemL;
+	BYTE	unk;
+	BYTE	MuunSubItemH;
+	BYTE	MuunSubItemL;
+	BYTE    unk1;
+	BYTE	MuunRideItemH;
+	BYTE	MuunRideItemL;
+	BYTE    unk2;
+	BYTE	LevelH;
+	BYTE	LevelL;
+	BYTE	MaxLifeHH;
+	BYTE	MaxLifeHL;
+	BYTE	MaxLifeLH;
+	BYTE	MaxLifeLL;
+	BYTE	CurLifeHH;
+	BYTE	CurLifeHL;
+	BYTE	CurLifeLH;
+	BYTE	CurLifeLL;
+	WORD	nServerCodeOfHomeWorld;
+	BYTE	BuffEffectCount;
+	BYTE	BuffEffectList[MAX_BUFFEFFECT];
+	BYTE    unk3;
+} PMSG_VIEWPORTCREATE_CHANGE, *LPPMSG_VIEWPORTCREATE_CHANGE;
+
+typedef struct
+{
+	BYTE	NumberH;
+	BYTE	NumberL;
+} PMSG_VIEWPORTDESTROY, *LPPMSG_VIEWPORTDESTROY;
+
+struct PMSG_MONSTER_VIEWPORTCREATE
+{
+	BYTE	NumberH;
+	BYTE	NumberL;
+	BYTE	Type_HI;
+	BYTE	Type_LO;
+	BYTE	X;
+	BYTE	Y;
+	BYTE	TX;
+	BYTE	TY;
+	BYTE	Path;
+	BYTE	PentagramMainAttribute;
+	BYTE	LevelH;
+	BYTE	LevelL;
+	BYTE	MaxLifeHH;
+	BYTE	MaxLifeHL;
+	BYTE	MaxLifeLH;
+	BYTE	MaxLifeLL;
+	BYTE	CurLifeHH;
+	BYTE	CurLifeHL;
+	BYTE	CurLifeLH;
+	BYTE	CurLifeLL;
+	BYTE	BuffEffectCount;
+	BYTE	BuffEffectList[MAX_BUFFEFFECT];
+};
+
+struct PMSG_CALLMONSTER_VIEWPORTCREATE
+{
+	BYTE	NumberH;
+	BYTE	NumberL;
+	BYTE	Type_HI;
+	BYTE	Type_LO;
+	BYTE	X;
+	BYTE	Y;
+	BYTE	TX;
+	BYTE	TY;
+	BYTE	Path;
+	BYTE	Id[MAX_ACCOUNT_LEN];
+	BYTE	PentagramMainAttribute;
+	BYTE	LevelH;
+	BYTE	LevelL;
+	BYTE	MaxLifeHH;
+	BYTE	MaxLifeHL;
+	BYTE	MaxLifeLH;
+	BYTE	MaxLifeLL;
+	BYTE	CurLifeHH;
+	BYTE	CurLifeHL;
+	BYTE	CurLifeLH;
+	BYTE	CurLifeLL;
+	BYTE	CharSet[18];
+	BYTE	SummonType;
+	BYTE	BuffEffectCount;
+	BYTE	BuffEffectList[MAX_BUFFEFFECT];
+};
+
+struct PMSG_GUILDVIEWPORT_USER
+{
+	BYTE NumberH;
+	BYTE NumberL;
+	BYTE GNumberH;
+	BYTE GNumberL;
+};
+
+struct PMSG_GUILDVIEWPORT
+{
+	BYTE NumberH;
+	BYTE NumberL;
+	char GuildName[8];
+	BYTE Mark[32];
+};
+
+
+struct SDHP_SUMMONER
+{
+	PBMSG_HEAD h;
+	char AccountId[10];
+	short Number;
+	BYTE btSummoner;
+};
+
+struct SDHP_CREATECHARRESULT
+{
+	PBMSG_HEAD h;
+	unsigned char Result;	// 3
+	short Number;	// 4
+	char AccountId[11];	// 6
+	char Name[11];	// 10
+	BYTE Pos;	// 1A
+	BYTE ClassSkin;	// 1B
+	BYTE Equipment[24];	// 1C
+	WORD Level;	// 34
+};
+
+
+struct SDHP_CHARDELETERESULT
+{
+	PBMSG_HEAD h;
+	unsigned char Result;	// 3
+	short Number;	// 4
+	char AccountID[11];	// 6
+};
+
+
+struct SDHP_DBCHAR_INFORESULT
+{
+	PWMSG_HEAD h;
+	unsigned char result;	// 4
+	short Number;	// 6
+	char AccountID[11];	// 8
+	char Name[11];	// 12
+	BYTE Class;	// 1D
+	short Level;	// 1E
+	short mLevel;
+	int LevelUpPoint;	// 20
+	int mlPoint;
+	UINT64 Exp;	// 24
+	UINT64 NextExp;	// 28
+	UINT64 mlExp;
+	UINT64 mlNextExp;
+	int Money;	// 2C
+	WORD Str;	// 30
+	WORD Dex;	// 32
+	WORD Vit;	// 34
+	WORD Energy;	// 36
+	DWORD Life;	// 38
+	DWORD MaxLife;	// 3A
+	DWORD Mana;	// 3C
+	DWORD MaxMana;	// 3E
+	BYTE dbInventory[7584];	// 34
+	BYTE dbMagicList[450];	// 700
+	BYTE MapNumber;	// 7B4
+	BYTE MapX;	// 7B5
+	BYTE MapY;	// 7B6
+	BYTE Dir;	// 7B7
+	int PkCount;	// 7B8
+	int PkLevel;	// 7BC
+	int PkTime;	// 7C0
+	BYTE CtlCode;	// 7C4
+	DWORD GmCode;
+	WORD GmExpDays;
+	BYTE AccountCtlCode;	// 7C6
+	BYTE dbQuest[100];	// 7C7
+	WORD Leadership;	// 7FA
+	WORD ChatLitmitTime;	// 7FC
+	int iFruitPoint;	// 800
+	int resets;
+	char MarryName[11];
+	char Married;
+	char InventoryExpansion;
+	char WarehouseExpansion;
+	int WinDuels;
+	int LoseDuels;
+	int Ruud;
+	time_t ChatBlockTime;
+	DWORD PenaltyMask;
+	BYTE EventMap;
+};
+
+/* * * * * * * * * * * * * * * * * * * * *
+*	Mu Get Character Info Packet
+*	Direction : GameServer -> Client
+*  Code     : 0xC3
+*	HeadCode : 0xF3
+*	SubCode  : 0x03
+*/
+struct PMSG_CHARMAPJOINRESULT
+{
+	PBMSG_HEAD h;	// C3:F3:03
+	BYTE subcode;	// 3
+	BYTE MapX;	// 4
+	BYTE MapY;	// 5
+	BYTE MapNumber;	// 6
+	BYTE Dir;	// 7
+	BYTE ExpHHH; //
+	BYTE ExpHHL; //
+	BYTE ExpHLH; //
+	BYTE ExpHLL; //
+	BYTE ExpLHH; //
+	BYTE ExpLHL; //
+	BYTE ExpLLH; //
+	BYTE ExpLLL; //
+	BYTE NextExpHHH; //
+	BYTE NextExpHHL; //
+	BYTE NextExpHLH; //
+	BYTE NextExpHLL; //
+	BYTE NextExpLHH; //
+	BYTE NextExpLHL; //
+	BYTE NextExpLLH; //
+	BYTE NextExpLLL; //
+	WORD Unknw;
+	WORD LevelUpPoint;	// 10
+	WORD Str;	// 12
+	WORD Dex;	// 14
+	WORD Vit;	// 16
+	WORD Energy;	// 18
+	WORD Life;	// 1A
+	WORD MaxLife;	// 1C
+	WORD Mana;	// 1E
+	WORD MaxMana;	// 20
+	WORD wShield;	// 22
+	WORD wMaxShield;	// 24
+	WORD BP;	// 26
+	WORD MaxBP;	// 28
+	int Money;	// 2C
+	BYTE PkLevel;	// 30
+	BYTE CtlCode;	// 31
+	short AddPoint;	// 32
+	short MaxAddPoint;	// 34
+	WORD Leadership;	// 36
+	WORD wMinusPoint;	// 38
+	WORD wMaxMinusPoint;	// 3A
+	WORD InvExpansion;
+	int Ruud; // Season X Addon
+	int IGCLife;
+	int IGCMaxLife;
+	int IGCMana;
+	int IGCMaxMana;
+	DWORD GetTick;
+};
+
+/* * * * * * * * * * * * * * * * * * * * *
+*	Mu Warehouse DB Save Packet
+*	Direction : GameServer -> DataServer [0x09]
+*	            DataServer -> GameServer [0x08]
+*  Code      : 0xC2
+*	HeadCode  : 0x08, 0x09
+*/
+struct SDHP_GETWAREHOUSEDB_SAVE
+{
+	PWMSG_HEAD h;
+	char AccountID[11];	// 4
+	short aIndex;	// E
+	int Money;	// 10
+	BYTE dbItems[7680];	// 14
+	short pw;	// 796
+	BYTE WarehouseID;
+	BYTE CloseWindow;
+};
+
+
+struct SDHP_GETWAREHOUSEDB_RESULT
+{
+	PBMSG_HEAD h;
+	char AccountID[11];	// 3
+	short aIndex;	// E
+	BYTE WarehouseID;
+};
+
+
+struct SDHP_ITEMCREATERECV
+{
+	PBMSG_HEAD h;
+	BYTE x;	// 3
+	BYTE y;	// 4
+	BYTE MapNumber;	// 5 [235:Mu_2nd_Aniv], [236:CashShop]
+	UINT64 m_Number;	// 8
+	short Type;	// 6
+	BYTE Level;	// 8
+	BYTE Dur;	// 9
+	BYTE Op1;	// A
+	BYTE Op2;	// B
+	BYTE Op3;	// C
+	BYTE NewOption;	// D
+	int aIndex;	// 10
+	int lootindex;	// 14
+	BYTE SetOption;	// 16
+	time_t lDuration;
+	BYTE SocketOption[5];
+	BYTE MainAttribute;
+};
+
+struct SDHP_SKILLKEYDATA_SEND
+{
+	PBMSG_HEAD h;
+	int aIndex;	// 4
+	char Name[11];	// 8
+	BYTE SkillKeyBuffer[20];	// 12
+	BYTE GameOption;	// 1C
+	BYTE QkeyDefine;	// 1D
+	BYTE WkeyDefine;	// 1E
+	BYTE EkeyDefine;	// 1F
+	BYTE ChatWindow;	// 20
+	BYTE RkeyDefine;
+	int QWERLevelDefine;
+	BYTE EnableTransformMode;
+};
+
+struct SDHP_CHARACTER_TRANSFER_RESULT
+{
+	PBMSG_HEAD h;
+	char Account[10];	// 3
+	short Number;	// E
+	unsigned char Result;	// 10
+};
+
+struct SDHP_QMKMLS_LOAD
+{
+	PBMSG_HEAD h;
+	int aIndex;
+	char Name[11];
+};
+
+struct SDHP_MLS_DATA
+{
+	PBMSG_HEAD h;
+	char Name[11];
+	short ML_Level;
+	long long ML_Experience;
+	long long ML_NextExperience;
+	short ML_Point;
+};
+
+struct SDHP_MLS_DATA_REQUEST
+{
+	PBMSG_HEAD h;
+	BYTE SubCode;
+	int Index;
+	char Name[11];
+	BYTE Unknow1;
+	short ML_Level;
+	WORD Unknow2;
+	long long ML_Experience;
+	long long ML_NextExperience;
+	short ML_Point;
+	short Unknow3;
+	int Unknow4;
+};
+
+struct GSP_REQ_GENS_JOIN
+{
+	PBMSG_HEAD2		h;
+	char			Name[11];
+	short			aIndex;
+	char			GensID;
+};
+
+struct GSP_ANS_GENS_JOIN
+{
+	PBMSG_HEAD2		h;
+	char			Result;
+	short			aIndex;
+	char			Name[11];
+	char			GensID;
+	char			GensPos;
+	int				GensExp;
+	int				GensNextExp;
+};
+
+struct GSP_REQ_GENS_INFO
+{
+	PBMSG_HEAD2		h;
+	short			aIndex;
+	char			Name[11];
+};
+
+struct GSP_ANS_GENS_INFO
+{
+	PBMSG_HEAD2		h;
+	short			aIndex;
+	char			Name[11];
+	char			GensID;
+	char			GensPos;
+	int				GensExp;
+	int				GensNextExp;
+	short			GensRank;
+	bool			GensReward;
+};
+
+struct GSP_REQ_GENS_QUIT
+{
+	PBMSG_HEAD2		h;
+	short			aIndex;
+	char			Name[11];
+};
+
+struct GSP_ANS_GENS_QUIT
+{
+	PBMSG_HEAD2		h;
+	short			aIndex;
+	char			Name[11];
+	char			Result;
+};
+
+struct GSP_REQ_GENS_RANK
+{
+	PBMSG_HEAD2		h;
+	short			aIndex;
+	char			Name[11];
+	short			GensID;
+};
+
+struct GSP_ANS_GENS_RANK
+{
+	PBMSG_HEAD2		h;
+	short			aIndex;
+	char			Name[11];
+	short			GensID;
+	char			Result;
+	short			Rank;
+	char			LeadingGens;
+};
+
+struct ISHOP_REQ_ITEMLIST
+{
+	PBMSG_HEAD2		h;
+	short			aIndex;
+	BYTE			InvType;
+	BYTE			InvNum;
+	char			AccountID[11];
+};
+
+struct ISHOP_ANS_ITEMLIST
+{
+	PWMSG_HEAD2		h;
+	short			aIndex;
+	BYTE			InvType;
+	BYTE			InvNum;
+	char			AccountID[11];
+	int				Result;
+	int				Count;
+};
+
+struct ISHOP_ITEMLIST
+{
+	int				UniqueCode;
+	int				AuthCode;
+	int				UniqueID1;
+	int				UniqueID2;
+	int				UniqueID3;
+	BYTE			InventoryType;
+	char			GiftName[10];
+	char			Message[200];
+};
+
+struct ISHOP_ITEM_BUY
+{
+	PBMSG_HEAD		h;
+	short			aIndex;
+	char			AccountID[11];
+	int				ID1;
+	int				ID2;
+	int				ID3;
+	int				Price;
+	BYTE			CoinType;
+};
+
+struct ISHOP_ITEM_BUYANS
+{
+	PBMSG_HEAD		h;
+	short			aIndex;
+	char			AccountID[11];
+	BYTE			Result;
+	int				ID1;
+	int				ID2;
+	int				ID3;
+};
+
+struct ISHOP_ITEM_USE
+{
+	PBMSG_HEAD		h;
+	short			aIndex;
+	char			AccountID[11];
+	int				UniqueCode;
+	int				AuthCode;
+};
+
+struct ISHOP_ITEM_USEANS
+{
+	PBMSG_HEAD		h;
+	short			aIndex;
+	char			AccountID[11];
+	BYTE			Result;
+	int				UniqueCode;
+	int				AuthCode;
+	int				ID1;
+	int				ID2;
+	int				ID3;
+};
+
+struct ISHOP_REQ_POINT
+{
+	PBMSG_HEAD		h;
+	short			aIndex;
+	char			AccountID[11];
+};
+
+struct ISHOP_ANS_POINT
+{
+	PBMSG_HEAD		h;
+	short			aIndex;
+	char			AccountID[11];
+	BYTE			Result;
+	float			CoinP;
+	float			CoinC;
+	float			Goblin;
+};
+
+struct ISHOP_POINT_ADD
+{
+	PBMSG_HEAD		h;
+	short			aIndex;
+	char			AccountID[11];
+	BYTE			Type;
+	float			Coin;
+};
+
+struct ISHOP_ITEM_GIFT
+{
+	PWMSG_HEAD		h;
+	short			aIndex;
+	char			AccountID[11];
+	int				ID1;
+	int				ID2;
+	int				ID3;
+	int				Price;
+	BYTE			CoinType;
+	char			Name[11];
+	char			TargetName[11];
+	char			Message[200];
+};
+
+struct ISHOP_ITEM_GIFTANS
+{
+	PBMSG_HEAD		h;
+	short			aIndex;
+	char			AccountID[11];
+	BYTE			Result;
+	int				ID1;
+	int				ID2;
+	int				ID3;
+};
+
+struct ISHOP_ITEM_DELETE
+{
+	PBMSG_HEAD		h;
+	char			AccountID[11];
+	int				UniqueCode;
+	int				AuthCode;
+};
+
+struct ISHOP_ITEM_ROLLBACK
+{
+	PBMSG_HEAD		h;
+	char			AccountID[11];
+	int				UniqueCode;
+	int				AuthCode;
+};
+
+struct MUBOT_DATA
+{
+	PWMSG_HEAD		h;
+	short			aIndex;
+	char			Name[11];
+	BYTE			MuBotData[512];
+};
+
+struct BAN_REQ_USER
+{
+	PBMSG_HEAD		h;
+	BYTE			Type;
+	BYTE			Ban;
+	char			AccName[11];
+};
+
+struct PMSG_RESET_INGAME_SEND
+{
+	PBMSG_HEAD2 h;
+	WORD Resets;
+};
+
+
+struct SDHP_VIPINFOSEND
+{
+	PBMSG_HEAD h;
+	int iIndex;
+	char AccountId[11];
+	char Name[11];
+};
+
+struct SDHP_VIPINFORESULT
+{
+	PBMSG_HEAD h;
+	int iIndex;
+	char AccountId[11];
+	char Name[11];
+	BYTE VipType;
+};
+
+struct ISHOP_CHARCARD_BUY
+{
+	PBMSG_HEAD		h;
+	char			AccountID[11];
+	BYTE			Type;
+};
+
+struct ISHOP_ITEM_BUY_PACKAGE
+{
+	PWMSG_HEAD2		h;
+	short			aIndex;
+	char			AccountID[11];
+	int				Price;
+	BYTE			CoinType;
+	WORD			Count;
+};
+
+struct ISHOP_ITEM_GIFT_PACKAGE
+{
+	PWMSG_HEAD2		h;
+	short			aIndex;
+	char			AccountID[11];
+	int				Price;
+	BYTE			CoinType;
+	char			Name[11];
+	char			TargetName[11];
+	char			Message[200];
+	WORD			Count;
+};
+
+struct ISHOP_ITEM_PACKAGE
+{
+	int				ID1;
+	int				ID2;
+	int				ID3;
+};
+
+struct PMSG_ANS_WARESAVE
+{
+	PBMSG_HEAD		h;
+	int				iIndex;
+	BYTE			Result;
+	BYTE			CloseWindow;
+};
+
+struct SECLOCK_REQ_SAVE
+{
+	PBMSG_HEAD		h;
+	char			AccountID[11];
+	int				Code;
+};
+
+struct ATTRIBUTE_ADD_ERTEL
+{
+	PBMSG_HEAD2		h;
+	char			AccountID[11];
+	int				aIndex;
+	BYTE			Elemental;
+	BYTE			SocketID;
+	BYTE			ItemIndex;
+	WORD			ItemNumber;
+	BYTE			PentagramPos;
+	BYTE			ErtelPos;
+	BYTE			OptionID[5];
+	BYTE			OptionLevel[5];
+};
+
+struct ATTRIBUTE_ADD_ERTELANS
+{
+	PBMSG_HEAD2		h;
+	BYTE			Result;
+	int				aIndex;
+	BYTE			Elemental;
+	BYTE			SocketID;
+	BYTE			ItemIndex;
+	WORD			ItemNumber;
+	BYTE			PentagramPos;
+	BYTE			ErtelPos;
+	BYTE			OptionID[5];
+	BYTE			OptionLevel[5];
+};
+
+typedef struct
+{
+	PBMSG_HEAD h;
+	unsigned short ServerCode;
+	char CharName[MAX_ACCOUNT_LEN + 1];
+}SDHP_DELETE_TEMPUSERINFO, *LPSDHP_DELETE_TEMPUSERINFO;
+
+struct SDHP_DELETE_TEMPUSERINFO_RESULT
+{
+	PBMSG_HEAD h;
+	char CharName[MAX_ACCOUNT_LEN + 1];
+};
+struct DS_GET_MONSTERCNT
+{
+	PBMSG_HEAD2		h;
+	char character[11];
+	int cnt;
+	short aIndex;
+};
+
+
+struct DS_SAVE_MONSTERCNT
+{
+	PBMSG_HEAD2		h;
+	char character[11];
+	int type;
+};
+
+struct DS_SAVE_PLAYERKILLER
+{
+	PBMSG_HEAD2		h;
+	char Victim[11];
+	char Killer[11];
+};
+
+
+struct PMSG_ANS_ARCA_BATTLE_JOIN
+{
+	PBMSG_HEAD2 h;
+	char btResult;
+};
+
+struct PMSG_REQ_ARCA_BATTLE_GUILD_JOIN_DS
+{
+	PBMSG_HEAD2 h;
+	char szGuildMaster[11];
+	char szGuildName[9];
+	DWORD dwGuild;
+	WORD wNumber;
+};
+
+
+struct PMSG_ANS_ARCA_BATTLE_ENTER
+{
+	PBMSG_HEAD2 h;
+	char btResult;
+};
+
+struct PMSG_ANS_AB_PROC_STATE_DS
+{
+	PBMSG_HEAD2 h;
+	BYTE btProcState;
+};
+
+struct _stGuildUnderMember
+{
+	BYTE btGuildMemberCnt;
+	char szGuildNames[9];
+};
+
+/* 5188 */
+struct PMSG_ANS_AB_JOIN_MEMBER_UNDER_DS
+{
+	PBMSG_HEAD2 h;
+	BYTE btGuildCnt;
+	_stGuildUnderMember GuildMemberCnt[6];
+};
+
+struct PMSG_ANS_AB_JOIN_MEMBER_UNDER
+{
+	PBMSG_HEAD2 h;
+	char btMinGuildMember;
+	char btGuildMemberCnt;
+};
+
+struct PMSG_REQ_AB_GUILD_JOIN_SELECT_DS
+{
+	PBMSG_HEAD2 h;
+	char szGuildMaster[11];
+	char szGuildName[9];
+	WORD wNumber;
+};
+
+struct PMSG_REQ_AB_GUILD_JOIN_SELECT2ND_DS
+{
+	PBMSG_HEAD2 h;
+	WORD wNumber;
+	DWORD dwGuild;
+};
+
+struct PMSG_REQ_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS
+{
+	PBMSG_HEAD2 h;
+	char szCharName[11];
+	char szGuildName[9];
+	unsigned int dwGuild;
+	WORD wNumber;
+};
+
+struct PMSG_REQ_ARCA_BATTLE_ENTER_DS
+{
+	PBMSG_HEAD2 h;
+	char szCharName[11];
+	BYTE btEnterSeq;
+	WORD wNumber;
+};
+
+struct SDHP_REQ_DBMUUN_INVEN_LOAD
+{
+	PBMSG_HEAD h;
+	char AccountID[11];
+	char Name[11];
+	WORD aIndex;
+};
+
+struct SDHP_ANS_CCF_INFO_NOTIFY
+{
+	PBMSG_HEAD2 h;
+	int nMin;
+	int nType;
+};
+
+struct SDHP_ANS_CCF_GETPERMISSION
+{
+	PBMSG_HEAD2 h;
+	int nResult;
+	int nIndex;
+};
+
+struct SDHP_REQ_SET_CCF_WINNER_INFO
+{
+	PBMSG_HEAD2 h;
+	char UBFName[MAX_ACCOUNT_LEN + 1];
+	BYTE btCCFType;
+	BYTE btRewardType;
+};
+
+struct PMSG_REQ_SAVE_CHAOSCASTLE_KILLPOINT_UBF
+{
+	PMSG_REQ_SAVE_CHAOSCASTLE_KILLPOINT_UBF()
+	{
+		memset(this->szCharName, 0x00, sizeof(this->szCharName));
+		this->nPoint = 0;
+	}
+
+	PBMSG_HEAD2 h;
+	char szCharName[MAX_ACCOUNT_LEN + 1];
+	int nPoint;
+	int nIndex;
+	int nCastleIndex;
+};
+
+struct SDHP_ANS_KILLPOINT_RESULT_CC_UBF
+{
+	PBMSG_HEAD2 h;
+	int nIndex;
+	int nResult;
+	int nCurrentPoint;
+	int nTotalPoint;
+};
+
+struct _tagSDHP_ANS_DBMUUN_INVEN_LOAD
+{
+	PWMSG_HEAD h;
+	BYTE dbItems[1984];
+	char SubEquip;
+	WORD aIndex;
+};
+
+struct _tagSDHP_REQ_DBMUUN_INVEN_SAVE
+{
+	PWMSG_HEAD h;
+	char AccountID[11];
+	char Name[11];
+	BYTE dbInventory[1984];
+};
+
+struct _tagSDHP_REQ_DBEVENT_INVEN_SAVE
+{
+	PWMSG_HEAD h;
+	char AccountID[11];
+	char Name[11];
+	BYTE dbInventory[1024];
+};
+
+struct _tagSDHP_REQ_DBEVENT_INVEN_LOAD
+{
+	PBMSG_HEAD h;
+	char AccountID[11];
+	char Name[11];
+	WORD aIndex;
+};
+
+struct _tagSDHP_ANS_DBEVENT_INVEN_LOAD
+{
+	PWMSG_HEAD h;
+	BYTE dbItems[1024];
+	WORD aIndex;
+};
+
+struct PMSG_REQ_SWITCHWARE
+{
+	PBMSG_HEAD h;
+	int iIndex;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	int WarehouseID;
+};
+
+struct PMSG_ANS_SWITCHWARE
+{
+	PBMSG_HEAD h;
+	int iIndex;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	int WarehouseID;
+	int Result;
+};
+
+// UBF (Unity Battle Field aka Battle Core)
+
+struct PMSG_UBF_REGISTER_ACCOUNT_USER
+{
+	PBMSG_HEAD2 h;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	char szBattleFieldName[MAX_ACCOUNT_LEN + 1];
+	int iUserIndex;
+	WORD ServerCode;
+	BYTE btRegisterState;
+	BYTE btRegisterMonth;
+	BYTE btRegisterDay;
+};
+
+struct PMSG_UBF_REGISTER_ACCOUNT_USER_RESULT
+{
+	PBMSG_HEAD2 h;
+	int iUserIndex;
+	BYTE btResult;
+	WORD nLeftSec;
+};
+
+struct PMSG_UBF_ACCOUNT_USER_COPY
+{
+	PBMSG_HEAD2 h;
+	int iUserIndex;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	WORD ServerCode;
+	BYTE btPromotionCode;
+};
+
+struct PMSG_UBF_ACCOUNT_USER_COPY_RESULT
+{
+	PBMSG_HEAD2 h;
+	int iUserIndex;
+	BYTE btResult;
+	BYTE btSubResult;
+};
+
+struct PMSG_UBF_ACCOUNT_USER_COPY_PETITEM
+{
+	PWMSG_HEAD h;
+	char szAccountID[MAX_ACCOUNT_LEN];
+	int iUserIndex;
+	BYTE btCount;
+	int IsUnityBattleFieldServer;
+	int ServerCode;
+};
+
+struct PMSG_UBF_COPY_PETITEM
+{
+	BYTE btItemPos;
+	UINT64 i64ItemSerial;
+};
+
+struct PMSG_REQ_UBF_ACCOUNT_USERINFO
+{
+	PBMSG_HEAD2 h;
+	int iUserIndex;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	int iServerCode;
+	int IsUnityBattleFieldServer;
+	BYTE btObserverMode;
+};
+
+struct PMSG_ANS_UBF_ACCOUNT_USERINFO
+{
+	PBMSG_HEAD2 h;
+	int iUserIndex;
+	BYTE btResult;
+	BYTE btRegisterState;
+	BYTE btRegisterMonth;
+	BYTE btRegisterDay;
+	BYTE btObserverMode;
+};
+
+struct PMSG_UBF_REQ_CANCEL_REGISTER_USER
+{
+	PBMSG_HEAD2 h;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	int iUserIndex;
+	WORD ServerCode;
+	BYTE btCanceled;
+};
+
+struct PMSG_UBF_ANS_CANCEL_REGISTER_USER
+{
+	PBMSG_HEAD2 h;
+	int iUserIndex;
+	BYTE btCanceledResult;
+	BYTE btDeletedResult;
+};
+
+struct PMSG_REQ_GET_UBF_REAL_NAME
+{
+	PBMSG_HEAD2 h;
+	int iUserIndex;
+	char szUBFName[MAX_ACCOUNT_LEN + 1];
+};
+
+struct PMSG_ANS_GET_UBF_REAL_NAME
+{
+	PBMSG_HEAD2 h;
+	int iUserIndex;
+	char szUBFName[MAX_ACCOUNT_LEN + 1];
+	char szRealName[MAX_ACCOUNT_LEN + 1];
+	int iServerCode;
+	BYTE btReturn;
+};
+
+struct PMSG_REQ_UBF_GET_REWARD
+{
+	PBMSG_HEAD2 h;
+	int iUserIndex;
+	int iServerCode;
+	BYTE btBattleKind;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+};
+
+struct PMSG_ANS_UBF_GET_REWARD
+{
+	PBMSG_HEAD2 h;
+	int iUserIndex;
+	BYTE btBattleKind;
+	BYTE btReturn;
+	BYTE btStage1;
+	BYTE btStage2;
+	BYTE btStage3;
+	BYTE btRewardCount1[2];
+	BYTE btRewardCount2[2];
+	BYTE btRewardCount3[2];
+};
+
+struct PMSG_REQ_UBF_SET_RECEIVED_REWARD
+{
+	PBMSG_HEAD2 h;
+	int iUserIndex;
+	int iServerCode;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	BYTE btReceivedReward;
+	BYTE btBattleKind;
+};
+
+struct PMSG_ANS_UBF_SET_RECEIVED_REWARD
+{
+	PBMSG_HEAD2 h;
+	int iUserIndex;
+	BYTE btReturn;
+};
+
+struct PMSG_RECV_CHATDATA_WHISPER
+{
+	PBMSG_HEAD h;	// C1:02
+	WORD wMapSvrNum;
+	int OriginGSIndex;
+	int OriginPlayerIndex;
+	char id[10];
+	char fromId[10];
+	char chatmsg[90];
+};
+
+struct DSMSG_REQ_SUBSERVER_COUNT
+{
+	PBMSG_HEAD2 h;	// C1:C3:00
+	WORD wMapSvrGroup;
+};
+
+struct DSMSG_ANS_SUBSERVER_COUNT
+{
+	PBMSG_HEAD2 h;	// C1:C3:01
+	WORD wSvrCount;
+};
+
+struct DSMSG_ANS_WHISPER_RESULT
+{
+	PBMSG_HEAD2 h;	// C1:C3:02
+	int OriginGSIndex; // sent back as is
+	int OriginPlayerIndex; // sent back as is
+	BYTE btResult; // Result 1 - sucess , 0 - fail
+
+};
+
+struct DSMSG_GS_WHISPER_RESULT
+{
+	PBMSG_HEAD2 h;	// C1:C3:03
+	int OriginPlayerIndex; // sent back as is
+	BYTE btResult; // Result 1 - sucess , 0 - fail
+};
+
+struct DSMSG_CHAOSMACHINE_LOSTITEMS
+{
+	PWMSG_HEAD h;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	BYTE btLostItems[CHAOS_BOX_SIZE * MAX_DBITEM_INFO];
+};
+
+struct PMSG_RECV_DC_OTHER_CHANNEL
+{
+	PBMSG_HEAD2 h; // C1:C3:04
+	char szName[MAX_ACCOUNT_LEN + 1];
+	WORD wMapSrvGroup;
+};// Season X
+
+struct PMSG_DSREQ_BLOCKCHAT_LIST
+{
+	PBMSG_HEAD2 h;
+	int iIndex;
+	char szName[MAX_ACCOUNT_LEN + 1];
+};
+
+struct PMSG_DSANS_BLOCKCHAT_LIST
+{
+	PWMSG_HEAD2 h;
+	int iIndex;
+	char szName[MAX_ACCOUNT_LEN + 1];
+};
+
+struct PMSG_REQ_EVOMON_MAXSCORE
+{
+	PBMSG_HEAD2 h;
+	int nUserIndex;
+	char szName[MAX_ACCOUNT_LEN + 1];
+};
+
+struct PMSG_ANS_EVOMON_MAXSCORE
+{
+	PBMSG_HEAD2 h;
+	int nUserIndex;
+	int nMaxScore;
+};
+
+struct PMSG_REQ_SAVE_EVOMON_RESULT
+{
+	PBMSG_HEAD2 h;
+	int nUserIndex;
+	char szName[MAX_ACCOUNT_LEN + 1];
+	int nScore;
+	int nTotalDamage;
+};
+
+typedef struct
+{
+	PWMSG_HEAD h;
+	int aIndex;
+	char szName[11];
+	BYTE btDATA[512];
+}MUBOT_SETTINGS_SEND, *LPMUBOT_SETTINGS_SEND;
+
+struct PMSG_ANTIHACK_BREACH
+{
+	PBMSG_HEAD h;
+	BYTE subcode;
+	DWORD dwErrorCode;
+};
+
+struct PMSG_ANTIHACK_CHECK
+{
+	PBMSG_HEAD h;
+	BYTE subcode;
+	BYTE checkdata[5];
+};
+
+struct PMSG_ATTACKSPEEDSEND
+{
+	PBMSG_HEAD2		h;
+	DWORD			AttackSpeed;
+	DWORD			MagicSpeed;
+};
+
+struct PMSG_PROPERTYITEMCOUNT
+{
+	PBMSG_HEAD2		h;
+	BYTE			btCount;
+};
+
+struct PMSG_REQ_USETRANSFORMATIONRING
+{
+	PBMSG_HEAD2		h;
+	BYTE			btState;
+};
+
+struct PMSG_PROPERTYITEMINFO
+{
+	PBMSG_HEAD2		h;
+	short			ItemID;
+	short			Pos;
+	int				Time;
+};
+
+struct PMSG_EX_GAMESERVER_MOVE_SEND
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE btGameServerCode;
+};
+
+struct PMSG_EX_GAMESERVER_MOVE_RESULT
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+};
+
+struct PMSG_AGILITYSEND
+{
+	PBMSG_HEAD h;
+	BYTE subcode;
+	WORD Agility;
+};
+
+struct PMSG_ANS_MAPSVRTAXINFO
+{
+	PBMSG_HEAD2 h;	// C1:B2:1A
+	BYTE btTaxType;	// 4
+	BYTE btTaxRate;	// 5
+};
+
+
+struct PMSG_ADDSTATS
+{
+	PBMSG_HEAD h;
+	BYTE subcode;
+	BYTE statstype;
+	WORD Points;
+	WORD LUP;
+	int MaxLifeAndMana;
+};
+
+
+
+struct PMSG_MONEY
+{
+	PBMSG_HEAD h;	// C1:81
+	BYTE Result;	// 3
+	int wMoney;	// 4
+	int iMoney;	// 8
+};
+
+struct PMSG_ATTACK
+{
+	PBMSG_HEAD h;
+	BYTE NumberH;	// 3
+	BYTE NumberL;	// 4
+	BYTE AttackAction;	// 5
+	BYTE DirDis;	// 6
+};
+
+struct PMSG_MAGICATTACK
+{
+	PBMSG_HEAD h;
+	BYTE NumberH;
+	BYTE MagicNumberH;
+	BYTE NumberL;
+	BYTE MagicNumberL;
+	BYTE Dis;
+};
+
+struct PMSG_DURATION_MAGIC_RECV
+{
+	PBMSG_HEAD h;
+	BYTE X;
+	BYTE MagicNumberH;
+	BYTE Y;
+	BYTE MagicNumberL;
+	BYTE Dir;
+	BYTE NumberH;
+	BYTE Dis;
+	BYTE NumberL;
+	BYTE TargetPos;
+	BYTE MagicKey;
+};
+
+struct PMSG_BEATTACK_COUNT
+{
+	PBMSG_HEAD h;	// C1:D7
+	BYTE MagicNumberH;
+	BYTE Count;
+	BYTE MagicNumberL;
+	BYTE X;
+	BYTE Serial;
+	BYTE Y;
+};
+
+struct PMSG_BEATTACK
+{
+	BYTE NumberH;	// 0
+	BYTE MagicKey;	// 1
+	BYTE NumberL;	// 2
+};
+
+struct PMSG_ACTIONRESULT
+{
+	PBMSG_HEAD h;
+	BYTE NumberH;	// 3
+	BYTE NumberL;	// 4
+	BYTE Dir;	// 5
+	BYTE ActionNumber;	// 6
+	BYTE TargetNumberH;	// 7
+	BYTE TargetNumberL;	// 8
+};
+
+
+struct PMSG_RAGEATTACK_REQ
+{
+	PBMSG_HEAD h;
+	BYTE NumberH;
+	BYTE MagicNumberH;
+	BYTE NumberL;
+	BYTE MagicNumberL;
+	BYTE Empty;
+};
+
+
+struct PMSG_KILLPLAYER_EXT
+{
+	PBMSG_HEAD h;	// C3:9C
+	BYTE NumberH;	// 3
+	BYTE NumberL;	// 4
+	WORD ExpH;	// 6
+	WORD ExpL;	// 8
+	BYTE DamageH;	// A
+	BYTE DamageL;	// B
+};
+
+struct PMSG_ANS_END_DUEL
+{
+	PBMSG_HEAD h;	// C1:AB
+	BYTE NumberH;	// 3
+	BYTE NumberL;	// 4
+	char szName[10];	// 5
+};
+
+/* * * * * * * * * * * * * * * * * * * * *
+*	Mu Send Warehouse Info Packet
+*	Direction : GameServer -> Client
+*  Code      : 0xC3
+*	HeadCode  : 0x30
+*/
+struct PMSG_TALKRESULT
+{
+	PBMSG_HEAD h;
+	unsigned char result;	// 3
+	BYTE level1;	// 4
+	BYTE level2;	// 5
+	BYTE level3;	// 6
+	BYTE level4;	// 7
+	BYTE level5;	// 8
+	BYTE level6;	// 9
+	BYTE level7;
+};
+
+
+struct PMSG_SUMMONER_INFO
+{
+	PBMSG_HEAD2 h;
+	BYTE Result;
+};
+
+/* * * * * * * * * * * * * * * * * * * * *
+*	Packet to Send Blod Castle State
+*	Direction : GameServer -> Client
+*	Code      : 0xC1
+*	HeadCode  : 0x9B
+*/
+struct PMSG_STATEBLOODCASTLE
+{
+	PBMSG_HEAD h;	// C1:9B
+	BYTE btPlayState;		// 3
+	WORD wRemainSec;	// 4
+	WORD wMaxKillMonster;	// 6
+	WORD wCurKillMonster;	// 8
+	WORD wUserHaveWeapon;	// A
+	BYTE btWeaponNum;	// C
+};
+
+struct PMSG_KILLCOUNT
+{
+	PBMSG_HEAD2 h;
+	BYTE btKillCount;
+};
+
+struct SDHP_DBCHARINFOREQUEST
+{
+	PBMSG_HEAD h;	// C1:06
+	char AccountID[11];	// 3
+	char Name[11];	// E
+	short Number;	// 1A
+};
+
+struct PMSG_ATTACKRESULT
+{
+	PBMSG_HEAD h;	// C1:DC
+	BYTE NumberH;	// 3
+	BYTE NumberL;	// 4
+	BYTE DamageH;	// 5
+	BYTE DamageL;	// 6
+	BYTE DamageTypeH;
+	BYTE DamageTypeL;	// 7
+	BYTE btShieldDamageH;	// 8
+	BYTE btShieldDamageL;	// 9
+	int IGCDamage;
+	int ElementalDmg;
+};
+
+struct PMSG_ELEMENTALDAMAGE
+{
+	PBMSG_HEAD h;
+	BYTE NumberH;
+	BYTE NumberL;
+	BYTE btElement;
+	BYTE btTargetH;
+	BYTE btTargetL;
+	int Damage;
+	int New;
+	int New1;
+	int New2;
+};
+
+
+struct PMSG_PENTAGRAMJEWEL_INFO
+{
+	PWMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE btJewelCnt;
+	BYTE btJewelPos;
+};
+
+struct PMSG_REQ_IN_PENTAGRAM_JEWEL
+{
+	PBMSG_HEAD2 h;
+	int iPentagramPos;
+	int iJewelPos;
+};
+
+struct PMSG_ANS_IN_PENTAGRAM_JEWEL
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE btJewelPos;
+	BYTE btJewelIndex;
+	BYTE btMainAttribute;
+	BYTE btItemType;
+	WORD wItemIndex;
+	BYTE btLevel;
+	BYTE btRank1OptionNum;
+	BYTE btRank1Level;
+	BYTE btRank2OptionNum;
+	BYTE btRank2Level;
+	BYTE btRank3OptionNum;
+	BYTE btRank3Level;
+	BYTE btRank4OptionNum;
+	BYTE btRank4Level;
+	BYTE btRank5OptionNum;
+	BYTE btRank5Level;
+};
+
+struct PMSG_PENTAGRAM_JEWEL_INOUT
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+};
+
+struct PMSG_REQ_OUT_PENTAGRAM_JEWEL
+{
+	PBMSG_HEAD2 h;
+	int iPentagramPos;
+	BYTE btSocketIndex;
+};
+
+struct PMSG_ANS_OUT_PENTAGRAM_JEWEL
+{
+	PBMSG_HEAD2 h;
+	BYTE Result;
+	BYTE btJewelPos;
+	BYTE btJewelDBIndex;
+};
+
+
+struct PMSG_RECV_POSISTION_SET
+{
+	PBMSG_HEAD h;	// C1:D6
+	BYTE NumberH;	// 3
+	BYTE NumberL;	// 4
+	BYTE X;	// 5
+	BYTE Y;	// 6
+};
+
+struct PMSG_USEREQUIPMENTCHANGED
+{
+	PBMSG_HEAD h;
+	BYTE NumberH;	// 3
+	BYTE NumberL;	// 4
+	BYTE ItemInfo[MAX_ITEM_INFO];	// 5
+	BYTE Element;
+};
+
+struct PMSG_SERVERCMD
+{
+	PBMSG_HEAD h;
+	BYTE subcode;	// 3
+	BYTE CmdType;	// 4
+	BYTE X;	// 5
+	BYTE Y;	// 6
+};
+
+struct PMSG_ITEMTHROW_RESULT
+{
+	PBMSG_HEAD h;	// C1:23
+	unsigned char Result;	// 3
+	BYTE Ipos;	// 4
+};
+
+struct PMSG_INVENTORYLISTCOUNT
+{
+	PWMSG_HEAD h;	// C4:F3:10
+	BYTE subcode;	// 4
+	BYTE Count;	// 5
+};
+
+struct PMSG_INVENTORYLIST
+{
+	BYTE Pos;	// 0
+	BYTE ItemInfo[MAX_ITEM_INFO];	// 1
+};
+
+struct PMSG_GUILDCREATED_RESULT
+{
+	PBMSG_HEAD h;	// C1:56
+	BYTE Result;	// 3
+	BYTE btGuildType;	// 4
+};
+
+struct PMSG_SIMPLE_GUILDVIEWPORT_COUNT
+{
+	PWMSG_HEAD h;	// C2:65
+	BYTE Count;	// 4
+};
+
+struct PMSG_SIMPLE_GUILDVIEWPORT
+{
+	int GuildNumber;	// 0
+	BYTE btGuildStatus;	// 4
+	BYTE btGuildType;	// 5
+	BYTE btGuildRelationShip;	// 6
+	BYTE NumberH;	// 7
+	BYTE NumberL;	// 8
+	BYTE btOwnerStatus; //9 season4 add-on
+};
+
+struct PMSG_RECVMOVE
+{
+	PBMSG_HEAD h;
+	BYTE NumberH;	// 3
+	BYTE NumberL;	// 4
+	BYTE X;	// 5
+	BYTE Y;	// 6
+	BYTE Path;	// 7
+};
+
+struct PMSG_MAGICATTACK_RESULT
+{
+	PBMSG_HEAD h;
+	BYTE SourceNumberH;
+	BYTE SourceNumberL;
+	BYTE MagicNumberH;
+	BYTE MagicNumberL;
+	BYTE TargetNumberH;
+	BYTE TargetNumberL;
+};
+
+struct PMSG_SET_DEVILSQUARE
+{
+	PBMSG_HEAD h;	// C1:92
+	BYTE Type;	// 3
+};
+
+struct PMSG_GUILD_ASSIGN_STATUS_RESULT
+{
+	PBMSG_HEAD h;	// C1:E1
+	BYTE btType;	// 3
+	BYTE btResult;	// 4
+	char szTagetName[10];	// 5
+};
+
+struct PMSG_GUILD_ASSIGN_TYPE_RESULT
+{
+	PBMSG_HEAD h;	// C1:E2
+	BYTE btGuildType;	// 3
+	BYTE btResult;	// 4
+};
+
+//////////////////////////////////////////////////////////////////////////////
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//////////////////////////////////////////////////////////////////////////////
+
+
+
+
+struct PMSG_AHINFO
+{
+	PBMSG_HEAD h;
+	BYTE SUB;
+	DWORD Time;	// 4
+	WORD AttackSpeed;	// 8
+	WORD MagicSpeed;	// A
+	char dump1[15];
+	BYTE IsModifiedGameSpeed;
+	char dump2[15];
+	BYTE IsModifiedAttackSpeed;
+	char dump3[15];
+	BYTE IsModifiedMagicSpeed;
+	char dump4[15];
+};
+
+struct PMSG_CHECK_MAINEXE_RESULT
+{
+	PBMSG_HEAD2 h;
+	DWORD m_dwKey;	// 4
+};
+
+
+
+
+struct PMSG_CHATDATA
+{
+	PBMSG_HEAD h;	//	
+	char chatid[10];	//	3
+	char chatmsg[90];	//	D
+};
+
+
+struct PMSG_CHATDATA_NUMBER
+{
+	PBMSG_HEAD h;
+	BYTE NumberH;	// 3
+	BYTE NumberL;	// 4
+	char chatmsg[90];	// 5
+};
+
+struct PMSG_CHATDATA_WHISPER
+{
+	PBMSG_HEAD h;	// C1:02
+	char id[10];	// 3
+	char chatmsg[90];	// D  
+};
+
+
+struct PMSG_CHARMAPJOIN
+{
+	PBMSG_HEAD h;
+	BYTE subcode;	// 3
+	char Name[10];	// 4
+	BYTE btSlotIndex;
+};
+
+
+struct PMSG_LVPOINTADD
+{
+	PBMSG_HEAD h;
+	BYTE subcode;	// 3
+	BYTE Type;	// 4
+};
+
+struct PMSG_LVPOINTADDRESULT
+{
+	PBMSG_HEAD h;	// C1:F3:06
+	BYTE subcode;	// 3
+	BYTE ResultType;	// 4
+	WORD MaxLifeAndMana;	// 6
+	WORD wMaxShield;	// 8
+	WORD MaxBP;	// A
+	int IGCMaxLifeAndMana;
+};
+
+struct PMSG_SKILLKEY
+{
+	PBMSG_HEAD h;	// C1:F3:30
+	BYTE subcode;	// 3
+	BYTE SkillKey[20];	// 4
+	BYTE GameOption;	// E
+	BYTE QkeyDefine;	// F
+	BYTE WkeyDefine;	// 10
+	BYTE EkeyDefine;	// 11
+	BYTE ChatWindow;	// 13
+	BYTE RkeyDefine;
+	int QWERLevel;
+};
+
+struct PMSG_EX_SKILL_COUNT
+{
+	PBMSG_HEAD h;	// C1:BA
+	BYTE NumberH;
+	BYTE NumberL;
+	WORD Type;
+	BYTE Count;
+};
+
+struct PMSG_ITEMGETREQUEST
+{
+	PBMSG_HEAD h;
+	BYTE NumberH;	// 3
+	BYTE NumberL;	// 4
+};
+
+
+struct PMSG_ITEMTHROW
+{
+	PBMSG_HEAD h;
+	BYTE px;	// 3
+	BYTE py;	// 4
+	BYTE Ipos;	// 5
+};
+
+
+struct PMSG_INVENTORYITEMMOVE
+{
+	PBMSG_HEAD h;
+	BYTE sFlag;	// 3
+	BYTE source_item_num;	// 4
+	BYTE sItemInfo[MAX_ITEM_INFO];	// 5
+	BYTE tFlag;	// C
+	BYTE target_item_num;	// D
+};
+
+
+struct PMSG_TALKREQUEST
+{
+	PBMSG_HEAD h;
+	BYTE NumberH;	// 3
+	BYTE NumberL;	// 4
+};
+
+
+struct PMSG_BUYREQUEST
+{
+	PBMSG_HEAD h;
+	BYTE Pos;	// 3
+};
+
+
+struct PMSG_SELLREQUEST
+{
+	PBMSG_HEAD h;
+	BYTE Pos;	// 3
+};
+
+
+struct PMSG_ITEMDURREPAIR
+{
+	PBMSG_HEAD h;
+	BYTE Position;	// [0xFF:Repair ALL] 3
+	BYTE Requestpos;	// 4
+};
+
+
+struct PMSG_TRADE_REQUEST
+{
+	PBMSG_HEAD h;
+	BYTE NumberH;	// 3
+	BYTE NumberL;	// 4
+};
+
+struct PMSG_USE_STAT_FRUIT
+{
+	PBMSG_HEAD h;
+	BYTE result;
+	WORD btStatValue;
+	BYTE btFruitType;
+};
+
+struct PMSG_TRADE_RESPONSE
+{
+	PBMSG_HEAD h;	// C1:37
+	BYTE Response;	// 3
+	BYTE Id[10];	// 4
+	WORD Level;	// E
+	int GuildNumber;	// 10
+};
+
+
+struct PMSG_TRADE_GOLD
+{
+	PBMSG_HEAD h;
+	DWORD Money;	// 4
+};
+
+
+struct PMSG_TRADE_OKBUTTON
+{
+	PBMSG_HEAD h;	// C1:3C
+	BYTE Flag;	// 3
+};
+
+struct PMSG_PARTYREQUEST
+{
+	PBMSG_HEAD h;
+	BYTE NumberH;	// 3
+	BYTE NumberL;	// 4
+};
+
+
+struct PMSG_PARTYREQUESTRESULT
+{
+	PBMSG_HEAD h;
+	BYTE Result;	// 3
+	BYTE NumberH;	// 4
+	BYTE NumberL;	// 5
+};
+
+
+struct PMSG_PARTYDELUSER
+{
+	PBMSG_HEAD h;
+	BYTE Number;	// 3
+	char szTargetName[MAX_ACCOUNT_LEN + 1];
+};
+
+struct PMSG_PARTYLIST
+{
+	char szId[10];	// 0
+	BYTE Number;	// A
+	BYTE MapNumber;	// B
+	BYTE X;	// C
+	BYTE Y;	// D
+	int Life;	// 10
+	int MaxLife;	// 14
+	int nServerChannel;
+	int nMana;
+	int nMaxMana;
+	int Unk;
+};
+
+struct PMSG_PARTYLISTCOUNT
+{
+	PBMSG_HEAD h;	// C1:42
+	BYTE Result;	// 3
+	BYTE Count;	// 4
+};
+
+
+struct PMSG_GUILDJOINQ
+{
+	PBMSG_HEAD h;
+	BYTE NumberH;	// 3
+	BYTE NumberL;	// 4
+};
+
+
+struct PMSG_GUILDQRESULT
+{
+	PBMSG_HEAD h;
+	BYTE Result;	// 3
+	BYTE NumberH;	// 4
+	BYTE NumberL;	// 5
+};
+
+
+struct PMSG_GUILDDELUSER
+{
+	PBMSG_HEAD h;
+	char Name[10];	// 3
+	char Password[20];	// D
+};
+
+
+struct PMSG_GUILDMASTERANSWER
+{
+	PBMSG_HEAD h;
+	BYTE Result;	// 3
+};
+
+
+struct PMSG_GUILDINFOSAVE
+{
+	PBMSG_HEAD h;
+	BYTE btGuildType;	// 3
+	char GuildName[8];	// 4
+	BYTE Mark[32];	// C
+};
+
+
+struct PMSG_GUILDWARSEND_RESULT
+{
+	PBMSG_HEAD h;
+	BYTE Result;	// 3
+};
+
+
+struct PMSG_WAREHOUSEMONEYINOUT
+{
+	PBMSG_HEAD h;
+	BYTE Type;	// [0x01:Deposit] [0x02:Withdraw] 3
+	int Money;	// 4
+};
+
+
+struct PMSG_WAREHOUSEPASSSEND
+{
+	PBMSG_HEAD h;
+	BYTE Type;	// [0x00:Open Warehouse] [0x01:Set Pass] [0x02:Delete Pass] 3
+	short Pass;	// 4
+	char LastJoominNumber[20];	// 6
+};
+
+struct PMSG_CHAOSMIX
+{
+	PBMSG_HEAD h;
+	BYTE Type;	// 3
+	BYTE Pos;	// 4
+	BYTE unk1;
+	BYTE MixCount;
+};
+
+struct PMSG_MOVE
+{
+	PBMSG_HEAD h;	// C1:1D
+	BYTE X;	// 3
+	BYTE Y;	// 4
+	BYTE Path[8];	// 5
+};
+
+struct PMSG_POSISTION_SET
+{
+	PBMSG_HEAD h;
+	BYTE X;	// 3
+	BYTE Y;	// 4
+};
+
+struct PMSG_ACTION
+{
+	PBMSG_HEAD h;
+	BYTE Dir;	// 3
+	BYTE ActionNumber;	// 4
+	BYTE iTargetIndexH;	// 5
+	BYTE iTargetIndexL;	// 6
+};
+
+struct PMSG_MAGICCANCEL
+{
+	PBMSG_HEAD h;
+	BYTE MagicNumberL;
+	BYTE MagicNumberH;	// 3
+	BYTE NumberH;	// 4
+	BYTE NumberL;	// 5
+};
+
+
+struct PMSG_TELEPORT
+{
+	PBMSG_HEAD h;
+	WORD MoveNumber;	// 3
+	BYTE MapX;	// 4
+	BYTE MapY;	// 5
+};
+
+struct PMSG_MAPMOVE_CHECKSUM
+{
+	PBMSG_HEAD2 h;
+	DWORD dwKeyValue;
+};
+
+
+struct PMSG_REQ_MAPMOVE
+{
+	PBMSG_HEAD2 h;
+	DWORD dwBlockKey;
+	WORD wMapIndex;
+	BYTE EventByte;
+};
+
+
+struct PMSG_ANS_MAPMOVE
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+};
+
+struct PMSG_TARGET_TELEPORT
+{
+	PBMSG_HEAD h;
+	BYTE NumberH;	// 3
+	BYTE NumberL;	// 4
+	BYTE MapX;	// 5
+	BYTE MapY;	// 6
+};
+
+struct PMSG_DURATION_MAGIC_SEND
+{
+	PBMSG_HEAD h;
+	BYTE X;
+	BYTE Y;
+	BYTE Dir;
+	BYTE MagicNumberH;
+	BYTE NumberH;
+	BYTE MagicNumberL;
+	BYTE NumberL;
+
+};
+
+struct PMSG_USEITEM
+{
+	PBMSG_HEAD h;
+	BYTE inventoryPos;	// 3
+	BYTE invenrotyTarget;	// 4
+	BYTE btItemUseType;	// 5
+};
+
+struct PMSG_USEEXPANSIONITEM
+{
+	PBMSG_HEAD h;
+	BYTE Result;
+};
+
+struct PMSG_REQ_MOVEDEVILSQUARE
+{
+	PBMSG_HEAD h;
+	BYTE SquareNumber;	// 3
+	BYTE InvitationItemPos;	// 4
+};
+
+
+struct PMSG_REQ_DEVILSQUARE_REMAINTIME
+{
+	PBMSG_HEAD h;
+	BYTE hEventType;	// 3
+	BYTE btItemLevel;	// 4
+};
+
+
+struct PMSG_PING_RESULT
+{
+	PBMSG_HEAD h;
+};
+
+
+struct PMSG_REGEVENTCHIP
+{
+	PBMSG_HEAD h;
+	BYTE Type;	// 3
+	BYTE ChipPos;	// 4
+};
+
+
+struct PMSG_GETMUTONUMBER
+{
+	PBMSG_HEAD h;
+};
+
+
+struct PMSG_EXCHANGE_EVENTCHIP
+{
+	PBMSG_HEAD h;
+	BYTE btType;	// [0x00:Change Renas] [0x01:Change Stones]	3
+};
+
+struct PMSG_SETQUEST
+{
+	PBMSG_HEAD h;	// C1:A1
+	BYTE QuestIndex;	// 3
+	BYTE State;	// 4
+};
+
+struct PMSG_RESULT_MOVEBLOODCASTLE
+{
+	PBMSG_HEAD h;	// C1:9A
+	BYTE Result;	// 3
+};
+
+struct PMSG_REQ_MOVEBLOODCASTLE
+{
+	PBMSG_HEAD h;
+	BYTE iBridgeNumber;	// 3
+	BYTE iItemPos;	// 4
+};
+
+struct PMSG_ANS_ENTER_ON_QUESTNPC
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+};
+
+struct PMSG_REQ_MOVECHAOSCASTLE
+{
+	PBMSG_HEAD2 h;
+	BYTE iChaosCastleNumber;	// 4
+	BYTE iItemPos;	// 5
+};
+struct PMSG_REQ_MOVEILLUSIONTEMPLE
+{
+	PBMSG_HEAD2 h;
+	BYTE ID;
+	BYTE iItemPos;
+};
+struct PMSG_REQ_USEILLUSIONTEMPLESKILL
+{
+	PBMSG_HEAD2 h;
+	BYTE MagicNumberH;
+	BYTE MagicNumberL;
+	BYTE btTargetObjIndexH;
+	BYTE btTargetObjIndexL;
+	BYTE btDis;
+};
+
+struct PMSG_REQ_REPOSUSER_IN_CC
+{
+	PBMSG_HEAD2 h;
+	BYTE btPX;	// 4
+	BYTE btPY;	// 5
+};
+
+
+struct PMSG_REQ_CL_ENTERCOUNT
+{
+	PBMSG_HEAD h;
+	BYTE btEventType;	// 3
+};
+
+
+struct PMSG_REQ_2ANV_LOTTO_EVENT
+{
+	PBMSG_HEAD h;
+	char SERIAL1[5];	// 3
+	char SERIAL2[5];	// 8
+	char SERIAL3[5];	// D
+};
+
+
+struct PMSG_REQ_MOVE_OTHERSERVER
+{
+	PBMSG_HEAD h;
+	char LastJoominNumber[20];	// 3
+};
+
+
+struct PMSG_PACKETCHECKSUM
+{
+	PBMSG_HEAD h;
+	BYTE funcindex;	// 3
+	DWORD CheckSum;	// 4
+};
+
+struct PMSG_REQ_START_DUEL
+{
+	PBMSG_HEAD h;
+	BYTE NumberH;	// 3
+	BYTE NumberL;	// 4
+	char szName[10];	// 5
+};
+
+
+struct PMSG_REQ_END_DUEL
+{
+	PBMSG_HEAD h;
+};
+
+
+
+struct PMSG_ANS_DUEL_OK
+{
+	PBMSG_HEAD h;
+	bool bDuelOK;	// 3
+	BYTE NumberH;	// 4
+	BYTE NumberL;	// 5
+	char szName[10];	// 6
+};
+
+
+struct PMSG_REQUEST_PET_ITEM_COMMAND
+{
+	PBMSG_HEAD h;
+	BYTE PetType;	// 3
+	BYTE Command;	// 4
+	BYTE NumberH;	// 5
+	BYTE NumberL;	// 6
+};
+
+
+struct PMSG_REQUEST_PET_ITEMINFO
+{
+	PBMSG_HEAD h;
+	BYTE PetType;	// 3
+	BYTE InvenType;	// 4
+	BYTE nPos;	// 5
+};
+
+struct PMSG_SEND_PCPOINT
+{
+	PBMSG_HEAD2 h;
+	WORD PCPoint;
+	WORD MaxPCPoint;
+};
+
+struct PMSG_REQ_OPEN_PCPOINTSHOP
+{
+	PBMSG_HEAD2 h;
+	BYTE Result;
+};
+
+struct PMSG_REQ_BUY_PCPOINTSHOP
+{
+	PBMSG_HEAD2 h;
+	BYTE Pos;
+};
+
+struct PMSG_BUYRESULT
+{
+	PBMSG_HEAD h;	// C1:32
+	BYTE Result;	// 3
+	BYTE ItemInfo[MAX_ITEM_INFO];	// 4
+};
+
+struct PMSG_REQ_GUILDVIEWPORT
+{
+	PBMSG_HEAD h;
+	int GuildNumber;	// 4
+};
+
+struct PMSG_SHOPITEMCOUNT
+{
+	PWMSG_HEAD h;	// C2:31
+	BYTE Type;	// 4
+	BYTE count;	// 5
+};
+
+struct PMSG_GUILD_ASSIGN_STATUS_REQ
+{
+	PBMSG_HEAD h;
+	BYTE btType;	// 3
+	BYTE btGuildStatus;	// 4
+	char szTagetName[10];	// 5
+};
+
+
+struct PMSG_GUILD_ASSIGN_TYPE_REQ
+{
+	PBMSG_HEAD h;
+	BYTE btGuildType;	// 3
+};
+
+
+struct PMSG_RELATIONSHIP_JOIN_BREAKOFF_REQ
+{
+	PBMSG_HEAD h;	// C1:E5
+	BYTE btRelationShipType;	// 3
+	BYTE btRequestType;	// 4
+	BYTE btTargetUserIndexH;	// 5
+	BYTE btTargetUserIndexL;	// 6
+};
+
+
+struct PMSG_RELATIONSHIP_JOIN_BREAKOFF_ANS
+{
+	PBMSG_HEAD h;	// C1:E6
+	BYTE btRelationShipType;	// 3
+	BYTE btRequestType;	// 4
+	BYTE btResult;	// 5
+	BYTE btTargetUserIndexH;	// 6
+	BYTE btTargetUserIndexL;	// 7
+};
+
+
+struct PMSG_UNIONLIST_REQ {
+
+
+
+
+	PBMSG_HEAD h;
+
+
+
+
+
+
+
+
+
+
+};
+
+struct PMSG_KICKOUT_UNIONMEMBER_REQ
+{
+	PBMSG_HEAD2 h;
+	char szTargetGuildName[8];	// 4
+};
+
+
+struct PMSG_REQ_MAPSERVERAUTH
+{
+	PBMSG_HEAD2 h;
+	char szAccountID[12];	// 4
+	char szCharName[12];	// 10
+	int iJoinAuthCode1;	// 1C
+	int iJoinAuthCode2;	// 20
+	int iJoinAuthCode3;	// 24
+	int iJoinAuthCode4;	// 28
+	int iTickCount;	// 2C
+	BYTE btCliVersion[5];	// 30
+	BYTE btCliSerial[16];	// 35
+	BYTE EventMap;
+};
+
+struct PMSG_REQ_CASTLESIEGESTATE
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_REQ_REGCASTLESIEGE
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_REQ_GIVEUPCASTLESIEGE
+{
+	PBMSG_HEAD2 h;
+	BYTE btGiveUp;
+};
+
+struct PMSG_REQ_GUILDREGINFO
+{
+	PBMSG_HEAD2 h;
+};
+
+struct CSP_ANS_GUILDREGINFO
+{
+	PBMSG_HEAD2 h;
+	int iResult;	// 4
+	WORD wMapSvrNum;	// 8
+	class CGameObject *lpObj;	// C
+	char szGuildName[8];	// 10
+	int iRegMarkCount;	// 18
+	BYTE bIsGiveUp;	// 1C
+	BYTE btRegRank;	// 1D
+};
+
+struct PMSG_REQ_REGGUILDMARK
+{
+	PBMSG_HEAD2 h;
+	BYTE btItemPos;
+};
+
+struct CSP_ANS_GUILDREGMARK
+{
+	struct PBMSG_HEAD2 h;
+	int iResult;
+	WORD wMapSvrNum;
+	class CGameObject *lpObj;
+	char szGuildName[8];
+	int iItemPos;
+	int iRegMarkCount;
+};
+
+struct PMSG_REQ_NPCBUY
+{
+	PBMSG_HEAD2 h;
+	int iNpcNumber;
+	int iNpcIndex;
+};
+
+struct PMSG_REQ_NPCREPAIR
+{
+	PBMSG_HEAD2 h;
+	int iNpcNumber;
+	int iNpcIndex;
+};
+
+struct PMSG_REQ_NPCUPGRADE
+{
+	PBMSG_HEAD2 h;
+	int iNpcNumber;
+	int iNpcIndex;
+	int iNpcUpType;
+	int iNpcUpValue;
+};
+
+struct PMSG_REQ_TAXMONEYINFO
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_REQ_TAXRATECHANGE
+{
+	PBMSG_HEAD2 h;
+	BYTE btTaxType;
+	BYTE btTaxRate1;
+	BYTE btTaxRate2;
+	BYTE btTaxRate3;
+	BYTE btTaxRate4;
+};
+
+struct PMSG_REQ_MONEYDRAWOUT
+{
+	PBMSG_HEAD2 h;
+	BYTE btMoney1;
+	BYTE btMoney2;
+	BYTE btMoney3;
+	BYTE btMoney4;
+};
+
+struct PMSG_REQ_CSGATEOPERATE
+{
+	PBMSG_HEAD2 h;
+	BYTE btOperate;
+	BYTE btIndex1;
+	BYTE btIndex2;
+};
+
+struct PMSG_REQ_MINIMAPDATA
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_REQ_STOPMINIMAPDATA
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_REQ_CSCOMMAND
+{
+	PBMSG_HEAD2 h;
+	BYTE btTeam;
+	BYTE btX;
+	BYTE btY;
+	BYTE btCommand;
+};
+
+struct PMSG_REQ_CSHUNTZONEENTER
+{
+	PBMSG_HEAD2 h;
+	BYTE btHuntZoneEnter;
+};
+
+struct PMSG_REQ_NPCDBLIST
+{
+	PBMSG_HEAD h;
+	BYTE btMonsterCode;
+};
+
+struct PMSG_REQ_CSREGGUILDLIST
+{
+	PBMSG_HEAD h;
+};
+
+struct PMSG_REQ_CSATTKGUILDLIST
+{
+	PBMSG_HEAD h;
+};
+
+struct PMSG_REQ_USEWEAPON
+{
+	PBMSG_HEAD2 h;
+	BYTE btObjIndexH;
+	BYTE btObjIndexL;
+	BYTE btTargetIndex;
+};
+
+struct PMSG_REQ_WEAPON_DAMAGE_VALUE
+{
+	PBMSG_HEAD2 h;
+	BYTE btObjIndexH;
+	BYTE btObjIndexL;
+};
+
+struct PMSG_REQ_GUILDMARK_OF_CASTLEOWNER
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_REQ_JEWEL_MIX
+{
+	PBMSG_HEAD2 h;
+	BYTE btJewelType;
+	BYTE btJewelMix;
+};
+
+struct PMSG_REQ_JEWEL_UNMIX
+{
+	PBMSG_HEAD2 h;
+	BYTE btJewelType;
+	BYTE btJewelLevel;
+	BYTE btJewelPos;
+};
+
+struct PMSG_REQ_CRYWOLF_INFO
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_REQ_CRYWOLF_ALTAR_CONTRACT
+{
+	PBMSG_HEAD2 h;
+	BYTE btObjIndexH;
+	BYTE btObjIndexL;
+};
+
+struct PMSG_REQ_CRYWOLF_BENEFIT_PLUS_CHAOSRATE
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_REQ_KANTURU_STATE_INFO
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_REQ_ENTER_KANTURU_BOSS_MAP
+{
+	PBMSG_HEAD2 h;
+};
+
+struct CSP_ANS_CSINITDATA
+{
+	PWMSG_HEAD h;	// 0
+	int iResult;		// 4
+	WORD wMapSvrNum;	// 8
+	WORD wStartYear;	// a
+	BYTE btStartMonth;	// c
+	BYTE btStartDay;	// d
+	WORD wEndYear; // e
+	BYTE btEndMonth; // 10
+	BYTE btEndDay;	// 11
+	BYTE btIsSiegeGuildList;	// 12
+	BYTE btIsSiegeEnded;	// 13
+	BYTE btIsCastleOccupied;	// 14
+	char szCastleOwnGuild[8]; // 15
+	__int64 i64CastleMoney; // 20
+	int iTaxRateChaos; // 28
+	int iTaxRateStore; // 2c
+	int iTaxHuntZone; // 30
+	int iFirstCreate; // 34
+	int iCount; // 38
+};
+
+struct CSP_CSINITDATA
+{
+	int iNpcNumber; // 0
+	int iNpcIndex; // 4
+	int iNpcDfLevel; // 8
+	int iNpcRgLevel; // c
+	int iNpcMaxHp; // 10
+	int iNpcHp; // 14
+	BYTE btNpcX; // 18
+	BYTE btNpcY; // 19
+	BYTE btNpcDIR; // 1a
+};
+
+struct CSP_CALCREGGUILDLIST
+{
+	char szGuildName[8]; // 0
+	int iRegMarkCount; // 8
+	int iGuildMemberCount; // c
+	int iGuildMasterLevel; // 10
+	int iSeqNum; // 14
+};
+
+struct CSP_CSGUILDUNIONINFO
+{
+	char szGuildName[8]; // 0
+	int iCsGuildID; // 8
+};
+
+struct CSP_CSLOADTOTALGUILDINFO
+{
+	char szGuildName[8]; // 0
+	int iCsGuildID; // 8
+	int iGuildInvolved; // c
+	int iGuildScore; //10 season 2.5 add-on
+};
+
+struct PMSG_CSATTKGUILDLIST
+{
+	BYTE btCsJoinSide; // 0
+	BYTE btGuildInvolved; // 1
+	char szGuildName[8]; // 2
+	int iGuildScore; //A season 2.5 add-on
+};
+
+struct CSP_ANS_NPCDATA
+{
+	PWMSG_HEAD h; // 0
+	int iResult; // 4
+	WORD wMapSvrNum; // 8
+	class CGameObject *lpObj; // c
+	int iCount; // 10
+};
+
+struct PMSG_ANS_NOTIFYCSSTART
+{
+	PBMSG_HEAD2 h; // 0
+	BYTE btStartState; // 4
+};
+
+struct PMSG_REQ_MOVE_TO_CASTLE_HUNTZONE
+{
+	PBMSG_HEAD2 h;
+	int iPrice;
+};
+
+struct PMSG_ANS_CASTLESIEGESTATE
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	char cCastleSiegeState;
+	BYTE btStartYearH;
+	BYTE btStartYearL;
+	BYTE btStartMonth;
+	BYTE btStartDay;
+	BYTE btStartHour;
+	BYTE btStartMinute;
+	BYTE btEndYearH;
+	BYTE btEndYearL;
+	BYTE btEndMonth;
+	BYTE btEndDay;
+	BYTE btEndHour;
+	BYTE btEndMinute;
+	BYTE btSiegeStartYearH;
+	BYTE btSiegeStartYearL;
+	BYTE btSiegeStartMonth;
+	BYTE btSiegeStartDay;
+	BYTE btSiegeStartHour;
+	BYTE btSiegeStartMinute;
+	char cOwnerGuild[8];
+	char cOwnerGuildMaster[10];
+	BYTE btStateLeftSec1;
+	BYTE btStateLeftSec2;
+	BYTE btStateLeftSec3;
+	BYTE btStateLeftSec4;
+};
+
+struct PMSG_ANS_REGCASTLESIEGE
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	char szGuildName[8];
+};
+
+struct PMSG_ANS_GIVEUPCASTLESIEGE
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE btIsGiveUp;
+	char szGuildName[8];
+};
+
+struct PMSG_ANS_GUILDREGINFO
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	char szGuildName[8];
+	BYTE btGuildMark1;
+	BYTE btGuildMark2;
+	BYTE btGuildMark3;
+	BYTE btGuildMark4;
+	BYTE btIsGiveUp;
+	BYTE btRegRank;
+};
+
+struct PMSG_ANS_REGGUILDMARK
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	char szGuildName[8];
+	BYTE btGuildMark1;
+	BYTE btGuildMark2;
+	BYTE btGuildMark3;
+	BYTE btGuildMark4;
+};
+
+struct PMSG_ANS_NPCBUY
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	int iNpcNumber;
+	int iNpcIndex;
+};
+
+struct PMSG_ANS_NPCREPAIR
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	int iNpcNumber;
+	int iNpcIndex;
+	int iNpcHP;
+	int iNpcMaxHP;
+};
+
+struct PMSG_ANS_NPCUPGRADE
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	int iNpcNumber;
+	int iNpcIndex;
+	int iNpcUpType;
+	int iNpcUpValue;
+};
+
+struct PMSG_ANS_TAXMONEYINFO
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE btTaxRateChaos;
+	BYTE btTaxRateStore;
+	BYTE btMoney1;
+	BYTE btMoney2;
+	BYTE btMoney3;
+	BYTE btMoney4;
+	BYTE btMoney5;
+	BYTE btMoney6;
+	BYTE btMoney7;
+	BYTE btMoney8;
+};
+
+struct PMSG_ANS_TAXRATECHANGE
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE btTaxType;
+	BYTE btTaxRate1;
+	BYTE btTaxRate2;
+	BYTE btTaxRate3;
+	BYTE btTaxRate4;
+};
+
+struct PMSG_ANS_MONEYDRAWOUT
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE btMoney1;
+	BYTE btMoney2;
+	BYTE btMoney3;
+	BYTE btMoney4;
+	BYTE btMoney5;
+	BYTE btMoney6;
+	BYTE btMoney7;
+	BYTE btMoney8;
+};
+
+struct PMSG_ANS_CSGATESTATE
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE btIndex1;
+	BYTE btIndex2;
+};
+
+struct PMSG_ANS_CSGATEOPERATE
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE btOperate;
+	BYTE btIndex1;
+	BYTE btIndex2;
+};
+
+struct PMSG_ANS_CSGATECURSTATE
+{
+	PBMSG_HEAD2 h;
+	BYTE btOperate;
+	BYTE btIndex1;
+	BYTE btIndex2;
+};
+
+struct PMSG_ANS_NOTIFYSWITCHPROC
+{
+	PBMSG_HEAD2 h;
+	BYTE btIndex1;
+	BYTE btIndex2;
+	BYTE btUserIndex1;
+	BYTE btUserIndex2;
+	BYTE btSwitchState;
+};
+
+struct PMSG_ANS_NOTIFYCROWNPROC
+{
+	PBMSG_HEAD2 h;
+	BYTE btCrownState;
+	DWORD dwAccumulatedCrownAccessTime;
+};
+
+struct PMSG_ANS_CSCOMMAND
+{
+	PBMSG_HEAD2 h;
+	BYTE btTeam;
+	BYTE btX;
+	BYTE btY;
+	BYTE btCommand;
+};
+
+struct PMSG_ANS_NPCDBLIST
+{
+	PWMSG_HEAD h;
+	BYTE btResult;
+	int iCount;
+};
+
+struct PMSG_ANS_CSATTKGUILDLIST
+{
+	PWMSG_HEAD h;
+	BYTE btResult;
+	int iCount;
+};
+
+struct PMSG_NOTIFY_OBJECT_CREATION_STATE
+{
+	struct PBMSG_HEAD2 h;
+	BYTE btObjIndexH;
+	BYTE btObjIndexL;
+	BYTE btCreationState;
+};
+
+struct PMSG_ANS_MOVE_TO_CASTLE_HUNTZONE
+{
+	PBMSG_HEAD2 h; // +0x0(0x4)
+	BYTE btResult; // +0x4(0x1)
+};
+
+struct PMSG_ANS_GUILDMARK_OF_CASTLEOWNER
+{
+	PBMSG_HEAD2 h;	// C1:B9:02
+	BYTE GuildMarkOfCastleOwner[32];	// 4
+};
+
+struct PMSG_ANS_USEWEAPON
+{
+	PBMSG_HEAD2 h;	// C1:B7:01
+	BYTE btResult;	// [1:Attacker] [2:Targets]	4
+	BYTE btObjIndexH;	// 5
+	BYTE btObjIndexL;	// 6
+	BYTE btWeaponType;	// [1:Slingshot attack] [2:Slingshot defense]	7
+	BYTE btPointX;	// 8
+	BYTE btPointY;	// 9
+};
+
+struct PMSG_ANS_CSHUNTZONEENTER
+{
+	PBMSG_HEAD2 h;	// C1:B2:1F
+	BYTE btResult;	// 4
+	BYTE btHuntZoneEnter;	// 5
+};
+
+struct PMSG_ANS_NOTIFYCSPROGRESS
+{
+	PBMSG_HEAD2 h;	// C1:B2:18
+	BYTE btCastleSiegeState;	// 4
+	BYTE szGuildName[8];	// 5
+};
+
+struct PMSG_ANS_JEWEL_UNMIX
+{
+	PBMSG_HEAD2 h;	// C1:BC:[00:01]
+	BYTE btResult;	// 4
+};
+
+struct PMSG_ANS_MINIMAPDATA
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;	// 4
+};
+
+struct PMSG_ANS_CSLEFTTIMEALARM
+{
+	PBMSG_HEAD2 h;	// C1:B2:1E
+	BYTE btHour;	// 4
+	BYTE btMinute;	// 5
+};
+
+struct PMSG_REQ_LUCKYCOIN_REGISTER
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_ANS_LUCKYCOIN_REGISTER
+{
+	PBMSG_HEAD2 h;
+	unsigned char btResult;
+	int iLuckyCoin;
+};
+
+struct PMSG_ANS_LUCKYCOININFO
+{
+	PBMSG_HEAD2 h;
+	int iLuckyCoin;
+};
+
+struct PMSG_REQ_LUCKYCOIN_TRADE
+{
+	PBMSG_HEAD2 h;
+	int iLuckyCoinTradeCount;
+};
+
+struct PMSG_REQ_INVENTORY_EQUIPMENT_ITEM
+{
+	PBMSG_HEAD2 h;
+	BYTE btItemPos;
+	BYTE btValue;
+};
+
+struct PMSG_ANS_INVENTORY_EQUIPMENT_ITEM
+{
+	PBMSG_HEAD2 h;
+	BYTE btItemPos;
+	BYTE btResult;
+};
+
+struct PMSG_ANS_LUCKYCOIN_TRADE
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+};
+
+struct PMSG_TELEPORT_RESULT
+{
+	PBMSG_HEAD h;	// C3:1C
+	BYTE Unk;
+	WORD Type;
+	BYTE MapNumber;	// 4
+	BYTE Unk1;
+	BYTE MapX;	// 5
+	BYTE MapY;	// 6
+	BYTE Dir;	// 7
+};
+
+struct PMSG_REQ_ENTER_DOPPELGANGER
+{
+	PBMSG_HEAD2 h;
+	BYTE btPos;
+};
+
+struct PMSG_REQ_ENTER_ZONE
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+};
+
+struct PMSG_NOTIFY_ZONE_TIME
+{
+	PBMSG_HEAD2 h;
+	BYTE m_btMsgType;
+	BYTE m_btDayOfWeek;
+	WORD m_wZoneIndex;
+	DWORD m_dwRemainTime;
+	DWORD m_dwRemainMonster;
+};
+
+//BYTE Packet[13] = {0xC1, 0x0D, 0xF7, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+struct PMSG_NOTIFY_ZONE_CLEAR
+{
+	PBMSG_HEAD2 h;
+	DWORD m_nType;
+	DWORD m_nRewardExp;
+};
+struct PMSG_ENTER_ZONE_RESULT
+{
+	PBMSG_HEAD2 h;
+	BYTE m_btResult;
+	BYTE m_btDayOfWeek;
+	BYTE m_btZoneIndex;
+	BYTE m_btWeather;
+	DWORD m_dwRemainTime;
+};
+
+struct PMSG_RAGE_ATTACK_RANGE
+{
+	PBMSG_HEAD h;
+	BYTE MagicNumberH;
+	BYTE MagicNumberL;
+	BYTE TargetIndexH;
+	BYTE TargetIndexL;
+};
+
+struct PMSG_RAGEATTACK
+{
+	PBMSG_HEAD h;
+	BYTE SourceNumberH;
+	BYTE SourceNumberL;
+	BYTE MagicNumberH;
+	BYTE MagicNumberL;
+	BYTE TargetNumberH;
+	BYTE TargetNumberL;
+};
+
+
+struct PMSG_RAGE_ATTACK_RANGE_ANS
+{
+	PBMSG_HEAD2 h;
+	WORD MagicNumber;
+	WORD Target[5];
+};
+
+struct PMSG_TARGET_HP
+{
+	PBMSG_HEAD2 h; // C1:FA:05
+	WORD m_Index;
+	DWORD m_Hp;
+	DWORD m_MaxHp;
+	WORD m_Level;
+	bool m_bIceEffect;
+	bool m_bPoisonEffect;
+};
+
+struct PMSG_ADDON_REQUEST
+{
+	BYTE HEAD;
+	BYTE SIZE;
+	BYTE OPCODE;
+	BYTE OPCODE2;
+	WORD M_ADDON;
+	DWORD M_CRC1;
+	DWORD M_CRC2;
+};
+
+struct PMSG_TARGET_HP_INFO
+{
+	WORD m_Index;
+	DWORD m_Hp;
+	DWORD m_MaxHp;
+	WORD m_Level;
+	bool m_bIceEffect;
+	bool m_bPoisonEffect;
+};
+
+
+struct PMSG_TARGET_HP_DELETE
+{
+	WORD m_Index;
+};
+
+struct PMSG_SEND_AH_INFO {
+	PBMSG_HEAD2 h;
+	BYTE type; // 0 - hack detected; 1 - Agi
+	DWORD Agi;
+	DWORD MainTick;
+};
+
+struct PMSG_REQ_CRCDATA
+{
+	PBMSG_HEAD2 h;
+	DWORD MainExe;
+	DWORD IGCDLL;
+	DWORD PlayerBMD;
+	DWORD HackDB;
+	DWORD SkillCRC;
+};
+
+
+struct PMSG_REQ_REFINE_PENTAGRAM_JEWEL
+{
+	PBMSG_HEAD2 h;
+	BYTE btRefineKind;
+};
+
+struct PMSG_REQ_UPGRADE_PENTAGRAM_JEWEL
+{
+	PBMSG_HEAD2 h;
+	BYTE btUpgradeType;
+	BYTE btTargetValue;
+};
+
+struct PMSG_RSA_KEY
+{
+	PWMSG_HEAD2 h;
+	DWORD m_ESize;
+	DWORD m_NSize;
+};
+
+struct PMSG_OBJECT_LIFE_INFO
+{
+	PBMSG_HEAD2 h;
+	BYTE ObjNumberH;
+	BYTE ObjNumberL;
+	BYTE MaxLifeHH;
+	BYTE MaxLifeHL;
+	BYTE MaxLifeLH;
+	BYTE MaxLifeLL;
+	BYTE CurLifeHH;
+	BYTE CurLifeHL;
+	BYTE CurLifeLH;
+	BYTE CurLifeLL;
+};
+
+
+struct PMSG_PRICE_INFO
+{
+	PWMSG_HEAD h;	// C2:95
+	BYTE subc;
+	BYTE Type;	// 4
+	BYTE count;	// 5
+};
+
+struct PMSG_PRICE_ITEM_LIST
+{
+	BYTE Pos;
+	UINT64 SellPrice;
+	UINT64 BuyPrice;
+};
+
+
+// NewPVP Protocol
+/************************************************************************/
+/* STRUCTS BELOW FOR PROTOCOL CLIENT ONLY                               */
+/************************************************************************/
+typedef struct PMSG_REQ_DUEL_INVITE
+{
+	PBMSG_HEAD2 h;
+	BYTE NumberH;
+	BYTE NumberL;
+	char szName[MAX_ACCOUNT_LEN];
+} PMSG_REQ_DUEL_INVITE, *LPPMSG_REQ_DUEL_INVITE;
+
+typedef struct PMSG_ANS_DUEL_ANSWER
+{
+	PBMSG_HEAD2 h;
+	BYTE bDuelOK;
+	BYTE NumberH;
+	BYTE NumberL;
+} PMSG_ANS_DUEL_ANSWER, *LPPMSG_ANS_DUEL_ANSWER;
+
+typedef struct PMSG_REQ_DUEL_EXIT
+{
+	PBMSG_HEAD2 h;
+} PMSG_REQ_DUEL_EXIT, *LPPMSG_REQ_DUEL_EXIT;
+
+typedef struct PMSG_REQ_DUEL_JOINCNANNEL
+{
+	PBMSG_HEAD2 h;
+	BYTE nChannelId;
+} PMSG_REQ_DUEL_JOINCNANNEL, *LPPMSG_REQ_DUEL_JOINCNANNEL;
+
+typedef struct PMSG_REQ_DUEL_LEAVECNANNEL
+{
+	PBMSG_HEAD2 h;
+	BYTE nChannelId;
+} PMSG_REQ_DUEL_LEAVECNANNEL, *LPPMSG_REQ_DUEL_LEAVECNANNEL;
+
+struct PMSG_REQ_ARCA_BATTLE_JOIN
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_REQ_ARCA_BATTLE_ENTER
+{
+	PBMSG_HEAD2 h;
+	char btEnterSeq;
+};
+
+struct PMSG_REQ_ACHERON_ENTER
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_ANS_ACHERON_ENTER
+{
+	PBMSG_HEAD2 h;
+	char btResult;
+};
+
+struct PMSG_REQ_MASTERLEVEL_SKILL
+{
+	PBMSG_HEAD2 h; //C1:F3:52
+	int iMasterLevelSkill;
+};
+
+struct PMSG_SETCHARSET
+{
+	PBMSG_HEAD h;
+	BYTE subcode;
+	WORD charset;
+};
+
+struct PMSG_SETAGILITYBUG
+{
+	PBMSG_HEAD h;
+	BYTE subcode;
+	BYTE value;
+};
+//C1 1C EC 25 1D 00 00 00 14 00 00 00 19 00 00 00 0A 00 00 00 00 00 00 00 CD CC 6C 3F
+struct PMSG_ADDSTATS_RESULT
+{
+	PBMSG_HEAD2 h; // C1:EC
+	WORD str;
+	WORD stradd;
+	WORD agi;
+	WORD agiadd;
+	WORD vit;
+	WORD vitadd;
+	WORD ene;
+	WORD eneadd;
+	WORD cmd;
+	WORD cmdadd;
+	float mPrec;
+};
+struct PMSG_STATS_RESULT
+{
+	PBMSG_HEAD2 h; // C1:EC
+	DWORD CriticalDMGInc;
+	DWORD unk1;
+	WORD str;
+	WORD stradd;
+	WORD agi;
+	WORD agiadd;
+	WORD vit;
+	WORD vitadd;
+	WORD ene;
+	WORD eneadd;
+	WORD cmd;
+	WORD cmdadd;
+	DWORD SDRation;// unk2;
+	DWORD SDBypass;
+	float unk4;
+	float unk5;
+	WORD ZenObincRate;
+	float unk7;
+	float unk8;
+	DWORD unk9;
+	float unk10;
+	float unk11;
+	float unk12;
+	float unk13;
+	float unk14;
+	float unk15;
+	float unk16;
+	float unk17;
+	float unk18;
+	float unk19;
+	float unk20;
+	float unk21;
+	float unk22;
+	float unk23;
+	float unk24;
+	float IncreaseDamageRate;
+	float unk26;
+	float CritDMGRate;
+	float ExcDMGRate;
+	float DoubleDmgRate;
+	BYTE unk28;
+	BYTE unk29;
+	BYTE unk30;
+	float ExcellentDMGInc;
+	float ExcellentDMGInc2;
+};
+
+struct PMSG_REQ_NIXIELAKE_ENTER
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_ANS_NIXIELAKE_ENTER
+{
+	PBMSG_HEAD2 h;
+	char btResult;
+};
+
+struct PMSG_CHAIN_MAGIC
+{
+	PBMSG_HEAD2 h;
+	BYTE MagicNumberH;
+	BYTE MagicNumberL;
+	WORD wUserIndex;
+	BYTE nCount;
+};
+
+struct PMSG_CHAIN_MAGIC_OBJECT
+{
+	WORD nTargetIndex;
+};
+
+struct PMSG_RECV_TRAP // it must similar to any "correct" packet
+{
+	PBMSG_HEAD2 h;
+	WORD wUserIndex;
+	time_t CurrTime;
+};
+
+// Season 8 Matching System
+// Guild Matching Packets
+
+struct _stGuildMatchingList
+{
+	char szMemo[41];
+	char szRegistrant[MAX_ACCOUNT_LEN + 1];
+	char szGuildName[MAX_GUILD_LEN + 1];
+	BYTE btGuildMemberCnt;
+	BYTE btGuildMasterClass;
+	BYTE btInterestType;
+	BYTE btLevelRange;
+	BYTE btClassType;
+	int nGuildMasterLevel;
+	int nBoardNumber;
+	int nGuildNumber;
+	BYTE btGensType;
+};
+
+struct PMSG_REQ_GUILDMATCHINGLIST
+{
+	PBMSG_HEAD2 h;
+	int nPage;
+};
+
+struct PMSG_REQ_GUILDMATCHINGLISTSEARCHWORD
+{
+	PBMSG_HEAD2 h;
+	int nPage;
+	char szSearchWord[11];
+};
+
+struct PMSG_REQ_REGGUILDMATCHINGDATA
+{
+	PBMSG_HEAD2 h;
+	char szMemo[41];
+	BYTE btInterestType;
+	BYTE btLevelRange;
+	BYTE btClassType;
+};
+
+struct PMSG_REQ_CANCEL_GUILDMATCHINGLIST
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_REQ_JOIN_GUILDMATCHING
+{
+	PBMSG_HEAD2 h;
+	int nGuildNumber;
+};
+
+struct PMSG_REQ_ALLOW_JOIN_GUILDMATCHING
+{
+	PBMSG_HEAD2 h;
+	int nAllowType;
+	char szName[11];
+};
+
+struct PMSG_REQ_ALLOWLIST_GUILDMATCHING
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_ANS_GUILDMATCHINGLIST
+{
+	PWMSG_HEAD2 h;
+	int nPage;
+	int nTotalPage;
+	int nListCount;
+	int nResult;
+	_stGuildMatchingList stGuildMatchingList;
+};
+
+struct PMSG_ANS_REGGUILDMATCHINGDATA
+{
+	PBMSG_HEAD2 h;
+	int nResult;
+};
+
+struct PMSG_ANS_CANCEL_JOIN_GUILDMATCHING
+{
+	PBMSG_HEAD2 h;
+	int nResult;
+};
+
+struct PMSG_ANS_CANCEL_GUILDMATCHINGLIST
+{
+	PBMSG_HEAD2 h;
+	int nResult;
+};
+
+struct PMSG_ANS_JOIN_GUILDMATCHING
+{
+	PBMSG_HEAD2 h;
+	int nResult;
+};
+
+struct PMSG_ANS_ALLOW_JOIN_GUILDMATCHING
+{
+	PBMSG_HEAD2 h;
+	char szMemberName[MAX_ACCOUNT_LEN + 1];
+	int nAllowType;
+	int nResult;
+};
+
+struct PMSG_ANS_WAIT_GUILDMATCHING
+{
+	PWMSG_HEAD2 h;
+	int nListCount;
+	int nResult;
+};
+
+struct PMSG_ANS_ALLOWLIST_STATE_GUILDMATCHING
+{
+	PBMSG_HEAD2 h;
+	char szGuildMasterName[MAX_ACCOUNT_LEN + 1];
+	char szGuildName[MAX_GUILD_LEN + 1];
+	int nResult;
+};
+
+struct PMSG_ANS_NOTI_GUILDMATCHING
+{
+	PBMSG_HEAD2 h;
+	int nResult;
+};
+
+struct PMSG_ANS_NOTI_GUILDMATCHING_FORGUILDMASTER
+{
+	PBMSG_HEAD2 h;
+	int nResult;
+};
+
+// Party Matching
+
+struct _PARTY_INFO_LISTDB
+{
+	char szLeaderName[MAX_ACCOUNT_LEN + 1];
+	char szTitle[41];
+	char szPassword[5];
+	WORD nMinLevel;
+	WORD nMaxLevel;
+	WORD nHuntingGround;
+	int nLeaderLevel;
+	BYTE btLeaderClass;
+	BYTE btWantedClass;
+	BYTE btCurPartyMemberCnt;
+	BYTE btUsePassword;
+	BYTE btWantedClassDetailInfo[7];
+	BYTE btGensType;
+	BYTE btApprovalType;
+};
+
+struct _PARTY_INFO_LIST
+{
+	char szLeaderName[MAX_ACCOUNT_LEN + 1];
+	char szTitle[41];
+	WORD nMinLevel;
+	WORD nMaxLevel;
+	WORD nHuntingGround;
+	int nLeaderLevel;
+	BYTE btLeaderClass;
+	BYTE btWantedClass;
+	BYTE btCurPartyMemberCnt;
+	BYTE btUsePassword;
+	BYTE btWantedClassDetailInfo[7];
+	int nServerChannel;
+	BYTE btGensType;
+};
+
+struct PMSG_ANS_REG_WANTED_PARTYMEMBER
+{
+	PBMSG_HEAD2 h;
+	int nResult;
+};
+
+struct PMSG_ANS_GET_PARTYMATCHINGLIST
+{
+	PWMSG_HEAD2 h;
+	int nListCount;
+	int nPage;
+	int nTotalPage;
+	int nResult;
+};
+
+struct PMSG_ANS_MEMBERJOIN_PARTYMATCHINGLIST
+{
+	PBMSG_HEAD2 h;
+	int nResult;
+};
+
+struct PMSG_ANS_MEMBERJOIN_STATELIST_PARTYMATCHING
+{
+	PBMSG_HEAD2 h;
+	int nResult;
+	int nLeaderChannel;
+	char szLeaderName[MAX_ACCOUNT_LEN + 1];
+};
+
+struct PMSG_ANS_WAITLIST_PARTYMATCHING
+{
+	PWMSG_HEAD2 h;
+	int nListCnt;
+	int nResult;
+};
+
+struct PMSG_ANS_CANCEL_JOIN_PARTYMATCHING
+{
+	PBMSG_HEAD2 h;
+	BYTE btType;
+	int nResult;
+};
+
+struct PMSG_ANS_ACCEPTMEMBER_PARTYMATCHING
+{
+	PBMSG_HEAD2 h;
+	char szMemberName[MAX_ACCOUNT_LEN + 1];
+	BYTE btType;
+	BYTE btFlag;
+	int nResult;
+};
+
+struct PMSG_ANS_NOTI_JOINPARTYMATCHING
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_REQ_REG_WANTED_PARTYMEMBER
+{
+	PBMSG_HEAD2 h;
+	char szTitle[41];
+	char szPassword[5];
+	WORD nMinLevel;
+	WORD nMaxLevel;
+	WORD nHuntingGround;
+	BYTE btWantedClass;
+	BYTE btWantedClassDetailInfo[7];
+	BYTE btUsePassword;
+	BYTE btApprovalType;
+};
+
+struct PMSG_REQ_GET_PARTYMATCHINGLIST
+{
+	PBMSG_HEAD2 h;
+	int nPage;
+	char szSearchWord[11];
+	BYTE btUseSearchWord;
+};
+
+struct PMSG_REQ_MEMBERJOIN_PARTYMATCHINGLIST
+{
+	PBMSG_HEAD2 h;
+	char szLeaderName[MAX_ACCOUNT_LEN + 1];
+	char szPassword[5];
+	BYTE btUsePassword;
+	BYTE btUseRandomParty;
+};
+
+struct PMSG_REQ_MEMBERJOIN_STATELIST_PARTYMATCHING
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_REQ_WAITLIST_PARTYMATCHING
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_REQ_ACCEPTMEMBER_PARTYMATCHING
+{
+	PBMSG_HEAD2 h;
+	char szMemberName[MAX_ACCOUNT_LEN + 1];
+	BYTE btType;
+};
+
+struct PMSG_REQ_CANCEL_JOIN_PARTYMATCHING
+{
+	PBMSG_HEAD2 h;
+	BYTE btType;
+};
+
+struct PMSG_ANS_PARTYMATCHING_ERROR
+{
+	PBMSG_HEAD2 h;
+	int iResult;
+};
+
+// Chaos Castle Survival of the Fittest
+struct PMSG_CCF_UI_ONOFF
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_REQ_REPOSUSER_IN_CCF
+{
+	PBMSG_HEAD2 h;
+	BYTE btPX;	// 4
+	BYTE btPY;	// 5
+};
+
+struct PMSG_REQ_CCF_RANKING
+{
+	PBMSG_HEAD2 h;
+	BYTE byRankingType;
+};
+
+
+struct PMSG_RESULT_CCF_ENTERCHECK
+{
+	PBMSG_HEAD2 h;
+	BYTE byResult;
+	BYTE byRemainTime;
+	BYTE byRemainTime_LOW;
+};
+
+
+// Muun
+struct PMSG_MUUNITEM_DUR
+{
+	PBMSG_HEAD2 h;
+	BYTE IPos;
+	BYTE Dur;
+};
+struct PMSG_MUUN_INVEN_SUB_EQUIP_OPEN
+{
+	PBMSG_HEAD2 h;
+	BYTE Result;
+};
+
+struct PMSG_MUUNITEM_CONDITION_STATUS
+{
+	PBMSG_HEAD2 h;
+	BYTE btIPos;
+	BYTE btStatus;
+};
+
+struct PMSG_USEITEM_MUUN_INVEN
+{
+	PBMSG_HEAD2 h;
+	BYTE inventoryPos;
+	BYTE invenrotyTarget;
+	BYTE btItemUseType;
+};
+struct PMSG_USEITEM_MUUN_INVEN_RESULT
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE btItemUseType;
+};
+
+struct PMSG_USER_MUUN_EQUIPMENT_CHANGED
+{
+	PBMSG_HEAD2 h;
+	BYTE NumberH;
+	BYTE NumberL;
+	BYTE ItemInfo[12];
+};
+
+struct PMSG_PETINVENTORY_DELETE
+{
+	PBMSG_HEAD2 h;
+	BYTE IPos;
+	BYTE Flag;
+};
+
+struct PMSG_MUUN_INVEN_ITEM_MOD
+{
+	PBMSG_HEAD2 h;
+	BYTE subcode;
+	BYTE Pos;
+	BYTE ItemInfo[12];
+};
+
+struct PMSG_MUUNITEM_GETREQUEST
+{
+	PBMSG_HEAD2 h;
+	BYTE NumberH;
+	BYTE NumberL;
+};
+
+struct PMSG_MUUNITEM_GETRESULT
+{
+	PBMSG_HEAD2 h;
+	BYTE result;
+	BYTE Data[12];
+};
+
+struct PMSG_MUUN_ITEM_SELLRESULT
+{
+	PBMSG_HEAD2 h;
+	BYTE Result;
+	DWORD Money;
+};
+
+struct PMSG_MUUN_ITEM_SELLREQUEST
+{
+	PBMSG_HEAD2 h;
+	BYTE Pos;
+};
+
+// Minimap Party member pos
+
+struct stMemberPosInfo
+{
+	char szName[MAX_ACCOUNT_LEN + 1];
+	BYTE btMapNumber;
+	BYTE btPosX;
+	BYTE btPosY;
+};
+
+struct PMSG_MEMBER_POS_INFO_SEND
+{
+	PBMSG_HEAD2 h;
+	BYTE btCount;
+	stMemberPosInfo stPosInfo[5];
+};
+
+struct PMSG_REQ_NPC_POSITION
+{
+	PBMSG_HEAD2 h;
+	BYTE btType;
+};
+
+// Event Inventory
+struct PMSG_EVENTITEM_GETREQUEST
+{
+	PBMSG_HEAD2 h;
+	BYTE NumberH;
+	BYTE NumberL;
+};
+
+struct PMSG_EVENTITEM_GETRESULT
+{
+	PBMSG_HEAD2 h;
+	BYTE result;
+	BYTE index[2]; // New Packet
+	BYTE Data[12];
+};
+
+struct PMSG_EVENTITEM_THROW
+{
+	PBMSG_HEAD2 h;
+	BYTE px;
+	BYTE py;
+	BYTE Ipos;
+};
+
+struct PMSG_EVENTITEM_THROW_RESULT
+{
+	PBMSG_HEAD2 h;
+	unsigned char Result;
+	BYTE Ipos;
+};
+
+struct PMSG_EVENTINVENTORY_DELETE
+{
+	PBMSG_HEAD2 h;
+	BYTE IPos;
+	BYTE Flag;
+};
+
+struct PMSG_EVENTITEM_DUR
+{
+	PBMSG_HEAD2 h;
+	BYTE IPos;
+	BYTE Dur;
+};
+
+struct PMSG_EVENT_INVEN_ITEM_MOD
+{
+	PBMSG_HEAD2 h;
+	BYTE Pos;
+	BYTE ItemInfo[12];
+};
+
+// Exp info
+struct PMSG_RES_EXPEVENTINFO
+{
+	PBMSG_HEAD2 h;
+	WORD wPCBangRate;
+	WORD wExpRate;
+};
+
+// Mining System
+
+struct PMSG_REQ_MINETWINKLE
+{
+	PBMSG_HEAD2 h;
+	WORD wUserIndex;
+	WORD wTwinkleIndex;
+	WORD wTwinkleType;
+	BYTE byMapNumber;
+};
+
+struct PMSG_ANS_MINETWINKLE
+{
+	PBMSG_HEAD2 h;
+	WORD wUserIndex;
+	WORD wTwinkleIndex;
+	WORD wTwinkleType;
+	BYTE byMapNumber;
+	BYTE byCurrentStage;
+	int iRewardJewelNumber;
+	int iResult;
+};
+
+struct PMSG_REQ_MINETWINKLE_REWARD
+{
+	PBMSG_HEAD2 h;
+	WORD wUserIndex;
+	WORD wTwinkleIndex;
+	WORD wTwinkleType;
+	BYTE byMapNumber;
+	BYTE byIsStopMine;
+};
+
+struct PMSG_ANS_MINETWINKLE_REWARD
+{
+	PBMSG_HEAD2 h;
+	WORD wUserIndex;
+	WORD wTwinkleIndex;
+	WORD wTwinkleType;
+	BYTE byMapNumber;
+	BYTE byCurrentStage;
+	int iResult;
+};
+
+struct PMSG_ANS_MINETWINKLE_END_ANIMATION
+{
+	PBMSG_HEAD2 h;
+	WORD wUserIndex;
+	WORD wTwinkleIndex;
+	BYTE byMapNumber;
+};
+
+struct PMSG_ANS_MINETWINKLE_CANCEL
+{
+	PBMSG_HEAD2 h;
+	WORD wUserIndex;
+	WORD wTwinkleIndex;
+	WORD wTwinkleType;
+	BYTE byMapNumber;
+	BYTE byCurrentStage;
+};
+
+// Illusion Temple Renewal
+struct PMSG_ITL_RELICS_GET_USER
+{
+	PBMSG_HEAD2 h;
+	WORD wUserIndex;
+	char Name[MAX_ACCOUNT_LEN];
+	BYTE byGet;
+};
+
+struct PMSG_ANS_ITL_RELATE_RELICS
+{
+	PBMSG_HEAD2 h;
+	BYTE byError;
+	BYTE byNumberH;
+	BYTE byNumberL;
+	WORD wNpcType;
+	BYTE byAct;
+};
+
+struct PMSG_ITL_STONEINFO
+{
+	PBMSG_HEAD2 h;
+	BYTE byMapTagIndex;
+	WORD wOccupiedStoneType;
+	BYTE byOccupiedStoneState;
+	int nNpcIndex;
+};
+
+struct PMSG_ITL_PLAY_STATE
+{
+	PBMSG_HEAD2 h;
+	WORD wRemainSec;
+	BYTE byAlliedPoint;
+	BYTE btIllusionPoint;
+	BYTE btMyTeam;
+};
+
+struct PMSG_ITL_STATE
+{
+	PBMSG_HEAD2 h;
+	BYTE btTempleNumber;
+	BYTE btITLState;
+};
+
+struct PMSG_ITL_SKILL_END
+{
+	PBMSG_HEAD2 h;
+	BYTE MagicNumberH;
+	BYTE MagicNumberL;
+	WORD wObjIndex;
+};
+
+struct PMSG_ILLUSION_TEMPLE_USE_MAGIC_RESULT
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE MagicNumberH;
+	BYTE MagicNumberL;
+	WORD wSourceObjIndex;
+	WORD wTargetObjIndex;
+};
+
+struct PMSG_ITR_USER_ADD_EXP
+{
+	char GameID[MAX_ACCOUNT_LEN];
+	BYTE btMapNumber;
+	BYTE btTeam;
+	BYTE btClass;
+	BYTE btUserKillCount;
+};
+
+struct PMSG_ITR_RESULT
+{
+	PBMSG_HEAD2 h;
+	BYTE btAlliedPoint;
+	BYTE btIllusionPoint;
+	BYTE btUserCount;
+	BYTE byWinTeamIndex;
+};
+
+struct _ITL_AnswerEnter
+{
+	PBMSG_HEAD2 h;
+	BYTE bReason;
+	char Name[MAX_ACCOUNT_LEN + 1];
+};
+
+struct _ITR_AcceptEnter
+{
+	PBMSG_HEAD2 h;
+	BYTE byError;
+	char Name[MAX_ACCOUNT_LEN + 1];
+};
+
+struct PMSG_REQ_ENTER_ITR
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_REQ_ACCEPTENTER_ITR
+{
+	PBMSG_HEAD2 h;
+	BYTE byEnterOK;
+};
+
+struct PMSG_REQ_ITL_RELATE_RELICS
+{
+	PBMSG_HEAD2 h;
+	BYTE NumberH;
+	BYTE NumberL;
+	WORD wNpcType;
+	BYTE byPrePacket;
+	BYTE byAct;
+};
+
+struct PMSG_ITL_USE_MAGIC_RESULT
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE MagicNumberH;
+	BYTE MagicNumberL;
+	WORD wSourceObjIndex;
+	WORD wTargetObjIndex;
+};
+
+struct PMSG_ITL_RESULT
+{
+	PBMSG_HEAD2 h;
+	BYTE btUserCount;
+	char szAlliedGuildName[MAX_GUILD_LEN + 1];
+	char szIllusionGuildName[MAX_GUILD_LEN + 1];
+	BYTE byWin;
+};
+
+struct PMSG_ITL_USER_ADD_EXP
+{
+	char GameID[MAX_ACCOUNT_LEN];
+	BYTE btMapNumber;
+	BYTE btTeam;
+	BYTE btClass;
+	BYTE btUserKillCount;
+};
+
+struct PMSG_ANS_ITL_SCHEDULE
+{
+	PWMSG_HEAD2 h;
+	BYTE byCount;
+	BYTE LeagueDay1;
+	BYTE LeagueDay2;
+	BYTE LeagueDay3;
+	BYTE LeagueDay4;
+	BYTE LeagueDay5;
+	BYTE LeagueDay6;
+	BYTE LeagueDay7;
+	BYTE SemiFinal;
+	BYTE Final;
+	BYTE ITL_STATE;
+};
+
+struct __ITL_GUILD_RANK
+{
+	char szGuildName[MAX_GUILD_LEN + 1];
+	BYTE byRank;
+	BYTE byITLType;
+	BYTE byWin;
+	BYTE byLose;
+};
+
+struct PMSG_ITL_GUILD_RANKINFO
+{
+	PWMSG_HEAD2 h;
+	BYTE byResult;
+	BYTE byCnt;
+};
+
+struct PMSG_ANS_REWARDLIST
+{
+	PWMSG_HEAD2 h;
+	BYTE byResult;
+	BYTE byCount;
+};
+
+struct _tagITL_REWARDLIST
+{
+	BYTE byRank;
+	BYTE byEnteredCnt;
+	BYTE byPoint;
+	bool bGotReward;
+	char szCharName[MAX_ACCOUNT_LEN + 1];
+	char szGuildName[MAX_GUILD_LEN + 1];
+};
+
+struct PMSG_REQ_ACHERON_EVENT_ENTER
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_ANS_ACHERON_EVENT_ENTER
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+};
+
+struct PMSG_SEND_WINDOW_CLOSE
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_RAREITEMPIRCESEND
+{
+	PWMSG_HEAD2 h;
+	BYTE btItemSellPriceDivisor;
+	int iJewelOfBlessPrice;
+	int	iJewelOfSoulPrice;
+	int iJewelOfChaosPrice;
+	int iJewelOfLifePrice;
+	int iJewelOfCreationPrice;
+	int iCrestOfMonarchPrice;
+	int iLochFeatherPrice;
+	int iJewelOfGuardianPrice;
+	int iWereRabbitEggPrice;
+};
+
+struct STAT_BONUS
+{
+	WORD BonusOptionID;
+	WORD BonusOptionVal1;
+	WORD BonusOptionVal2;
+};
+
+struct PMSG_STAT_BONUS
+{
+	PBMSG_HEAD2 h;
+	STAT_BONUS m_BonusOption[5];
+};
+
+struct PMSG_MUUN_RIDE_SELECT
+{
+	PBMSG_HEAD2 h;
+	WORD wItemNum;
+};
+
+struct PMSG_REQ_MUUN_EXCHANGE
+{
+	PBMSG_HEAD2 h;
+	BYTE btSelect;
+};
+
+struct PMSG_SEND_MUUN_RIDE_VIEWPORT_INFO
+{
+	PWMSG_HEAD2 h;
+	BYTE Count;
+};
+struct _tagMuunRideViewPortInfo
+{
+	BYTE NumberH;
+	BYTE NumberL;
+	BYTE MuunRideItemH;
+	BYTE MuunRideItemL;
+};
+
+struct PMSG_ANS_MUUN_EXCHANGE
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+};
+
+struct PMSG_MUUN_ATTACK_COMMAND
+{
+	PBMSG_HEAD2 h;
+	BYTE Slot;
+	BYTE SkillType;
+	BYTE NumberH;
+	BYTE NumberL;
+	BYTE TargetNumberH;
+	BYTE TargetNumberL;
+};
+
+// UBF
+
+struct PMSG_REQ_UBF_INFO
+{
+	PBMSG_HEAD2 h;
+	BYTE btUBFKind;
+};
+
+struct PMSG_REQ_UBF_JOIN
+{
+	PBMSG_HEAD2 h;
+	BYTE btUBFKind;
+};
+
+struct PMSG_REQ_UBF_CANCEL
+{
+	PBMSG_HEAD2 h;
+	BYTE btCanceled;
+};
+
+struct PMSG_REQ_UBF_REAL_NAME
+{
+	PBMSG_HEAD2 h;
+	BYTE btRequest;
+};
+
+struct PMSG_REQ_GET_REWARD
+{
+	PBMSG_HEAD2 h;
+	BYTE btBattleKind;
+};
+
+struct PMSG_ANS_UBF_JOIN
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	WORD nLeftSec;
+};
+
+struct PMSG_ANS_UBF_INFO
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+};
+
+struct PMSG_ANS_UBF_CANCEL
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+};
+
+struct PMSG_ANS_GET_REWARD
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+};
+
+// DSF
+
+struct PMSG_REQ_DSF_ACCEPTENTER
+{
+	PBMSG_HEAD2 h;
+	BYTE btEnterOK;
+};
+
+struct PMSG_REQ_DSF_GO_FINAL_PARTY_INFO
+{
+	PBMSG_HEAD2 h;
+	BYTE btDSFType;
+};
+
+struct PMSG_REQ_DSF_GET_REWARD
+{
+	PBMSG_HEAD2 h;
+	BYTE btDSFType;
+};
+
+struct PMSG_ANS_DSF_ENTER
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+	char Name[MAX_ACCOUNT_LEN + 1];
+	BYTE btDSFType;
+};
+
+struct PMSG_ANS_DSF_ACCEPTENTER
+{
+	PBMSG_HEAD2 h;
+	BYTE btError;
+	char Name[MAX_ACCOUNT_LEN + 1];
+};
+
+struct PMSG_ANS_DSF_GO_FINAL_PARTY_INFO
+{
+	PWMSG_HEAD2 h;
+	BYTE btResult;
+	BYTE btCnt;
+	BYTE btDSFType;
+};
+
+struct DSF_GO_FINAL_PARTY
+{
+	DSF_GO_FINAL_PARTY()
+	{
+		this->Clear();
+	}
+
+	void Clear()
+	{
+		memset(szUserName1, 0x00, sizeof(szUserName1));
+		memset(szUserName2, 0x00, sizeof(szUserName2));
+		this->wServerCode1 = -1;
+		this->wServerCode2 = -1;
+		this->btRank = 0;
+		this->btDSFType = 0;
+		this->iPoint = 0;
+		this->iEnterYear = 0;
+		this->btEnterMonth = 0;
+		this->btEnterDay = 0;
+	}
+
+	char szUserName1[MAX_ACCOUNT_LEN + 1];
+	char szUserName2[MAX_ACCOUNT_LEN + 1];
+	WORD wServerCode1;
+	WORD wServerCode2;
+	BYTE btRank;
+	BYTE btDSFType;
+	int iPoint;
+	int iEnterYear;
+	BYTE btEnterMonth;
+	BYTE btEnterDay;
+};
+
+struct PMSG_ANS_DSF_SCHEDULE
+{
+	PBMSG_HEAD2 h;
+	BYTE LeagueDay1;
+	BYTE LeagueDay2;
+	BYTE LeagueDay3;
+	BYTE LeagueDay4;
+	BYTE SemiFinalDay1;
+	BYTE SemiFinalDay2;
+	BYTE Final;
+	BYTE CurDay;
+	BYTE LeagueHour[10];
+	BYTE LeagueMin[10];
+	BYTE SemiFinalHour[10];
+	BYTE SemiFinalMin[10];
+	BYTE FinalHour;
+	BYTE FinalMin;
+	BYTE RewardStartDay;
+	BYTE RewardEndDay;
+};
+
+struct PMSG_DSF_TEAM_USERNAME
+{
+	PWMSG_HEAD2 h;
+	int nPartyCount;
+	BYTE btResult;
+};
+
+struct DSF_TEAM_PARTY_USER_NAME
+{
+	int iTeamIndex;
+	char szUserName1[MAX_ACCOUNT_LEN + 1];
+	char szUserName2[MAX_ACCOUNT_LEN + 1];
+	int iTeamLevel;
+};
+
+struct PMSG_DSF_STATE
+{
+	PBMSG_HEAD2 h;
+	BYTE btDSFState;
+};
+
+struct PMSG_DSF_PLAY_STATE
+{
+	PBMSG_HEAD2 h;
+	WORD wRemainSec;
+	int iTeamPoint[20];
+	BYTE btMyTeam;
+};
+
+struct PMSG_DSF_RESULT
+{
+	PBMSG_HEAD2 h;
+	int iTeamPoint[20];
+};
+
+struct PMSG_ANS_DSF_GET_REWARD
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult;
+};
+
+// Rest of S9
+struct PMSG_ANS_USE_POPUP
+{
+	PBMSG_HEAD2 h;
+	int nPopupType;
+};
+
+struct PMSG_SEND_EVENT_BANNER
+{
+	PBMSG_HEAD2 h;
+	int iBannerType;
+};
+
+struct PMSG_ALTERPSHOPVAULT
+{
+	PBMSG_HEAD h;
+	BYTE subcode;
+	BYTE type;
+};
+
+struct PMSG_POST_DATA
+{
+	PBMSG_HEAD2 h;
+	BYTE btColorRGB[3];
+	char szServerName[50];
+	char szTag[20];
+	char szName[MAX_ACCOUNT_LEN];
+	char szMessage[MAX_CHAT_LEN];
+};
+
+struct PMSG_SEND_HITHACK_INFO // C1:FA:14
+{
+	PBMSG_HEAD2 h;
+	DWORD dwHitHackVal1;
+	DWORD dwHitHackVal2;
+};
+
+// Season X
+struct BLOCKCHAT_DATA
+{
+	BYTE btBlockEnable;
+	BYTE btIndex;
+	char szName[MAX_ACCOUNT_LEN + 1];
+};
+
+struct PMSG_BLOCKCHAT_LIST // C2:6E:00
+{
+	PWMSG_HEAD2 h;
+	BYTE btType;
+	BYTE btSubType;
+	BYTE Count;
+	BLOCKCHAT_DATA m_BlockData[20];
+};
+
+struct PMSG_EVENTENTRY_NOTICE
+{
+	PBMSG_HEAD2 h; // C1:F1:FE
+	BYTE btEventType;
+	BYTE btNoticeState;
+};
+
+struct PMSG_RUUD
+{
+	PBMSG_HEAD2 h; // C1:D0:F1
+	int iTotalRuud;
+	int iObtainedRuud;
+	BYTE btObtainNotiSend;
+};
+
+struct PMSG_REQ_CHAOS_MULTIMIX_CHECK
+{
+	PBMSG_HEAD h;
+	BYTE btMixType;
+	BYTE btMixCount;
+};
+
+struct PMSG_ANS_CHAOS_MULTIMIX_CHECK
+{
+	PBMSG_HEAD h;
+	BYTE btResult;
+};
+
+struct PMSG_RANKING_SET
+{
+	PBMSG_HEAD h;
+	BYTE btSetType;
+	int iRankingType;
+	DWORD ValueH;
+	DWORD ValueL;
+};
+
+struct PMSG_REQ_RUUD_STORE_BUYITEM
+{
+	PBMSG_HEAD2 h;
+	BYTE btPos;
+};
+
+struct PMSG_ANS_RUUD_STORE_BUYITEM
+{
+	PBMSG_HEAD2 h;
+	BYTE btResult; // -1,-3 = general error, -2 = timeout, -4 = not enough ruud, -5 = not enough space
+	BYTE btPos;
+	BYTE btItemInfo[MAX_ITEM_INFO];
+};
+
+struct PMSG_REQ_USE_BOX
+{
+	PBMSG_HEAD2 h; // C1:D0:F2
+	BYTE btPos;
+};
+
+struct PMSG_ANS_USE_BOX
+{
+	PBMSG_HEAD2 h;
+	int iResult;
+	int iItemType;
+};
+
+// test hunting log
+struct PMSG_REQ_HUNTING_LOG
+{
+	PBMSG_HEAD2 h;
+	WORD unk1;
+	WORD unk2;
+	WORD unk3;
+	WORD unk4;
+};
+
+struct PMSG_ANS_HUNTING_LOG
+{
+	PBMSG_HEAD2 h;
+	WORD unk1;
+	WORD unk2;
+	WORD unk3;
+	WORD unk4;
+};
+
+struct PMSG_MUBOT_REQ_START
+{
+	PBMSG_HEAD2 h;
+	BYTE btType;
+};
+
+struct PMSG_MUBOT_USE
+{
+	PBMSG_HEAD2 h;
+	WORD Time;
+	DWORD Money;
+	BYTE Status;
+};
+
+struct PMSG_MUBOT_SETTINGS_RECV
+{
+	PWMSG_HEAD h;
+	BYTE btType;
+	BYTE btDATA[512];
+};
 
 
 

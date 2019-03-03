@@ -964,12 +964,12 @@ void ExDataClientMsgProc(WPARAM wParam, LPARAM lParam)
 					{
 						if (getGameObject(i)->PartyNumber < 0)
 						{
-							gGameProtocol.GCPartyDelUserSendNoMessage(i);
+							GSProtocol.GCPartyDelUserSendNoMessage(i);
 						}
 
 						else
 						{
-							gGameProtocol.CGPartyList(i);
+							GSProtocol.CGPartyList(i);
 						}
 					}
 

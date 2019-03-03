@@ -73,7 +73,7 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(CGameObject &Obj)
 		}
 		else
 		{
-			gGameProtocol.GCAnsCsAccessSwitchState(lpUserObj.m_Index, Obj.m_Index, -1, 0);
+			GSProtocol.GCAnsCsAccessSwitchState(lpUserObj.m_Index, Obj.m_Index, -1, 0);
 			g_CastleSiege.ResetCrownSwitchUserIndex(Obj.Class);
 
 			if ( g_CastleSiege.GetRegCrownAvailable() == 1 )
@@ -88,7 +88,7 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(CGameObject &Obj)
 	}
 	else
 	{
-		gGameProtocol.GCAnsCsAccessSwitchState(lpUserObj.m_Index, Obj.m_Index, -1, 0);
+		GSProtocol.GCAnsCsAccessSwitchState(lpUserObj.m_Index, Obj.m_Index, -1, 0);
 
 		g_CastleSiege.ResetCrownSwitchUserIndex(Obj.Class);
 

@@ -862,7 +862,7 @@ void QuestExpProgMng::DeleteInventoryItem(QuestGetItem* pQuestGetItem, int iObjI
 
 			gObjInventoryItemSet(iObjIndex, x, -1);
 			getGameObject(iObjIndex)->pntInventory[x)->Clear();
-			gGameProtocol.GCInventoryItemDeleteSend(iObjIndex, x, 1);
+			GSProtocol.GCInventoryItemDeleteSend(iObjIndex, x, 1);
 
 			iItemCnt--;
 		}
@@ -889,7 +889,7 @@ void QuestExpProgMng::DeleteInventoryItem(QuestGetItem* pQuestGetItem, int iObjI
 
 				gObjInventoryItemSet(iObjIndex, x, -1);
 				getGameObject(iObjIndex)->pntInventory[x)->Clear();
-				gGameProtocol.GCInventoryItemDeleteSend(iObjIndex, x, 1);
+				GSProtocol.GCInventoryItemDeleteSend(iObjIndex, x, 1);
 			}
 
 			iItemCnt--;

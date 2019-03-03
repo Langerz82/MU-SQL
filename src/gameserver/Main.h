@@ -13,7 +13,7 @@
 #include "Game/Filters/AntiSwear.h"
 #include "Game/Filters/ProhibitedSymbols.h"
 
-#include "wsJoinServerCli.h"
+//#include "wsJoinServerCli.h"
 #include "wsGameServer.h"
 #include "DirPath.h"
 #include "MapClass.h"
@@ -123,8 +123,8 @@ extern classdef DCInfo;	// line 252:
 extern CWhisperCash WhisperCash;	// line 253
 extern PartyClass gParty;	// line 254
 extern CGuildClass Guild;	// line 265
-extern WzUdp gUdpSoc;	// line 256
-extern WzUdp gLauncherUdp;
+//extern WzUdp gUdpSoc;	// line 256
+//extern WzUdp gLauncherUdp;
 extern CLoginCount gLCount[3];	// line 329
 extern UINT64 * gLevelExperience;
 extern char szGameServerExeSerial[24];

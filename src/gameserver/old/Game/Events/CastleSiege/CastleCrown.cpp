@@ -68,7 +68,7 @@ void CCastleCrown::CastleCrownAct(CGameObject &Obj)
 				}
 				else
 				{
-					gGameProtocol.GCAnsCsAccessCrownState(lpUserObj.m_Index, 2);
+					GSProtocol.GCAnsCsAccessCrownState(lpUserObj.m_Index, 2);
 					g_CastleSiege.ResetCrownUserIndex();
 					g_CastleSiege.SetCrownAccessUserX(0);
 					g_CastleSiege.SetCrownAccessUserY(0);
@@ -80,7 +80,7 @@ void CCastleCrown::CastleCrownAct(CGameObject &Obj)
 			}
 			else
 			{
-				gGameProtocol.GCAnsCsAccessCrownState(lpUserObj.m_Index, 2);
+				GSProtocol.GCAnsCsAccessCrownState(lpUserObj.m_Index, 2);
 				g_CastleSiege.ResetCrownUserIndex();
 				g_CastleSiege.SetCrownAccessUserX(0);
 				g_CastleSiege.SetCrownAccessUserY(0);
@@ -89,7 +89,7 @@ void CCastleCrown::CastleCrownAct(CGameObject &Obj)
 		}
 		else
 		{
-			gGameProtocol.GCAnsCsAccessCrownState(lpUserObj.m_Index, 2);
+			GSProtocol.GCAnsCsAccessCrownState(lpUserObj.m_Index, 2);
 			g_CastleSiege.ResetCrownUserIndex();
 			g_CastleSiege.SetCrownAccessUserX(0);
 			g_CastleSiege.SetCrownAccessUserY(0);
@@ -98,7 +98,7 @@ void CCastleCrown::CastleCrownAct(CGameObject &Obj)
 	}
 	else
 	{
-		gGameProtocol.GCAnsCsAccessCrownState(lpUserObj.m_Index, 2);
+		GSProtocol.GCAnsCsAccessCrownState(lpUserObj.m_Index, 2);
 		g_CastleSiege.ResetCrownUserIndex();
 		g_CastleSiege.SetCrownAccessUserX(0);
 		g_CastleSiege.SetCrownAccessUserY(0);

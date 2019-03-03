@@ -1321,7 +1321,7 @@ void gObjMonsterStateProc(CGameObject &ObjSource, int aMsgCode, CGameObject &Obj
 
 				cMagicInf.m_Skill = AT_SKILL_BERSERKER;
 				gObjUseSkill.SkillBerserker(ObjSource.m_Index, &cMagicInf, ObjSource.m_Index);
-				gGameProtocol.GCUseMonsterSkillSend(ObjSource, ObjSource, 59);
+				GSProtocol.GCUseMonsterSkillSend(ObjSource, ObjSource, 59);
 				ObjSource.m_ActState.Attack = 0;
 				ObjSource.m_ActState.Move = 0;
 				ObjSource.m_ActState.Emotion = 0;
@@ -1876,7 +1876,7 @@ void gObjMonsterProcess(CGameObject &Obj)
 				pAttackMsg.NumberH = (BYTE)((DWORD)iTargetNumber >>(DWORD)8);
 				pAttackMsg.NumberL = iTargetNumber &0xFF;
 
-				gGameProtocol.GCActionSend(lpObj, 120, Obj.m_Index, iTargetNumber);
+				GSProtocol.GCActionSend(lpObj, 120, Obj.m_Index, iTargetNumber);
 				gObjAttack(lpObj, getGameObject(iTargetNumber), NULL, FALSE, 0, 0, FALSE, 0, 0);
 			}
 
@@ -1889,7 +1889,7 @@ void gObjMonsterProcess(CGameObject &Obj)
 				pAttackMsg.NumberH = (BYTE)((DWORD)iTargetNumber >> (DWORD)8);
 				pAttackMsg.NumberL = iTargetNumber & 0xFF;
 
-				gGameProtocol.GCActionSend(lpObj, 120, Obj.m_Index, iTargetNumber);
+				GSProtocol.GCActionSend(lpObj, 120, Obj.m_Index, iTargetNumber);
 				gObjAttack(lpObj, getGameObject(iTargetNumber), NULL, FALSE, 0, 0, FALSE, 0, 0);
 			}
 
@@ -2030,7 +2030,7 @@ void gObjMonsterMagicAttack(CGameObject &Obj, int iMonsterClass)
 	pDuration.X = Obj.X;
 	pDuration.Y = Obj.Y;
 
-	gGameProtocol.CGDurationMagicRecv((BYTE*)&pDuration, Obj.m_Index);
+	GSProtocol.CGDurationMagicRecv((BYTE*)&pDuration, Obj.m_Index);
 
 	pCount.h.c = 0xC1;
 
@@ -2095,7 +2095,7 @@ void gObjMonsterMagicAttack(CGameObject &Obj, int iMonsterClass)
 		}
 		else
 		{
-			gGameProtocol.CGBeattackRecv(AttackSendBuff, Obj.m_Index, TRUE);
+			GSProtocol.CGBeattackRecv(AttackSendBuff, Obj.m_Index, TRUE);
 		}
 	}
 }
@@ -2114,12 +2114,12 @@ void gObjUseMonsterSpecialAbillity(CGameObject &MonsterObj)
 
 		if ( (lpMonsterObj.MaxLife / 25.0f) > lpMonsterObj.Life  )
 		{
-			gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpMonsterObj.m_Index);
-			gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpMonsterObj.m_Index);
+			GSProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpMonsterObj.m_Index);
+			GSProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpMonsterObj.m_Index);
 		}
 		else if ( (lpMonsterObj.MaxLife / 5.0f) > lpMonsterObj.Life  )
 		{
-			gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpMonsterObj.m_Index);
+			GSProtocol.CGMagicAttack((BYTE*)&pAttackMsg, lpMonsterObj.m_Index);
 		}
 	}
 }
@@ -2183,7 +2183,7 @@ void gObjMonsterAttack(CGameObject &Obj, CGameObject lpTargetObj)
 			pAttackMsg.NumberL = SET_NUMBERL(Obj.TargetNumber);
 			pAttackMsg.Dis = 0;
 
-			gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
+			GSProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
 			return;
 		}
 
@@ -2201,7 +2201,7 @@ void gObjMonsterAttack(CGameObject &Obj, CGameObject lpTargetObj)
 		pAttackMsg.NumberL = SET_NUMBERL(Obj.TargetNumber);
 		pAttackMsg.Dis = 0;
 
-		gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
+		GSProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
 
 		if ( MagicNumber == 1 || MagicNumber == 2 || MagicNumber == 0 )
 		{
@@ -2223,7 +2223,7 @@ void gObjMonsterAttack(CGameObject &Obj, CGameObject lpTargetObj)
 		pAttackMsg.NumberL = SET_NUMBERL(Obj.TargetNumber);
 		pAttackMsg.Dis = 0;
 
-		gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
+		GSProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
 		return;
 	}
 	
@@ -2271,7 +2271,7 @@ void gObjMonsterAttack(CGameObject &Obj, CGameObject lpTargetObj)
 			pAttackMsg.NumberL = SET_NUMBERL(Obj.TargetNumber);
 			pAttackMsg.Dis = 0;
 
-			gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
+			GSProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
 			return;
 		}
 		AttackType = 0;
@@ -2295,7 +2295,7 @@ void gObjMonsterAttack(CGameObject &Obj, CGameObject lpTargetObj)
 		pAttackMsg.NumberL = SET_NUMBERL(Obj.TargetNumber);
 		pAttackMsg.Dis = 0;
 
-		gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
+		GSProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
 	}
 	else if (	   Obj.Class == 163
             || Obj.Class == 165
@@ -2313,7 +2313,7 @@ void gObjMonsterAttack(CGameObject &Obj, CGameObject lpTargetObj)
 		pAttackMsg.NumberL = SET_NUMBERL(Obj.TargetNumber);
 		pAttackMsg.Dis = 0;
 
-		gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
+		GSProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
 	}
 	else if ( Obj.Class == 66 || Obj.Class == 73 || Obj.Class == 77 )
 	{
@@ -2325,7 +2325,7 @@ void gObjMonsterAttack(CGameObject &Obj, CGameObject lpTargetObj)
 		pAttackMsg.NumberL = SET_NUMBERL(Obj.TargetNumber);
 		pAttackMsg.Dis = 0;
 
-		gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
+		GSProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
 	}
 
 	else if ( Obj.Class >= 533 && Obj.Class <= 539 )
@@ -2340,7 +2340,7 @@ void gObjMonsterAttack(CGameObject &Obj, CGameObject lpTargetObj)
 		pAttackMsg.NumberH = SET_NUMBERH(Obj.TargetNumber);
 		pAttackMsg.NumberL = SET_NUMBERL(Obj.TargetNumber);
 
-		gGameProtocol.CGDurationMagicRecv((BYTE*)&pAttackMsg, Obj.m_Index);
+		GSProtocol.CGDurationMagicRecv((BYTE*)&pAttackMsg, Obj.m_Index);
 	}
 
 	else if ( Obj.Class == 561 )
@@ -2356,7 +2356,7 @@ void gObjMonsterAttack(CGameObject &Obj, CGameObject lpTargetObj)
 			pAttackMsg.NumberH = SET_NUMBERH(Obj.TargetNumber);
 			pAttackMsg.NumberL = SET_NUMBERL(Obj.TargetNumber);
 
-			gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
+			GSProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
 		}
 
 		else
@@ -2372,7 +2372,7 @@ void gObjMonsterAttack(CGameObject &Obj, CGameObject lpTargetObj)
 			pAttackMsg.NumberH = SET_NUMBERH(Obj.TargetNumber);
 			pAttackMsg.NumberL = SET_NUMBERL(Obj.TargetNumber);
 
-			gGameProtocol.CGDurationMagicRecv((BYTE*)&pAttackMsg, Obj.m_Index);
+			GSProtocol.CGDurationMagicRecv((BYTE*)&pAttackMsg, Obj.m_Index);
 		}
 	}
 	
@@ -2389,7 +2389,7 @@ void gObjMonsterAttack(CGameObject &Obj, CGameObject lpTargetObj)
 					pAttackMsg.NumberH = SET_NUMBERH(Obj.TargetNumber);
 					pAttackMsg.NumberL = SET_NUMBERL(Obj.TargetNumber);
 
-					gGameProtocol.CGAttack(&pAttackMsg, Obj.m_Index);
+					GSProtocol.CGAttack(&pAttackMsg, Obj.m_Index);
 				}
 				break;
 			
@@ -2402,7 +2402,7 @@ void gObjMonsterAttack(CGameObject &Obj, CGameObject lpTargetObj)
 					pAttackMsg.NumberL = SET_NUMBERL(Obj.TargetNumber);
 					pAttackMsg.Dis = 0;
 
-					gGameProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
+					GSProtocol.CGMagicAttack((BYTE*)&pAttackMsg, Obj.m_Index);
 				}
 		}
 	}
@@ -2501,7 +2501,7 @@ BOOL PathFindMoveMsgSend(CGameObject &Obj)
 			Obj.m_OldY = sy;
 		}
 
-		gGameProtocol.PMoveProc(&pMove, Obj.m_Index);
+		GSProtocol.PMoveProc(&pMove, Obj.m_Index);
 		return TRUE;
 	}
 
@@ -2719,7 +2719,7 @@ void gObjMonsterBaseAct(CGameObject &Obj)
 					{
 						if ( Obj.m_PK_Count == 0 )
 						{
-							gGameProtocol.ChatSend(lpObj,(char *)g_ConfigRead.data.common.GuardSayText.c_str());	// Need Translation
+							GSProtocol.ChatSend(lpObj,(char *)g_ConfigRead.data.common.GuardSayText.c_str());	// Need Translation
 						}
 					}
 				}
@@ -5260,7 +5260,7 @@ void gObjMonsterSummonSkillForLordSilvester(CGameObject &Obj)
 	pDuration.NumberH = HIBYTE(Obj.TargetNumber);
 	pDuration.NumberL = LOBYTE(Obj.TargetNumber);
 
-	gGameProtocol.CGDurationMagicRecv((BYTE*)&pDuration, Obj.m_Index);
+	GSProtocol.CGDurationMagicRecv((BYTE*)&pDuration, Obj.m_Index);
 
 	Obj.m_ActState.Attack = 0;
 	Obj.m_ActState.Move = 0;
@@ -5426,7 +5426,7 @@ void CQeustNpcTeleport::Run(CGameObject &Obj)
 		pMsg.TargetNumberH = SET_NUMBERH(Obj.m_Index);
 		pMsg.TargetNumberL = SET_NUMBERL(Obj.m_Index);
 
-		gGameProtocol.MsgSendV2(getGameObject(Obj.m_Index), (UCHAR*)&pMsg, pMsg.h.size);
+		GSProtocol.MsgSendV2(getGameObject(Obj.m_Index), (UCHAR*)&pMsg, pMsg.h.size);
 
 		gObjViewportListProtocolDestroy(getGameObject(Obj.m_Index));
 		gObjClearViewport(getGameObject(Obj.m_Index));

@@ -11,9 +11,11 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "StdAfx.h"
 #include "prodef.h"
-#include "user.h"
-#include "./Eventos/ArcaBattle/ArcaBattle.h"
+#include "CGameObject.h"
+
+#include "ArcaBattle.h"
 #include "DevilSquareFinal.h"
 
 /* * * * * * * * * * * * * * * * * * * * * 
@@ -837,9 +839,9 @@ struct SDHP_REQ_SET_CCF_WINNER_INFO
 	BYTE btRewardType;
 };
 
-struct _tagPMSG_REQ_SAVE_CHAOSCASTLE_KILLPOINT_UBF
+struct PMSG_REQ_SAVE_CHAOSCASTLE_KILLPOINT_UBF
 {
-	_tagPMSG_REQ_SAVE_CHAOSCASTLE_KILLPOINT_UBF()
+	PMSG_REQ_SAVE_CHAOSCASTLE_KILLPOINT_UBF()
 	{
 		memset(this->szCharName, 0x00, sizeof(this->szCharName));
 		this->nPoint = 0;

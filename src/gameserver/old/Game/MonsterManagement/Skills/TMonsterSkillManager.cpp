@@ -298,7 +298,7 @@ void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, i
 
 			if ( nTargetIndex == -1 )
 			{
-				gGameProtocol.GCActionSend(lpObj, 120, Obj.m_Index, Obj.TargetNumber);
+				GSProtocol.GCActionSend(lpObj, 120, Obj.m_Index, Obj.TargetNumber);
 				gObjAttack(lpObj, lpTargetObj, 0, 0, 0, 0, 0, 0, 0);
 				return;
 			}
@@ -320,7 +320,7 @@ void TMonsterSkillManager::UseMonsterSkill(CGameObject &Obj, int iTargetIndex, i
 		}
 	}
 
-	gGameProtocol.GCUseMonsterSkillSend(lpObj, lpTargetObj, lpMonsterSkillUnit->m_iUnitNumber);
+	GSProtocol.GCUseMonsterSkillSend(lpObj, lpTargetObj, lpMonsterSkillUnit->m_iUnitNumber);
 	
 	if ( lpMonsterSkillUnit->m_iUnitScopeType == -1 )
 	{

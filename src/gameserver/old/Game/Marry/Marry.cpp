@@ -141,49 +141,49 @@ void CMarry::Propose(CGameObject &Obj, int uIndex)
 
 	if (Obj.Name == getGameObject(uIndex)->Name)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,393), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,393), Obj.m_Index, 1);
 		return;
 	}
 
 	if (!this->m_bMarryEnable)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,373), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,373), Obj.m_Index, 1);
 		return;
 	}
 
 	if (Obj.Married != 0 || getGameObject(uIndex)->Married != 0)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,374), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,374), Obj.m_Index, 1);
 		return;
 	}
 
 	if (isFemale(Obj.m_Index) == isFemale(uIndex) && !this->m_bHomoSexualAllow)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,375), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,375), Obj.m_Index, 1);
 		return;
 	}
 
 	if (isMale(Obj.m_Index) == isMale(uIndex) && !this->m_bHomoSexualAllow)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,375), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,375), Obj.m_Index, 1);
 		return;
 	}
 
 	if (this->m_iMarryNeedMoney > Obj.m_PlayerData->Money || this->m_iMarryNeedMoney > getGameObject(uIndex)->m_PlayerData->Money)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,376), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,376), Obj.m_Index, 1);
 		return;
 	}
 
 	if (this->m_iMarryMinUserLevel > Obj.Level || this->m_iMarryMinUserLevel > getGameObject(uIndex)->Level)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,377), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,377), Obj.m_Index, 1);
 		return;
 	}
 
 	if (!this->CheckPosition(Obj.m_Index, uIndex))
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,378), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,378), Obj.m_Index, 1);
 		return;
 	}
 
@@ -192,7 +192,7 @@ void CMarry::Propose(CGameObject &Obj, int uIndex)
 
 	if (bCheck1 == false || bCheck2 == false)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,379), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,379), Obj.m_Index, 1);
 		return;
 	}
 
@@ -202,8 +202,8 @@ void CMarry::Propose(CGameObject &Obj, int uIndex)
 
 	char msg[128];
 	wsprintf(msg, Lang.GetText(0,380), Obj.Name);
-	gGameProtocol.GCServerMsgStringSend(msg, uIndex, 1);
-	gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,381), Obj.m_Index, 1);
+	GSProtocol.GCServerMsgStringSend(msg, uIndex, 1);
+	GSProtocol.GCServerMsgStringSend(Lang.GetText(0,381), Obj.m_Index, 1);
 
 	sLog->outBasic("[Marry][%s][%s] Request to marry with [%s][%s]", Obj.AccountID, Obj.Name, getGameObject(uIndex)->AccountID, getGameObject(uIndex)->Name);
 }
@@ -220,26 +220,26 @@ bool CMarry::Accept(CGameObject &Obj)
 
 	if (Obj.MarryRequested != 1)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,382), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,382), Obj.m_Index, 1);
 		return false;
 	}
 
 	if (GetTickCount() - Obj.MarryRequestTime > 60000)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,383), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,383), Obj.m_Index, 1);
 		Obj.MarryRequested = 0;
 		return false;
 	}
 
 	if (!this->CheckPosition(Obj.m_Index, uIndex))
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,384), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,384), Obj.m_Index, 1);
 		return false;
 	}
 
 	if (getGameObject(uIndex)->m_PlayerData->Money < getGameObject(uIndex)->m_PlayerData->Money - this->m_iMarryNeedMoney || Obj.m_PlayerData->Money < Obj.m_PlayerData->Money - this->m_iMarryNeedMoney)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,385), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,385), Obj.m_Index, 1);
 		return false;
 	}
 
@@ -248,7 +248,7 @@ bool CMarry::Accept(CGameObject &Obj)
 
 	if (bCheck1 == false || bCheck2 == false)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,386), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,386), Obj.m_Index, 1);
 		return false;
 	}
 
@@ -261,9 +261,9 @@ bool CMarry::Accept(CGameObject &Obj)
 	strcpy(Obj.MarryName, getGameObject(uIndex)->Name);
 
 	Obj.m_PlayerData->Money -= this->m_iMarryNeedMoney;
-	gGameProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
+	GSProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
 
-	gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,387), Obj.m_Index, 1);
+	GSProtocol.GCServerMsgStringSend(Lang.GetText(0,387), Obj.m_Index, 1);
 
 	getGameObject(uIndex)->Married = 1;
 	getGameObject(uIndex)->MarryRequestIndex = 0;
@@ -271,9 +271,9 @@ bool CMarry::Accept(CGameObject &Obj)
 	strcpy(getGameObject(uIndex)->MarryName, Obj.Name);
 
 	getGameObject(uIndex)->m_PlayerData->Money -= this->m_iMarryNeedMoney;
-	gGameProtocol.GCMoneySend(uIndex, getGameObject(uIndex)->m_PlayerData->Money);
+	GSProtocol.GCMoneySend(uIndex, getGameObject(uIndex)->m_PlayerData->Money);
 
-	gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,388), uIndex, 1);
+	GSProtocol.GCServerMsgStringSend(Lang.GetText(0,388), uIndex, 1);
 		
 	PMSG_SERVERCMD ServerCmd;
 
@@ -282,13 +282,13 @@ bool CMarry::Accept(CGameObject &Obj)
 	ServerCmd.X = getGameObject(uIndex)->X;
 	ServerCmd.Y = getGameObject(uIndex)->Y;
 
-	gGameProtocol.MsgSendV2(gObj, (BYTE*)&ServerCmd, sizeof(ServerCmd));
+	GSProtocol.MsgSendV2(gObj, (BYTE*)&ServerCmd, sizeof(ServerCmd));
 	IOCP.DataSend(uIndex, (BYTE*)&ServerCmd, sizeof(ServerCmd));
 
 	ServerCmd.X = Obj.X;
 	ServerCmd.Y = Obj.Y;
 
-	gGameProtocol.MsgSendV2(gObj, (BYTE*)&ServerCmd, sizeof(ServerCmd));
+	GSProtocol.MsgSendV2(gObj, (BYTE*)&ServerCmd, sizeof(ServerCmd));
 	IOCP.DataSend(Obj.m_Index, (BYTE*)&ServerCmd, sizeof(ServerCmd));
 
 	if (this->m_bGiftEnable == true)
@@ -298,7 +298,7 @@ bool CMarry::Accept(CGameObject &Obj)
 	}
 
 	wsprintf(info, Lang.GetText(0,389), getGameObject(uIndex)->Name, Obj.Name);
-	gGameProtocol.AllSendServerMsg(info);
+	GSProtocol.AllSendServerMsg(info);
 
 	sLog->outBasic("[Marry] New Marriage: %s [%d]  %s [%d]", getGameObject(uIndex)->Name, Obj.Married, Obj.Name, getGameObject(uIndex)->Married);
 	return true;
@@ -308,13 +308,13 @@ void CMarry::Divorce(CGameObject &Obj)
 {
 	if (Obj.Married == 0)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,390), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,390), Obj.m_Index, 1);
 		return;
 	}
 
 	if (this->m_bDivorceAllow == false)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,614), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,614), Obj.m_Index, 1);
 		return;
 	}
 
@@ -324,13 +324,13 @@ void CMarry::Divorce(CGameObject &Obj)
 		return;
 	}
 
-	gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,392), Obj.m_Index, 1);
+	GSProtocol.GCServerMsgStringSend(Lang.GetText(0,392), Obj.m_Index, 1);
 
 	int uIndex = gObjGetIndex(Obj.MarryName);
 
 	if (uIndex != -1)
 	{
-		gGameProtocol.GCServerMsgStringSend(Lang.GetText(0,392), uIndex, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0,392), uIndex, 1);
 		getGameObject(uIndex)->Married = 0;
 		strcpy(getGameObject(uIndex)->MarryName, "");
 	}
@@ -442,7 +442,7 @@ void CMarry::DeleteRequiredItem(CGameObject &Obj, int iSide)
 					if (Obj.pntInventory[i]->m_Type == It->m_wItemID)
 					{
 						gObjInventoryDeleteItem(Obj.m_Index, i);
-						gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, i, 1);
+						GSProtocol.GCInventoryItemDeleteSend(Obj.m_Index, i, 1);
 						break;
 					}
 				}	
@@ -470,7 +470,7 @@ void CMarry::DeleteDivorceItem(CGameObject &Obj)
 					if (Obj.pntInventory[i]->m_Type == It->m_wItemID)
 					{
 						gObjInventoryDeleteItem(Obj.m_Index, i);
-						gGameProtocol.GCInventoryItemDeleteSend(Obj.m_Index, i, 1);
+						GSProtocol.GCInventoryItemDeleteSend(Obj.m_Index, i, 1);
 						break;
 					}
 				}
