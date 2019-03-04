@@ -30,7 +30,7 @@ void JGCharacterCreateFailSend(CGameObject* lpObj, char* id);
 void JGCharDelRequest( SDHP_CHARDELETERESULT* lpMsg);
 void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT* lpMsg);
 void GCItemListSend(CGameObject* lpObj);
-void GJSetCharacterInfo(CGameObject* lpObj, CGameObject* lpObj2, BOOL bMapServerMove);
+void GJSetCharacterInfo(CGameObject* lpObj, BOOL bMapServerMove);
 void GDGetWarehouseList(CGameObject* lpObj, char* AccountID);
 void DGGetWarehouseList( SDHP_GETWAREHOUSEDB_SAVE* lpMsg);
 void GDGetWarehouseNoItem( SDHP_GETWAREHOUSEDB_RESULT* lpMsg);

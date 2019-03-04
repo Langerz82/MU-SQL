@@ -719,12 +719,12 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 
 	char szAccountId[MAX_ACCOUNT_LEN + 1];
 	char szName[MAX_ACCOUNT_LEN + 1];
-	CGameObject* lpObj = lpMsg->Number;
+	CGameObject* lpObj = getGameObject(lpMsg->Number);
 
 	szAccountId[MAX_ACCOUNT_LEN] = 0;
 	memcpy(szAccountId, lpMsg->AccountID, MAX_ACCOUNT_LEN);
 
-	if (gObjIsAccontConnect(aIndex, szAccountId) == FALSE)
+	if (gObjIsAccontConnect(*lpObj, szAccountId) == FALSE)
 	{
 		sLog->outError("Request to receive character information doesn't match the user %s", szAccountId);
 		GIOCP.CloseClient(lpObj->m_PlayerData->ConnectUser->Index);
@@ -737,7 +737,7 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 
 	if (lpMsg->result == false)
 	{
-		sLog->outError("error : %s Character data setting fail %s", szName, gObj[aIndex].AccountID);
+		sLog->outError("error : %s Character data setting fail %s", szName, lpObj->m_PlayerData->ConnectUser->AccountID);
 		GIOCP.CloseClient(lpObj->m_PlayerData->ConnectUser->Index);
 
 		return;
@@ -745,23 +745,23 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 
 	if ((lpMsg->CtlCode & 1) != 0)
 	{
-		sLog->outError("error-L1 : Load Block Character infomation", szName, gObj[aIndex].AccountID);	// Deathway Fix HERE
+		sLog->outError("error-L1 : Load Block Character infomation", szName, lpObj->m_PlayerData->ConnectUser->AccountID);	// Deathway Fix HERE
 		GIOCP.CloseClient(lpObj->m_PlayerData->ConnectUser->Index);
 
 		return;
 	}
 
-	for (int i = g_ConfigRead.server.GetObjectStartUserIndex(); i < g_ConfigRead.server.GetObjectMax(); i++)
+	for each(std::pair<int,CGameObject*> user in gGameObjects)
 	{
-		if (gObj[i].Connected == PLAYER_PLAYING)
+		if (user.second->m_PlayerData->ConnectUser->Connected == PLAYER_PLAYING)
 		{
-			if (gObj[i].Type == OBJ_USER)
+			if (user.second->Type == OBJ_USER)
 			{
-				if (!strncmp(szName, gObj[i].Name, MAX_ACCOUNT_LEN) || !strncmp(szAccountId, gObj[i].AccountID, MAX_ACCOUNT_LEN))
+				if (!strncmp(szName, user.second->Name, MAX_ACCOUNT_LEN) || !strncmp(szAccountId, user.second->m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN))
 				{
 					sLog->outBasic("[Anti-HACK][JGGetCharacterInfo] Attempted Character-Copy by double logging [%s][%s]",
-						szName, gObj[aIndex].AccountID);
-					GSProtocol.GCSendDisableReconnect(aIndex);
+						szName, lpObj->m_PlayerData->ConnectUser->AccountID);
+					GSProtocol.GCSendDisableReconnect(lpObj);
 					//GIOCP.CloseClient(lpObj->m_PlayerData->ConnectUser->Index);
 					return;
 				}
@@ -770,31 +770,23 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 	}
 
 
-	if (gObjSetCharacter((UCHAR*)lpMsg, aIndex) == false)
+	if (gObjSetCharacter((UCHAR*)lpMsg, *lpObj) == false)
 	{
 		sLog->outError("error : %s Character data setting fail", szName);
-		sLog->outError("CL:%d LV:%d MLV:%d IDX:%d CS:%d", lpMsg->Class, lpMsg->Level, lpMsg->mLevel, aIndex, gObj[aIndex].Connected);
+		sLog->outError("CL:%d LV:%d MLV:%d IDX:%d CS:%d", lpMsg->Class, lpMsg->Level, lpMsg->mLevel, lpObj->m_Index, lpObj->m_PlayerData->ConnectUser->Connected);
 		GIOCP.CloseClient(lpObj->m_PlayerData->ConnectUser->Index);
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
-
-	gObj[aIndex].iShield = gObj[aIndex].iMaxShield + gObj[aIndex].iAddShield;
-
-	if (gObj[aIndex].m_Index != aIndex)
-	{
-		GIOCP.CloseClient(lpObj->m_PlayerData->ConnectUser->Index);
-		return;
-	}
+	lpObj->iShield = lpObj->iMaxShield + lpObj->iAddShield;
 
 	if (lpObj->m_PlayerData->Money < 0)
 	{
-		sLog->outError("ERROR: MONEY < 0 [%s][%s] %d -> 0", szName, gObj[aIndex].AccountID, lpObj->m_PlayerData->Money);
+		sLog->outError("ERROR: MONEY < 0 [%s][%s] %d -> 0", szName, lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->m_PlayerData->Money);
 		lpObj->m_PlayerData->Money = 2000000000;
 	}
 
-	if (lpObj->m_bMapSvrMoveReq == false)
+	if (lpObj->m_PlayerData->m_bMapSvrMoveReq == false)
 	{
 		if (MapNumberCheck(lpObj->MapNumber) == FALSE)
 		{
@@ -811,32 +803,32 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 			lpObj->TY = 135;
 
 			sLog->outBasic("[CRenewal][PKSetting][%s][%s] PkLevel:[%d],KillCount:[%d], PkPoint:[%d] PK Character move to LORENCIA",
-				lpObj->AccountID, lpObj->Name, lpObj->m_PK_Level, lpObj->m_PK_Count, lpObj->m_PK_Time);
+				lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_PK_Level, lpObj->m_PK_Count, lpObj->m_PK_Time);
 		}
 
-		short wGameServerCode = g_MapServerManager.CheckMoveMapSvr(lpObj->m_Index, lpObj->MapNumber, lpObj->m_sPrevMapSvrCode);
+		short wGameServerCode = g_MapServerManager.CheckMoveMapSvr(*lpObj, lpObj->MapNumber, lpObj->m_PlayerData->m_sPrevMapSvrCode);
 
 		if (wGameServerCode != g_ConfigRead.server.GetGameServerCode())
 		{
 			if (wGameServerCode == -1)
 			{
 				sLog->outError("[MapServerMng] Map Server Move Fail : CheckMoveMapSvr() == -1 [%s][%s] (%d)",
-					lpObj->AccountID, lpObj->Name, lpObj->m_Index);
+					lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_Index);
 				GIOCP.CloseClient(lpObj->m_PlayerData->ConnectUser->Index);
 
 				return;
 			}
 
-			GJReqMapSvrMove(lpObj->m_Index, wGameServerCode, lpObj->MapNumber, lpObj->X, lpObj->Y);
+			GJReqMapSvrMove(lpObj, wGameServerCode, lpObj->MapNumber, lpObj->X, lpObj->Y);
 			sLog->outBasic("[MapServerMng] Request to Move Map Server : (%d) - [%s][%s] (%d)",
-				wGameServerCode, lpObj->AccountID, lpObj->Name, lpObj->m_Index);
+				wGameServerCode, lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_Index);
 
 			return;
 		}
 	}
 
-	lpObj->m_bMapSvrMoveReq = false;
-	lpObj->m_bMapSvrMoveReq_2 = false;
+	lpObj->m_PlayerData->m_bMapSvrMoveReq = false;
+	lpObj->m_PlayerData->m_bMapSvrMoveReq_2 = false;
 
 	pjMsg.h.c = 0xC3;
 	pjMsg.h.headcode = 0xF3;
@@ -849,7 +841,7 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 
 	UINT64 Experience = lpObj->m_PlayerData->Experience;
 
-	if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(lpObj) != FALSE)
+	if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(*lpObj) != FALSE)
 	{
 		Experience = lpObj->m_PlayerData->MasterExperience;
 	}
@@ -865,7 +857,7 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 
 	UINT64 NextExperience = lpObj->m_PlayerData->NextExp;
 
-	if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(lpObj) != FALSE)
+	if (g_MasterLevelSkillTreeSystem.IsMasterLevelUser(*lpObj) != FALSE)
 	{
 		NextExperience = lpObj->m_PlayerData->MasterNextExp;
 	}
@@ -908,7 +900,7 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 	short MinusPoint = 0;
 	short MaxMinusPoint = 0;
 
-	gObjGetStatPointState(lpObj->m_Index, AddPoint, MaxAddPoint, MinusPoint, MaxMinusPoint);
+	gObjGetStatPointState(*lpObj, AddPoint, MaxAddPoint, MinusPoint, MaxMinusPoint);
 	pjMsg.AddPoint = AddPoint;
 	pjMsg.MaxAddPoint = MaxAddPoint;
 	pjMsg.wMinusPoint = MinusPoint;
@@ -920,21 +912,21 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 
 	if (g_ArcaBattle.IsArcaBattleServer() == TRUE && g_AcheronGuardianEvent.IsPlayStart() == FALSE)
 	{
-		g_ArcaBattle.SendArcaBattlePlayInfo(lpObj, 1);
-		g_ArcaBattle.SendArcaBattleCurrentState(lpObj);
+		g_ArcaBattle.SendArcaBattlePlayInfo(*lpObj, 1);
+		g_ArcaBattle.SendArcaBattleCurrentState(*lpObj);
 	}
 
 	if (g_ArcaBattle.IsArcaBattleServer() == TRUE && g_AcheronGuardianEvent.IsPlayStart() == TRUE)
 	{
-		g_ArcaBattle.SendArcaBattleCurrentState(lpObj);
+		g_ArcaBattle.SendArcaBattleCurrentState(*lpObj);
 	}
 
 	if (g_ArcaBattle.IsArcaBattleServer() == TRUE && g_AcheronGuardianEvent.IsPlayStart() == FALSE)
 	{
-		g_ArcaBattle.EnterArcaBattleEvent(lpObj->m_Index);
+		g_ArcaBattle.EnterArcaBattleEvent(*lpObj);
 	}
 
-	g_QuestInfo.QuestInfoSave(lpObj);
+	g_QuestInfo.QuestInfoSave(*lpObj);
 
 	PMSG_RESET_INGAME_SEND pRSMsg = { 0 };
 	pRSMsg.h.c = 0xC1;
@@ -943,44 +935,44 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 	pRSMsg.h.subcode = 0x0B;
 	pRSMsg.Resets = lpObj->m_PlayerData->m_iResets;
 
-	IOCP.DataSend(aIndex, (UCHAR*)&pRSMsg, pRSMsg.h.size);
-	IOCP.DataSend(aIndex, (UCHAR*)&pjMsg, pjMsg.h.size);
+	GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (UCHAR*)&pRSMsg, pRSMsg.h.size);
+	GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (UCHAR*)&pjMsg, pjMsg.h.size);
 
-	GCItemListSend(aIndex);
-	FriendListRequest(aIndex);
+	GCItemListSend(lpObj);
+	FriendListRequest(lpObj);
 
-	g_CMuRummyMng.GDReqCardInfo(lpObj);
-	g_CMuunSystem.GDReqLoadMuunInvenItem(lpObj);
-	g_MasterLevelSkillTreeSystem.SendMLData(lpObj);
-	g_MasterLevelSkillTreeSystem.CGReqGetMasterLevelSkillTree(aIndex);
+	g_CMuRummyMng.GDReqCardInfo(*lpObj);
+	g_CMuunSystem.GDReqLoadMuunInvenItem(*lpObj);
+	g_MasterLevelSkillTreeSystem.SendMLData(*lpObj);
+	g_MasterLevelSkillTreeSystem.CGReqGetMasterLevelSkillTree(*lpObj);
 	GSProtocol.GCMagicListMultiSend(lpObj, 0);
 	GDReqLoadEventInvenItem(lpObj);
-	GSProtocol.CGRequestQuestInfo(aIndex);
-	g_PeriodItemEx.RequestPeriodItemInfo(lpObj);
-	g_LuckyItemManager.GDReqLuckyItemSelect(lpObj);
-	g_GensSystem.ReqExDBGensInfo(lpObj);
-	g_GensSystem.GDReqAbusingInfo(lpObj);
-	g_GensSystem.ReqGensRewardDay(lpObj);
-	g_BuffEffect.RequestPeriodBuffSelect(lpObj);
-	g_PentagramSystem.DBREQ_GetPentagramJewel(lpObj, lpMsg->AccountID, 0);
-	g_PentagramSystem.DBREQ_GetPentagramJewel(lpObj, lpMsg->AccountID, 1);
-	g_PersonalStore.GDRequestPShopItemValue(lpObj, lpMsg->AccountID);
-	g_MineSystem.CheckIsUPTUserWhenConnect(aIndex);
-	g_GremoryCase.GDReqStorageItemList(aIndex);
-	g_SendNPCInfo.SendNpcCoordinate(aIndex, lpObj->MapNumber, 0);
-	g_SendNPCInfo.SendPortalCoordinate(aIndex, lpObj->MapNumber);
+	//GSProtocol.CGRequestQuestInfo(*lpObj); // TODO
+	g_PeriodItemEx.RequestPeriodItemInfo(*lpObj);
+	g_LuckyItemManager.GDReqLuckyItemSelect(*lpObj);
+	g_GensSystem.ReqExDBGensInfo(*lpObj);
+	g_GensSystem.GDReqAbusingInfo(*lpObj);
+	g_GensSystem.ReqGensRewardDay(*lpObj);
+	g_BuffEffect.RequestPeriodBuffSelect(*lpObj);
+	g_PentagramSystem.DBREQ_GetPentagramJewel(*lpObj, lpMsg->AccountID, 0);
+	g_PentagramSystem.DBREQ_GetPentagramJewel(*lpObj, lpMsg->AccountID, 1);
+	g_PersonalStore.GDRequestPShopItemValue(*lpObj, lpMsg->AccountID);
+	g_MineSystem.CheckIsUPTUserWhenConnect(*lpObj);
+	g_GremoryCase.GDReqStorageItemList(*lpObj);
+	g_SendNPCInfo.SendNpcCoordinate(lpObj, lpObj->MapNumber, 0);
+	g_SendNPCInfo.SendPortalCoordinate(lpObj, lpObj->MapNumber);
 	//[K2]
-	g_UnityBattleField.GDReqCheckJoinedUnityBattleField(aIndex, g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE ? TRUE : FALSE, 0);
-	g_UnityBattleField.SendUBFNotice(aIndex);
-	g_EvoMonMng.GCSendEvoMonNotice(aIndex);
-	g_EvoMonMng.GDReqEvoMonMaxScore(aIndex);
-	DGGuildMemberInfoRequest(aIndex);
+	g_UnityBattleField.GDReqCheckJoinedUnityBattleField(*lpObj, g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE ? TRUE : FALSE, 0);
+	g_UnityBattleField.SendUBFNotice(lpObj);
+	g_EvoMonMng.GCSendEvoMonNotice(lpObj);
+	g_EvoMonMng.GDReqEvoMonMaxScore(lpObj);
+	DGGuildMemberInfoRequest(lpObj);
 
 	lpObj->m_PlayerData->m_dwMapMoveKeyValue = g_KeyGenerater.GenerateSeedValue();
 	GSProtocol.GCSendMapMoveCheckSum(lpObj);
 
-	GSProtocol.GCPlayerStatsPanelRates(lpObj->m_Index);
-	GSProtocol.GCPlayerStatsPanelNew(lpObj->m_Index);
+	GSProtocol.GCPlayerStatsPanelRates(lpObj);
+	GSProtocol.GCPlayerStatsPanelNew(lpObj);
 
 	if (g_ConfigRead.data.common.EnterGameMessage == 1)
 	{
@@ -999,24 +991,24 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 
 	if (lpObj->m_PlayerData->VipType > 0)
 	{
-		MsgOutput(aIndex, Lang.GetText(0, 493), g_VipSystem.GetVipName(lpObj->m_PlayerData->VipType));
+		MsgOutput(*lpObj, Lang.GetText(0, 493), g_VipSystem.GetVipName(lpObj->m_PlayerData->VipType));
 	}
 
 	if (g_ConfigRead.server.GetServerType() == SERVER_NORMAL)
 	{
-		GSProtocol.GCServerMsgStringSend((char *)g_ConfigRead.data.common.WelcomeMessage.c_str(), lpObj->m_Index, 0);
+		GSProtocol.GCServerMsgStringSend((char *)g_ConfigRead.data.common.WelcomeMessage.c_str(), lpObj, 0);
 	}
 
-	gObjUseSkill.SkillChangeUse(lpObj->m_Index);
+	gObjUseSkill.SkillChangeUse(*lpObj);
 
-	GSProtocol.GCReFillSend(aIndex, gObj[aIndex].Life, 0xFF, 0, gObj[aIndex].iShield);
-	GSProtocol.GCReFillSend(aIndex, gObj[aIndex].AddLife + gObj[aIndex].MaxLife, 0xFE, 0, gObj[aIndex].iAddShield + gObj[aIndex].iMaxShield);
+	GSProtocol.GCReFillSend(lpObj, lpObj->Life, 0xFF, 0, lpObj->iShield);
+	GSProtocol.GCReFillSend(lpObj, lpObj->AddLife + lpObj->MaxLife, 0xFE, 0, lpObj->iAddShield + lpObj->iMaxShield);
 
-	GSProtocol.GCManaSend(aIndex, gObj[aIndex].Mana, 0xFF, 0, gObj[aIndex].BP);
-	GSProtocol.GCManaSend(aIndex, gObj[aIndex].MaxMana, 0xFE, 0, gObj[aIndex].MaxBP);
+	GSProtocol.GCManaSend(lpObj, lpObj->Mana, 0xFF, 0, lpObj->BP);
+	GSProtocol.GCManaSend(lpObj, lpObj->MaxMana, 0xFE, 0, lpObj->MaxBP);
 
-	GSProtocol.GCResSendExpEventInfo(aIndex);
-	g_QuestExpUserMng.DB_ReqUserQuestInfo(aIndex);
+	//GSProtocol.GCResSendExpEventInfo(lpObj); // TODO
+	g_QuestExpUserMng.DB_ReqUserQuestInfo(lpObj);
 
 	PMSG_SETAGILITYBUG pAgilityBug;
 	pAgilityBug.h.c = 0xC1;
@@ -1033,38 +1025,38 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 		pAgilityBug.value = 0x02; ///[K2]
 	}
 
-	IOCP.DataSend(aIndex, (LPBYTE)&pAgilityBug, sizeof(pAgilityBug));
+	GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pAgilityBug, sizeof(pAgilityBug));
 
 	//if (g_ConfigRead.data.common.LuckyItemAllowUseJewels == true)
 	{
 		BYTE dataenable[] = { 0xC1, 0x04, 0xFA, 0xA4 };
-		IOCP.DataSend(aIndex, dataenable, sizeof(dataenable));
+		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, dataenable, sizeof(dataenable));
 	}
 
 	if (g_ConfigRead.data.common.joinmuRemoveItemSellDropRestriction == true)
 	{
 		BYTE dataenable[] = { 0xC1, 0x04, 0xFA, 0xB0 };
-		IOCP.DataSend(aIndex, dataenable, sizeof(dataenable));
+		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, dataenable, sizeof(dataenable));
 	}
 
 	//BYTE TEST[] = { 0xC1, 0x06, 0x6D, 0x00, 0x01, 0x00 }; //Help Icon
-	//IOCP.DataSend(aIndex, TEST, sizeof(TEST));
+	//GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, TEST, sizeof(TEST));
 
-	GSProtocol.GCSendRareItemPriceInfo(aIndex);
-	g_StatSpec.SendOptionList(lpObj);
+	GSProtocol.GCSendRareItemPriceInfo(lpObj);
+	g_StatSpec.SendOptionList(*lpObj);
 
 	if (g_ConfigRead.data.common.bReconnectSystem == 0)
 	{
-		GSProtocol.GCSendDisableReconnectSystem(aIndex);
+		GSProtocol.GCSendDisableReconnectSystem(lpObj);
 	}
 
 	for (int n = 0; n < INVENTORY_SIZE; n++)
 	{
-		if (lpObj->pInventory[n].IsPeriodItemExpire() == 1)
+		if (lpObj->pntInventory[n]->IsPeriodItemExpire() == 1)
 		{
-			lpObj->pInventory[n].SetPeriodItemExpire();
-			g_PeriodItemEx.RemovePeriodItemDataByForce(lpObj, lpObj->pInventory[n].m_Type, lpObj->pInventory[n].m_Number);
-			lpObj->pInventory[n].Clear();
+			lpObj->pntInventory[n]->SetPeriodItemExpire();
+			g_PeriodItemEx.RemovePeriodItemDataByForce(*lpObj, lpObj->pntInventory[n]->m_Type, lpObj->pntInventory[n]->m_Number);
+			lpObj->pntInventory[n]->Clear();
 		}
 	}
 }
@@ -1076,20 +1068,19 @@ void GCItemListSend(CGameObject* lpObj)
 	int sOfs = sizeof(PMSG_INVENTORYLISTCOUNT);
 	int pMsgILSize = sizeof(PMSG_INVENTORYLIST);
 	BYTE sendBuf[4096];
-	LPOBJ lpObj = &gObj[aIndex];
 	int itemcount = 0;
 
 	for (int n = 0; n < INVENTORY_SIZE; n++)
 	{
-		if (lpObj->pInventory[n].IsItem() == TRUE)
+		if (lpObj->pntInventory[n]->IsItem() == TRUE)
 		{
-			if (lpObj->pInventory[n].m_bItemExist == false)
+			if (lpObj->pntInventory[n]->m_bItemExist == false)
 			{
 				continue;
 			}
 
 			pMsgIL.Pos = n;
-			ItemByteConvert(pMsgIL.ItemInfo, lpObj->pInventory[n]);
+			ItemByteConvert(pMsgIL.ItemInfo, *lpObj->pntInventory[n]);
 			memcpy(&sendBuf[sOfs], &pMsgIL, pMsgILSize);
 			itemcount++;
 			sOfs += pMsgILSize;
@@ -1104,7 +1095,7 @@ void GCItemListSend(CGameObject* lpObj)
 	pMsgILC.Count = itemcount;
 	memcpy(sendBuf, &pMsgILC, sizeof(PMSG_INVENTORYLISTCOUNT));
 
-	IOCP.DataSend(aIndex, sendBuf, sOfs);
+	GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, sendBuf, sOfs);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -1161,27 +1152,27 @@ struct SDHP_DBCHAR_INFOSAVE
 	BYTE EventMap;
 };
 
-void GJSetCharacterInfo(LPOBJ lpObj, CGameObject* lpObj, BOOL bMapServerMove)
+void GJSetCharacterInfo(CGameObject* lpObj, BOOL bMapServerMove)
 {
-	if (lpObj->m_bMapSvrMoveQuit == true)
+	if (lpObj->m_PlayerData->m_bMapSvrMoveQuit == true)
 	{
 		sLog->outError("[MapServerMng] GJSetCharacterInfo() - Inventory Already Saved [%s][%s] (%d)",
-			lpObj->AccountID, lpObj->Name, lpObj->m_Index);
+			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_Index);
 
 		return;
 	}
 
 	if (bMapServerMove == TRUE)
 	{
-		lpObj->m_bMapSvrMoveQuit = TRUE;
+		lpObj->m_PlayerData->m_bMapSvrMoveQuit = TRUE;
 
-		g_Log.AddC(TColor::Brown, "[MapServerMng][%s][%s] GJSetCharacterInfo() - MapServerMove Character Save Start (%d)",
-			lpObj->AccountID, lpObj->Name, lpObj->m_Index);
+		sLog->outBasic("[MapServerMng][%s][%s] GJSetCharacterInfo() - MapServerMove Character Save Start (%d)",
+			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_Index);
 	}
 
 	if (lpObj->Type == OBJ_USER && lpObj->m_btOpenWarehouse == TRUE)
 	{
-		GDSetWarehouseList(aIndex, FALSE);
+		GDSetWarehouseList(lpObj, FALSE);
 	}
 
 	SDHP_DBCHAR_INFOSAVE pCSave;	// Packet Character Save
@@ -1190,7 +1181,7 @@ void GJSetCharacterInfo(LPOBJ lpObj, CGameObject* lpObj, BOOL bMapServerMove)
 	pCSave.h.sizeH = sizeof(SDHP_DBCHAR_INFOSAVE) >> 8;
 	pCSave.h.sizeL = sizeof(SDHP_DBCHAR_INFOSAVE) & 0xFF;
 	pCSave.Name[MAX_ACCOUNT_LEN] = 0;
-	memcpy(pCSave.AccountID, lpObj->AccountID, sizeof(pCSave.AccountID) - 1);
+	memcpy(pCSave.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, sizeof(pCSave.AccountID) - 1);
 	memcpy(pCSave.Name, lpObj->Name, sizeof(pCSave.Name) - 1);
 	pCSave.Class = lpObj->m_PlayerData->DbClass;
 	pCSave.Level = lpObj->Level;
@@ -1210,7 +1201,7 @@ void GJSetCharacterInfo(LPOBJ lpObj, CGameObject* lpObj, BOOL bMapServerMove)
 	pCSave.MaxLife = lpObj->MaxLife;
 	pCSave.Mana = lpObj->Mana;
 	pCSave.MaxMana = lpObj->MaxMana;
-	ItemByteConvert32((LPBYTE)pCSave.dbInventory, lpObj->pInventory, INVENTORY_SIZE);
+	ItemByteConvert32((LPBYTE)pCSave.dbInventory, *lpObj->pntInventory, INVENTORY_SIZE);
 	MagicByteConvert(pCSave.dbMagicList, lpObj->Magic, MAGIC_SIZE);
 	pCSave.MapNumber = lpObj->MapNumber;
 	pCSave.MapX = lpObj->X;
@@ -1234,23 +1225,23 @@ void GJSetCharacterInfo(LPOBJ lpObj, CGameObject* lpObj, BOOL bMapServerMove)
 	//pCSave.Ruud = lpObj->EventMap;
 	pCSave.Ruud = lpObj->m_PlayerData->Ruud;
 	pCSave.EventMap = lpObj->EventMap;
-	if (wsDataCli.DataSend((char*)&pCSave, sizeof(SDHP_DBCHAR_INFOSAVE)) == FALSE)
+	/*if (wsDataCli.DataSend((char*)&pCSave, sizeof(SDHP_DBCHAR_INFOSAVE)) == FALSE)
 	{
 		sLog->outError("%s Character data save fail", lpObj->Name);
 		return;
-	}
+	}*/ // TODO
 
-	gObjItemTextSave(lpObj);
-	gObjStatTextSave(lpObj);
-	gObjSavePetItemInfo(aIndex, 0);
-	g_LuckyItemManager.GDReqLuckyItemInsert2nd(aIndex);
-	g_QuestExpUserMng.UserAllQuestInfoSave(aIndex);
-	g_GensSystem.GDReqSaveContributePoint(lpObj);
-	g_GensSystem.DBSaveAbusingKillUserName(lpObj);
-	g_PentagramSystem.DBREQ_SetPentagramJewel(aIndex, 0);
-	g_PentagramSystem.DBREQ_SetPentagramJewel(aIndex, 1);
+	gObjItemTextSave(*lpObj);
+	gObjStatTextSave(*lpObj);
+	gObjSavePetItemInfo(lpObj, 0);
+	g_LuckyItemManager.GDReqLuckyItemInsert2nd(lpObj);
+	g_QuestExpUserMng.UserAllQuestInfoSave(lpObj);
+	g_GensSystem.GDReqSaveContributePoint(*lpObj);
+	g_GensSystem.DBSaveAbusingKillUserName(*lpObj);
+	g_PentagramSystem.DBREQ_SetPentagramJewel(*lpObj, 0);
+	g_PentagramSystem.DBREQ_SetPentagramJewel(*lpObj, 1);
 	GDReqSaveEventInvenItem(lpObj);
-	g_CMuunSystem.GDReqSaveMuunInvenItem(lpObj);
+	g_CMuunSystem.GDReqSaveMuunInvenItem(*lpObj);
 
 }
 
@@ -1271,34 +1262,29 @@ struct SDHP_GETWAREHOUSEDB
 
 void GDGetWarehouseList(CGameObject* lpObj, char* AccountID)
 {
-	if (ObjectMaxRange(aIndex) == FALSE)
-	{
-		return;
-	}
-
 	if (strlen(AccountID) < 1)
 	{
 		return;
 	}
 
-	if (gObj[aIndex].m_bMapSvrMoveReq == true)
+	if (lpObj->m_PlayerData->m_bMapSvrMoveReq == true)
 	{
 		sLog->outBasic("[GetWarehouseList] MapServerMove User. Can't Open WhareHouse. return!! [%s], IP [%s] ",
-			AccountID, gObj[aIndex].m_PlayerData->Ip_addr);
+			AccountID, lpObj->m_PlayerData->ConnectUser->IP);
 		return;
 	}
 
-	if (gObj[aIndex].m_State == 32)
+	if (lpObj->m_State == 32)
 	{
 		sLog->outBasic("[GetWarehouseList] MapServerMove User. Can't Open WhareHouse. return!! [%s], IP [%s] ",
-			AccountID, gObj[aIndex].m_PlayerData->Ip_addr);
+			AccountID, lpObj->m_PlayerData->ConnectUser->IP);
 		return;
 	}
 
-	if (gObj[aIndex].m_bMapSvrMoveQuit == true)
+	if (lpObj->m_PlayerData->m_bMapSvrMoveQuit == true)
 	{
 		sLog->outBasic("[GetWarehouseList] MapServerMove User. Can't Open WhareHouse. return!! [%s], IP [%s] ",
-			AccountID, gObj[aIndex].m_PlayerData->Ip_addr);
+			AccountID, lpObj->m_PlayerData->ConnectUser->IP);
 		return;
 	}
 
@@ -1307,10 +1293,10 @@ void GDGetWarehouseList(CGameObject* lpObj, char* AccountID)
 	pMsg.h.c = 0xC1;
 	pMsg.h.headcode = 0x08;
 	pMsg.h.size = sizeof(SDHP_GETWAREHOUSEDB);
-	pMsg.aIndex = aIndex;
+	pMsg.aIndex = lpObj->m_Index;
 	memcpy(pMsg.AccountID, AccountID, sizeof(pMsg.AccountID));
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size); // TODO
 }
 
 
@@ -1319,54 +1305,48 @@ void GDGetWarehouseList(CGameObject* lpObj, char* AccountID)
 void DGGetWarehouseList(SDHP_GETWAREHOUSEDB_SAVE * lpMsg)
 {
 	char szId[11];
-	CGameObject* lpObj = 0;
 	PMSG_TALKRESULT pResult;
 
 	szId[MAX_ACCOUNT_LEN] = 0;
 	memcpy(szId, lpMsg->AccountID, sizeof(lpMsg->AccountID));
-	aIndex = lpMsg->aIndex;
+	CGameObject* lpObj = getGameObject(lpMsg->aIndex);
 
-	if (ObjectMaxRange(aIndex) == FALSE)
-	{
-		return;
-	}
 
-	if (gObj[aIndex].m_bMapSvrMoveReq == true)
+	if (lpObj->m_PlayerData->m_bMapSvrMoveReq == true)
 	{
 		sLog->outBasic("[DGGetWarehouseList] MapServerMove User. Can't Open WhareHouse. return!! [%s], IP [%s] ",
-			szId, gObj[aIndex].m_PlayerData->Ip_addr);
+			szId, lpObj->m_PlayerData->ConnectUser->IP);
 		return;
 	}
 
-	if (gObj[aIndex].m_State == 32)
+	if (lpObj->m_State == 32)
 	{
 		sLog->outBasic("[DGGetWarehouseList] MapServerMove User. Can't Open WhareHouse. return!! [%s], IP [%s] ",
-			szId, gObj[aIndex].m_PlayerData->Ip_addr);
+			szId, lpObj->m_PlayerData->ConnectUser->IP);
 		return;
 	}
 
-	if (gObj[aIndex].m_bMapSvrMoveQuit == true)
+	if (lpObj->m_PlayerData->m_bMapSvrMoveQuit == true)
 	{
 		sLog->outBasic("[DGGetWarehouseList] MapServerMove User. Can't Open WhareHouse. return!! [%s], IP [%s] ",
-			szId, gObj[aIndex].m_PlayerData->Ip_addr);
+			szId, lpObj->m_PlayerData->ConnectUser->IP);
 		return;
 	}
 
-	if (!gObjIsAccontConnect(aIndex, szId))
+	if (!gObjIsAccontConnect(*lpObj, szId))
 	{
 		sLog->outError("Error-L1 : Request to receive Warehouse information doesn't match the user [%s][%d]", szId, aIndex);
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
 	int itype;
 	int _type;
 	BYTE OptionData;
-	CItem item;
+	CItemObject* item;
 
-	memset(gObj[aIndex].pWarehouseMap, (BYTE)-1, WAREHOUSE_SIZE);
-	gObj[aIndex].WarehouseMoney = lpMsg->Money;
-	gObj[aIndex].WarehousePW = lpMsg->pw;
+	memset(lpObj->WarehouseMap, (BYTE)-1, WAREHOUSE_SIZE);
+	lpObj->WarehouseMoney = lpMsg->Money;
+	lpObj->WarehousePW = lpMsg->pw;
 
 	int count = 0;
 	for (int n = 0; n < WAREHOUSE_SIZE; n++)
@@ -1377,7 +1357,7 @@ void DGGetWarehouseList(SDHP_GETWAREHOUSEDB_SAVE * lpMsg)
 		itype |= (lpMsg->dbItems[n*MAX_DBITEM_INFO + 7] & 0x80) << 1;
 		_type = itype;
 
-		gObj[aIndex].pWarehouse[n].Clear();
+		lpObj->pntWarehouse[n]->Clear();
 
 		if (lpMsg->dbItems[n*MAX_DBITEM_INFO] == (BYTE)-1 && (lpMsg->dbItems[n*MAX_DBITEM_INFO + 9] & 0xF0) == 0xF0 && (lpMsg->dbItems[n*MAX_DBITEM_INFO + 7] & 0x80) == 0x80)
 		{
@@ -1407,31 +1387,31 @@ void DGGetWarehouseList(SDHP_GETWAREHOUSEDB_SAVE * lpMsg)
 
 		if (itype != -1)
 		{
-			item.m_Level = DBI_GET_LEVEL(lpMsg->dbItems[n*MAX_DBITEM_INFO + 1]);
+			item->m_Level = DBI_GET_LEVEL(lpMsg->dbItems[n*MAX_DBITEM_INFO + 1]);
 
 			if (_type != ITEMGET(14, 11))	// Box Of Luck
 			{
-				if (item.m_Level > 15)
+				if (item->m_Level > 15)
 				{
-					item.m_Level = 0;
+					item->m_Level = 0;
 				}
 			}
 
 			OptionData = lpMsg->dbItems[n*MAX_DBITEM_INFO + 1];
-			item.m_Option1 = DBI_GET_SKILL(OptionData);
-			item.m_Option2 = DBI_GET_LUCK(OptionData);
-			item.m_Option3 = DBI_GET_OPTION(OptionData);
-			item.m_Option3 |= DBI_GET_DINO_OPTION(lpMsg->dbItems[n*MAX_DBITEM_INFO + 7]);
-			item.m_Durability = lpMsg->dbItems[n*MAX_DBITEM_INFO + 2];
-			item.m_JewelOfHarmonyOption = lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_JOH_DATA];
-			item.m_ItemOptionEx = DBI_GET_380OPTION(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_OPTION380_DATA]);
+			item->m_Option1 = DBI_GET_SKILL(OptionData);
+			item->m_Option2 = DBI_GET_LUCK(OptionData);
+			item->m_Option3 = DBI_GET_OPTION(OptionData);
+			item->m_Option3 |= DBI_GET_DINO_OPTION(lpMsg->dbItems[n*MAX_DBITEM_INFO + 7]);
+			item->m_Durability = lpMsg->dbItems[n*MAX_DBITEM_INFO + 2];
+			item->m_JewelOfHarmonyOption = lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_JOH_DATA];
+			item->m_ItemOptionEx = DBI_GET_380OPTION(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_OPTION380_DATA]);
 
-			if (item.m_ItemOptionEx != 0)
+			if (item->m_ItemOptionEx != 0)
 			{
-				item.m_Type = itype;
-				if (g_kItemSystemFor380.Is380Item(&item) == FALSE)
+				item->m_Type = itype;
+				if (g_kItemSystemFor380.Is380Item(item) == FALSE)
 				{
-					item.m_ItemOptionEx = 0;
+					item->m_ItemOptionEx = 0;
 				}
 			}
 
@@ -1471,9 +1451,9 @@ void DGGetWarehouseList(SDHP_GETWAREHOUSEDB_SAVE * lpMsg)
 				}
 			}
 
-			item.m_PeriodItemOption = (lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_OPTION380_DATA] & 6) >> 1;
+			item->m_PeriodItemOption = (lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_OPTION380_DATA] & 6) >> 1;
 
-			item.Convert(itype, item.m_Option1, item.m_Option2, item.m_Option3, DBI_GET_NOPTION(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_NOPTION_DATA]), lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SOPTION_DATA], item.m_ItemOptionEx, SocketOption, SocketOptionIndex, item.m_PeriodItemOption, CURRENT_DB_VERSION);
+			item->Convert(itype, item->m_Option1, item->m_Option2, item->m_Option3, DBI_GET_NOPTION(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_NOPTION_DATA]), lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SOPTION_DATA], item->m_ItemOptionEx, SocketOption, SocketOptionIndex, item->m_PeriodItemOption, CURRENT_DB_VERSION);
 
 			if (_type == ITEMGET(14, 7)) // Siege Potion
 			{
@@ -1482,41 +1462,41 @@ void DGGetWarehouseList(SDHP_GETWAREHOUSEDB_SAVE * lpMsg)
 
 			else if ((_type >= ITEMGET(14, 0) && _type <= ITEMGET(14, 8)) || (_type >= ITEMGET(14, 35) && _type <= ITEMGET(14, 40)))
 			{
-				if (item.m_Durability == 0.0f)
+				if (item->m_Durability == 0.0f)
 				{
-					item.m_Durability = 1.0f;
+					item->m_Durability = 1.0f;
 				}
 			}
-			else if (_type != ITEMGET(13, 10) && _type != ITEMGET(14, 29) && _type != ITEMGET(14, 21) && item.m_Level == 3)
+			else if (_type != ITEMGET(13, 10) && _type != ITEMGET(14, 29) && _type != ITEMGET(14, 21) && item->m_Level == 3)
 			{
-				if (item.m_Durability > item.m_BaseDurability)
+				if (item->m_Durability > item->m_BaseDurability)
 				{
-					item.m_Durability = item.m_BaseDurability;
+					item->m_Durability = item->m_BaseDurability;
 				}
 			}
 
-			int iMaxOverlap = IsOverlapItem(item.m_Type);
+			int iMaxOverlap = IsOverlapItem(item->m_Type);
 
 			if (iMaxOverlap != 0)
 			{
-				if (item.m_Durability > iMaxOverlap)
+				if (item->m_Durability > iMaxOverlap)
 				{
-					item.m_Durability = iMaxOverlap;
+					item->m_Durability = iMaxOverlap;
 				}
 			}
 
-			lpObj->pWarehouse[n].m_Option1 = item.m_Option1;
-			lpObj->pWarehouse[n].m_Option2 = item.m_Option2;
-			lpObj->pWarehouse[n].m_Option3 = item.m_Option3;
-			lpObj->pWarehouse[n].m_JewelOfHarmonyOption = item.m_JewelOfHarmonyOption;
-			lpObj->pWarehouse[n].m_ItemOptionEx = item.m_ItemOptionEx;
+			lpObj->pntWarehouse[n]->m_Option1 = item->m_Option1;
+			lpObj->pntWarehouse[n]->m_Option2 = item->m_Option2;
+			lpObj->pntWarehouse[n]->m_Option3 = item->m_Option3;
+			lpObj->pntWarehouse[n]->m_JewelOfHarmonyOption = item->m_JewelOfHarmonyOption;
+			lpObj->pntWarehouse[n]->m_ItemOptionEx = item->m_ItemOptionEx;
 
 			DWORD hidword = MAKE_NUMBERDW(MAKE_NUMBERW(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL1], lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL2]), MAKE_NUMBERW(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL3], lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL4]));
 			DWORD lodword = MAKE_NUMBERDW(MAKE_NUMBERW(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL5], lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL6]), MAKE_NUMBERW(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL7], lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL8]));
-			item.m_Number = MAKEQWORD(hidword, lodword);
+			item->m_Number = MAKEQWORD(hidword, lodword);
 
-			gObjWarehouseInsertItemPos(lpObj->m_Index, item, n, -1);
-			gObjWarehouseItemSet(lpObj->m_Index, n, 1);
+			gObjWarehouseInsertItemPos(*lpObj, *item, n, -1);
+			gObjWarehouseItemSet(*lpObj, n, 1);
 
 			count++;
 		}
@@ -1527,34 +1507,36 @@ void DGGetWarehouseList(SDHP_GETWAREHOUSEDB_SAVE * lpMsg)
 	pResult.h.size = sizeof(PMSG_TALKRESULT);
 	pResult.result = 2;
 
-	IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pResult, pResult.h.size);
-	GSProtocol.GCUserWarehouseSend(&gObj[aIndex]);
+	GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pResult, pResult.h.size);
+	GSProtocol.GCUserWarehouseSend(*lpObj);
 
 	if (bCanWarehouseLock == TRUE)
 	{
-		if (gObj[aIndex].WarehousePW > 0)
+		if (lpObj->WarehousePW > 0)
 		{
-			if (gObj[aIndex].WarehouseLock == 0)
+			if (lpObj->WarehouseLock == 0)
 			{
-				GSProtocol.GCWarehouseStateSend(aIndex, 12);
+				GSProtocol.GCWarehouseStateSend(lpObj, 12);
 			}
 			else
 			{
-				GSProtocol.GCWarehouseStateSend(aIndex, 1);
+				GSProtocol.GCWarehouseStateSend(lpObj, 1);
 			}
 		}
 		else
 		{
-			GSProtocol.GCWarehouseStateSend(aIndex, 0);
+			GSProtocol.GCWarehouseStateSend(lpObj, 0);
 		}
 	}
 
 	lpObj->LoadWareHouseInfo = true;
 	lpObj->m_PlayerData->m_ReqWarehouseOpen = false;
-	gObjRequestPetItemInfo(lpObj->m_Index, 1);
+	gObjRequestPetItemInfo(lpObj, 1);
 	bool bCheck = false;
-	Check_SameSerialItem(aIndex, 1, bCheck);
+	Check_SameSerialItem(*lpObj, 1, bCheck);
 }
+
+// UPTO
 
 void GDGetWarehouseNoItem(SDHP_GETWAREHOUSEDB_RESULT * lpMsg)
 {
@@ -1565,7 +1547,7 @@ void GDGetWarehouseNoItem(SDHP_GETWAREHOUSEDB_RESULT * lpMsg)
 	szId[MAX_ACCOUNT_LEN] = 0;
 	memcpy(szId, lpMsg->AccountID, sizeof(lpMsg->AccountID));
 
-	if (!gObjIsAccontConnect(aIndex, szId))
+	if (!gObjIsAccontConnect(lpObj, szId))
 	{
 		sLog->outError("Error-L1 : Request to receive Warehouse information doesn't match the user [%s][%d]", szId, aIndex);
 		return;
@@ -1583,7 +1565,7 @@ void GDGetWarehouseNoItem(SDHP_GETWAREHOUSEDB_RESULT * lpMsg)
 			pResult.h.size = sizeof(pResult);
 			pResult.result = 2;
 
-			IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pResult, pResult.h.size);
+			GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index,(LPBYTE)&pResult, pResult.h.size);
 			sLog->outError("Warehouse item not found [%s]", lpObj->Name);
 
 			PMSG_MONEY pMsg; // Season 4.5 fix
@@ -1593,7 +1575,7 @@ void GDGetWarehouseNoItem(SDHP_GETWAREHOUSEDB_RESULT * lpMsg)
 			pMsg.iMoney = lpObj->m_PlayerData->Money;
 			pMsg.wMoney = lpObj->WarehouseMoney;
 
-			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 		}
 	}
 
@@ -1606,32 +1588,32 @@ void GDSetWarehouseList(CGameObject* lpObj, BOOL bCloseWindow)
 {
 	SDHP_GETWAREHOUSEDB_SAVE pMsg;
 
-	if (gObj[aIndex].LoadWareHouseInfo == false)
+	if (lpObj->LoadWareHouseInfo == false)
 	{
 		sLog->outBasic("[%s][%s] WareHouse Save Fail : Not Open",
-			gObj[aIndex].AccountID, gObj[aIndex].Name);
+			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 
 		return;
 	}
 
-	memcpy(pMsg.AccountID, gObj[aIndex].AccountID, sizeof(pMsg.AccountID));
+	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, sizeof(pMsg.AccountID));
 	pMsg.aIndex = aIndex;
 	pMsg.h.c = 0xC2;
 	pMsg.h.headcode = 0x09;
 	pMsg.h.sizeH = HIBYTE(sizeof(pMsg));
 	pMsg.h.sizeL = LOBYTE(sizeof(pMsg));
-	pMsg.Money = gObj[aIndex].WarehouseMoney;
-	pMsg.pw = gObj[aIndex].WarehousePW;
-	pMsg.WarehouseID = gObj[aIndex].WarehouseID;
+	pMsg.Money = lpObj->WarehouseMoney;
+	pMsg.pw = lpObj->WarehousePW;
+	pMsg.WarehouseID = lpObj->WarehouseID;
 	pMsg.CloseWindow = bCloseWindow;
 
-	ItemByteConvert32(pMsg.dbItems, gObj[aIndex].pWarehouse, WAREHOUSE_SIZE);
+	ItemByteConvert32(pMsg.dbItems, lpObj->pWarehouse, WAREHOUSE_SIZE);
 
 	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
 
-	gObj[aIndex].WarehouseSaveLock = TRUE;
+	lpObj->WarehouseSaveLock = TRUE;
 
-	gObjSavePetItemInfo(aIndex, 1);
+	gObjSavePetItemInfo(lpObj, 1);
 	gObjWarehouseTextSave(&gObj[aIndex]);
 }
 
@@ -1682,12 +1664,12 @@ void GDSetWarehouseMoney(CGameObject* lpObj)
 {
 	SDHP_WAREHOUSEMONEY_SAVE pMsg;
 
-	memcpy(pMsg.AccountID, gObj[aIndex].AccountID, sizeof(pMsg.AccountID));
+	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, sizeof(pMsg.AccountID));
 	pMsg.aIndex = aIndex;
 	pMsg.h.c = 0xC1;
 	pMsg.h.headcode = 0x12;
 	pMsg.h.size = sizeof(pMsg);
-	pMsg.Money = gObj[aIndex].WarehouseMoney;
+	pMsg.Money = lpObj->WarehouseMoney;
 
 	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
 }
@@ -1796,7 +1778,7 @@ void ItemCreate(CGameObject* lpObj, BYTE MapNumber, BYTE x, BYTE y, int type, BY
 		}
 	}
 
-	if (ObjectMaxRange(aIndex) != FALSE  && gObj[aIndex].Type != OBJ_USER)
+	if (ObjectMaxRange(lpObj) != FALSE  && lpObj->Type != OBJ_USER)
 	{
 		BYTE NewOption[MAX_EXOPTION_SIZE];
 
@@ -1885,7 +1867,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 	if (lpMsg->MapNumber == (BYTE)-1 || lpMsg->MapNumber == (BYTE)-2)
 	{
-		if (gObjIsConnectedGP(aIndex) == FALSE)
+		if (gObjIsConnectedGP(lpObj) == FALSE)
 		{
 			return;
 		}
@@ -1993,19 +1975,19 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 		{
 			pMsg.Result = CB_ERROR;
 
-			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 			lpObj->ChaosLock = FALSE;
 
 			return;
 		}
 		;
-		gObjChaosBoxInsertItemPos(aIndex, NewItem, btPos, -1);
-		gObjChaosItemSet(aIndex, btPos, 1);
+		gObjChaosBoxInsertItemPos(lpObj, NewItem, btPos, -1);
+		gObjChaosItemSet(lpObj, btPos, 1);
 		BYTE ExOption[MAX_EXOPTION_SIZE];
 		ItemIsBufExOption(ExOption, &NewItem);
 
 		pMsg.Pos = btPos;
-		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 		lpObj->ChaosMassMixCurrItem++;
 
@@ -2015,7 +1997,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			lpObj->ChaosMassMixSuccessCount = 0;
 
 			GJSetCharacterInfo(lpObj, aIndex, 0);
-			gObj[aIndex].ChaosLock = FALSE;
+			lpObj->ChaosLock = FALSE;
 		}
 
 		return;
@@ -2038,23 +2020,23 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 		pMsg.Result = CB_ERROR;
 		ItemByteConvert(pMsg.ItemInfo, Item);
 
-		BYTE btPos = gObjPentagramMixBoxInsertItem(aIndex, Item);
+		BYTE btPos = gObjPentagramMixBoxInsertItem(lpObj, Item);
 
 		if (btPos == 0xFF)
 		{
 			pMsg.Result = CB_ERROR;
-			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 			lpObj->m_PlayerData->m_PentagramMixLock = FALSE;
 		}
 
 		else
 		{
 			pMsg.Result = CB_SUCCESS;
-			gObjPentagramMixItemSet(aIndex, btPos, 1);
+			gObjPentagramMixItemSet(lpObj, btPos, 1);
 			BYTE ExOption[MAX_EXOPTION_SIZE];
 			ItemIsBufExOption(ExOption, &Item);
 
-			IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+			GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 			lpObj->m_PlayerData->m_PentagramMixLock = FALSE;
 		}
 	}
@@ -2072,16 +2054,16 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 		Item.Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
 		BYTE btInOutResult = FALSE;
 
-		BYTE btRes = gObjInventoryInsertItem(aIndex, Item);
+		BYTE btRes = gObjInventoryInsertItem(lpObj, Item);
 
 		if (btRes == 0xFF)
 		{
-			GSProtocol.GCAnsPentagramJewelInOut(aIndex, btInOutResult);
+			GSProtocol.GCAnsPentagramJewelInOut(lpObj, btInOutResult);
 		}
 		else
 		{
-			GSProtocol.GCInventoryItemOneSend(aIndex, btRes);
-			GSProtocol.GCAnsPentagramJewelInOut(aIndex, 1);
+			GSProtocol.GCInventoryItemOneSend(lpObj, btRes);
+			GSProtocol.GCAnsPentagramJewelInOut(lpObj, 1);
 			BYTE ExOption[MAX_EXOPTION_SIZE];
 			ItemIsBufExOption(ExOption, &Item);
 
@@ -2260,7 +2242,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 				{
 					PHeadSetB((LPBYTE)&pResult, 0x32, sizeof(pResult));
 					pResult.Result = 0xFF;
-					IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+					GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pResult, pResult.h.size);
 					return;
 				}
 
@@ -2272,7 +2254,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 				if (gObj[lpMsg->aIndex].m_PlayerData->Money < 0)
 					gObj[lpMsg->aIndex].m_PlayerData->Money = 0;
 
-				GSProtocol.GCMoneySend(aIndex, gObj[lpMsg->aIndex].m_PlayerData->Money);
+				GSProtocol.GCMoneySend(lpObj, gObj[lpMsg->aIndex].m_PlayerData->Money);
 				GSProtocol.GCInventoryItemOneSend(lpMsg->aIndex, btItemPos);
 
 				BYTE ExOption[6];
@@ -2311,8 +2293,8 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 				PHeadSetB((LPBYTE)&pResult, 0x32, sizeof(pResult));
 				pResult.Result = 0xFF;
-				IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
-				gObj[aIndex].ChaosLock = FALSE;
+				GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pResult, pResult.h.size);
+				lpObj->ChaosLock = FALSE;
 				return;
 			}
 		}
@@ -2874,7 +2856,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 				ItemByteConvert(pMsg.btItemInfo, Item);
 
 			}
-			GSProtocol.GCInventoryItemOneSend(aIndex, iItemPos);
+			GSProtocol.GCInventoryItemOneSend(lpObj, iItemPos);
 			//IOCP.DataSend(lpMsg->aIndex, (LPBYTE)&pMsg, sizeof(pMsg));
 		}
 	}
@@ -3229,13 +3211,13 @@ void DGOptionDataRecv(SDHP_SKILLKEYDATA_SEND * lpMsg)
 	memset(szName, 0, sizeof(szName));
 	memcpy(szName, lpMsg->Name, sizeof(lpMsg->Name));
 
-	if (strcmp(gObj[aIndex].Name, szName) != 0)
+	if (strcmp(lpObj->Name, szName) != 0)
 	{
 		return;
 	}
 
-	::GSProtocol.GCSkillKeySend(aIndex, lpMsg->SkillKeyBuffer, lpMsg->GameOption, lpMsg->QkeyDefine, lpMsg->WkeyDefine, lpMsg->EkeyDefine, lpMsg->ChatWindow, lpMsg->RkeyDefine, lpMsg->QWERLevelDefine);
-	gObj[aIndex].m_PlayerData->m_EnableUseChangeSkin = lpMsg->EnableTransformMode;
+	::GSProtocol.GCSkillKeySend(lpObj, lpMsg->SkillKeyBuffer, lpMsg->GameOption, lpMsg->QkeyDefine, lpMsg->WkeyDefine, lpMsg->EkeyDefine, lpMsg->ChatWindow, lpMsg->RkeyDefine, lpMsg->QWERLevelDefine);
+	lpObj->m_PlayerData->m_EnableUseChangeSkin = lpMsg->EnableTransformMode;
 	gObjViewportListProtocolCreate(&gObj[aIndex]);
 }
 
@@ -3259,7 +3241,7 @@ void DGMoveOtherServer(SDHP_CHARACTER_TRANSFER_RESULT * lpMsg)
 		IOCP.DataSend(lpMsg->Number, (LPBYTE)&pResult, pResult.h.size);
 
 		sLog->outBasic("[CharTrasfer] Fail [%s][%s] (%d)",
-			lpObj->AccountID, lpObj->Name, lpMsg->Result);
+			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpMsg->Result);
 
 		lpObj->m_MoveOtherServer = 0;
 
@@ -3269,7 +3251,7 @@ void DGMoveOtherServer(SDHP_CHARACTER_TRANSFER_RESULT * lpMsg)
 	}
 
 	sLog->outBasic("[CharTrasfer] Success [%s][%s] (%d)",
-		lpObj->AccountID, lpObj->Name, lpMsg->Result);
+		lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpMsg->Result);
 
 	GSProtocol.GCServerMsgStringSend("?????? ???????.", lpObj->m_Index, 1);// Deathway translation here
 	GSProtocol.GCServerMsgStringSend("???? ?????? ????????ñ? ??????.", lpObj->m_Index, 1);// Deathway translation here
@@ -3316,13 +3298,13 @@ void gObjRequestPetItemInfo(CGameObject* lpObj, int inventype)
 	{
 		for (int n = 0; n < INVENTORY_SIZE; n++)
 		{
-			if (lpObj->pInventory[n].IsItem())
+			if (lpObj->pntInventory[n]->IsItem())
 			{
-				if (lpObj->pInventory[n].m_Type == ITEMGET(13, 4) || lpObj->pInventory[n].m_Type == ITEMGET(13, 5))
+				if (lpObj->pntInventory[n]->m_Type == ITEMGET(13, 4) || lpObj->pntInventory[n]->m_Type == ITEMGET(13, 5))
 				{
 					founditemcount++;
 					petIteminfo.nPos = n;
-					petIteminfo.nSerial = lpObj->pInventory[n].m_Number;
+					petIteminfo.nSerial = lpObj->pntInventory[n]->m_Number;
 					memcpy(&pbuffer[lofs], &petIteminfo, sizeof(petIteminfo));
 					lofs += sizeof(petIteminfo);
 				}
@@ -3333,13 +3315,13 @@ void gObjRequestPetItemInfo(CGameObject* lpObj, int inventype)
 	{
 		for (int n = 0; n < WAREHOUSE_SIZE; n++)
 		{
-			if (lpObj->pWarehouse[n].IsItem())
+			if (lpObj->pntWarehouse[n]->IsItem())
 			{
-				if (lpObj->pWarehouse[n].m_Type == ITEMGET(13, 4) || lpObj->pWarehouse[n].m_Type == ITEMGET(13, 5))
+				if (lpObj->pntWarehouse[n]->m_Type == ITEMGET(13, 4) || lpObj->pntWarehouse[n]->m_Type == ITEMGET(13, 5))
 				{
 					founditemcount++;
 					petIteminfo.nPos = n;
-					petIteminfo.nSerial = lpObj->pWarehouse[n].m_Number;
+					petIteminfo.nSerial = lpObj->pntWarehouse[n]->m_Number;
 					memcpy(&pbuffer[lofs], &petIteminfo, sizeof(petIteminfo));
 					lofs += sizeof(petIteminfo);
 				}
@@ -3352,7 +3334,7 @@ void gObjRequestPetItemInfo(CGameObject* lpObj, int inventype)
 		SDHP_REQUEST_PETITEM_INFO pMsg;
 
 		pMsg.h.set((LPBYTE)&pMsg, 0x56, lofs + sizeof(pMsg));
-		memcpy(pMsg.AccountID, lpObj->AccountID, MAX_ACCOUNT_LEN);
+		memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN);
 		pMsg.Number = aIndex;
 		pMsg.InvenType = inventype;
 		pMsg.nCount = founditemcount;
@@ -3391,7 +3373,7 @@ void DGRecvPetItemInfo(LPBYTE lpData)
 
 	memcpy(szAccountId, lpMsg->AccountID, MAX_ACCOUNT_LEN);
 
-	if (!gObjIsAccontConnect(aIndex, szAccountId))
+	if (!gObjIsAccontConnect(lpObj, szAccountId))
 	{
 		sLog->outError("Request to receive petitem infomation doesn't match the user %s", szAccountId);
 		GIOCP.CloseClient(lpObj->m_PlayerData->ConnectUser->Index);
@@ -3410,18 +3392,18 @@ void DGRecvPetItemInfo(LPBYTE lpData)
 				ReCalc = 1;
 			}
 
-			if (gObj[aIndex].pInventory[pPetItemInfo[n].nPos].IsItem())
+			if (lpObj->pInventory[pPetItemInfo[n].nPos].IsItem())
 			{
-				if (gObj[aIndex].pInventory[pPetItemInfo[n].nPos].m_Number == pPetItemInfo[n].nSerial)
+				if (lpObj->pInventory[pPetItemInfo[n].nPos].m_Number == pPetItemInfo[n].nSerial)
 				{
-					gObj[aIndex].pInventory[pPetItemInfo[n].nPos].SetPetItemInfo(pPetItemInfo[n].Level, pPetItemInfo[n].Exp);
+					lpObj->pInventory[pPetItemInfo[n].nPos].SetPetItemInfo(pPetItemInfo[n].Level, pPetItemInfo[n].Exp);
 				}
 			}
 		}
 
 		if (ReCalc != FALSE)
 		{
-			gObjCalCharacter.CalcCharacter(aIndex);
+			gObjCalCharacter.CalcCharacter(lpObj);
 		}
 	}
 	else if (lpMsg->InvenType == 1)
@@ -3429,11 +3411,11 @@ void DGRecvPetItemInfo(LPBYTE lpData)
 		for (int n = 0; n < lpMsg->nCount; n++)
 		{
 
-			if (gObj[aIndex].pWarehouse[pPetItemInfo[n].nPos].IsItem())
+			if (lpObj->pWarehouse[pPetItemInfo[n].nPos].IsItem())
 			{
-				if (gObj[aIndex].pWarehouse[pPetItemInfo[n].nPos].m_Number == pPetItemInfo[n].nSerial)
+				if (lpObj->pWarehouse[pPetItemInfo[n].nPos].m_Number == pPetItemInfo[n].nSerial)
 				{
-					gObj[aIndex].pWarehouse[pPetItemInfo[n].nPos].SetPetItemInfo(pPetItemInfo[n].Level, pPetItemInfo[n].Exp);
+					lpObj->pWarehouse[pPetItemInfo[n].nPos].SetPetItemInfo(pPetItemInfo[n].Level, pPetItemInfo[n].Exp);
 				}
 			}
 		}
@@ -3476,16 +3458,16 @@ void gObjSavePetItemInfo(CGameObject* lpObj, int inventype)
 	{
 		for (int n = 0; n < INVENTORY_SIZE; n++)
 		{
-			if (lpObj->pInventory[n].IsItem())
+			if (lpObj->pntInventory[n]->IsItem())
 			{
-				if (lpObj->pInventory[n].m_Type == ITEMGET(13, 4) || lpObj->pInventory[n].m_Type == ITEMGET(13, 5))
+				if (lpObj->pntInventory[n]->m_Type == ITEMGET(13, 4) || lpObj->pntInventory[n]->m_Type == ITEMGET(13, 5))
 				{
-					if (lpObj->pInventory[n].m_IsLoadPetItemInfo != FALSE)
+					if (lpObj->pntInventory[n]->m_IsLoadPetItemInfo != FALSE)
 					{
 						founditemcount++;
-						petIteminfo.nSerial = lpObj->pInventory[n].m_Number;
-						petIteminfo.Level = lpObj->pInventory[n].m_PetItem_Level;
-						petIteminfo.Exp = lpObj->pInventory[n].m_PetItem_Exp;
+						petIteminfo.nSerial = lpObj->pntInventory[n]->m_Number;
+						petIteminfo.Level = lpObj->pntInventory[n]->m_PetItem_Level;
+						petIteminfo.Exp = lpObj->pntInventory[n]->m_PetItem_Exp;
 
 						memcpy(&pbuffer[lofs], &petIteminfo, sizeof(petIteminfo));
 						lofs += sizeof(petIteminfo);
@@ -3498,16 +3480,16 @@ void gObjSavePetItemInfo(CGameObject* lpObj, int inventype)
 	{
 		for (int n = 0; n < WAREHOUSE_SIZE; n++)
 		{
-			if (lpObj->pWarehouse[n].IsItem())
+			if (lpObj->pntWarehouse[n]->IsItem())
 			{
-				if (lpObj->pWarehouse[n].m_Type == ITEMGET(13, 4) || lpObj->pWarehouse[n].m_Type == ITEMGET(13, 5))
+				if (lpObj->pntWarehouse[n]->m_Type == ITEMGET(13, 4) || lpObj->pntWarehouse[n]->m_Type == ITEMGET(13, 5))
 				{
-					if (lpObj->pWarehouse[n].m_IsLoadPetItemInfo != FALSE)
+					if (lpObj->pntWarehouse[n]->m_IsLoadPetItemInfo != FALSE)
 					{
 						founditemcount++;
-						petIteminfo.nSerial = lpObj->pWarehouse[n].m_Number;
-						petIteminfo.Level = lpObj->pWarehouse[n].m_PetItem_Level;
-						petIteminfo.Exp = lpObj->pWarehouse[n].m_PetItem_Exp;
+						petIteminfo.nSerial = lpObj->pntWarehouse[n]->m_Number;
+						petIteminfo.Level = lpObj->pntWarehouse[n]->m_PetItem_Level;
+						petIteminfo.Exp = lpObj->pntWarehouse[n]->m_PetItem_Exp;
 
 						memcpy(&pbuffer[lofs], &petIteminfo, sizeof(petIteminfo));
 						lofs += sizeof(petIteminfo);
@@ -3594,7 +3576,7 @@ void GS_GDReqOwnerGuildMaster(int iMapSvrGroup, CGameObject* lpObj)
 		return;
 	}
 
-	if (ObjectMaxRange(aIndex) == FALSE)
+	if (ObjectMaxRange(lpObj) == FALSE)
 	{
 		return;
 	}
@@ -3640,7 +3622,7 @@ void GS_GDReqCastleNpcBuy(int iMapSvrGroup, CGameObject* lpObj, int iNpcNumber, 
 		return;
 	}
 
-	if (ObjectMaxRange(aIndex) == FALSE)
+	if (ObjectMaxRange(lpObj) == FALSE)
 	{
 		return;
 	}
@@ -3689,7 +3671,7 @@ void GS_GDReqCastleNpcRepair(int iMapSvrGroup, CGameObject* lpObj, int iNpcNumbe
 		return;
 	}
 
-	if (ObjectMaxRange(aIndex) == FALSE)
+	if (ObjectMaxRange(lpObj) == FALSE)
 	{
 		return;
 	}
@@ -3732,7 +3714,7 @@ void GS_GDReqCastleNpcUpgrade(int iMapSvrGroup, CGameObject* lpObj, int iNpcNumb
 		return;
 	}
 
-	if (ObjectMaxRange(aIndex) == FALSE)
+	if (ObjectMaxRange(lpObj) == FALSE)
 	{
 		return;
 	}
@@ -3772,7 +3754,7 @@ void GS_GDReqTaxInfo(int iMapSvrGroup, CGameObject* lpObj)
 		return;
 	}
 
-	if (ObjectMaxRange(aIndex) == FALSE)
+	if (ObjectMaxRange(lpObj) == FALSE)
 	{
 		return;
 	}
@@ -3810,7 +3792,7 @@ void GS_GDReqTaxRateChange(int iMapSvrGroup, CGameObject* lpObj, int iTaxType, i
 		return;
 	}
 
-	if (ObjectMaxRange(aIndex) == FALSE)
+	if (ObjectMaxRange(lpObj) == FALSE)
 	{
 		return;
 	}
@@ -3848,7 +3830,7 @@ void GS_GDReqCastleMoneyChange(int iMapSvrGroup, CGameObject* lpObj, int iMoneyC
 		return;
 	}
 
-	if (ObjectMaxRange(aIndex) == FALSE)
+	if (ObjectMaxRange(lpObj) == FALSE)
 	{
 		return;
 	}
@@ -3927,7 +3909,7 @@ void GS_GDReqGuildMarkRegInfo(int iMapSvrGroup, CGameObject* lpObj)
 		return;
 	}
 
-	if (ObjectMaxRange(aIndex) == FALSE)
+	if (ObjectMaxRange(lpObj) == FALSE)
 	{
 		return;
 	}
@@ -3937,7 +3919,7 @@ void GS_GDReqGuildMarkRegInfo(int iMapSvrGroup, CGameObject* lpObj)
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x0A, sizeof(CSP_REQ_GUILDREGINFO));
 	pMsg.wMapSvrNum = iMapSvrGroup;
 	pMsg.iIndex = aIndex;
-	memcpy(pMsg.szGuildName, gObj[aIndex].m_PlayerData->GuildName, 8);
+	memcpy(pMsg.szGuildName, lpObj->m_PlayerData->GuildName, 8);
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
@@ -4031,7 +4013,7 @@ void GS_GDReqRegAttackGuild(int iMapSvrGroup, CGameObject* lpObj)
 		return;
 	}
 
-	if (ObjectMaxRange(aIndex) == FALSE)
+	if (ObjectMaxRange(lpObj) == FALSE)
 	{
 		return;
 	}
@@ -4041,7 +4023,7 @@ void GS_GDReqRegAttackGuild(int iMapSvrGroup, CGameObject* lpObj)
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x0D, sizeof(CSP_REQ_REGATTACKGUILD));
 	pMsg.wMapSvrNum = iMapSvrGroup;
 	pMsg.iIndex = aIndex;
-	memcpy(pMsg.szEnemyGuildName, gObj[aIndex].m_PlayerData->GuildName, 8);
+	memcpy(pMsg.szEnemyGuildName, lpObj->m_PlayerData->GuildName, 8);
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
@@ -4127,7 +4109,7 @@ void GS_GDReqGlobalPostMultiCast(int iMapSvrGroup, CGameObject* lpObj, char * sz
 		return;
 	}
 
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(lpObj))
 	{
 		return;
 	}
@@ -4141,7 +4123,7 @@ void GS_GDReqGlobalPostMultiCast(int iMapSvrGroup, CGameObject* lpObj, char * sz
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x1F, sizeof(CSP_GLOBALPOST_MULTICAST));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	memcpy(pMsg.szSender, gObj[aIndex].Name, MAX_ACCOUNT_LEN);
+	memcpy(pMsg.szSender, lpObj->Name, MAX_ACCOUNT_LEN);
 	strcpy(pMsg.szMessage, szMessage);
 	memcpy(pMsg.szServerName, g_ConfigRead.server.GetServerName(), 50);
 
@@ -4175,7 +4157,7 @@ void GS_GDReqRegGuildMark(int iMapSvrGroup, CGameObject* lpObj, int iItemPos)
 		return;
 	}
 
-	if (ObjectMaxRange(aIndex) == FALSE)
+	if (ObjectMaxRange(lpObj) == FALSE)
 	{
 		return;
 	}
@@ -4186,7 +4168,7 @@ void GS_GDReqRegGuildMark(int iMapSvrGroup, CGameObject* lpObj, int iItemPos)
 	pMsg.wMapSvrNum = iMapSvrGroup;
 	pMsg.iIndex = aIndex;
 	pMsg.iItemPos = iItemPos;
-	memcpy(&pMsg.szGuildName, gObj[aIndex].m_PlayerData->GuildName, sizeof(pMsg.szGuildName));
+	memcpy(&pMsg.szGuildName, lpObj->m_PlayerData->GuildName, sizeof(pMsg.szGuildName));
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
@@ -4213,7 +4195,7 @@ void GS_GDReqGuildMarkReset(int iMapSvrGroup, CGameObject* lpObj, char* lpszGuil
 		return;
 	}
 
-	if (ObjectMaxRange(aIndex) == FALSE)
+	if (ObjectMaxRange(lpObj) == FALSE)
 	{
 		return;
 	}
@@ -4256,7 +4238,7 @@ void GS_GDReqGuildSetGiveUp(int iMapSvrGroup, CGameObject* lpObj, BOOL bIsGiveUp
 		return;
 	}
 
-	if (ObjectMaxRange(aIndex) == FALSE)
+	if (ObjectMaxRange(lpObj) == FALSE)
 	{
 		return;
 	}
@@ -4267,7 +4249,7 @@ void GS_GDReqGuildSetGiveUp(int iMapSvrGroup, CGameObject* lpObj, BOOL bIsGiveUp
 	pMsg.wMapSvrNum = iMapSvrGroup;
 	pMsg.iIndex = aIndex;
 	pMsg.bIsGiveUp = bIsGiveUp;
-	memcpy(pMsg.szGuildName, gObj[aIndex].m_PlayerData->GuildName, 8);
+	memcpy(pMsg.szGuildName, lpObj->m_PlayerData->GuildName, 8);
 
 	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
@@ -6058,7 +6040,7 @@ void GDReqInGameShopItemList(CGameObject* lpObj, BYTE InventoryType, BYTE Invent
 	ISHOP_REQ_ITEMLIST pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD2, 0x02, sizeof(pMsg));
 
-	memcpy(pMsg.AccountID, gObj[aIndex].AccountID, 11);
+	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, 11);
 	pMsg.aIndex = aIndex;
 	pMsg.InvType = InventoryType;
 	pMsg.InvNum = InventoryNum;
@@ -6081,7 +6063,7 @@ void GDReqInGameShopPoint(CGameObject* lpObj)
 	ISHOP_REQ_POINT pMsg = { 0 };
 
 	PHeadSetB((LPBYTE)&pMsg, 0xD1, sizeof(pMsg));
-	memcpy(pMsg.AccountID, gObj[aIndex].AccountID, 11);
+	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, 11);
 	pMsg.aIndex = aIndex;
 
 	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
@@ -6106,7 +6088,7 @@ void GDReqInGameShopPointAdd(CGameObject* lpObj, BYTE Type, float Coin)
 	PHeadSetB((LPBYTE)&pMsg, 0xD7, sizeof(pMsg));
 
 	pMsg.aIndex = aIndex;
-	memcpy(pMsg.AccountID, gObj[aIndex].AccountID, 11);
+	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, 11);
 	pMsg.Type = Type;
 	pMsg.Coin = Coin;
 
@@ -6126,7 +6108,7 @@ void GDReqInGameShopItemBuy(CGameObject* lpObj, int ID1, int ID2, int ID3, int P
 	PHeadSetB((LPBYTE)&pMsg, 0xD5, sizeof(pMsg));
 
 	pMsg.aIndex = aIndex;
-	memcpy(pMsg.AccountID, gObj[aIndex].AccountID, 11);
+	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, 11);
 	pMsg.ID1 = ID1;
 	pMsg.ID2 = ID2;
 	pMsg.ID3 = ID3;
@@ -6142,7 +6124,7 @@ void GDReqInGameShopItemUse(CGameObject* lpObj, int UniqueCode, int AuthCode)
 	PHeadSetB((LPBYTE)&pMsg, 0xD9, sizeof(pMsg));
 
 	pMsg.aIndex = aIndex;
-	memcpy(pMsg.AccountID, gObj[aIndex].AccountID, 11);
+	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, 11);
 	pMsg.UniqueCode = UniqueCode;
 	pMsg.AuthCode = AuthCode;
 
@@ -6163,14 +6145,14 @@ void GDReqInGameShopItemGift(CGameObject* lpObj, int ID1, int ID2, int ID3, int 
 	PHeadSetW((LPBYTE)&pMsg, 0xD6, sizeof(pMsg));
 
 	pMsg.aIndex = aIndex;
-	memcpy(pMsg.AccountID, gObj[aIndex].AccountID, 11);
+	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, 11);
 	pMsg.ID1 = ID1;
 	pMsg.ID2 = ID2;
 	pMsg.ID3 = ID3;
 	pMsg.Price = Price;
 	pMsg.CoinType = CoinType;
 	memcpy(pMsg.TargetName, Target, 11);
-	memcpy(pMsg.Name, gObj[aIndex].Name, 11);
+	memcpy(pMsg.Name, lpObj->Name, 11);
 	memcpy(pMsg.Message, Message, 200);
 
 	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
@@ -6188,7 +6170,7 @@ void GDReqInGameShopItemDelete(CGameObject* lpObj, int UniqueCode, int AuthCode)
 	ISHOP_ITEM_DELETE pMsg;
 	PHeadSetB((LPBYTE)&pMsg, 0xDB, sizeof(pMsg));
 
-	memcpy(pMsg.AccountID, gObj[aIndex].AccountID, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN + 1);
 	pMsg.UniqueCode = UniqueCode;
 	pMsg.AuthCode = AuthCode;
 
@@ -6200,7 +6182,7 @@ void GDReqInGameShopItemRollbackUse(CGameObject* lpObj, int UniqueCode, int Auth
 	ISHOP_ITEM_ROLLBACK pMsg;
 	PHeadSetB((LPBYTE)&pMsg, 0xDC, sizeof(pMsg));
 
-	memcpy(pMsg.AccountID, gObj[aIndex].AccountID, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN + 1);
 	pMsg.UniqueCode = UniqueCode;
 	pMsg.AuthCode = AuthCode;
 
@@ -6218,11 +6200,11 @@ void GDReqBanUser(CGameObject* lpObj, BYTE Type, BYTE Ban)
 
 	if (pBan.Type == 1)
 	{
-		memcpy(pBan.AccName, gObj[aIndex].AccountID, 11);
+		memcpy(pBan.AccName, lpObj->m_PlayerData->ConnectUser->AccountID, 11);
 	}
 	else
 	{
-		memcpy(pBan.AccName, gObj[aIndex].Name, 11);
+		memcpy(pBan.AccName, lpObj->Name, 11);
 	}
 
 	wsDataCli.DataSend((PCHAR)&pBan, pBan.h.size);
@@ -6245,11 +6227,11 @@ void GDSetExpWare(CGameObject* lpObj, BYTE ExpansionType, BYTE ExpansionLevel)
 
 	if (pMsg.ExpansionType == 2)
 	{
-		memcpy(pMsg.AccountID, gObj[aIndex].AccountID, 11);
+		memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, 11);
 	}
 	else
 	{
-		memcpy(pMsg.AccountID, gObj[aIndex].Name, 11);
+		memcpy(pMsg.AccountID, lpObj->Name, 11);
 	}
 
 	pMsg.ExpansionLevel = ExpansionLevel;
@@ -6305,7 +6287,7 @@ void GDReqSecLock(CGameObject* lpObj, int Code)
 
 	PHeadSetB((LPBYTE)&pLock, 0xFB, sizeof(pLock));
 
-	memcpy(pLock.AccountID, gObj[aIndex].AccountID, 11);
+	memcpy(pLock.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, 11);
 
 	pLock.Code = Code;
 
@@ -6319,7 +6301,7 @@ void ReqMonsterCount(CGameObject* lpObj)
 	pMsg.h.headcode = 0xFD;
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.aIndex = aIndex;
-	memcpy(pMsg.character, gObj[aIndex].Name, 10);
+	memcpy(pMsg.character, lpObj->Name, 10);
 	pMsg.character[10] = 0;
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 
@@ -6340,7 +6322,7 @@ void ReqSaveMonsterCount(short aIndex, int monsterid)
 	pMsg.h.headcode = 0xFC;
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.type = monsterid;
-	memcpy(pMsg.character, gObj[aIndex].Name, 10);
+	memcpy(pMsg.character, lpObj->Name, 10);
 	pMsg.character[10] = 0;
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
@@ -6390,49 +6372,49 @@ void DGAnsArcaBattleGuildJoinSelect(PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg)
 	PMSG_ANS_ARCA_BATTLE_JOIN pMsg;
 	CGameObject* lpObj = lpMsg->wNumber;
 
-	if (ObjectMaxRange(aIndex) == false)
+	if (ObjectMaxRange(lpObj) == false)
 		return;
 
-	if (gObj[aIndex].Type != OBJ_USER)
+	if (lpObj->Type != OBJ_USER)
 		return;
 
 	LPOBJ lpObj = &gObj[aIndex];
 
-	if (gObjIsConnected(aIndex))
+	if (gObjIsConnected(lpObj))
 	{
 		switch (lpMsg->btResult)
 		{
 		case 0:
-			sLog->outBasic("[ArcaBattle] [%s][%s][%s] ArcaBattle Guild Join", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_PlayerData->GuildName);
+			sLog->outBasic("[ArcaBattle] [%s][%s][%s] ArcaBattle Guild Join", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildName);
 			GDReqArcaBattleGuildJoin(lpObj);
 			return;
 
 		case 1:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Not Guild Master", gObj[aIndex].AccountID, gObj[aIndex].Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Not Guild Master", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 			break;
 
 		case 2:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Below Guild Member", gObj[aIndex].AccountID, gObj[aIndex].Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Below Guild Member", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 			break;
 
 		case 3:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Guild Over", gObj[aIndex].AccountID, gObj[aIndex].Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Guild Over", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 			break;
 
 		case 4:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to be Guild Name Same", gObj[aIndex].AccountID, gObj[aIndex].Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to be Guild Name Same", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 			break;
 
 		case 5:
-			sLog->outBasic("[ArcaBattle] [%s][%s] (Guild Master) ArcaBattle Join Fail to Time Over", gObj[aIndex].AccountID, gObj[aIndex].Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] (Guild Master) ArcaBattle Join Fail to Time Over", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 			break;
 
 		case 6:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to not enough Guild Rank", gObj[aIndex].AccountID, gObj[aIndex].Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to not enough Guild Rank", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 			break;
 
 		default:
-			sLog->outBasic("[ArcaBattle] [%s][%s] GuildJoin Error Result : %d", gObj[aIndex].AccountID, gObj[aIndex].Name, lpMsg->btResult);
+			sLog->outBasic("[ArcaBattle] [%s][%s] GuildJoin Error Result : %d", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpMsg->btResult);
 			break;
 		}
 
@@ -6441,7 +6423,7 @@ void DGAnsArcaBattleGuildJoinSelect(PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg)
 		pMsg.h.headcode = 0xF8;
 		pMsg.h.subcode = 0x31;
 		pMsg.btResult = lpMsg->btResult;
-		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, sizeof(pMsg));
 	}
 }
 
@@ -6466,48 +6448,48 @@ void DGAnsArcaBattleGuildMemberJoin(PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *l
 	PMSG_ANS_ARCA_BATTLE_JOIN pMsg;
 	CGameObject* lpObj = lpMsg->wNumber;
 
-	if (ObjectMaxRange(aIndex) == false)
+	if (ObjectMaxRange(lpObj) == false)
 		return;
 
-	if (gObj[aIndex].Type != OBJ_USER)
+	if (lpObj->Type != OBJ_USER)
 		return;
 
 	LPOBJ lpObj = &gObj[aIndex];
 
-	if (gObjIsConnected(aIndex))
+	if (gObjIsConnected(lpObj))
 	{
 		switch (lpMsg->btResult)
 		{
 		case 0:
-			sLog->outBasic("[ArcaBattle] [%s][%s][%s] ArcaBattle Guild Member Join", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_PlayerData->GuildName);
+			sLog->outBasic("[ArcaBattle] [%s][%s][%s] ArcaBattle Guild Member Join", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildName);
 			return;
 
 		case 7:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Not Guild Member", gObj[aIndex].AccountID, gObj[aIndex].Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Not Guild Member", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 			break;
 
 		case 8:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to be Name Same", gObj[aIndex].AccountID, gObj[aIndex].Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to be Name Same", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 			break;
 
 		case 9:
-			sLog->outBasic("[ArcaBattle] [%s][%s] (Guild Member) ArcaBattle Join Fail to Guild Member Over", gObj[aIndex].AccountID, gObj[aIndex].Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] (Guild Member) ArcaBattle Join Fail to Guild Member Over", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 			break;
 
 		case 10:
-			sLog->outBasic("[ArcaBattle] [%s][%s] (Guild Member) ArcaBattle Join Fail to Time Over", gObj[aIndex].AccountID, gObj[aIndex].Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] (Guild Member) ArcaBattle Join Fail to Time Over", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 			break;
 
 		case 13:
-			sLog->outBasic("[ArcaBattle] [%s][%s] (Guild Master) ArcaBattle Join Fail GuildMaster Will be Registered Automatically", gObj[aIndex].AccountID, gObj[aIndex].Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] (Guild Master) ArcaBattle Join Fail GuildMaster Will be Registered Automatically", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 			break;
 
 		case 14:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Guild Master Join Time ", gObj[aIndex].AccountID, gObj[aIndex].Name);
+			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Guild Master Join Time ", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 			break;
 
 		default:
-			sLog->outBasic("[ArcaBattle] [%s][%s] GuildMemberJoin Error Result : %d", gObj[aIndex].AccountID, gObj[aIndex].Name, lpMsg->btResult);
+			sLog->outBasic("[ArcaBattle] [%s][%s] GuildMemberJoin Error Result : %d", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpMsg->btResult);
 			break;
 		}
 
@@ -6516,7 +6498,7 @@ void DGAnsArcaBattleGuildMemberJoin(PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *l
 		pMsg.h.headcode = 0xF8;
 		pMsg.h.subcode = 0x33;
 		pMsg.btResult = lpMsg->btResult;
-		IOCP.DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, sizeof(pMsg));
 	}
 }
 
@@ -6539,39 +6521,39 @@ void DGAnsArcaBattleEnter(PMSG_ANS_ARCA_BATTLE_ENTER_DS *lpMsg)
 {
 	CGameObject* lpObj = lpMsg->wNumber;
 
-	if (gObjIsConnected(aIndex) == FALSE)
+	if (gObjIsConnected(lpObj) == FALSE)
 	{
 		return;
 	}
 
-	if (gObj[aIndex].Teleport != FALSE)
+	if (lpObj->Teleport != FALSE)
 	{
 		return;
 	}
 
 	if (lpMsg->btResult == 11)
 	{
-		sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Enter Fail to Not Join Guild Master", gObj[aIndex].AccountID, gObj[aIndex].Name);
+		sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Enter Fail to Not Join Guild Master", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 	}
 
 	else if (lpMsg->btResult == 12)
 	{
-		sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Enter Fail to Not Play Time", gObj[aIndex].AccountID, gObj[aIndex].Name);
+		sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Enter Fail to Not Play Time", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 	}
 
 	else if (lpMsg->btResult == 0)
 	{
 		if (lpMsg->btEnterSeq == TRUE)
 		{
-			gObjMoveGate(aIndex, 426);
-			sLog->outBasic("[ArcaBattle] [%s][%s][%s] ArcaBattle Enter", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_PlayerData->GuildName);
+			gObjMoveGate(lpObj, 426);
+			sLog->outBasic("[ArcaBattle] [%s][%s][%s] ArcaBattle Enter", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildName);
 			return;
 		}
 	}
 
 	else
 	{
-		sLog->outBasic("[ArcaBattle] [%s][%s] Enter Error Result : %d", gObj[aIndex].AccountID, gObj[aIndex].Name, lpMsg->btResult);
+		sLog->outBasic("[ArcaBattle] [%s][%s] Enter Error Result : %d", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpMsg->btResult);
 		return;
 	}
 
@@ -6582,7 +6564,7 @@ void DGAnsArcaBattleEnter(PMSG_ANS_ARCA_BATTLE_ENTER_DS *lpMsg)
 	pMsg.h.headcode = 0xF8;
 	pMsg.h.subcode = 0x35;
 	pMsg.btResult = lpMsg->btResult;
-	IOCP.DataSend(aIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+	GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, sizeof(pMsg));
 }
 
 void DGAnsArcaBattleWinGuildInfo(PMSG_ANS_AB_WIN_GUILD_INFO_DS *lpMsg)
@@ -6727,7 +6709,7 @@ void DGAns_GetCCFPermission(SDHP_ANS_CCF_GETPERMISSION *lpMsg)
 
 		if (nResult)
 		{
-			sLog->outBasic("[CGReqCCF_EnterCheck][CGReqEnterChaosCastleFinal] ACC :%s , NAME :%s return :%d ", lpObj->AccountID, lpObj->Name, nResult);
+			sLog->outBasic("[CGReqCCF_EnterCheck][CGReqEnterChaosCastleFinal] ACC :%s , NAME :%s return :%d ", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, nResult);
 		}
 	}
 }
@@ -6774,7 +6756,7 @@ void GCMuunInventoryItemListSend(CGameObject* lpObj)
 	pMsgILC.h.sizeL = SET_NUMBERL(sOfs);
 	pMsgILC.Count = itemcount;
 	memcpy(sendBuf, &pMsgILC, sizeof(PMSG_INVENTORYLISTCOUNT));
-	IOCP.DataSend(aIndex, sendBuf, sOfs);
+	GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, sendBuf, sOfs);
 }
 
 void GDReqSaveEventInvenItem(CGameObject* lpObj)
@@ -6811,7 +6793,7 @@ void GDReqSaveEventInvenItem(CGameObject* lpObj)
 	}
 
 	_tagSDHP_REQ_DBEVENT_INVEN_SAVE pMsg;
-	memcpy(pMsg.AccountID, lpObj->AccountID, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN + 1);
 	memcpy(pMsg.Name, lpObj->Name, MAX_ACCOUNT_LEN + 1);
 
 	pMsg.h.c = 0xC2;
@@ -6841,7 +6823,7 @@ void GDReqLoadEventInvenItem(CGameObject* lpObj)
 	}
 
 	_tagSDHP_REQ_DBEVENT_INVEN_LOAD pMsg;
-	memcpy(pMsg.AccountID, lpObj->AccountID, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN + 1);
 	memcpy(pMsg.Name, lpObj->Name, MAX_ACCOUNT_LEN + 1);
 
 	pMsg.aIndex = lpObj->m_Index;
@@ -6863,41 +6845,41 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 	CGameObject* lpObj = lpMsg->aIndex;
 
 	szId[MAX_ACCOUNT_LEN] = 0;
-	memcpy(szId, gObj[aIndex].AccountID, MAX_ACCOUNT_LEN);
+	memcpy(szId, lpObj->m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN);
 
-	if (ObjectMaxRange(aIndex) == FALSE)
+	if (ObjectMaxRange(lpObj) == FALSE)
 	{
 		return;
 	}
 
-	if (gObj[aIndex].m_bMapSvrMoveReq == true)
+	if (lpObj->m_PlayerData->m_bMapSvrMoveReq == true)
 	{
 		return;
 	}
 
-	if (gObj[aIndex].m_State == 32)
+	if (lpObj->m_State == 32)
 	{
 		return;
 	}
 
-	if (gObj[aIndex].m_bMapSvrMoveQuit == true)
+	if (lpObj->m_PlayerData->m_bMapSvrMoveQuit == true)
 	{
 		return;
 	}
 
-	if (!gObjIsAccontConnect(aIndex, szId))
+	if (!gObjIsAccontConnect(lpObj, szId))
 	{
 		return;
 	}
 
-	gObj[aIndex].EventInventoryLoad = true;
+	lpObj->EventInventoryLoad = true;
 	LPOBJ lpObj = &gObj[aIndex];
 	int itype;
 	int _type;
 	BYTE OptionData;
 	CItem item;
 
-	memset(gObj[aIndex].pEventInventoryMap, (BYTE)-1, EVENT_INVENTORY_MAP_SIZE);
+	memset(lpObj->pEventInventoryMap, (BYTE)-1, EVENT_INVENTORY_MAP_SIZE);
 
 	int count = 0;
 	for (int n = 0; n < EVENT_INVENTORY_SIZE; n++)
@@ -6908,7 +6890,7 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 		itype |= (lpMsg->dbItems[n*MAX_DBITEM_INFO + 7] & 0x80) << 1;
 		_type = itype;
 
-		gObj[aIndex].pEventInventory[n].Clear();
+		lpObj->pEventInventory[n].Clear();
 
 		if (lpMsg->dbItems[n*MAX_DBITEM_INFO] == (BYTE)-1 && (lpMsg->dbItems[n*MAX_DBITEM_INFO + 9] & 0xF0) == 0xF0 && (lpMsg->dbItems[n*MAX_DBITEM_INFO + 7] & 0x80) == 0x80)
 		{
@@ -7055,11 +7037,11 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 		}
 	}
 
-	GSProtocol.GCEventInventoryItemListSend(aIndex);
+	GSProtocol.GCEventInventoryItemListSend(lpObj);
 
 	if (g_ConfigRead.data.common.EventInventoryOpen == true)
 	{
-		GSProtocol.GCSendEventBanner(aIndex, 1); //[K2]
+		GSProtocol.GCSendEventBanner(lpObj, 1); //[K2]
 	}
 
 	GSProtocol.GCPlayerStatsPanelRates(lpObj->m_Index);
@@ -7067,11 +7049,11 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 
 	for (int n = 0; n < INVENTORY_SIZE; n++)
 	{
-		if (lpObj->pInventory[n].IsPeriodItemExpire() == 1)
+		if (lpObj->pntInventory[n]->IsPeriodItemExpire() == 1)
 		{
-			lpObj->pInventory[n].SetPeriodItemExpire();
-			g_PeriodItemEx.RemovePeriodItemDataByForce(lpObj, lpObj->pInventory[n].m_Type, lpObj->pInventory[n].m_Number);
-			lpObj->pInventory[n].Clear();
+			lpObj->pntInventory[n]->SetPeriodItemExpire();
+			g_PeriodItemEx.RemovePeriodItemDataByForce(lpObj, lpObj->pntInventory[n]->m_Type, lpObj->pntInventory[n]->m_Number);
+			lpObj->pntInventory[n]->Clear();
 		}
 	}
 }
@@ -7082,7 +7064,7 @@ void GDReqSwitchWare(CGameObject* lpObj, int WareID)
 	PHeadSetB((LPBYTE)&pMsg, 0x03, sizeof(pMsg));
 
 	pMsg.iIndex = aIndex;
-	memcpy(pMsg.szAccountID, gObj[aIndex].AccountID, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szAccountID, lpObj->m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN + 1);
 	pMsg.WarehouseID = WareID;
 
 	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
@@ -7156,7 +7138,7 @@ void DGAnsUBFAccountUserInfo(PMSG_ANS_UBF_ACCOUNT_USERINFO *lpMsg)
 	{
 		g_UnityBattleField.DGAnsCheckJoinedUnityBattleField(lpObj->m_Index, lpMsg->btRegisterState);
 
-		sLog->outBasic("[DGAnsUBFAccountUserInfo][%s][%s] LogOut, Because Not Resister State or Request To Cancel", lpObj->AccountID, lpObj->Name);
+		sLog->outBasic("[DGAnsUBFAccountUserInfo][%s][%s] LogOut, Because Not Resister State or Request To Cancel", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 		gObjCloseSet(lpObj->m_Index, 0);
 	}
 
@@ -7186,7 +7168,7 @@ void DGUBFRegisterAccountUserResult(PMSG_UBF_REGISTER_ACCOUNT_USER_RESULT *lpMsg
 	if (lpMsg->btResult != TRUE)
 	{
 		sLog->outBasic("[UBFRegisterAccountUserResult][%s][%s] UBFRegisterAccountUserResult Error :%d (0:DB fail/3: Unexpired Day)",
-			lpObj->AccountID, lpObj->Name, lpMsg->btResult);
+			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpMsg->btResult);
 	}
 
 	g_UnityBattleField.DGAnsJoinUnityBattleField(lpMsg->iUserIndex, lpMsg->btResult, lpMsg->nLeftSec);
@@ -7232,12 +7214,12 @@ void DGAnsUBFGetReward(PMSG_ANS_UBF_GET_REWARD *lpMsg)
 	if (lpMsg->btReturn == 0)
 	{
 		sLog->outBasic("[UBF][DGAnsUBFGetReward][%d][%s][%s] is not eligible for WinnerItem. return : %d",
-			lpMsg->iUserIndex, lpObj->AccountID, lpObj->Name, lpMsg->btReturn);
+			lpMsg->iUserIndex, lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpMsg->btReturn);
 		return;
 	}
 
 	sLog->outBasic("[UBF][DGAnsUBFGetReward][%d][%s][%s] Received Reward Of UnityBattleField - ChaosCastleFinal : %d",
-		lpMsg->iUserIndex, lpObj->AccountID, lpObj->Name, lpMsg->btReturn);
+		lpMsg->iUserIndex, lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpMsg->btReturn);
 
 	if (lpMsg->btBattleKind == 1) // CCF
 	{
@@ -7383,7 +7365,7 @@ void DGUBFAnsGetRealNameAndServerCode(PMSG_ANS_GET_UBF_REAL_NAME *lpMsg)
 
 void GDReqCopyPetItemInfo(CGameObject* lpObj)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(lpObj))
 	{
 		return;
 	}
@@ -7395,7 +7377,7 @@ void GDReqCopyPetItemInfo(CGameObject* lpObj)
 		return;
 	}
 
-	if (!gObjIsConnected(aIndex))
+	if (!gObjIsConnected(lpObj))
 	{
 		return;
 	}
@@ -7424,7 +7406,7 @@ void GDReqCopyPetItemInfo(CGameObject* lpObj)
 	if (Count > 0)
 	{
 		pMsg.h.set((LPBYTE)&pMsg, 0xF4, lOfs);
-		memcpy(pMsg.szAccountID, lpObj->AccountID, MAX_ACCOUNT_LEN + 1);
+		memcpy(pMsg.szAccountID, lpObj->m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN + 1);
 
 		pMsg.iUserIndex = aIndex;
 		pMsg.btCount = Count;
@@ -7436,14 +7418,14 @@ void GDReqCopyPetItemInfo(CGameObject* lpObj)
 	}
 
 	sLog->outBasic("[UBF][GDReqCopyPetItemInfo][%s][%s] Move(Copy) the PetInfo Into UnityBattleField",
-		lpObj->AccountID, lpObj->Name);
+		lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 }
 
 void DGAns_ChaosCastle_KillPoint_Result(SDHP_ANS_KILLPOINT_RESULT_CC_UBF *lpMsg)
 {
 	CGameObject* lpObj = lpMsg->nIndex;
 
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(lpObj))
 	{
 		return;
 	}
@@ -7455,57 +7437,57 @@ void DGAns_ChaosCastle_KillPoint_Result(SDHP_ANS_KILLPOINT_RESULT_CC_UBF *lpMsg)
 		return;
 	}
 
-	if (!gObjIsConnected(aIndex))
+	if (!gObjIsConnected(lpObj))
 	{
 		return;
 	}
 
 	sLog->outBasic("[CChaosCastle][DGAns_ChaosCastle_KillPoint_Result][%s][%s][%s] Ans Result-Return:%d / KillPoint:%d/ TotalPoint:%d",
-		lpObj->AccountID, lpObj->Name, lpObj->m_PlayerData->m_RealNameOfUBF, lpMsg->nResult, lpMsg->nCurrentPoint, lpMsg->nTotalPoint);
+		lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_PlayerData->m_RealNameOfUBF, lpMsg->nResult, lpMsg->nCurrentPoint, lpMsg->nTotalPoint);
 }
 
 void GDReqDSFCanPartyEnter(CGameObject* lpObj)
 {
-	if (!ObjectMaxRange(aIndex))
+	if (!ObjectMaxRange(lpObj))
 	{
 		return;
 	}
 
-	if (!gObjIsConnected(aIndex))
+	if (!gObjIsConnected(lpObj))
 	{
 		return;
 	}
 
 	sLog->outBasic("[DSF][GDReqCanPartyEnter][%s][%s][%s][%d] DSF Enter Request",
-		gObj[aIndex].AccountID, gObj[aIndex].m_PlayerData->m_RealNameOfUBF,
-		gObj[aIndex].Name, gObj[aIndex].m_PlayerData->m_nServerCodeOfHomeWorld);
+		lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
+		lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld);
 
 	PMSG_ANS_DSF_ENTER pResult;
 	PHeadSubSetB((LPBYTE)&pResult, 0xDB, 0x01, sizeof(pResult));
 
 	memset(pResult.Name, 0x00, sizeof(pResult.Name));
 
-	if (gObj[aIndex].PartyNumber < 0)
+	if (lpObj->PartyNumber < 0)
 	{
 		pResult.btResult = 1;
 
-		IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pResult, pResult.h.size);
 		return;
 	}
 
-	if (gParty.Isleader(gObj[aIndex].PartyNumber, aIndex, gObj[aIndex].DBNumber) == FALSE)
+	if (gParty.Isleader(lpObj->PartyNumber, aIndex, lpObj->DBNumber) == FALSE)
 	{
 		pResult.btResult = 3;
 
-		IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pResult, pResult.h.size);
 		return;
 	}
 
-	if (gParty.GetCount(gObj[aIndex].PartyNumber) != 2)
+	if (gParty.GetCount(lpObj->PartyNumber) != 2)
 	{
 		pResult.btResult = 4;
 
-		IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pResult, pResult.h.size);
 		return;
 	}
 
@@ -7518,11 +7500,11 @@ void GDReqDSFCanPartyEnter(CGameObject* lpObj)
 
 	for (int i = 0; i < 2; i++)
 	{
-		if (gParty.GetIndexUser(gObj[aIndex].PartyNumber, i, useridx, dbnumber) == FALSE)
+		if (gParty.GetIndexUser(lpObj->PartyNumber, i, useridx, dbnumber) == FALSE)
 		{
 			pResult.btResult = 13;
 
-			IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+			GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pResult, pResult.h.size);
 			return;
 		}
 
@@ -7556,7 +7538,7 @@ void DG_DSF_CanPartyEnter(PMSG_ANS_DSF_CAN_PARTY_ENTER *lpMsg)
 {
 	CGameObject* lpObj = lpMsg->iUserIndex;
 
-	if (!gObjIsConnected(aIndex))
+	if (!gObjIsConnected(lpObj))
 	{
 		return;
 	}
@@ -7585,19 +7567,19 @@ void DG_DSF_CanPartyEnter(PMSG_ANS_DSF_CAN_PARTY_ENTER *lpMsg)
 			pResult.btResult = 23;
 		}
 
-		IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pResult, pResult.h.size);
 
 		sLog->outBasic("[DSF][DG_DSF_CanPartyEnter] [%s][%s][%s][%d] Can't Enter : Already Pass Party",
-			lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
+			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
 			lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld);
 	}
 
 	else if (lpMsg->btResult == 0 || lpMsg->btResult == 4)
 	{
-		GSProtocol.CGReqDSFEnter(aIndex);
+		GSProtocol.CGReqDSFEnter(lpObj);
 
 		sLog->outBasic("[DSF][DG_DSF_CanPartyEnter] [%s][%s][%s][%d] Can Enter : EnterCnt:%d",
-			lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
+			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
 			lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld,
 			lpMsg->btCount);
 	}
@@ -7614,30 +7596,30 @@ void DG_DSF_CanPartyEnter(PMSG_ANS_DSF_CAN_PARTY_ENTER *lpMsg)
 			pResult.btResult = 19;
 		}
 
-		IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pResult, pResult.h.size);
 
 		sLog->outBasic("[DSF][DG_DSF_CanPartyEnter] [%s][%s][%s][%d] Can't Enter : Not Tournament User",
-			lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
+			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
 			lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld);
 	}
 
 	else if (lpMsg->btResult == 2 && g_DevilSquareFinal.WhatIsTodayTypeOfDSF() == 1)
 	{
 		pResult.btResult = 22;
-		IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pResult, pResult.h.size);
 
 		sLog->outBasic("[DSF][DG_DSF_CanPartyEnter] [%s][%s][%s][%d] Can't Enter : Already Exist Pass User",
-			lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
+			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
 			lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld);
 	}
 
 	else if (lpMsg->btResult == 5)
 	{
 		pResult.btResult = 21;
-		IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pResult, pResult.h.size);
 
 		sLog->outBasic("[DSF][DG_DSF_CanPartyEnter] [%s][%s][%s][%d] Can't Enter : Enter With Different User",
-			lpObj->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
+			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
 			lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld);
 	}
 }
@@ -7989,7 +7971,7 @@ void DGMuBotOptionRecv(LPMUBOT_SETTINGS_SEND lpMsg)
 	memset(szName, 0, sizeof(szName));
 	memcpy(szName, lpMsg->szName, MAX_ACCOUNT_LEN);
 
-	if (strcmp(gObj[aIndex].Name, szName) != 0)
+	if (strcmp(lpObj->Name, szName) != 0)
 	{
 		return;
 	}
