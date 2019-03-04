@@ -6,8 +6,257 @@
 #include "User/CUserData.h"
 #include "MuDefines.h"
 
-
+#if _MSC_VER > 1000
 #pragma once
+#endif // _MSC_VER > 1000
+
+struct PMSG_REQ_PSHOP_SETITEMPRICE
+{
+	PBMSG_HEAD2 h;
+	BYTE btItemPos;	// 4
+	BYTE sItemPrice1;	// 5
+	BYTE sItemPrice2;	// 6
+	BYTE sItemPrice3;	// 7
+	BYTE sItemPrice4;	// 8
+	BYTE sJewelOfBlessPrice1;
+	BYTE sJewelOfBlessPrice2;
+	BYTE sJewelOfSoulPrice1;
+	BYTE sJewelOfSoulPrice2;
+	BYTE sJewelOfChaosPrice1;
+	BYTE sJewelOfChaosPrice2;
+};
+
+
+struct PMSG_REQ_PSHOP_OPEN
+{
+	PBMSG_HEAD2 h;
+	char szPShopText[36];	// 4
+};
+
+
+struct PMSG_REQ_BUYLIST_FROM_PSHOP
+{
+	PBMSG_HEAD2 h;
+	BYTE NumberH;	// 4
+	BYTE NumberL;	// 5
+	BYTE btName[10];	// 6
+};
+
+#pragma pack (1)
+struct PMSG_REQ_BUYITEM_FROM_PSHOP
+{
+	PBMSG_HEAD2 h;
+	BYTE NumberH;	// 4
+	BYTE NumberL;	// 5
+	BYTE btName[10];	// 6
+	BYTE btItemPos;	// 10
+	BYTE btBuyKind;
+	int iItemType;
+	int PShopItemMoneyValue;
+	short PShopItemBlessJewelValue;
+	short PShopItemSoulJewelValue;
+	short PShopItemChaosJewelValue;
+};
+#pragma pack ()
+
+struct PMSG_REQ_PSHOPDEAL_CLOSE
+{
+	PBMSG_HEAD2 h;
+	BYTE NumberH;	// 4
+	BYTE NumberL;	// 5
+	BYTE btName[10];	// 6
+};
+
+struct PMSG_ANS_PSHOP_VIEWPORT_NOTIFY
+{
+	struct PWMSG_HEAD2 h;
+	unsigned char btCount;
+};
+
+struct PMSG_PSHOP_VIEWPORT_NOTIFY
+{
+	unsigned char btNumberH;
+	unsigned char btNumberL;
+	char szPShopText[36];
+};
+
+struct PMSG_ANS_PSHOP_SETITEMPRICE
+{
+	PBMSG_HEAD2 h;	// C1:3F:01
+	BYTE btResult;	// 4
+	BYTE btItemPos;	// 5
+};
+
+struct PMSG_ANS_PSHOP_TEXT_CHANGED
+{
+	PBMSG_HEAD2 h;	// C1:3F:10
+	BYTE NumberH;	// 4
+	BYTE NumberL;	// 5
+	BYTE btPShopText[36];	// 6
+	BYTE btName[10];	// 2A
+};
+
+struct PMSG_ANS_PSHOP_OPEN
+{
+	PBMSG_HEAD2 h;	// C1:3F:02
+	BYTE btResult;	// 4
+};
+
+struct PMSG_ANS_PSHOP_CLOSE
+{
+	PBMSG_HEAD2 h;	// C1:3F:03
+	BYTE btResult;	// 4
+	BYTE NumberH;	// 5
+	BYTE NumberL;	// 6
+};
+
+struct PMSG_BUYLIST_FROM_PSHOP
+{
+	BYTE Pos;	// 0
+	BYTE ItemInfo[MAX_ITEM_INFO];	// 1
+	int PShopItemValue;	// 8
+	short BlessValue;
+	short SoulValue;
+	short ChaosValue;
+};
+
+struct PMSG_ANS_BUYLIST_FROM_PSHOP
+{
+	PWMSG_HEAD2 h;	// C2:3F:[05:13]
+	BYTE Result;	// 5
+	BYTE NumberH;	// 6
+	BYTE NumberL;	// 7
+	BYTE btName[10];	// 8
+	char szPShopText[36];	// 12
+	BYTE btCount;	// 36
+};
+
+struct PMSG_ANS_BUYITEM_FROM_PSHOP
+{
+	PBMSG_HEAD2 h;	// C1:3F:06
+	BYTE Result;	// 3
+	BYTE NumberH;	// 5
+	BYTE NumberL;	// 6
+	BYTE cItemInfo[MAX_ITEM_INFO];	// 7
+	BYTE btItemPos;	// E
+};
+
+struct PMSG_ANS_SOLDITEM_FROM_PSHOP
+{
+	PBMSG_HEAD2 h;	// C1:3F:08
+	BYTE btItemPos;	// 4
+	BYTE btName[10];	// 5
+};
+
+struct PMSG_REQ_DEALER_CLOSED_SHOP
+{
+	PBMSG_HEAD2 h;	// C1:3F:12
+	BYTE NumberH;	// 4
+	BYTE NumberL;	// 5
+};
+
+struct PMSG_REQ_SEARCH_ITEM_PSHOP
+{
+	PBMSG_HEAD2 h;
+	int iLastCount;
+	short sSearchItem;
+};
+
+struct PMSG_REQ_PSHOP_LOG
+{
+	PBMSG_HEAD2 h;
+	int iTargetIndex;
+	BYTE btLogKind;
+};
+
+struct PSHOP_ITEMVALUE_INFO_DS
+{
+	int nPShopItemInvenNum;
+	UINT64 ItemSerial;
+	int nMoney;
+	short sBlessJewelValue;
+	short sSoulJewelValue;
+	short sChaosJewelValue;
+};
+
+struct PSHOP_ITEMVALUE_INFO
+{
+	int nPShopItemInvenNum;
+	int Empty;
+	int nMoney;
+	short sBlessJewelValue;
+	short sSoulJewelValue;
+	short sChaosJewelValue;
+};
+
+struct PMSG_ANS_PSHOPITEMVALUE_INFO
+{
+	PWMSG_HEAD h;
+	BYTE btItemCnt;
+	int iUserIndex;
+	PSHOP_ITEMVALUE_INFO_DS PShopItemValueInfo[32];
+};
+
+struct PMSG_UPDATE_PSHOPITEMVALUE_INFO
+{
+	PWMSG_HEAD h;
+	BYTE btItemCnt;
+	char AccountId[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	PSHOP_ITEMVALUE_INFO_DS PShopItemValueInfo[32];
+};
+
+struct PMSG_REQ_PSHOPITEMVALUE_INFO
+{
+	PBMSG_HEAD h;
+	char AccountId[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	int iUserIndex;
+};
+
+struct PMSG_DEL_PSHOPITEM
+{
+	PBMSG_HEAD h;
+	char AccountId[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	int nPShopItemInvenNum;
+};
+
+struct PMSG_MOVE_PSHOPITEM
+{
+	PBMSG_HEAD h;
+	char AccountId[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	int nOldPShopItemInvenNum;
+	int nNewPShopItemInvenNum;
+};
+
+struct PMSG_PSHOPITEMVALUE_INFO_COUNT
+{
+	PWMSG_HEAD head;
+	BYTE Result;
+	BYTE btMoneyCommisionRate;
+	BYTE btJewelCommisionRate;
+	BYTE btItemCnt;
+};
+
+struct PMSG_SEARCH_ITEM_PSHOP
+{
+	BYTE btNumberH;
+	BYTE btNumberL;
+	char szName[MAX_ACCOUNT_LEN + 1];
+	char szPShopText[37];
+};
+
+#pragma pack (1)
+struct PMSG_SEARCH_ITEM_PSHOP_COUNT
+{
+	PWMSG_HEAD2 h;
+	int iPShopCnt;
+	BYTE btContinueFlag;
+};
+#pragma pack ()
+
 
 class CPersonalStore
 {

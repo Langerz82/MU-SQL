@@ -5,7 +5,6 @@
 #pragma once
 
 #include "ItemObject.h"
-#include "User/CUserData.h"
 #include "CGameObject.h"
 
 //#define ENABLE_CUSTOM_ITEMOPTION

@@ -260,7 +260,7 @@ private:
 
 	CRITICAL_SECTION userCheck;
 	char m_Salt[30];
-	WzUdp m_ConnecServerUDP;
+	//WzUdp m_ConnecServerUDP;
 
 	CQuery m_AccountDB;
 	CQuery m_LogDB;

@@ -39,7 +39,7 @@ struct VIEWPORT_STRUCT;
 struct WHISPER_STRUCT;
 struct SKILL_INFO;
 struct MUUN_EFFECT_LIST;
-struct STR_CONNECT_USER;
+//struct STR_CONNECT_USER;
 //struct STR_ACTION_STATE;
 
 std::map<int, CGameObject*> gGameObjects;

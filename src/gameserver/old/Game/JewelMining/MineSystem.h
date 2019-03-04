@@ -6,6 +6,124 @@
 #include "User/CUserData.h"
 
 
+struct _ST_MINESYSTEM_REPAIR_VALUE
+{
+	WORD sItemType;
+	WORD sItemIndex;
+	WORD sLevel;
+	WORD sRepairValue;
+};
+
+struct _ST_MINESYSTEM_MINE_MIRACLE_SUCCESS_INFO
+{
+	WORD wTwinkleType;
+	int iStage;
+	int iSuccessRate;
+};
+
+struct _ST_MINESYSTEM_DROP_ITEM
+{
+	int iItemType;
+	int iItemIndex;
+	int iLevel;
+	int iNumber;
+};
+
+struct _ST_MINESYSTEM_MINE_SUCCESS_INFO
+{
+	WORD wTwinkleType;
+	int iDurabilityDecrement;
+	int iSuccessRate[5];
+};
+
+struct _ST_MINESYSTEM_REWARD_VALUE
+{
+	_ST_MINESYSTEM_REWARD_VALUE()
+	{
+		this->wTwinkleType = 0;
+		this->iStage = 0;
+		this->wType = 0;
+		this->wIndex = 0;
+		this->iTotalJewelNumber = 0;
+		this->vecDropItem.clear();
+	}
+
+	WORD wTwinkleType;
+	int iStage;
+	WORD wType;
+	WORD wIndex;
+	int iTotalJewelNumber;
+	std::vector<_ST_MINESYSTEM_DROP_ITEM> vecDropItem;
+};
+
+struct _ST_MINESYSTEM_TWINKLE
+{
+	_ST_MINESYSTEM_TWINKLE()
+	{
+		this->wTwinkleIndex = 0;
+		this->wUserIndex = 0;
+		this->iCurrentStage = 0;
+		this->wTwinkleType = 0;
+		this->bIsDominated = 0;
+		this->byMapNumber = 0;
+	}
+
+	WORD wTwinkleIndex;
+	WORD wTwinkleType;
+	WORD wUserIndex;
+	int iCurrentStage;
+	int bIsDominated;
+	BYTE byMapNumber;
+};
+
+struct _ST_MINESYSTEM_TWINKLE_SPAWN
+{
+	WORD wType;
+	BYTE byMapNumber;
+	BYTE byDistance;
+	BYTE byX;
+	BYTE byY;
+	BYTE byDir;
+};
+
+// DS
+
+struct SDHP_REQ_LOAD_MINESYSTEM_UPT_USERINFO
+{
+	PBMSG_HEAD2 h;
+	WORD wUserIndex;
+	char szCharName[MAX_ACCOUNT_LEN + 1];
+};
+
+struct SDHP_REQ_MINESYSTEM_UPT_USERINFO
+{
+	PBMSG_HEAD2 h;
+	WORD wUserIndex;
+	char szCharName[MAX_ACCOUNT_LEN + 1];
+	WORD wTwinkleType;
+	int iCurrentStage;
+	BYTE byRequestType;
+};
+
+struct SDHP_ANS_MINESYSTEM_UPT_USERINFO
+{
+	PBMSG_HEAD2 h;
+	WORD wUserIndex;
+	BYTE byRequestType;
+	BYTE Result;
+};
+
+struct SDHP_ANS_LOAD_MINESYSTEM_UPT_USERINFO
+{
+	PBMSG_HEAD2 h;
+	WORD wUserIndex;
+	BYTE byResult;
+	char szCharName[MAX_ACCOUNT_LEN + 1];
+	WORD wTwinkleType;
+	int iCurrentStage;
+};
+
+
 class CMineSystem
 {
 public:

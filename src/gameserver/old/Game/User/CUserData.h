@@ -12,6 +12,7 @@
 #include "SkillDelay.h"
 #include "ItemSystemFor380.h"
 #include "PentagramSystem.h"
+#include "ComboAttack.h"
 
 struct CharacterNameOfUBF;
 
@@ -171,7 +172,7 @@ public:
 	char  Password[20];	// 7E
 	bool  PlusStatQuestClear; // 8C
 	bool  ComboSkillquestClear;	// 8D
-	ComboSkillData* comboSkill; // 90
+	struct ComboSkillData* comboSkill; // 90
 	int m_GensRanking;
 	int m_GensClass;
 	int m_ContributePoint;
@@ -302,7 +303,7 @@ public:
 };
 
 unsigned char LevelSmallConvert(int level);
-unsigned char LevelSmallConvert(int aIndex, int inventoryindex);
+//unsigned char LevelSmallConvert(int aIndex, int inventoryindex);
 
 extern CUserData* getUserObject(int index);
 extern void insertUserObject(CUserData* Obj);

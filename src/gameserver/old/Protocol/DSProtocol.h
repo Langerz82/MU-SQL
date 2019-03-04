@@ -24,7 +24,6 @@ extern void(*ItemCreate)(CGameObject* lpObj, BYTE MapNumber, BYTE x, BYTE y, int
 void DataServerProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen);
 void DataServerLogin();
 void DataServerLoginResult( SDHP_RESULT* lpMsg);
-void JGPGetCharList(LPBYTE lpRecv);
 void DataServerGetCharListRequest( short aIndex);
 void JGCharacterCreateRequest( SDHP_CREATECHARRESULT* lpMsg);
 void JGCharacterCreateFailSend(CGameObject* lpObj, char* id);

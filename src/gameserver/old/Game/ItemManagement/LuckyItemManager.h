@@ -5,8 +5,116 @@
 #include "StdAfx.h"
 #include "generalStructs.h"
 
-struct STR_LUCKY_ITEM_INFO;
-struct STR_LUCKY_ITEM_EQUIPMENT;
+
+struct _ITEM_LEVEL_RATE
+{
+	int iLevel;
+	int	iRate;
+
+	_ITEM_LEVEL_RATE::_ITEM_LEVEL_RATE()
+	{
+		this->iLevel = 0;
+		this->iRate = 0;
+	}
+};
+
+struct _LUCKY_ITEM_EQUIPMENT
+{
+	int	iItemNum;
+	int	iSkill;
+	int	iLuckOption;
+	int	iAddOption;
+	int	iClass;
+
+	_LUCKY_ITEM_EQUIPMENT::_LUCKY_ITEM_EQUIPMENT()
+	{
+		this->iItemNum = -1;
+		this->iSkill = 0;
+		this->iLuckOption = 0;
+		this->iAddOption = 0;
+		this->iClass = -1;
+	}
+};
+
+struct _SMELT_RATE
+{
+	int	iMinDurab;
+	int	iMaxDurab;
+	int	iSmeltRate;
+
+	_SMELT_RATE::_SMELT_RATE()
+	{
+		this->iMinDurab = 0;
+		this->iMaxDurab = 0;
+		this->iSmeltRate = 0;
+	}
+};
+
+struct _LUCKY_ITEM_INFO
+{
+	int						iItemNum;
+	int						iItemKind;
+	int						iAddOpt3Rate[7];
+	int						iAddSetOptRate[2];
+	_ITEM_LEVEL_RATE		ItemLevelRate[MAX_LUCKYINFO_LEVELRATE];
+	_LUCKY_ITEM_EQUIPMENT	LuckyItemEquipment[MAX_LUCKYINFO_ITEMEQUIPMENT];
+	_SMELT_RATE				SmeltRate[MAX_LUCKYINFO_SMELTRATE];
+
+	_LUCKY_ITEM_INFO::_LUCKY_ITEM_INFO()
+	{
+		this->iItemNum = -1;
+		this->iItemKind = -1;
+		memset(this->iAddOpt3Rate, 0, sizeof(iAddOpt3Rate));
+	}
+};
+
+struct PMSG_LUCKYITME_DB_INFO
+{
+	WORD	wItemCode;
+	UINT64	Serial;
+	WORD	wDurabilitySmall;
+};
+
+struct PMSG_REQ_LUCKYITEM_INSERT
+{
+	PBMSG_HEAD2 head;
+	DWORD	dwUserGuid;
+	char	szCharName[MAX_ACCOUNT_LEN + 1];
+	PMSG_LUCKYITME_DB_INFO LuckyItemDBInfo;
+};
+
+struct PMSG_REQ_LUCKYITEM_INSERT_2ND
+{
+	PBMSG_HEAD2 head;
+	DWORD	dwUserGuid;
+	BYTE	btItemCnt;
+	char	szCharName[MAX_ACCOUNT_LEN + 1];
+	PMSG_LUCKYITME_DB_INFO LuckyItemDBInfo[5];
+};
+
+struct PMSG_REQ_LUCKYITEM_DELETE
+{
+	PBMSG_HEAD2 head;
+	WORD	wUserIndex;
+	char	szCharName[MAX_ACCOUNT_LEN + 1];
+	WORD	wItemCode;
+	UINT64	Serial;
+};
+
+struct PMSG_ANS_LUCKYITEM_SELECT
+{
+	PWMSG_HEAD	head;
+	WORD	wUserIndex;
+	BYTE	btResultCode;
+	BYTE	btItemCnt;
+};
+
+struct PMSG_REQ_LUCKYITEM_SELECT
+{
+	PBMSG_HEAD2 head;
+	WORD	wUserIndex;
+	char	chCharacterName[MAX_ACCOUNT_LEN + 1];
+};
 
 
 struct LuckyItemManager
@@ -26,10 +134,10 @@ public:
 	int		IsLuckyItemTicket(int iItemNum);
 	int		IsLuckyItemEquipment(int iItemNum);
 
-	STR_SMELT_RATE * GetSmeltingRateInfo(int iItemNum);
+	_SMELT_RATE * GetSmeltingRateInfo(int iItemNum);
 
 	void	LuckyItemTicketExchange(CGameObject &Obj);
-	BYTE	GambleGetLevel(STR_ITEM_LEVEL_RATE * pItemLevelRandRate, CGameObject &Obj);
+	BYTE	GambleGetLevel(_ITEM_LEVEL_RATE * pItemLevelRandRate, CGameObject &Obj);
 	void	LuckyItemSmelting(CGameObject &Obj);
 	int		GambleLuckyItemSmelting(int iItemNum, int iDur);
 	int		GetLuckyItemDurabilityTime();
