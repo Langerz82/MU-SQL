@@ -3,12 +3,14 @@
 #include "StdAfx.h"
 #include "ItemUpgradeJewel.h"
 #include "Logging/Log.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "SetItemOption.h"
 #include "configread.h"
 #include "ItemSocketOptionSystem.h"
 #include "LuckyItemManager.h"
 #include "SocketItemType.h"
+#include "GameProtocol.h"
+#include "GOFunctions.h"
 
 using namespace pugi;
 ItemUpgradeJewels g_ItemUpgradeJewels;
@@ -89,14 +91,14 @@ void ItemUpgradeJewels::Read(LPSTR File)
 	}
 }
 
-void ItemUpgradeJewels::ProcInsert(CGameObject &User, int JewelPos, int TargetPos)
+void ItemUpgradeJewels::ProcInsert(CGameObject &Obj, int JewelPos, int TargetPos)
 {
 	ItemUpgradeJewelsInfo* lpJewel = NULL;
 
 	for (int i = 0; i < this->m_UpradeInfo.size(); i++)
 	{
 		if (ITEMGET(this->m_UpradeInfo[i].ItemType,
-			this->m_UpradeInfo[i].ItemIndex) == lpUser.pntInventory[JewelPos]->m_Type)
+			this->m_UpradeInfo[i].ItemIndex) == Obj.pntInventory[JewelPos]->m_Type)
 		{
 			lpJewel = &this->m_UpradeInfo[i];
 			break;
@@ -105,24 +107,24 @@ void ItemUpgradeJewels::ProcInsert(CGameObject &User, int JewelPos, int TargetPo
 
 	if (lpJewel == NULL)
 	{
-		GCReFillSend(lpUser, (WORD)lpUser.Life, 0xFD, 1, lpUser.iShield);
+		GSProtocol.GCReFillSend(&Obj, (WORD)Obj.Life, 0xFD, 1, Obj.iShield);
 		return;
 	}
 
-	if (this->ProcUpgrade(lpUser, JewelPos, TargetPos, lpJewel))
+	if (this->ProcUpgrade(Obj, JewelPos, TargetPos, lpJewel))
 	{
-		gObjInventoryItemSet(lpUser, JewelPos, -1);
-		lpUser.pntInventory[JewelPos]->Clear();
-		GCInventoryItemOneSend(lpUser, TargetPos);
-		GCInventoryItemDeleteSend(lpUser, JewelPos, 1);
+		gObjInventoryItemSet(Obj, JewelPos, -1);
+		Obj.pntInventory[JewelPos]->Clear();
+		GSProtocol.GCInventoryItemOneSend(&Obj, TargetPos);
+		GSProtocol.GCInventoryItemDeleteSend(&Obj, JewelPos, 1);
 	}
 	else
 	{
-		GCReFillSend(lpUser, (WORD)lpUser.Life, 0xFD, 1, lpUser.iShield);
+		GSProtocol.GCReFillSend(&Obj, (WORD)Obj.Life, 0xFD, 1, Obj.iShield);
 	}
 }
 
-bool ItemUpgradeJewels::ProcUpgrade(CGameObject &User, int JewelPos, int TargetPos, ItemUpgradeJewelsInfo* lpJewel)
+bool ItemUpgradeJewels::ProcUpgrade(CGameObject &Obj, int JewelPos, int TargetPos, ItemUpgradeJewelsInfo* lpJewel)
 {
 	if (JewelPos < 0 || JewelPos > MAIN_INVENTORY_SIZE - 1)
 	{
@@ -134,18 +136,18 @@ bool ItemUpgradeJewels::ProcUpgrade(CGameObject &User, int JewelPos, int TargetP
 		return false;
 	}
 
-	if (!lpUser.pntInventory[JewelPos]->IsItem()
-		|| !lpUser.pntInventory[TargetPos]->IsItem())
+	if (!Obj.pntInventory[JewelPos]->IsItem()
+		|| !Obj.pntInventory[TargetPos]->IsItem())
 	{
 		return false;
 	}
 
-	int JewelCode = lpUser.pntInventory[JewelPos]->m_Type;
-	int TargetCode = lpUser.pntInventory[TargetPos]->m_Type;
+	int JewelCode = Obj.pntInventory[JewelPos]->m_Type;
+	int TargetCode = Obj.pntInventory[TargetPos]->m_Type;
 
 	if (JewelCode == ITEMGET(14, 13) && TargetCode == ITEMGET(0, 41))
 	{
-		if (UseBundleOfBlessJewel(lpUser, JewelPos, TargetPos) == TRUE)
+		if (UseBundleOfBlessJewel(Obj, JewelPos, TargetPos) == TRUE)
 		{
 			return true;
 		}
@@ -157,7 +159,7 @@ bool ItemUpgradeJewels::ProcUpgrade(CGameObject &User, int JewelPos, int TargetP
 
 	if (JewelCode == ITEMGET(14, 13) && TargetCode == ITEMGET(13, 37))
 	{
-		CItemObject* ItemFenrir = &lpUser.pntInventory[TargetPos];
+		CItemObject* ItemFenrir = Obj.pntInventory[TargetPos];
 
 		if (ItemFenrir->m_Durability >= 255)
 		{
@@ -177,17 +179,17 @@ bool ItemUpgradeJewels::ProcUpgrade(CGameObject &User, int JewelPos, int TargetP
 				ItemFenrir->m_Durability += iAddDur;
 			}
 
-			MsgOutput(lpUser, "[FENRIR REPAIR] Success - %d/255", int(ItemFenrir->m_Durability));
+			MsgOutput(Obj, "[FENRIR REPAIR] Success - %d/255", int(ItemFenrir->m_Durability));
 		}
 		else
 		{
-			MsgOutput(lpUser, "[FENRIR REPAIR] Failed.");
+			MsgOutput(Obj, "[FENRIR REPAIR] Failed.");
 		}
 
 		return true;
 	}
 
-	CItemObject* ItemTarget = &lpUser.pntInventory[TargetPos];
+	CItemObject* ItemTarget = Obj.pntInventory[TargetPos];
 
 	if (g_LuckyItemManager.IsLuckyItemEquipment(ItemTarget->m_Type) == TRUE)
 	{
@@ -444,24 +446,24 @@ bool ItemUpgradeJewels::ProcUpgrade(CGameObject &User, int JewelPos, int TargetP
 		if (rand() % 10000 < Rate)
 		{
 			g_kJewelOfHarmonySystem._MakeOption(ItemTarget, iItemOption, iItemOptionLevel);
-			GCServerMsgStringSend("Adding Jewel Of Harmony Succes!", lpUser.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend("Adding Jewel Of Harmony Succes!", &Obj, 1);
 		}
 		else
 		{
-			GCServerMsgStringSend("Adding Jewel Of Harmony Failed", lpUser.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend("Adding Jewel Of Harmony Failed", &Obj, 1);
 		}
 	}
 
-	gObjMakePreviewCharSet(lpUser);
+	gObjMakePreviewCharSet(Obj);
 
-	float levelitemdur = (float)ItemGetDurability(lpUser.pntInventory[TargetPos]->m_Type,
-		lpUser.pntInventory[TargetPos]->m_Level,lpUser.pntInventory[TargetPos]->IsExtItem(),lpUser.pntInventory[TargetPos]->IsSetItem());
+	float levelitemdur = (float)ItemGetDurability(Obj.pntInventory[TargetPos]->m_Type,
+		Obj.pntInventory[TargetPos]->m_Level,Obj.pntInventory[TargetPos]->IsExtItem(),Obj.pntInventory[TargetPos]->IsSetItem());
 
-	lpUser.pntInventory[TargetPos]->m_Durability = levelitemdur * lpUser.pntInventory[TargetPos]->m_Durability / lpUser.pntInventory[TargetPos]->m_BaseDurability;
+	Obj.pntInventory[TargetPos]->m_Durability = levelitemdur * Obj.pntInventory[TargetPos]->m_Durability / Obj.pntInventory[TargetPos]->m_BaseDurability;
 
-	lpUser.pntInventory[TargetPos]->Convert(lpUser.pntInventory[TargetPos]->m_Type,lpUser.pntInventory[TargetPos]->m_Option1,
-		lpUser.pntInventory[TargetPos]->m_Option2,lpUser.pntInventory[TargetPos]->m_Option3,lpUser.pntInventory[TargetPos]->m_NewOption,
-		lpUser.pntInventory[TargetPos]->m_SetOption,lpUser.pntInventory[TargetPos]->m_ItemOptionEx, 0, -1, 0,CURRENT_DB_VERSION);
+	Obj.pntInventory[TargetPos]->Convert(Obj.pntInventory[TargetPos]->m_Type,Obj.pntInventory[TargetPos]->m_Option1,
+		Obj.pntInventory[TargetPos]->m_Option2,Obj.pntInventory[TargetPos]->m_Option3,Obj.pntInventory[TargetPos]->m_NewOption,
+		Obj.pntInventory[TargetPos]->m_SetOption,Obj.pntInventory[TargetPos]->m_ItemOptionEx, 0, -1, 0,CURRENT_DB_VERSION);
 
 	return true;
 }

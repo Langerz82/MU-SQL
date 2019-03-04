@@ -160,7 +160,7 @@ void CItemObjectOption::CalCItemObjectCommonOption(CGameObject &Obj, bool flag) 
 	{
 		if (Obj.pntInventory[n]->IsItem() != 0 && Obj.pntInventory[n]->m_IsValidItem != 0 && Obj.pntInventory[n]->m_Durability != 0)
 		{
-			this->InsertOption(lpObj, &Obj.pntInventory[n], flag);
+			this->InsertOption(Obj, Obj.pntInventory[n], flag);
 		}
 	}
 }

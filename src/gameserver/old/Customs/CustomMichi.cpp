@@ -53,7 +53,7 @@ void CConfigMichi::GCFireworksSend(CGameObject &Obj, int x, int y) // OK
 	ServerCmd.Y = y;
 
 	GIOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&ServerCmd, ServerCmd.h.size);
-	MsgSendV2(&Obj, (BYTE*)&ServerCmd, ServerCmd.h.size);
+	GSProtocol.MsgSendV2(&Obj, (BYTE*)&ServerCmd, ServerCmd.h.size);
 }
 
 
@@ -63,7 +63,7 @@ void CConfigMichi::UseHealingPotion(CItemObject * CItemObject, int pos, CGameObj
 	{
 		if (GetTickCount() - Obj.m_PlayerData->PotionTime < this->FixHackPotions.m_CheckAutoHealingPotionHackTolerance)
 		{
-			GCReFillSend(&Obj, Obj.Life, 0xFD, 1, Obj.iShield);
+			GSProtocol.GCReFillSend(&Obj, Obj.Life, 0xFD, 1, Obj.iShield);
 			return;
 		}
 	}
@@ -121,7 +121,7 @@ void CConfigMichi::UseHealingPotion(CItemObject * CItemObject, int pos, CGameObj
 			Obj.FillLife = 0;
 		}
 
-		GCReFillSend(&Obj, Obj.Life, 0xFF, FALSE, Obj.iShield);
+		GSProtocol.GCReFillSend(&Obj, Obj.Life, 0xFF, FALSE, Obj.iShield);
 	}
 
 	Obj.FillLifeMax = tLife;
@@ -140,7 +140,7 @@ void CConfigMichi::UseHealingPotion(CItemObject * CItemObject, int pos, CGameObj
 		Obj.FillLifeCount = 3;
 	}
 
-	if (!gObjSearchItemMinus(Obj), pos, 1))
+	if (!gObjSearchItemMinus(Obj, pos, 1))
 	{
 		gObjInventoryItemSet(Obj, pos, -1);
 		Obj.pntInventory[pos]->Clear();

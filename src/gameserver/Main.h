@@ -30,6 +30,8 @@
 #include "CastleSiege.h"
 #include "CastleDeepEvent.h"
 #include "Crywolf.h"
+#include "GuildClass.h"
+
 
 class ConnectDatabaseConnection;
 class MUDatabase;

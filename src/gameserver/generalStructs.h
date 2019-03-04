@@ -1775,26 +1775,6 @@ struct PMSG_PENTAGRAM_JEWEL_REFINE_RECV
 	BYTE type;
 };
 
-struct PMSG_REGEVENTCHIP_RESULT
-{
-	PBMSG_HEAD h;	// C1:95
-	BYTE Type;	// 3
-	int ChipCount;	// 4
-};
-
-
-struct PMSG_GETMUTONUMBER_RESULT
-{
-	PBMSG_HEAD h;	// C1:96
-	short MutoNum[3];	// 4
-};
-
-struct PMSG_REQ_LUCKYCOIN
-{
-	PBMSG_HEAD2 h;
-	int iIndex;
-	char szUID[11];
-};
 
 struct PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS
 {

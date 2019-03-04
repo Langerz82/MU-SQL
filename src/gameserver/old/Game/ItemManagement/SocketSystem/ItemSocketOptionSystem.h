@@ -11,6 +11,53 @@
 #include "TRandomPoolMgr.h"
 #include "ItemSeedSphere.h"
 
+typedef struct BONUS_SOCKET_OPTION
+{
+	BYTE OptionIndex;
+	BYTE EffectType;
+	BYTE ItemTypeBegin;
+	BYTE ItemTypeEnd;
+	BYTE OptionValueType;
+	WORD OptionValue;
+	int ExtractRate;
+	BYTE SocketSlotType[5];
+	BYTE SocketSlotCount;
+
+	void Clear()
+	{
+		OptionIndex = BONUS_OPTION_WEAPON_ATTACK_POWER;
+		EffectType = SEED_EFFECT_TYPE_FIRE_BEGIN;
+		ItemTypeBegin = 0;
+		ItemTypeEnd = 0;
+		OptionValueType = 0;
+		OptionValue = 0;
+		ExtractRate = 0;
+
+		for (int i = 0; i<5; i++)
+		{
+			SocketSlotType[i] = 0;
+		}
+
+		SocketSlotCount = 0;
+	}
+
+}BONUS_SOCKET_OPTION, *LPBONUS_SOCKET_OPTION;
+
+struct SET_SOCKET_OPTION
+{
+	BYTE OptionIndex;
+	BYTE OptionValueType;
+	WORD OptionValue;
+	BYTE EffectType;
+	int ExtractRate;
+	BYTE SeedTypeTable[6];
+	void Clear();
+};
+
+struct CUSTOM_SOCKET_LIST
+{
+	int iItemCode;
+};
 
 class CItemObjectSocketOptionSystem
 {

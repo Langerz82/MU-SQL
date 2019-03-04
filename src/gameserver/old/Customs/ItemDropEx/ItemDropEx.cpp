@@ -44,136 +44,126 @@ void DropEx::Load()
 
 void DropEx::ReadData(char * File)
 {
-	__try
-	{
-		SMDFile = fopen(File, "r");
-		// ----
-		while (true)
-		{
-			SMDToken Token = GetToken();
-			// ----
-			if (Token == END)
-			{
-				break;
-			}
-			// ----
-			DROPEX_DATA List;
-			// ----
-			List.ItemType = TokenNumber;
-			// ----
-			GetToken();
-			List.ItemIndex = TokenNumber;
-			// ----
-			GetToken();
-			List.ItemMinLevel = TokenNumber;
-			// ----
-			GetToken();
-			List.ItemMaxLevel = TokenNumber;
-			// ----
-			GetToken();
-			List.ItemMaxOption = TokenNumber;
-#ifdef NEW_DROP
-			GetToken();
-			List.ItemOptRate = TokenNumber;
-#endif
-			// ----
-			GetToken();
-			List.ItemLuck = TokenNumber;
-			// ----
-#ifdef NEW_DROP
-			GetToken();
-			List.ItemLuckRate = TokenNumber;
-#endif
-			GetToken();
-			List.ItemSkill = TokenNumber;
-			// ----
-#ifdef NEW_DROP
-			GetToken();
-			List.ItemSkillRate = TokenNumber;
-#endif
-			GetToken();
-			List.ItemExcellent = TokenNumber;
-			// ----
-#ifdef NEW_DROP
-			GetToken();
-			List.ItemMaxExc = TokenNumber;
+	fs::path p{ File };
+	fs::ifstream SMDFile{ p };
 
-			GetToken();
-			List.ItemExcRate = TokenNumber;
-			// ----
-			GetToken();
-			List.ItemAncent = TokenNumber;
-			// ----
-			GetToken();
-			List.ItemAncRate = TokenNumber;
-#endif
-			GetToken();
-			List.ItemDur = TokenNumber;
-			// ----
-			GetToken();
-			List.ItemDropRate = TokenNumber;
-			// ----
-			GetToken();
-			List.MonsterMinLevel = TokenNumber;
-			// ----
-			GetToken();
-			List.MonsterMaxLevel = TokenNumber;
-			// ----
-			GetToken();
-			List.MonsterMap = TokenNumber;
-			// ----
-			this->m_Data.push_back(List);
-		}
+	if (!SMDFile.is_open())
+	{
+		sLog->outError("%s load fail", File);
+		return;
 	}
 	// ----
-	__finally
+	while (true)
 	{
-		if (SMDFile != NULL)
+		SMDToken Token = GetToken(&SMDFile);
+		// ----
+		if (Token == END)
 		{
-			fclose(SMDFile);
+			break;
 		}
 		// ----
-		SMDFile = NULL;
+		DROPEX_DATA List;
+		// ----
+		List.ItemType = TokenNumber;
+		// ----
+		GetToken(&SMDFile);
+		List.ItemIndex = TokenNumber;
+		// ----
+		GetToken(&SMDFile);
+		List.ItemMinLevel = TokenNumber;
+		// ----
+		GetToken(&SMDFile);
+		List.ItemMaxLevel = TokenNumber;
+		// ----
+		GetToken(&SMDFile);
+		List.ItemMaxOption = TokenNumber;
+#ifdef NEW_DROP
+		GetToken(&SMDFile);
+		List.ItemOptRate = TokenNumber;
+#endif
+		// ----
+		GetToken(&SMDFile);
+		List.ItemLuck = TokenNumber;
+		// ----
+#ifdef NEW_DROP
+		GetToken(&SMDFile);
+		List.ItemLuckRate = TokenNumber;
+#endif
+		GetToken(&SMDFile);
+		List.ItemSkill = TokenNumber;
+		// ----
+#ifdef NEW_DROP
+		GetToken(&SMDFile);
+		List.ItemSkillRate = TokenNumber;
+#endif
+		GetToken(&SMDFile);
+		List.ItemExcellent = TokenNumber;
+		// ----
+#ifdef NEW_DROP
+		GetToken(&SMDFile);
+		List.ItemMaxExc = TokenNumber;
+
+		GetToken(&SMDFile);
+		List.ItemExcRate = TokenNumber;
+		// ----
+		GetToken(&SMDFile);
+		List.ItemAncent = TokenNumber;
+		// ----
+		GetToken(&SMDFile);
+		List.ItemAncRate = TokenNumber;
+#endif
+		GetToken(&SMDFile);
+		List.ItemDur = TokenNumber;
+		// ----
+		GetToken(&SMDFile);
+		List.ItemDropRate = TokenNumber;
+		// ----
+		GetToken(&SMDFile);
+		List.MonsterMinLevel = TokenNumber;
+		// ----
+		GetToken(&SMDFile);
+		List.MonsterMaxLevel = TokenNumber;
+		// ----
+		GetToken(&SMDFile);
+		List.MonsterMap = TokenNumber;
+		// ----
+		this->m_Data.push_back(List);
 	}
+	SMDFile.close();
 }
 // -------------------------------------------------------------------------
 
 #ifdef ITEM_BLOCK
 void DropEx::ReadBlockData(char * File)
 {
-	__try
+	fs::path p{ File };
+	fs::ifstream SMDFile{ p };
+
+	if (!SMDFile.is_open())
 	{
-		SMDFile = fopen(File, "r");
-		// ----
-		while (true)
-		{
-			SMDToken Token = GetToken();
-			// ----
-			if (Token == END)
-			{
-				break;
-			}
-			// ----
-			DROPBLOCK_DATA List;
-			// ----
-			List.ItemType = TokenNumber;
-			// ----
-			GetToken();
-			List.ItemIndex = TokenNumber;
-			// ----
-			this->m_NonDrop.push_back(List);
-		}
+		sLog->outError("%s load fail", File);
+		return;
 	}
 	// ----
-	__finally
+	while (true)
 	{
-		if (SMDFile != NULL)
+		SMDToken Token = GetToken(&SMDFile);
+		// ----
+		if (Token == END)
 		{
-			fclose(SMDFile);
+			break;
 		}
 		// ----
-		SMDFile = NULL;
+		DROPBLOCK_DATA List;
+		// ----
+		List.ItemType = TokenNumber;
+		// ----
+		GetToken(&SMDFile);
+		List.ItemIndex = TokenNumber;
+		// ----
+		this->m_NonDrop.push_back(List);
 	}
+	SMDFile.close();
 }
 
 // -------------------------------------------------------------------------
@@ -289,7 +279,7 @@ bool DropEx::DropItem(CGameObject &Obj, CGameObject lpTargetObj)
 						}
 					}
 
-					ItemCreate(Obj, Obj.MapNumber, Obj.X, Obj.Y, ITEMGET(Drop.ItemType, Drop.ItemIndex), iLevel, Drop.ItemDur, iOption, iLuck, iSkill, lpObj->m_Index, iExlOpt, iAnc, 0, 0, 0);
+					ItemCreate(Obj, Obj.MapNumber, Obj.X, Obj.Y, ITEMGET(Drop.ItemType, Drop.ItemIndex), iLevel, Drop.ItemDur, iOption, iLuck, iSkill, Obj.m_Index, iExlOpt, iAnc, 0, 0, 0);
 #else
 					// ----
 					if (Drop.ItemLuck == 1)
