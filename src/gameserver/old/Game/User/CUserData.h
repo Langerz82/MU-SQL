@@ -15,19 +15,15 @@
 #include "ComboAttack.h"
 
 struct CharacterNameOfUBF;
+struct STR_USER_CHARACTERS;
 
-
-class CUserData;
+class CNameConvert;
 class CAttackQueue;
 class CEvolutionMonsterInfo;
 class CMuRummyInfo;
 class CSkillDelay;
-class CUserData;
 class UserQuestInfo;
 
-extern int MaxViewportMonster;
-
-extern std::map<int, CUserData*> gUserObjects;
 
 
 struct CharacterNameOfUBF
@@ -73,7 +69,7 @@ public:
 	void Init(bool VipReset = true);
 
 public:
-	STR_CS_USER* ConnectUser;
+	struct STR_CS_USER* ConnectUser;
 	//char ConnectUser->IP[16];	// 18
 
 	UINT64 Experience;	// AC
@@ -92,7 +88,7 @@ public:
 	WORD Energy;	// BE
 	BYTE  DbClass;	// 9E
 	BYTE  ChangeUP; // 9F
-	GUILD_INFO_STRUCT *lpGuild;	// 2D4
+	struct GUILD_INFO_STRUCT *lpGuild;	// 2D4
 	char GuildName[11]; // 2D8
 	int GuildStatus;	// 2E4
 	int iGuildUnionTimeStamp;	// 2E8
@@ -107,8 +103,8 @@ public:
 	int m_iSecurityCode;
 	BYTE RegisterdLMS;
 	BYTE RegisteredLMSRoom;
-	JEWELOFHARMONY_ITEM_EFFECT* m_JewelOfHarmonyEffect;	// 1914
-	ITEMOPTION_FOR380ITEM_EFFECT* m_ItemOptionExFor380;	// 193A
+	struct JEWELOFHARMONY_ITEM_EFFECT* m_JewelOfHarmonyEffect;	// 1914
+	struct ITEMOPTION_FOR380ITEM_EFFECT* m_ItemOptionExFor380;	// 193A
 	BOOL	m_bKanturuEntranceByNPC;
 	bool m_iGensInfoLoad;
 	bool m_iQuestInfoLoad;
@@ -116,9 +112,9 @@ public:
 	int m_WCoinC;
 	int m_GoblinPoint;
 	int m_iPeriodItemEffectIndex;	// 195C
-	SOCKET_OPTION_LIST* m_SeedOptionList; // Size=210 Offset=9392
-	SOCKET_OPTION_LIST* m_BonusOptionList; // Size=42 Offset=9602
-	SOCKET_OPTION_LIST* m_SetOptionList; // Size=12 Offset=9644
+	struct SOCKET_OPTION_LIST* m_SeedOptionList; // Size=210 Offset=9392
+	struct SOCKET_OPTION_LIST* m_BonusOptionList; // Size=42 Offset=9602
+	struct SOCKET_OPTION_LIST* m_SetOptionList; // Size=12 Offset=9644
 	WORD m_btRefillHPSocketOption; // Size=2 Offset=9656
 	WORD m_btRefillMPSocketOption; // Size=2 Offset=9658
 	WORD m_wSocketOptionMonsterDieGetHp; // Size=2 Offset=9660
@@ -189,12 +185,12 @@ public:
 	bool m_SendQuestInfo;	// F12
 	DWORD AgilityCheckDelay;
 	BYTE AgilityCheckCount;
-	CRITICAL_SECTION AgiCheckCriti;
+	//CRITICAL_SECTION AgiCheckCriti;
 	BYTE RFSkillCount;
 	WORD DarkSideCount;
 	WORD DarkSideTarget[5];
-	CRITICAL_SECTION m_DarkSideRFCriti;
-	CRITICAL_SECTION m_MasterSkillCriti;
+	//CRITICAL_SECTION m_DarkSideRFCriti;
+	//CRITICAL_SECTION m_MasterSkillCriti;
 	BYTE m_btSculptPos;
 	BYTE m_btCharmPos;
 	BYTE m_btArtifactPos;
@@ -207,22 +203,22 @@ public:
 	int m_iMiningLevel;
 	int m_iMiningObjectId;
 	int m_iMiningJewelId;
-	_MASTERLEVEL_PASSIVE_SKILL_OPTION* m_MPSkillOpt;
-	UserQuestInfo m_UserQuestInfo[MAX_QUESTEXP_USER_INFO];
+	struct _MASTERLEVEL_PASSIVE_SKILL_OPTION* m_MPSkillOpt;
+	struct UserQuestInfo m_UserQuestInfo[MAX_QUESTEXP_USER_INFO];
 	int m_bUserQuestInfoSent;
 	bool m_bUsePolymorphSkin;
 	ULONGLONG LastSkillUseTick;
 	DWORD LastSkillUseNumber;
 	DWORD LastSkillUseCount;
-	PENTAGRAM_OPTION* m_PentagramOptions;
-	CItemObject** pPentagramMixBox;
+	struct PENTAGRAM_OPTION* m_PentagramOptions;
+	class CItemObject** pPentagramMixBox;
 	BYTE** pPentagramMixBoxMap;
 	int PentagramMixMoney;
 	int PentagramMixSuccessRate;
 	int m_PentagramMixLock;
 	bool m_bIsPentagramMixCompleted;
-	std::vector<PENTAGRAMJEWEL_INFO> m_PentagramJewelInfo_Inven;
-	std::vector<PENTAGRAMJEWEL_INFO> m_PentagramJewelInfo_Warehouse;
+	std::vector<struct PENTAGRAMJEWEL_INFO> m_PentagramJewelInfo_Inven;
+	std::vector<struct PENTAGRAMJEWEL_INFO> m_PentagramJewelInfo_Warehouse;
 	DWORD MathAuthenElapsed;
 
 	int m_AttackRatePvM;
@@ -236,7 +232,7 @@ public:
 	int m_nServerChannel;
 	int m_nPartyMatchingIndex;
 	int m_nPartyMatchingMemberCount;
-	CMuRummyInfo *m_pCMuRummyInfo;
+	class CMuRummyInfo *m_pCMuRummyInfo;
 	bool m_bSendMemberPos;
 	bool m_bSendNpcPos;
 	int  m_Resistance_Stun;
@@ -248,18 +244,18 @@ public:
 	bool m_bIsMining;
 	bool m_EnableUseChangeSkin;
 	DWORD m_dwMapMoveKeyValue;
-	EXC_WING_OPTION* m_WingExcOption;
-	STAT_USER_OPTION* m_StatSpecOption;
+	struct EXC_WING_OPTION* m_WingExcOption;
+	struct STAT_USER_OPTION* m_StatSpecOption;
 	bool m_IsOffLevelling;
-	STR_USER_SHOP_REBUY_ITEM** m_CancelItemSaleList;
+	struct STR_USER_SHOP_REBUY_ITEM** m_CancelItemSaleList;
 	bool m_bIsCancelItemSale;
 	int m_JoinUnityBattle;
 	int m_nServerCodeOfHomeWorld;
 	char m_RealNameOfUBF[11];
-	CNameConvert m_NameConvertOfUBF;
+	class CNameConvert m_NameConvertOfUBF;
 	bool m_bGremoryCaseDBInfo;
-	GREMORYCASE_ITEM_DATA** m_GremoryCaseData;
-	CSkillDelay SkillDelay;
+	struct GREMORYCASE_ITEM_DATA** m_GremoryCaseData;
+	class CSkillDelay SkillDelay;
 	DWORD m_dwGensHitTeleportDelay; // Private custom for joinmu
 	DWORD dwOpenWareCnt;
 	DWORD dwCloseWareCnt;
@@ -271,12 +267,12 @@ public:
 
 	int Ruud;
 	BYTE EventEntryCount[6];
-	CEvolutionMonsterInfo * m_pCEvoMonInfo;
+	class CEvolutionMonsterInfo * m_pCEvoMonInfo;
 	//Antihack related (move speed)
 	short MovingDistance;
 	BYTE  MovingIgnore;
 	int RageDMG;
-	CAttackQueue* m_AttackQueue;
+	class CAttackQueue* m_AttackQueue;
 	char  Name[5][11];
 	BYTE CharacterSlotCount;
 	BOOL bEnableDelCharacter;
@@ -291,7 +287,7 @@ public:
 	BYTE CheckTickCount;	// 48
 	BYTE CheckSpeedHack;	// 40
 	DWORD AgiCheckTime;
-	MOVE_MAPSERVER_AUTHINFO* m_MapServerAuthInfo;
+	struct MOVE_MAPSERVER_AUTHINFO* m_MapServerAuthInfo;
 	bool m_bMapSvrMoveQuit;	// 1518
 	bool m_bMapSvrMoveReq;	// 1519
 	bool m_bMapSvrMoveReq_2;
@@ -299,8 +295,12 @@ public:
 	short m_sPrevMapSvrCode;	// 1520
 	short m_sDestMapNumber;	// 1522
 
-	struct STR_USER_CHARACTERS Characters[5];
+	struct STR_USER_CHARACTERS* Characters;
 };
+
+extern int MaxViewportMonster;
+
+extern std::map<int, CUserData*> gUserObjects;
 
 unsigned char LevelSmallConvert(int level);
 //unsigned char LevelSmallConvert(int aIndex, int inventoryindex);
@@ -309,8 +309,8 @@ extern CUserData* getUserObject(int index);
 extern void insertUserObject(CUserData* Obj);
 extern void eraseUserObject(CUserData* Obj);
 
-extern BOOL gObjIsAccontConnect(int aIndex, char* accountid);
-extern BOOL gObjPasswordCheck(STR_CS_USER* csUser, char* szInPassword);
+extern BOOL gObjIsAccountConnect(int aIndex, char* accountid);
+extern BOOL gObjPasswordCheck(class STR_CS_USER* csUser, char* szInPassword);
 
 
 #endif

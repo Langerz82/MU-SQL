@@ -14,6 +14,7 @@
 #include "StdAfx.h"
 #include "MuDefines.h"
 #include <map>
+#include "configread.h"
 
 using namespace std;
 

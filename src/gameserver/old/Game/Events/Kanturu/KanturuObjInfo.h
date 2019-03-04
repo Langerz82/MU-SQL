@@ -36,7 +36,7 @@ public:
 			return FALSE;
 		}
 
-		this->m_iObjIndex[this->m_iObjCount] = iIndex;
+		this->m_iObjIndex[this->m_iObjCount] = Obj.m_Index;
 		this->m_iObjCount++;
 
 		return TRUE;

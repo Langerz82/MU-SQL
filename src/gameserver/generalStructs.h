@@ -18,6 +18,7 @@ class ACE_SOCK_Stream;
 
 struct PER_IO_CONTEXT_L;
 struct _PER_SOCKET_CONTEXT;
+//struct STR_USER_CHARACTERS;
 
 
 #pragma pack (1)
@@ -1698,7 +1699,7 @@ struct MOVE_MAPSERVER_AUTHINFO
 	int iJA4;
 };
 
-typedef struct
+typedef struct SOCKET_OPTION_LIST
 {
 	BYTE m_SocketOptionIndex;
 	BYTE m_SocketOptionValueType;
@@ -1712,7 +1713,7 @@ typedef struct
 		this->m_SocketOptionValueType = 0;
 		this->m_SocketOptionCount = 0;
 	}
-} SOCKET_OPTION_LIST, *LPSOCKET_OPTION_LIST;
+} *LPSOCKET_OPTION_LIST;
 
 struct STR_USER_SHOP_REBUY_ITEM
 {
@@ -1828,29 +1829,6 @@ struct PWMSG_COUNT2
 {
 	PWMSG_HEAD2 h;
 	BYTE count;
-};
-
-struct JEWELOFHARMONY_ITEM_EFFECT
-{
-	short HJOpAddMinAttackDamage;	// 0
-	short HJOpAddMaxAttackDamage;	// 2
-	short HJOpRequireStr;	// 4
-	short HJOpRequireDex;	// 6
-	short HJOpAddAttackDamage;	// 8
-	short HJOpAddCriticalDamage;	// A
-	short HJOpAddSkillAttack;	// C
-	short HJOpAddAttackSuccessRatePVP;	// E
-	short HJOpDecreaseSDRate;	// 10
-	short HJOpAddIgnoreSDRate;	// 12
-	short HJOpAddMagicPower;	// 14
-	short HJOpAddDefense;	// 16
-	short HJOpAddMaxAG;	// 18
-	short HJOpAddMaxHP;	// 1A
-	short HJOpAddRefillHP;	// 1C
-	short HJOpAddRefillMP;	// 1E
-	short HJOpAddDefenseSuccessRatePvP;	// 20
-	short HJOpAddDamageDecrease;	// 22
-	short HJOpAddSDRate;	// 24
 };
 
 typedef struct ITEMEFFECT

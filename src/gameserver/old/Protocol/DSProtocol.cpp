@@ -698,54 +698,6 @@ void DataServerLoginResult(SDHP_RESULT * lpMsg)
 }
 
 
-
-
-
-/* * * * * * * * * * * * * * * * * * * * *
- *	Mu Char List Count Packet
- *	Direction : GameServer -> Client
- *  Code     : 0xC1
- *	HeadCode : 0xF3
- *	SubCode  : 0x00
- *	BASE PACKET - Complete with PMSG_CHARLIST
- */
-#pragma pack (1)
-
-#pragma pack ()
-
-struct PMSG_CHARLIST
-{
-	BYTE Index;	// 0
-	char Name[10];	// 1
-	WORD Level;	// C
-	BYTE CtlCode;	// E
-	BYTE CharSet[CHAR_SET_SIZE];	// F
-	BYTE btGuildStatus;	// 21
-};
-
-struct PMSG_CHARLIST_S9
-{
-	BYTE Index;	// 0
-	char Name[10];	// 1
-	WORD Level;	// C
-	BYTE CtlCode;	// E
-	BYTE CharSet[CHAR_SET_SIZE];	// F
-	BYTE btGuildStatus;	// 21
-	BYTE btPkLevel;
-};
-
-struct PMSG_CHARLIST_ENABLE_CREATION
-{
-	PBMSG_HEAD2 h; // C1:DE:00
-	BYTE EnableClass;// 4
-};
-
-struct PMSG_RESET_INFO_CHARLIST
-{
-	PBMSG_HEAD2 h;
-	WORD Reset[5];
-};
-
 /* * * * * * * * * * * * * * * * * * * * *
  *	Mu Get Char List Request Packet
  *	Direction : GameServer -> DataServer

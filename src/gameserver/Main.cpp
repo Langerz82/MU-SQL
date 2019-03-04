@@ -265,7 +265,7 @@ BOOL gIsKickDetecHackCountLimit;
 BOOL gIsItemDropRingOfTransform;
 BOOL gDoPShopOpen;
 BOOL gWriteChatLog;
-BOOL gDisconnectHackUser;
+
 BOOL GSInfoSendFlag = FALSE;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -273,9 +273,9 @@ BOOL GSInfoSendFlag = FALSE;
 DWORD JoinServerDCTime = 0;
 
 CwsGameServer wsGServer;	// line : 213GameServer
-wsJoinServerCli wsJServerCli;	// line : 214 Join Server
-wsJoinServerCli wsDataCli;	// line : 215 DataServer
-wsJoinServerCli wsExDbCli;	// line : 239 Extra DataBase Server
+//wsJoinServerCli wsJServerCli;	// line : 214 Join Server
+//wsJoinServerCli wsDataCli;	// line : 215 DataServer
+//wsJoinServerCli wsExDbCli;	// line : 239 Extra DataBase Server
 CDirPath gDirPath;	// line : 248 Directory Path
 MapClass MapC[MAX_NUMBER_MAP];	// line 249	// Map Manager
 CMonsterAttr gMAttr;	// line 250
@@ -401,8 +401,8 @@ int  g_WareHouseCount = 3;
 int gItemDisapearTime = 120;
 int  gEvent1ItemDropTodayMax = 1;
 int  gEvent1ItemDropTodayPercent = 80;
-int  gCharacterDeleteMinLevel = 40;
-BOOL gCreateCharacter = 1;
+//int  gCharacterDeleteMinLevel = 40;
+//BOOL gCreateCharacter = 1;
 int  g_XMasEvent_StarOfXMasDropRate = 80;
 int  g_XMasEvent_ItemDropRateForStarOfXMas = 2;
 int  gFireCrackerDropRate = 80;

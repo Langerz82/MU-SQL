@@ -6,13 +6,13 @@
 #endif // _MSC_VER > 1000
 
 #include "PrecompiledHeader/StdAfx.h"
+#include "CUserData.h"
 #include "generalStructs.h"
 #include "Logging/Log.h"
 #include "TSkillElement.h"
 #include "TMonsterSkillElementInfo.h"
 #include "TMonsterAIAgro.h"
 #include "TDurMagicKeyChecker.h"
-#include "CUserData.h"
 #include "EvolutionMonsterInfo.h"
 
 #include <vector>
@@ -24,11 +24,10 @@ class CItemObject;
 class CMagicInf;
 class CMuRummyInfo;
 class CRaklionUtil;
-class CUserData;
+//class CUserData;
 class CViewportGuild;
 class TDurMagicKeyChecker;
 class TMonsterAIAgro;
-class CGameObject;
 
 struct BOT_BUFF_LIST;
 struct HITDAMAGE_STRUCT;
@@ -39,8 +38,8 @@ struct VIEWPORT_STRUCT;
 struct WHISPER_STRUCT;
 struct SKILL_INFO;
 struct MUUN_EFFECT_LIST;
-//struct STR_CONNECT_USER;
-//struct STR_ACTION_STATE;
+struct STR_CS_USER;
+struct STR_ACTION_STATE;
 
 std::map<int, CGameObject*> gGameObjects;
 std::map<int, CGameObject*> gGameUserObjects;
@@ -159,7 +158,7 @@ public:
 	DWORD PenaltyMask;
 	time_t ChatBlockTime;
 
-	STR_ACTION_STATE* m_ActState;	// 1D4
+	struct STR_ACTION_STATE* m_ActState;	// 1D4
 	BYTE  m_ActionNumber;	// 1D8
 	DWORD m_ActionTime;
 	BYTE  m_ActionCount;
@@ -169,7 +168,7 @@ public:
 	BYTE m_Rest;	// 1E1
 	BYTE		m_ViewState;
 	BYTE		m_BuffEffectCount;
-	STR_EFFECTLIST** pntBuffEffectList;
+	struct STR_EFFECTLIST** pntBuffEffectList;
 	DWORD m_LastMoveTime;	// 1E8
 	DWORD m_LastAttackTime;	// 1EC
 	BYTE m_FriendServerOnline;	// 1F0
@@ -283,7 +282,7 @@ public:
 	int VPCount2;	// ABC
 	HITDAMAGE_STRUCT* sHD;	// AC0
 	short sHDCount;	// CA0
-	STR_INTERFACE_STATE* m_IfState;	// CA4
+	struct STR_INTERFACE_STATE* m_IfState;	// CA4
 	DWORD m_InterfaceTime;	// CA8
 	CItemObject** pntInventory; // CAC
 	LPBYTE  pInventoryMap; // CB0
@@ -597,8 +596,8 @@ extern int gItemLoop2;
 //extern int gObjCount
 extern int gObjMonCount;
 extern int gObjCallMonCount;
-extern std::map<int, MessageStateMachine*> gSMMsg;
-extern std::map<int, ExMessageStateMachine*> gSMAttackProcMsg;
+extern std::map<int, struct MessageStateMachine*> gSMMsg;
+extern std::map<int, struct ExMessageStateMachine*> gSMAttackProcMsg;
 extern BILL_CLASS * m_ObjBill;	// line : 193
 extern CRaklionUtil RAKLION_UTIL;
 
@@ -608,15 +607,15 @@ extern BYTE GensInfoBuf[10000];
 extern BYTE GensUserBuf[10000];
 extern BYTE SendGBufChange[5000];
 
-extern PMSG_VIEWPORTCREATE pViewportCreate;
-extern PMSG_VIEWPORTCREATE_CHANGE pViewportCreateChange;
-extern PMSG_VIEWPORTDESTROY pViewportDestroy;
-extern PMSG_MONSTER_VIEWPORTCREATE pMonsterViewportCreate;
-extern PMSG_CALLMONSTER_VIEWPORTCREATE pCallMonsterViewportCreate;
+extern struct PMSG_VIEWPORTCREATE pViewportCreate;
+extern struct PMSG_VIEWPORTCREATE_CHANGE pViewportCreateChange;
+extern struct PMSG_VIEWPORTDESTROY pViewportDestroy;
+extern struct PMSG_MONSTER_VIEWPORTCREATE pMonsterViewportCreate;
+extern struct PMSG_CALLMONSTER_VIEWPORTCREATE pCallMonsterViewportCreate;
 
-extern PWMSG_COUNT pItemCount;
-extern PMSG_ITEMVIEWPORTCREATE pItemViewportCreate;
-extern PMSG_VIEWPORTDESTROY pItemViewportDestroy;
+extern struct PWMSG_COUNT pItemCount;
+extern struct PMSG_ITEMVIEWPORTCREATE pItemViewportCreate;
+extern struct PMSG_VIEWPORTDESTROY pItemViewportDestroy;
 
 extern CGameObject* getGameObject(int index)
 {
@@ -632,14 +631,14 @@ extern CGameObject* getGameObject(int index)
 
 extern void insertGameObject(class CGameObject* Obj)
 {
-	int userIndex = Obj->m_PlayerData->ConnectUser->Index;
+	//int userIndex = Obj->m_PlayerData->ConnectUser->Index;
 	gGameObjects.insert(std::pair<int, CGameObject*>(Obj->m_Index, Obj));
-	gGameUserObjects.insert(std::pair<int, CGameObject*>(userIndex, Obj));
+	//gGameUserObjects.insert(std::pair<int, CUserData*>(userIndex, Obj));
 };
 
 extern void eraseGameObject(CGameObject* Obj) {
 	gGameObjects.erase(Obj->m_Index);
-	gGameUserObjects.erase(Obj->m_PlayerData->ConnectUser->Index);
+	//gGameUserObjects.erase(Obj->m_PlayerData->ConnectUser->Index);
 	delete Obj;
 };
 

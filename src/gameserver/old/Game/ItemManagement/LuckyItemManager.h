@@ -123,13 +123,13 @@ public:
 	LuckyItemManager();
 	~LuckyItemManager();
 
-	int		LoadLuckyItemEquipment(int iType, STR_LUCKY_ITEM_INFO * pLuckyItemInfo, char * lpszFileName);
+	int		LoadLuckyItemEquipment(int iType, _LUCKY_ITEM_INFO * pLuckyItemInfo, char * lpszFileName);
 	int		LoadLuckyItemInfo(char * lpszFileName);
-	void	AddLuckyItemInfo(STR_LUCKY_ITEM_INFO * pLuckyItemInfo, int iItemCnt);
+	void	AddLuckyItemInfo(_LUCKY_ITEM_INFO * pLuckyItemInfo, int iItemCnt);
 
-	STR_LUCKY_ITEM_INFO * GetLuckyItemInfo(int iItemNum);
-	STR_LUCKY_ITEM_INFO * GetCharClassLuckyItemInfo(int iItemNum, int iCharClass);
-	STR_LUCKY_ITEM_EQUIPMENT * GetLuckyItemEquipment(STR_LUCKY_ITEM_INFO *const pLuckyItemInfo, int iCharClass);
+	_LUCKY_ITEM_INFO * GetLuckyItemInfo(int iItemNum);
+	_LUCKY_ITEM_INFO * GetCharClassLuckyItemInfo(int iItemNum, int iCharClass);
+	_LUCKY_ITEM_EQUIPMENT * GetLuckyItemEquipment(_LUCKY_ITEM_INFO *const pLuckyItemInfo, int iCharClass);
 
 	int		IsLuckyItemTicket(int iItemNum);
 	int		IsLuckyItemEquipment(int iItemNum);
@@ -153,9 +153,11 @@ public:
 
 private:
 	int									m_iTicketCnt;
-	std::map<int, STR_LUCKY_ITEM_INFO>		m_Map_LuckyItemInfo;
+	std::map<int, _LUCKY_ITEM_INFO>		m_Map_LuckyItemInfo;
 
-}; extern LuckyItemManager g_LuckyItemManager;
+};
+
+extern LuckyItemManager g_LuckyItemManager;
 
 
 ////////////////////////////////////////////////////////////////////////////////

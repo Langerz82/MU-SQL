@@ -14,6 +14,7 @@
 #include "GOFunctions.h"
 #include "IOCP.h"
 #include "iniReader/IniReader.h"
+#include "CUserData.h"
 
 CConfigMichi g_Michi;
 

@@ -6,6 +6,14 @@
 #include "StdAfx.h"
 #include "User/CUserData.h"
 
+
+struct MARRY_ITEM
+{
+	int m_iSide;
+	WORD m_wItemID;
+	int m_iItemCount;
+};
+
 class CMarry
 {
 public:

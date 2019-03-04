@@ -275,9 +275,9 @@ int CNameConvert::IsDuplicationOfName()
 
 CUserData::CUserData()
 {
-	InitializeCriticalSection(&this->m_MasterSkillCriti);
-	InitializeCriticalSection(&this->m_DarkSideRFCriti);
-	InitializeCriticalSection(&this->AgiCheckCriti);
+	//InitializeCriticalSection(&this->m_MasterSkillCriti);
+	//InitializeCriticalSection(&this->m_DarkSideRFCriti);
+	//InitializeCriticalSection(&this->AgiCheckCriti);
 	this->m_pCMuRummyInfo = new CMuRummyInfo;
 	this->m_pCEvoMonInfo = new CEvolutionMonsterInfo;
 	this->pPentagramMixBox = new CItemObject*[CHAOS_BOX_SIZE];
@@ -288,15 +288,16 @@ CUserData::CUserData()
 	this->m_CancelItemSaleList = new STR_USER_SHOP_REBUY_ITEM*[MAX_CANCEL_ITEMS_SALE];
 	this->m_GremoryCaseData = new GREMORYCASE_ITEM_DATA*[MAX_GREMORYCASE_STORAGE_TYPES * MAX_GREMORYCASE_STORAGE_ITEMS];
 	this->m_StatSpecOption = new STAT_USER_OPTION[12];
+	this->Characters = new STR_USER_CHARACTERS[5];
 
 	this->Init();
 }
 
 CUserData::~CUserData()
 {
-	DeleteCriticalSection(&this->m_MasterSkillCriti);
-	DeleteCriticalSection(&this->m_DarkSideRFCriti);
-	DeleteCriticalSection(&this->AgiCheckCriti);
+	//DeleteCriticalSection(&this->m_MasterSkillCriti);
+	//DeleteCriticalSection(&this->m_DarkSideRFCriti);
+	//DeleteCriticalSection(&this->AgiCheckCriti);
 
 	if (this->m_pCMuRummyInfo != NULL)
 	{
@@ -328,6 +329,7 @@ CUserData::~CUserData()
 	delete[] this->m_CancelItemSaleList;
 	delete[] this->m_GremoryCaseData;
 	delete[] this->m_StatSpecOption;
+	delete[] this->Characters;
 
 	if (this->ConnectUser)
 		delete this->ConnectUser;
@@ -560,7 +562,7 @@ BYTE LevelSmallConvert(int level)
 	return 0;
 }
 
-BOOL gObjIsAccontConnect(CUserData* lpUser, char* accountid)
+BOOL gObjIsAccountConnect(CUserData* lpUser, char* accountid)
 {
 	if (lpUser->ConnectUser->Connected < PLAYER_CONNECTED)
 	{
