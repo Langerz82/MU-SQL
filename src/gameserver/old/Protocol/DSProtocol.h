@@ -36,7 +36,7 @@ void DGGetWarehouseList( SDHP_GETWAREHOUSEDB_SAVE* lpMsg);
 void GDGetWarehouseNoItem( SDHP_GETWAREHOUSEDB_RESULT* lpMsg);
 void GDSetWarehouseList(CGameObject* lpObj, BOOL bCloseWindow);
 void DGSetWarehouseList(PMSG_ANS_WARESAVE* lpMsg);
-void GDUserItemSave( CGameObject* lpObj);
+void GDUserItemSave(CGameObject* lpObj);
 void GDSetWarehouseMoney(CGameObject* lpObj);
 void GDGameServerInfoSave();
 //void ItemCreate(CGameObject* lpObj, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption, time_t lDuration, BYTE *SocketOption, BYTE MainAttribute);

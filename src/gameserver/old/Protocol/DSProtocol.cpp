@@ -384,9 +384,9 @@ void DataServerProtocolCore(BYTE protoNum, unsigned char* aRecv, int aLen)
 		//{
 		//case 0x01 :
 			//STAT_REQ_ANS_SAVE_LOAD_DATA *lpMsg = reinterpret_cast<STAT_REQ_ANS_SAVE_LOAD_DATA *>(aRecv);
-			//if(gObj[lpMsg->aIndex].UserStatistics != 0)
+			//if(lpObj->UserStatistics != 0)
 			//{
-				//gObj[lpMsg->aIndex].UserStatistics->LoadData(&lpMsg->UserData);
+				//lpObj->UserStatistics->LoadData(&lpMsg->UserData);
 			//}
 			//break;
 		//}
@@ -679,7 +679,7 @@ void DataServerLogin()
 	pInfo.ServerCode = g_ConfigRead.server.GetGameServerCode();
 	strcpy(pInfo.ServerName, g_ConfigRead.server.GetServerName());
 
-	//wsDataCli.DataSend((char *)&pInfo, sizeof(pInfo)); // TODO
+	////wsDataCli.DataSend((char *)&pInfo, sizeof(pInfo)); // TODO
 }
 
 void DataServerLoginResult(SDHP_RESULT * lpMsg)
@@ -1225,7 +1225,7 @@ void GJSetCharacterInfo(CGameObject* lpObj, BOOL bMapServerMove)
 	//pCSave.Ruud = lpObj->EventMap;
 	pCSave.Ruud = lpObj->m_PlayerData->Ruud;
 	pCSave.EventMap = lpObj->EventMap;
-	/*if (wsDataCli.DataSend((char*)&pCSave, sizeof(SDHP_DBCHAR_INFOSAVE)) == FALSE)
+	/*if (//wsDataCli.DataSend((char*)&pCSave, sizeof(SDHP_DBCHAR_INFOSAVE)) == FALSE)
 	{
 		sLog->outError("%s Character data save fail", lpObj->Name);
 		return;
@@ -1296,7 +1296,7 @@ void GDGetWarehouseList(CGameObject* lpObj, char* AccountID)
 	pMsg.aIndex = lpObj->m_Index;
 	memcpy(pMsg.AccountID, AccountID, sizeof(pMsg.AccountID));
 
-	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size); // TODO
+	////wsDataCli.DataSend((char*)&pMsg, pMsg.h.size); // TODO
 }
 
 
@@ -1309,7 +1309,7 @@ void DGGetWarehouseList(SDHP_GETWAREHOUSEDB_SAVE * lpMsg)
 
 	szId[MAX_ACCOUNT_LEN] = 0;
 	memcpy(szId, lpMsg->AccountID, sizeof(lpMsg->AccountID));
-	CGameObject* lpObj = getGameObject(lpMsg->aIndex);
+	CGameObject* lpObj = getGameObject(lpObj);
 
 
 	if (lpObj->m_PlayerData->m_bMapSvrMoveReq == true)
@@ -1541,25 +1541,23 @@ void DGGetWarehouseList(SDHP_GETWAREHOUSEDB_SAVE * lpMsg)
 void GDGetWarehouseNoItem(SDHP_GETWAREHOUSEDB_RESULT * lpMsg)
 {
 	char szId[11];
-	CGameObject* lpObj = lpMsg->aIndex;
+	CGameObject* lpObj = getGameObject(lpObj);
 	PMSG_TALKRESULT pResult;
 
 	szId[MAX_ACCOUNT_LEN] = 0;
 	memcpy(szId, lpMsg->AccountID, sizeof(lpMsg->AccountID));
 
-	if (!gObjIsAccontConnect(lpObj, szId))
+	if (!gObjIsAccontConnect(*lpObj, szId))
 	{
-		sLog->outError("Error-L1 : Request to receive Warehouse information doesn't match the user [%s][%d]", szId, aIndex);
+		sLog->outError("Error-L1 : Request to receive Warehouse information doesn't match the user [%s][%d]", szId, lpObj->m_PlayerData->ConnectUser->Index);
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
-
-	if (lpObj->m_IfState.type == 6)
+	if (lpObj->m_IfState->type == 6)
 	{
-		if (lpObj->m_IfState.state == 0)
+		if (lpObj->m_IfState->state == 0)
 		{
-			lpObj->m_IfState.state = 1;
+			lpObj->m_IfState->state = 1;
 			pResult.h.c = 0xC3;
 			pResult.h.headcode = 0x30;
 			pResult.h.size = sizeof(pResult);
@@ -1597,7 +1595,7 @@ void GDSetWarehouseList(CGameObject* lpObj, BOOL bCloseWindow)
 	}
 
 	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, sizeof(pMsg.AccountID));
-	pMsg.aIndex = aIndex;
+	pMsg.aIndex = lpObj->m_Index;
 	pMsg.h.c = 0xC2;
 	pMsg.h.headcode = 0x09;
 	pMsg.h.sizeH = HIBYTE(sizeof(pMsg));
@@ -1607,14 +1605,14 @@ void GDSetWarehouseList(CGameObject* lpObj, BOOL bCloseWindow)
 	pMsg.WarehouseID = lpObj->WarehouseID;
 	pMsg.CloseWindow = bCloseWindow;
 
-	ItemByteConvert32(pMsg.dbItems, lpObj->pWarehouse, WAREHOUSE_SIZE);
+	ItemByteConvert32(pMsg.dbItems, lpObj->pntWarehouse, WAREHOUSE_SIZE);
 
-	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
+	////wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg)); // TODO
 
 	lpObj->WarehouseSaveLock = TRUE;
 
 	gObjSavePetItemInfo(lpObj, 1);
-	gObjWarehouseTextSave(&gObj[aIndex]);
+	gObjWarehouseTextSave(*lpObj);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -1630,7 +1628,7 @@ struct SDHP_DBCHAR_ITEMSAVE
 	BYTE dbInventory[7584];	// 34
 };
 
-void GDUserItemSave(LPOBJ lpObj)
+void GDUserItemSave(CGameObject* lpObj)
 {
 	SDHP_DBCHAR_ITEMSAVE pMsg;
 
@@ -1639,9 +1637,9 @@ void GDUserItemSave(LPOBJ lpObj)
 	pMsg.h.sizeH = HIBYTE(sizeof(pMsg));
 	pMsg.h.sizeL = LOBYTE(sizeof(pMsg));
 	memcpy(pMsg.Name, lpObj->Name, sizeof(pMsg.Name));
-	ItemByteConvert32(pMsg.dbInventory, lpObj->pInventory, INVENTORY_SIZE);
+	ItemByteConvert32(pMsg.dbInventory, *lpObj->pntInventory, INVENTORY_SIZE);
 
-	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
+	////wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
 }
 
 
@@ -1665,13 +1663,13 @@ void GDSetWarehouseMoney(CGameObject* lpObj)
 	SDHP_WAREHOUSEMONEY_SAVE pMsg;
 
 	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, sizeof(pMsg.AccountID));
-	pMsg.aIndex = aIndex;
+	pMsg.aIndex = lpObj->m_Index;
 	pMsg.h.c = 0xC1;
 	pMsg.h.headcode = 0x12;
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.Money = lpObj->WarehouseMoney;
 
-	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
+	//wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
 }
 
 void GDGameServerInfoSave()
@@ -1700,7 +1698,7 @@ struct SDHP_ITEMCREATE
 	BYTE Op2;	// B
 	BYTE Op3;	// C
 	BYTE NewOption;	// D
-	CGameObject* lpObj;	// 10
+	int aIndex;	// 10
 	int lootindex;	// 14
 	BYTE SetOption;	// 16
 	time_t lDuration;
@@ -1709,7 +1707,7 @@ struct SDHP_ITEMCREATE
 };
 
 // MapNumber [235:Mu_2nd_Aniv], [236:CashShop]
-void ItemCreate(CGameObject* lpObj, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption, time_t lDuration, BYTE *SocketOption, BYTE MainAttribute)
+void ExpItemSerialCreateSend(CGameObject* lpObj, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption, time_t lDuration, BYTE *SocketOption, BYTE MainAttribute)
 {
 	SDHP_ITEMCREATE  pMsg;
 	pMsg.h.c = 0xC1;
@@ -1746,7 +1744,7 @@ void ItemCreate(CGameObject* lpObj, BYTE MapNumber, BYTE x, BYTE y, int type, BY
 	pMsg.Op2 = Op2;
 	pMsg.Op3 = Op3;
 	pMsg.NewOption = NewOption;
-	pMsg.aIndex = aIndex;
+	pMsg.aIndex = lpObj->m_Index;
 	pMsg.lootindex = LootIndex;
 	pMsg.SetOption = SetOption;
 	pMsg.lDuration = lDuration;
@@ -1768,17 +1766,17 @@ void ItemCreate(CGameObject* lpObj, BYTE MapNumber, BYTE x, BYTE y, int type, BY
 	}
 
 	pMsg.MainAttribute = MainAttribute;
-
-	if (LootIndex != -1 && gObj[LootIndex].Type == OBJ_USER)
+	CGameObject* lpObjLoot = getGameObject(LootIndex);
+	if (lpObjLoot && lpObjLoot->Type == OBJ_USER)
 	{
-		if (g_ConfigRead.data.common.joinmuDropItemUnderCharacter[gObj[LootIndex].Class] == true)
+		if (g_ConfigRead.data.common.joinmuDropItemUnderCharacter[lpObjLoot->Class] == true)
 		{
-			pMsg.x = gObj[LootIndex].X;
-			pMsg.y = gObj[LootIndex].Y;
+			pMsg.x = lpObjLoot->X;
+			pMsg.y = lpObjLoot->Y;
 		}
 	}
 
-	if (ObjectMaxRange(lpObj) != FALSE  && lpObj->Type != OBJ_USER)
+	if (lpObj->Type != OBJ_USER)
 	{
 		BYTE NewOption[MAX_EXOPTION_SIZE];
 
@@ -1815,7 +1813,7 @@ void ItemCreate(CGameObject* lpObj, BYTE MapNumber, BYTE x, BYTE y, int type, BY
 
 	}
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size); // TODO
 }
 
 void PetItemSerialCreateSend(CGameObject* lpObj, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption)
@@ -1841,20 +1839,19 @@ void PetItemSerialCreateSend(CGameObject* lpObj, BYTE MapNumber, BYTE x, BYTE y,
 	pMsg.Op2 = Op2;
 	pMsg.Op3 = Op3;
 	pMsg.NewOption = NewOption;
-	pMsg.aIndex = aIndex;
+	pMsg.aIndex = lpObj->m_Index;
 	pMsg.lootindex = LootIndex;
 	pMsg.SetOption = SetOption;
 	pMsg.lDuration = 0;
 	pMsg.MainAttribute = 0;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 {
-	LPOBJ lpObj = &gObj[lpMsg->aIndex];
+	CGameObject* lpObj = getGameObject(lpObj);
 	int mapnumber = lpMsg->MapNumber;
-	CGameObject* lpObj = lpMsg->aIndex;
 	int lootindex = lpMsg->lootindex;
 
 	if (mapnumber != (BYTE)-1)
@@ -1867,21 +1864,19 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 	if (lpMsg->MapNumber == (BYTE)-1 || lpMsg->MapNumber == (BYTE)-2)
 	{
-		if (gObjIsConnectedGP(lpObj) == FALSE)
+		if (gObjIsConnectedGP(*lpObj) == FALSE)
 		{
 			return;
 		}
 
-		lpObj = &gObj[aIndex];
-
 		if (lpMsg->MapNumber == (BYTE)-2)
 		{
-			if (lpObj->m_IfState.type != 13)
+			if (lpObj->m_IfState->type != 13)
 			{
 				return;
 			}
 		}
-		else if (lpObj->m_IfState.type != 7)
+		else if (lpObj->m_IfState->type != 7)
 		{
 			return;
 		}
@@ -1901,20 +1896,20 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			pMsg.Result = 1;
 		}
 
-		CItem NewItem;
+		CItemObject* NewItem;
 
-		NewItem.m_Type = lpMsg->Type;
-		NewItem.m_Level = lpMsg->Level;
-		NewItem.m_Durability = ItemGetDurability(lpMsg->Type, lpMsg->Level, lpMsg->NewOption, lpMsg->SetOption);
+		NewItem->m_Type = lpMsg->Type;
+		NewItem->m_Level = lpMsg->Level;
+		NewItem->m_Durability = ItemGetDurability(lpMsg->Type, lpMsg->Level, lpMsg->NewOption, lpMsg->SetOption);
 
 		if (lpMsg->Type == ITEMGET(14, 7)) // Siege Potion
 		{
-			NewItem.m_Durability = lpMsg->Dur;
+			NewItem->m_Durability = lpMsg->Dur;
 		}
 
 		if (lpMsg->Type == ITEMGET(13, 37))
 		{
-			NewItem.m_Durability = lpMsg->Dur;
+			NewItem->m_Durability = lpMsg->Dur;
 		}
 
 		BYTE SocketOption[5];
@@ -1960,16 +1955,16 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			}
 		}
 
-		NewItem.Convert(lpMsg->Type, lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, SocketOption, SocketBonusOption, 0, CURRENT_DB_VERSION);
-		ItemByteConvert(pMsg.ItemInfo, NewItem);
-		NewItem.m_Number = lpMsg->m_Number;
+		NewItem->Convert(lpMsg->Type, lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, SocketOption, SocketBonusOption, 0, CURRENT_DB_VERSION);
+		ItemByteConvert(pMsg.ItemInfo, *NewItem);
+		NewItem->m_Number = lpMsg->m_Number;
 
 		if (lpObj->ChaosMassMixCurrItem == 0)
 		{
-			g_MixSystem.ChaosBoxInit(lpObj);
+			g_MixSystem.ChaosBoxInit(*lpObj);
 		}
 
-		BYTE btPos = gObjChaosBoxInsertItemTemp(lpObj, &NewItem);
+		BYTE btPos = gObjChaosBoxInsertItemTemp(*lpObj, NewItem);
 
 		if (btPos == 0xFF)
 		{
@@ -1981,10 +1976,10 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			return;
 		}
 		;
-		gObjChaosBoxInsertItemPos(lpObj, NewItem, btPos, -1);
-		gObjChaosItemSet(lpObj, btPos, 1);
+		gObjChaosBoxInsertItemPos(*lpObj, *NewItem, btPos, -1);
+		gObjChaosItemSet(*lpObj, btPos, 1);
 		BYTE ExOption[MAX_EXOPTION_SIZE];
-		ItemIsBufExOption(ExOption, &NewItem);
+		ItemIsBufExOption(ExOption, NewItem);
 
 		pMsg.Pos = btPos;
 		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
@@ -1996,7 +1991,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			lpObj->ChaosMassMixCurrItem = 0;
 			lpObj->ChaosMassMixSuccessCount = 0;
 
-			GJSetCharacterInfo(lpObj, aIndex, 0);
+			GJSetCharacterInfo(lpObj, 0);
 			lpObj->ChaosLock = FALSE;
 		}
 
@@ -2005,22 +2000,22 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 	if (lpMsg->MapNumber == 230)
 	{
-		CItem Item;
+		CItemObject* Item;
 		int iType = ITEM_GET_TYPE(lpMsg->Type);
 		int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
-		Item.m_Level = lpMsg->Level;
-		Item.m_Durability = lpMsg->Dur;
-		Item.m_Number = lpMsg->m_Number;
-		Item.m_Type = lpMsg->Type;
+		Item->m_Level = lpMsg->Level;
+		Item->m_Durability = lpMsg->Dur;
+		Item->m_Number = lpMsg->m_Number;
+		Item->m_Type = lpMsg->Type;
 
-		Item.Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
+		Item->Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
 
 		PMSG_CHAOSMIXRESULT pMsg;
 		PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(pMsg));
 		pMsg.Result = CB_ERROR;
-		ItemByteConvert(pMsg.ItemInfo, Item);
+		ItemByteConvert(pMsg.ItemInfo, *Item);
 
-		BYTE btPos = gObjPentagramMixBoxInsertItem(lpObj, Item);
+		BYTE btPos = gObjPentagramMixBoxInsertItem(*lpObj, *Item);
 
 		if (btPos == 0xFF)
 		{
@@ -2032,9 +2027,9 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 		else
 		{
 			pMsg.Result = CB_SUCCESS;
-			gObjPentagramMixItemSet(lpObj, btPos, 1);
+			gObjPentagramMixItemSet(*lpObj, btPos, 1);
 			BYTE ExOption[MAX_EXOPTION_SIZE];
-			ItemIsBufExOption(ExOption, &Item);
+			ItemIsBufExOption(ExOption, Item);
 
 			GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 			lpObj->m_PlayerData->m_PentagramMixLock = FALSE;
@@ -2043,18 +2038,18 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 	else if (lpMsg->MapNumber == 231)
 	{
-		CItem Item;
+		CItemObject* Item;
 		int iType = ITEM_GET_TYPE(lpMsg->Type);
 		int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
-		Item.m_Level = lpMsg->Level;
-		Item.m_Durability = lpMsg->Dur;
-		Item.m_Number = lpMsg->m_Number;
-		Item.m_Type = lpMsg->Type;
+		Item->m_Level = lpMsg->Level;
+		Item->m_Durability = lpMsg->Dur;
+		Item->m_Number = lpMsg->m_Number;
+		Item->m_Type = lpMsg->Type;
 
-		Item.Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
+		Item->Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
 		BYTE btInOutResult = FALSE;
 
-		BYTE btRes = gObjInventoryInsertItem(lpObj, Item);
+		BYTE btRes = gObjInventoryInsertItem(*lpObj, *Item);
 
 		if (btRes == 0xFF)
 		{
@@ -2065,26 +2060,26 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			GSProtocol.GCInventoryItemOneSend(lpObj, btRes);
 			GSProtocol.GCAnsPentagramJewelInOut(lpObj, 1);
 			BYTE ExOption[MAX_EXOPTION_SIZE];
-			ItemIsBufExOption(ExOption, &Item);
+			ItemIsBufExOption(ExOption, Item);
 
 		}
 	}
 
 	else if (lpMsg->MapNumber == 233)
 	{
-		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
+		if (lpObj->m_PlayerData->ConnectUser->Connected > PLAYER_CONNECTED)
 		{
-			CItem Item;
+			CItemObject* Item;
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
-			Item.m_Level = lpMsg->Level;
-			Item.m_Durability = lpMsg->Dur;
-			Item.m_Number = lpMsg->m_Number;
-			Item.m_Type = lpMsg->Type;
+			Item->m_Level = lpMsg->Level;
+			Item->m_Durability = lpMsg->Dur;
+			Item->m_Number = lpMsg->m_Number;
+			Item->m_Type = lpMsg->Type;
 
-			Item.Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
+			Item->Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
 
-			BYTE iItemPos = gObjInventoryInsertItem(lpMsg->aIndex, Item);
+			BYTE iItemPos = gObjInventoryInsertItem(*lpObj, *Item);
 
 			if (iItemPos == (BYTE)-1)
 			{
@@ -2092,70 +2087,70 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			}
 			else
 			{
-				::GSProtocol.GCInventoryItemOneSend(lpMsg->aIndex, iItemPos);
-				GSProtocol.GCServerMsgStringSendEx(lpMsg->aIndex, 1, Lang.GetText(0, 535), ItemAttribute[Item.m_Type].Name);
+				::GSProtocol.GCInventoryItemOneSend(lpObj, iItemPos);
+				GSProtocol.GCServerMsgStringSendEx(lpObj, 1, Lang.GetText(0, 535), ItemAttribute[Item->m_Type].Name);
 			}
 		}
 	}
 
 	else if (lpMsg->MapNumber == 234)
 	{
-		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
+		if (lpObj->m_PlayerData->ConnectUser->Connected > PLAYER_CONNECTED)
 		{
-			CItem Item;
+			CItemObject* Item;
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
-			Item.m_Level = lpMsg->Level;
-			Item.m_Number = lpMsg->m_Number;
-			Item.m_Type = lpMsg->Type;
+			Item->m_Level = lpMsg->Level;
+			Item->m_Number = lpMsg->m_Number;
+			Item->m_Type = lpMsg->Type;
 
-			Item.Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
+			Item->Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
 
-			Item.m_Durability = ItemGetDurability(ITEMGET(iType, iTypeIndex), Item.m_Level, Item.m_NewOption, Item.m_SetOption);
+			Item->m_Durability = ItemGetDurability(ITEMGET(iType, iTypeIndex), Item->m_Level, Item->m_NewOption, Item->m_SetOption);
 
-			BYTE iItemPos = gObjInventoryInsertItem(lpMsg->aIndex, Item);
+			BYTE iItemPos = gObjInventoryInsertItem(*lpObj, *Item);
 
 			if (iItemPos == (BYTE)-1)
 			{
 
-				GSProtocol.GCAnsLuckyCoinTrade(lpMsg->aIndex, 2);
+				GSProtocol.GCAnsLuckyCoinTrade(lpObj, 2);
 			}
 			else
 			{
 				if (lpMsg->lDuration > 0)
 				{
-					g_PeriodItemEx.SetPeriodItemInfo(lpObj, lpMsg->Type, lpMsg->m_Number, lpMsg->lDuration);
+					g_PeriodItemEx.SetPeriodItemInfo(*lpObj, lpMsg->Type, lpMsg->m_Number, lpMsg->lDuration);
 				}
 
-				GSProtocol.GCInventoryItemOneSend(lpMsg->aIndex, iItemPos);
+				GSProtocol.GCInventoryItemOneSend(lpObj, iItemPos);
 
 				if (lpMsg->lDuration > 0)
 				{
 					g_PeriodItemEx.SendPeriodItemInfoOnce(lpObj, &Item);
 				}
 
-				GSProtocol.GCAnsLuckyCoinTrade(lpMsg->aIndex, 1);
+				GSProtocol.GCAnsLuckyCoinTrade(lpObj, 1);
 			}
 
-			GJSetCharacterInfo(lpObj, aIndex, FALSE);
+			GJSetCharacterInfo(lpObj, FALSE);
 		}
 	}
 
 	else if (lpMsg->MapNumber == 235)
 	{
-		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
+		if (lpObj->m_PlayerData->ConnectUser->Connected > PLAYER_CONNECTED)
 		{
-			CItem Item;
+			CItemObject* Item;
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
-			Item.m_Level = lpMsg->Level;
-			Item.m_Durability = lpMsg->Dur;
-			Item.m_Number = lpMsg->m_Number;
-			Item.m_Type = lpMsg->Type;
+			Item->m_Level = lpMsg->Level;
+			Item->m_Durability = lpMsg->Dur;
+			Item->m_Number = lpMsg->m_Number;
+			Item->m_Type = lpMsg->Type;
 
-			Item.Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
+			Item->Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
 
-			BYTE iItemPos = gObjInventoryInsertItem(lpMsg->aIndex, Item);
+			BYTE iItemPos = gObjInventoryInsertItem(*lpObj, *Item);
 
 			if (iItemPos == (BYTE)-1)
 			{
@@ -2165,10 +2160,10 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			{
 				if (lpMsg->lDuration > 0)
 				{
-					g_PeriodItemEx.SetPeriodItemInfo(lpObj, lpMsg->Type, lpMsg->m_Number, lpMsg->lDuration);
+					g_PeriodItemEx.SetPeriodItemInfo(*lpObj, lpMsg->Type, lpMsg->m_Number, lpMsg->lDuration);
 				}
 
-				GSProtocol.GCInventoryItemOneSend(lpMsg->aIndex, iItemPos);
+				GSProtocol.GCInventoryItemOneSend(lpObj, iItemPos);
 
 				if (lpMsg->lDuration > 0)
 				{
@@ -2176,27 +2171,27 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 				}
 			}
 
-			GJSetCharacterInfo(lpObj, aIndex, FALSE);
+			GJSetCharacterInfo(lpObj, FALSE);
 		}
 	}
 
 	else if (lpMsg->MapNumber == 236)
 	{
-		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
+		if (lpObj->m_PlayerData->ConnectUser->Connected > PLAYER_CONNECTED)
 		{
-			CItem pCreateItem;
+			CItemObject* pCreateItem;
 			time_t curtime = time(NULL);
 			int iItemType = ITEM_GET_TYPE(lpMsg->Type);
 			int iItemIndex = ITEM_GET_INDEX(lpMsg->Type);
 
-			pCreateItem.m_Type = lpMsg->Type;
+			pCreateItem->m_Type = lpMsg->Type;
 
-			pCreateItem.Convert(ITEMGET(iItemType, iItemIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
-			pCreateItem.m_Level = lpMsg->Level;
-			pCreateItem.m_Durability = 255.0;
-			pCreateItem.m_Number = lpMsg->m_Number;
+			pCreateItem->Convert(ITEMGET(iItemType, iItemIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
+			pCreateItem->m_Level = lpMsg->Level;
+			pCreateItem->m_Durability = 255.0;
+			pCreateItem->m_Number = lpMsg->m_Number;
 
-			BYTE btItemPos = gObjInventoryInsertItem(lpMsg->aIndex, pCreateItem);
+			BYTE btItemPos = gObjInventoryInsertItem(*lpObj, *pCreateItem);
 
 			if (btItemPos == (BYTE)-1)
 			{
@@ -2206,10 +2201,10 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			{
 				if (lpMsg->lDuration > 0)
 				{
-					g_PeriodItemEx.SetPeriodItemInfo(lpObj, lpMsg->Type, lpMsg->m_Number, lpMsg->lDuration);
+					g_PeriodItemEx.SetPeriodItemInfo(*lpObj, lpMsg->Type, lpMsg->m_Number, lpMsg->lDuration);
 				}
 
-				GSProtocol.GCInventoryItemOneSend(lpMsg->aIndex, btItemPos);
+				GSProtocol.GCInventoryItemOneSend(lpObj, btItemPos);
 
 				if (lpMsg->lDuration > 0)
 				{
@@ -2221,23 +2216,23 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 	else if (lpMsg->MapNumber == 229)
 	{
-		if (gObj[lpMsg->aIndex].Connected > PLAYER_LOGGED)
+		if (lpObj->m_PlayerData->ConnectUser->Connected > PLAYER_LOGGED)
 		{
 			PMSG_BUYRESULT pResult;
-			CItem pCreateItem;
+			CItemObject* pCreateItem;
 			int iItemType = ITEM_GET_TYPE(lpMsg->Type);
 			int iItemIndex = ITEM_GET_INDEX(lpMsg->Type);
 
-			pCreateItem.m_Level = lpMsg->Level;
-			pCreateItem.m_Durability = lpMsg->Dur;
-			pCreateItem.m_Number = lpMsg->m_Number;
-			pCreateItem.Convert(ITEMGET(iItemType, iItemIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
-			pCreateItem.m_Level = lpMsg->Level;
+			pCreateItem->m_Level = lpMsg->Level;
+			pCreateItem->m_Durability = lpMsg->Dur;
+			pCreateItem->m_Number = lpMsg->m_Number;
+			pCreateItem->Convert(ITEMGET(iItemType, iItemIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
+			pCreateItem->m_Level = lpMsg->Level;
 
-			BOOL bIsBlank = gObjGamblingInventoryCheck(lpMsg->aIndex, 2, 4);
+			BOOL bIsBlank = gObjGamblingInventoryCheck(*lpObj, 2, 4);
 			if (bIsBlank == TRUE)
 			{
-				BYTE btItemPos = gObjInventoryInsertItem(lpMsg->aIndex, pCreateItem);
+				BYTE btItemPos = gObjInventoryInsertItem(*lpObj, *pCreateItem);
 				if (btItemPos == 0xFF)
 				{
 					PHeadSetB((LPBYTE)&pResult, 0x32, sizeof(pResult));
@@ -2246,16 +2241,16 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 					return;
 				}
 
-				int iBuyTaxMoney = (g_GamblingItemBag.GetGamblingValue() * (__int64)g_CastleSiegeSync.GetTaxRateChaos(gObj[lpMsg->aIndex].m_Index) / (__int64)100);
+				int iBuyTaxMoney = (g_GamblingItemBag.GetGamblingValue() * (__int64)g_CastleSiegeSync.GetTaxRateChaos(lpObj->m_Index) / (__int64)100);
 				g_CastleSiegeSync.AddTributeMoney(iBuyTaxMoney);
 
-				gObj[lpMsg->aIndex].m_PlayerData->Money -= iBuyTaxMoney + g_GamblingItemBag.GetGamblingValue();
+				lpObj->m_PlayerData->Money -= iBuyTaxMoney + g_GamblingItemBag.GetGamblingValue();
 
-				if (gObj[lpMsg->aIndex].m_PlayerData->Money < 0)
-					gObj[lpMsg->aIndex].m_PlayerData->Money = 0;
+				if (lpObj->m_PlayerData->Money < 0)
+					lpObj->m_PlayerData->Money = 0;
 
-				GSProtocol.GCMoneySend(lpObj, gObj[lpMsg->aIndex].m_PlayerData->Money);
-				GSProtocol.GCInventoryItemOneSend(lpMsg->aIndex, btItemPos);
+				GSProtocol.GCMoneySend(lpObj, lpObj->m_PlayerData->Money);
+				GSProtocol.GCInventoryItemOneSend(lpObj, btItemPos);
 
 				BYTE ExOption[6];
 				ItemIsBufExOption(ExOption, &pCreateItem);
@@ -2267,7 +2262,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 					lpMsg->Type == ITEMGET(5, 34))
 				{
 					char szBuffer[256] = { 0 };
-					sprintf(szBuffer, Lang.GetText(0, 589), pCreateItem.GetName());
+					sprintf(szBuffer, Lang.GetText(0, 589), pCreateItem->GetName());
 
 					PMSG_NOTICE pNotice;
 					TNotice::MakeNoticeMsg(&pNotice, 0, szBuffer);
@@ -2276,10 +2271,10 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 					PMSG_SERVERCMD ServerCmd;
 					PHeadSubSetB((LPBYTE)&ServerCmd, 0xF3, 0x40, sizeof(ServerCmd));
 					ServerCmd.CmdType = 0;
-					ServerCmd.X = gObj[lpMsg->aIndex].X;
-					ServerCmd.Y = gObj[lpMsg->aIndex].Y;
-					GSProtocol.MsgSendV2(&gObj[lpMsg->aIndex], (LPBYTE)&ServerCmd, sizeof(ServerCmd));
-					IOCP.DataSend(lpMsg->aIndex, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
+					ServerCmd.X = lpObj->X;
+					ServerCmd.Y = lpObj->Y;
+					GSProtocol.MsgSendV2(lpObj, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
+					GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&ServerCmd, sizeof(ServerCmd));
 
 				}
 				else
@@ -2289,7 +2284,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			}
 			else
 			{
-				GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 536), lpMsg->aIndex, 1);
+				GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 536), lpObj, 1);
 
 				PHeadSetB((LPBYTE)&pResult, 0x32, sizeof(pResult));
 				pResult.Result = 0xFF;
@@ -2302,20 +2297,20 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 	else if (lpMsg->MapNumber == 228)
 	{
-		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
+		if (lpObj->m_PlayerData->ConnectUser->Connected > PLAYER_CONNECTED)
 		{
-			CItem Item;
+			CItemObject* Item;
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
-			Item.m_Level = lpMsg->Level;
-			Item.m_Number = lpMsg->m_Number;
-			Item.m_Type = lpMsg->Type;
+			Item->m_Level = lpMsg->Level;
+			Item->m_Number = lpMsg->m_Number;
+			Item->m_Type = lpMsg->Type;
 
-			Item.Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
+			Item->Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
 
-			Item.m_Durability = ItemGetDurability(ITEMGET(iType, iTypeIndex), Item.m_Level, Item.m_NewOption, Item.m_SetOption);
+			Item->m_Durability = ItemGetDurability(ITEMGET(iType, iTypeIndex), Item->m_Level, Item->m_NewOption, Item->m_SetOption);
 
-			BYTE iItemPos = gObjInventoryInsertItem(lpMsg->aIndex, Item);
+			BYTE iItemPos = gObjInventoryInsertItem(*lpObj, *Item);
 
 			if (iItemPos == (BYTE)-1)
 			{
@@ -2323,32 +2318,32 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			}
 			else
 			{
-				GSProtocol.GCInventoryItemOneSend(lpMsg->aIndex, iItemPos);
+				GSProtocol.GCInventoryItemOneSend(lpObj, iItemPos);
 			}
 		}
 	}
 
 	else if (lpMsg->MapNumber == 227)
 	{
-		CItem Item;
+		CItemObject* Item;
 		int iType = ITEM_GET_TYPE(lpMsg->Type);
 		int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
-		Item.m_Level = lpMsg->Level;
-		Item.m_Durability = lpMsg->Dur;
-		Item.m_Number = lpMsg->m_Number;
-		Item.m_Type = lpMsg->Type;
+		Item->m_Level = lpMsg->Level;
+		Item->m_Durability = lpMsg->Dur;
+		Item->m_Number = lpMsg->m_Number;
+		Item->m_Type = lpMsg->Type;
 		if (g_CMuunSystem.IsMuunItem(lpMsg->Type) == TRUE)
 		{
 			int nMuunRank = g_CMuunSystem.GetMuunRankOfMuunInfo(lpMsg->Type);
 			BYTE SocketOptionIndex = 0;
 			SocketOptionIndex |= nMuunRank;
 
-			Item.Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, SocketOptionIndex, 0, CURRENT_DB_VERSION);
+			Item->Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, SocketOptionIndex, 0, CURRENT_DB_VERSION);
 
 		}
 		else
 		{
-			Item.Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
+			Item->Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
 
 		}
 
@@ -2357,13 +2352,13 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 		if (g_CMuunSystem.IsMuunItem(lpMsg->Type) == TRUE)
 		{
 			int nMuunRank = g_CMuunSystem.GetMuunRankOfMuunInfo(lpMsg->Type);
-			int iItemCount = MapC[gObj[lpMsg->aIndex].MapNumber].MonsterItemDrop(lpMsg->Type, lpMsg->Level, lpMsg->Dur, lpMsg->x,
+			int iItemCount = MapC[lpObj->MapNumber].MonsterItemDrop(lpMsg->Type, lpMsg->Level, lpMsg->Dur, lpMsg->x,
 				lpMsg->y, lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption,
 				lootindex, lpMsg->m_Number, 0, lpMsg->SocketOption, nMuunRank, lpMsg->lDuration);
 		}
 		else
 		{
-			int iItemCount = MapC[gObj[lpMsg->aIndex].MapNumber].MonsterItemDrop(lpMsg->Type, lpMsg->Level, lpMsg->Dur, lpMsg->x,
+			int iItemCount = MapC[lpObj->MapNumber].MonsterItemDrop(lpMsg->Type, lpMsg->Level, lpMsg->Dur, lpMsg->x,
 				lpMsg->y, lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption,
 				lootindex, lpMsg->m_Number, 0, lpMsg->SocketOption, lpMsg->MainAttribute, lpMsg->lDuration);
 		}
@@ -2406,19 +2401,19 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 	else if (lpMsg->MapNumber == 226)
 	{
-		if (gObj[lpMsg->aIndex].Connected > 1)
+		if (lpObj->m_PlayerData->ConnectUser->Connected > 1)
 		{
-			CItem Item;
+			CItemObject* Item;
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
-			Item.m_Level = lpMsg->Level;
-			Item.m_Durability = lpMsg->Dur;
-			Item.m_Number = lpMsg->m_Number;
-			Item.m_Type = lpMsg->Type;
+			Item->m_Level = lpMsg->Level;
+			Item->m_Durability = lpMsg->Dur;
+			Item->m_Number = lpMsg->m_Number;
+			Item->m_Type = lpMsg->Type;
 
-			Item.Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
+			Item->Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
 
-			BYTE btItemPos = gObjEventInventoryInsertItem(lpMsg->aIndex, Item);
+			BYTE btItemPos = gObjEventInventoryInsertItem(*lpObj, *Item);
 
 			if (btItemPos == (BYTE)-1)
 			{
@@ -2427,16 +2422,15 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 			else
 			{
-				GSProtocol.GCEventInvenItemOneSend(lpMsg->aIndex, btItemPos);
+				//GSProtocol.GCEventInvenItemOneSend(lpObj, btItemPos); // TODO
 			}
 		}
 	}
 
 	else if (lpMsg->MapNumber == 225)
 	{
-		if (gObj[lpMsg->aIndex].Connected > 1)
+		if (lpObj->m_PlayerData->ConnectUser->Connected > 1)
 		{
-			LPOBJ lpObj = &gObj[lpMsg->aIndex];
 			CMuRummyInfo * pCMuRummyInfo = lpObj->m_PlayerData->m_pCMuRummyInfo;
 
 			if (!pCMuRummyInfo)
@@ -2444,13 +2438,13 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 				return;
 			}
 
-			CItem Item;
+			CItemObject* Item;
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
-			Item.m_Level = lpMsg->Level;
-			Item.m_Durability = lpMsg->Dur;
-			Item.m_Number = lpMsg->m_Number;
-			Item.m_Type = lpMsg->Type;
+			Item->m_Level = lpMsg->Level;
+			Item->m_Durability = lpMsg->Dur;
+			Item->m_Number = lpMsg->m_Number;
+			Item->m_Type = lpMsg->Type;
 
 			if (g_PentagramSystem.IsPentagramItem(lpMsg->Type) == TRUE)
 			{
@@ -2471,20 +2465,20 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 					}
 				}
 
-				Item.Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, btSocketSlotCount, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
+				Item->Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, btSocketSlotCount, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
 			}
 
 			else
 			{
-				Item.Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
+				Item->Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
 			}
 
-			BYTE btItemPos = gObjInventoryInsertItem(lpMsg->aIndex, Item);
+			BYTE btItemPos = gObjInventoryInsertItem(*lpObj, *Item);
 
 			if (btItemPos == (BYTE)-1)
 			{
 				pCMuRummyInfo->SetWaitReward(0);
-				g_CMuRummyMng.GCSendMsg(lpMsg->aIndex, 7, 0);
+				g_CMuRummyMng.GCSendMsg(*lpObj, 7, 0);
 
 			}
 
@@ -2494,41 +2488,39 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 				PHeadSubSetB((LPBYTE)&pMsg, 0x4D, 0x15, sizeof(pMsg));
 				pMsg.btResult = TRUE;
-				IOCP.DataSend(lpMsg->aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+				GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 
-				g_CMuRummyMng.GCSendMsg(lpMsg->aIndex, 9, ITEMGET(iType, iTypeIndex));
-
-				if (lpMsg->lDuration > 0)
-				{
-					g_PeriodItemEx.SetPeriodItemInfo(lpObj, lpMsg->Type, lpMsg->m_Number, lpMsg->lDuration);
-				}
-
-				GSProtocol.GCInventoryItemOneSend(lpMsg->aIndex, btItemPos);
+				g_CMuRummyMng.GCSendMsg(*lpObj, 9, ITEMGET(iType, iTypeIndex));
 
 				if (lpMsg->lDuration > 0)
 				{
-					g_PeriodItemEx.SendPeriodItemInfoOnce(lpObj, &Item);
+					g_PeriodItemEx.SetPeriodItemInfo(*lpObj, lpMsg->Type, lpMsg->m_Number, lpMsg->lDuration);
 				}
 
-				g_CMuRummyMng.GCSendMsg(lpMsg->aIndex, 8, 0);
+				GSProtocol.GCInventoryItemOneSend(lpObj, btItemPos);
+
+				if (lpMsg->lDuration > 0)
+				{
+					g_PeriodItemEx.SendPeriodItemInfoOnce(*lpObj, Item);
+				}
+
+				g_CMuRummyMng.GCSendMsg(*lpObj, 8, 0);
 
 				BYTE NewOption[MAX_EXOPTION_SIZE];
-				ItemIsBufExOption(NewOption, &Item);
+				ItemIsBufExOption(NewOption, Item);
 
-				g_CMuRummyMng.GDReqMuRummyDBLog(lpObj, pCMuRummyInfo->GetScore());
+				g_CMuRummyMng.GDReqMuRummyDBLog(*lpObj, pCMuRummyInfo->GetScore());
 				pCMuRummyInfo->Clear();
-				g_CMuRummyMng.GDReqScoreDelete(lpObj);
+				g_CMuRummyMng.GDReqScoreDelete(*lpObj);
 			}
 		}
 	}
 
 	else if (lpMsg->MapNumber == 224)
 	{
-		if (gObj[lpMsg->aIndex].Connected > 1)
+		if (lpObj->m_PlayerData->ConnectUser->Connected > 1)
 		{
-			LPOBJ lpObj = &gObj[lpMsg->aIndex];
-
-			CItem MuunItem;
+			CItemObject* MuunItem;
 			int ItemType = ITEM_GET_TYPE(lpMsg->Type);
 			int ItemIndex = ITEM_GET_INDEX(lpMsg->Type);
 			int nMuunRank = g_CMuunSystem.GetMuunRankOfMuunInfo(lpMsg->Type);
@@ -2540,17 +2532,17 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 				SocketOption[k] = lpMsg->SocketOption[k];
 			}
 
-			MuunItem.m_Level = lpMsg->Level;
-			MuunItem.m_Durability = lpMsg->Dur;
-			MuunItem.m_Number = lpMsg->m_Number;
-			MuunItem.Convert(lpMsg->Type, lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, SocketOption, nMuunRank, 0, 3);
+			MuunItem->m_Level = lpMsg->Level;
+			MuunItem->m_Durability = lpMsg->Dur;
+			MuunItem->m_Number = lpMsg->m_Number;
+			MuunItem->Convert(lpMsg->Type, lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, SocketOption, nMuunRank, 0, 3);
 
 			if (g_CMuunSystem.IsMuunExpireDate(lpMsg->Type) == TRUE)
 			{
-				MuunItem.SetMuunItemPeriodExpire();
+				MuunItem->SetMuunItemPeriodExpire();
 			}
 
-			BYTE btItemPos = gObjMuunInventoryInsertItem(lpMsg->aIndex, MuunItem);
+			BYTE btItemPos = gObjMuunInventoryInsertItem(*lpObj, *MuunItem);
 
 			if (btItemPos == (BYTE)-1)
 			{
@@ -2558,26 +2550,26 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			}
 			else
 			{
-				GSProtocol.GCMuunInventoryItemOneSend(lpMsg->aIndex, btItemPos);
+				GSProtocol.GCMuunInventoryItemOneSend(lpObj, btItemPos);
 			}
 		}
 	}
 
 	else if (lpMsg->MapNumber == 223)
 	{
-		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
+		if (lpObj->m_PlayerData->ConnectUser->Connected > PLAYER_CONNECTED)
 		{
-			CItem Item;
+			CItemObject* Item;
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
-			Item.m_Level = lpMsg->Level;
-			Item.m_Durability = lpMsg->Dur;
-			Item.m_Number = lpMsg->m_Number;
-			Item.m_Type = lpMsg->Type;
+			Item->m_Level = lpMsg->Level;
+			Item->m_Durability = lpMsg->Dur;
+			Item->m_Number = lpMsg->m_Number;
+			Item->m_Type = lpMsg->Type;
 
-			Item.Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, 0, -1, 0, CURRENT_DB_VERSION);
+			Item->Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, 0, -1, 0, CURRENT_DB_VERSION);
 
-			BYTE iItemPos = gObjInventoryInsertItem(lpMsg->aIndex, Item);
+			BYTE iItemPos = gObjInventoryInsertItem(*lpObj, *Item);
 
 			if (iItemPos == (BYTE)-1)
 			{
@@ -2585,7 +2577,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			}
 			else
 			{
-				::GSProtocol.GCInventoryItemOneSend(lpMsg->aIndex, iItemPos);
+				::GSProtocol.GCInventoryItemOneSend(lpObj, iItemPos);
 			}
 
 		}
@@ -2593,19 +2585,19 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 	else if (lpMsg->MapNumber == 222)
 	{
-		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
+		if (lpObj->m_PlayerData->ConnectUser->Connected > PLAYER_CONNECTED)
 		{
-			CItem Item;
+			CItemObject* Item;
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
-			Item.m_Level = lpMsg->Level;
-			Item.m_Durability = lpMsg->Dur;
-			Item.m_Number = lpMsg->m_Number;
-			Item.m_Type = lpMsg->Type;
+			Item->m_Level = lpMsg->Level;
+			Item->m_Durability = lpMsg->Dur;
+			Item->m_Number = lpMsg->m_Number;
+			Item->m_Type = lpMsg->Type;
 
-			Item.Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
+			Item->Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
 
-			BYTE iItemPos = gObjInventoryInsertItem(lpMsg->aIndex, Item);
+			BYTE iItemPos = gObjInventoryInsertItem(*lpObj, *Item);
 
 			PMSG_BUYRESULT pResult;
 			PHeadSetB((LPBYTE)&pResult, 0x32, sizeof(pResult));
@@ -2617,29 +2609,29 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			else
 			{
 				pResult.Result = iItemPos;
-				ItemByteConvert(pResult.ItemInfo, Item);
+				ItemByteConvert(pResult.ItemInfo, *Item);
 			}
 
-			IOCP.DataSend(lpMsg->aIndex, (LPBYTE)&pResult, sizeof(pResult));
+			GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pResult, sizeof(pResult));
 		}
 	}
 
 	else if (lpMsg->MapNumber == 221)
 	{
-		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
+		if (lpObj->m_PlayerData->ConnectUser->Connected > PLAYER_CONNECTED)
 		{
-			CItem Item;
+			CItemObject* Item;
 
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
-			Item.m_Level = lpMsg->Level;
-			Item.m_Durability = lpMsg->Dur;
-			Item.m_Number = lpMsg->m_Number;
-			Item.m_Type = lpMsg->Type;
+			Item->m_Level = lpMsg->Level;
+			Item->m_Durability = lpMsg->Dur;
+			Item->m_Number = lpMsg->m_Number;
+			Item->m_Type = lpMsg->Type;
 
-			Item.Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
+			Item->Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
 
-			BYTE iItemPos = gObjInventoryInsertItem(lpMsg->aIndex, Item);
+			BYTE iItemPos = gObjInventoryInsertItem(*lpObj, *Item);
 
 			PMSG_BUYRESULT pResult;
 			PHeadSetB((LPBYTE)&pResult, 0x32, sizeof(pResult));
@@ -2651,18 +2643,17 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			else
 			{
 				pResult.Result = iItemPos;
-				ItemByteConvert(pResult.ItemInfo, Item);
+				ItemByteConvert(pResult.ItemInfo, *Item);
 			}
 
-			IOCP.DataSend(lpMsg->aIndex, (LPBYTE)&pResult, sizeof(pResult));
+			GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pResult, sizeof(pResult));
 		}
 	}
 
 	else if (lpMsg->MapNumber == 220)
 	{
-		if (gObj[lpMsg->aIndex].Connected > 1)
+		if (lpObj->m_PlayerData->ConnectUser->Connected > 1)
 		{
-			LPOBJ lpObj = &gObj[lpMsg->aIndex];
 			CMuRummyInfo * pCMuRummyInfo = lpObj->m_PlayerData->m_pCMuRummyInfo;
 
 			if (!pCMuRummyInfo)
@@ -2670,7 +2661,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 				return;
 			}
 
-			CItem MuunItem;
+			CItemObject* MuunItem;
 			int ItemType = ITEM_GET_TYPE(lpMsg->Type);
 			int ItemIndex = ITEM_GET_INDEX(lpMsg->Type);
 			int nMuunRank = g_CMuunSystem.GetMuunRankOfMuunInfo(lpMsg->Type);
@@ -2682,22 +2673,22 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 				SocketOption[k] = lpMsg->SocketOption[k];
 			}
 
-			MuunItem.m_Level = lpMsg->Level;
-			MuunItem.m_Durability = lpMsg->Dur;
-			MuunItem.m_Number = lpMsg->m_Number;
-			MuunItem.Convert(lpMsg->Type, lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, SocketOption, nMuunRank, 0, 3);
+			MuunItem->m_Level = lpMsg->Level;
+			MuunItem->m_Durability = lpMsg->Dur;
+			MuunItem->m_Number = lpMsg->m_Number;
+			MuunItem->Convert(lpMsg->Type, lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, SocketOption, nMuunRank, 0, 3);
 
 			if (g_CMuunSystem.IsMuunExpireDate(lpMsg->Type) == TRUE)
 			{
-				MuunItem.SetMuunItemPeriodExpire();
+				MuunItem->SetMuunItemPeriodExpire();
 			}
 
-			BYTE btItemPos = gObjMuunInventoryInsertItem(lpMsg->aIndex, MuunItem);
+			BYTE btItemPos = gObjMuunInventoryInsertItem(*lpObj, *MuunItem);
 
 			if (btItemPos == (BYTE)-1)
 			{
 				pCMuRummyInfo->SetWaitReward(0);
-				g_CMuRummyMng.GCSendMsg(lpMsg->aIndex, 7, 0);
+				g_CMuRummyMng.GCSendMsg(*lpObj, 7, 0);
 
 			}
 
@@ -2707,36 +2698,36 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 				PHeadSubSetB((LPBYTE)&pMsg, 0x4D, 0x15, sizeof(pMsg));
 				pMsg.btResult = TRUE;
-				IOCP.DataSend(lpMsg->aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+				GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 
-				g_CMuRummyMng.GCSendMsg(lpMsg->aIndex, 9, ITEMGET(ItemType, ItemIndex));
-				GSProtocol.GCMuunInventoryItemOneSend(lpMsg->aIndex, btItemPos);
-				g_CMuRummyMng.GCSendMsg(lpMsg->aIndex, 8, 0);
+				g_CMuRummyMng.GCSendMsg(*lpObj, 9, ITEMGET(ItemType, ItemIndex));
+				GSProtocol.GCMuunInventoryItemOneSend(lpObj, btItemPos);
+				g_CMuRummyMng.GCSendMsg(*lpObj, 8, 0);
 
 				BYTE NewOption[MAX_EXOPTION_SIZE];
-				ItemIsBufExOption(NewOption, &MuunItem);
+				ItemIsBufExOption(NewOption, MuunItem);
 
-				g_CMuRummyMng.GDReqMuRummyDBLog(lpObj, pCMuRummyInfo->GetScore());
+				g_CMuRummyMng.GDReqMuRummyDBLog(*lpObj, pCMuRummyInfo->GetScore());
 				pCMuRummyInfo->Clear();
-				g_CMuRummyMng.GDReqScoreDelete(lpObj);
+				g_CMuRummyMng.GDReqScoreDelete(*lpObj);
 			}
 		}
 	}
 
 	else if (lpMsg->MapNumber == 219)
 	{
-		if (gObj[lpMsg->aIndex].Connected > 1)
+		if (lpObj->m_PlayerData->ConnectUser->Connected > 1)
 		{
-			CItem Item;
+			CItemObject* Item;
 			int ItemType = ITEM_GET_TYPE(lpMsg->Type);
 			int ItemIndex = ITEM_GET_INDEX(lpMsg->Type);
-			Item.m_Level = lpMsg->Level;
-			Item.m_Durability = lpMsg->Dur;
-			Item.m_Number = lpMsg->m_Number;
+			Item->m_Level = lpMsg->Level;
+			Item->m_Durability = lpMsg->Dur;
+			Item->m_Number = lpMsg->m_Number;
 
-			Item.Convert(lpMsg->Type, lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, 0, 0, 3);
+			Item->Convert(lpMsg->Type, lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, 0, 0, 3);
 
-			BYTE btItemPos = gObjInventoryInsertItem(lpMsg->aIndex, Item);
+			BYTE btItemPos = gObjInventoryInsertItem(*lpObj, *Item);
 
 			if (btItemPos == (BYTE)-1)
 			{
@@ -2744,26 +2735,25 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			}
 			else
 			{
-				GSProtocol.GCInventoryItemOneSend(lpMsg->aIndex, btItemPos);
+				GSProtocol.GCInventoryItemOneSend(lpObj, btItemPos);
 
 				BYTE NewOption[MAX_EXOPTION_SIZE];
 				ItemIsBufExOption(NewOption, &Item);
 
-				gObj[lpMsg->aIndex].ChaosLock = FALSE;
+				lpObj->ChaosLock = FALSE;
 			}
 		}
 
 		else
 		{
-			gObj[lpMsg->aIndex].ChaosLock = FALSE;
+			lpObj->ChaosLock = FALSE;
 		}
 	}
 
 	else if (lpMsg->MapNumber == 218)
 	{
-		if (gObj[lpMsg->aIndex].Connected > 1)
+		if (lpObj->m_PlayerData->ConnectUser->Connected > 1)
 		{
-			LPOBJ lpObj = &gObj[lpMsg->aIndex];
 
 			int nRank = 0;
 			BYTE SocketOption[5];
@@ -2783,16 +2773,16 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 				SocketOption[n] = lpMsg->SocketOption[n];
 			}
 
-			CItem Item;
+			CItemObject* Item;
 			int ItemType = ITEM_GET_TYPE(lpMsg->Type);
 			int ItemIndex = ITEM_GET_INDEX(lpMsg->Type);
-			Item.m_Level = lpMsg->Level;
-			Item.m_Durability = lpMsg->Dur;
-			Item.m_Number = lpMsg->m_Number;
+			Item->m_Level = lpMsg->Level;
+			Item->m_Durability = lpMsg->Dur;
+			Item->m_Number = lpMsg->m_Number;
 
-			Item.Convert(lpMsg->Type, lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, SocketOption, nRank, 0, 3);
+			Item->Convert(lpMsg->Type, lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, SocketOption, nRank, 0, 3);
 
-			BYTE btRet = g_CMuunSystem.DGMuunExchangeInsertInven(lpObj, Item, lpMsg->x);
+			BYTE btRet = g_CMuunSystem.DGMuunExchangeInsertInven(*lpObj, *Item, lpMsg->x);
 
 			if (btRet == 0xFF)
 			{
@@ -2805,7 +2795,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 				if (g_CMuunSystem.IsStoneofEvolution(lpMsg->Type) == TRUE)
 				{
-					WORD wPetItemNumber = (Item.m_SocketOption[0] << 8) | Item.m_SocketOption[1];
+					WORD wPetItemNumber = (Item->m_SocketOption[0] << 8) | Item->m_SocketOption[1];
 					LPITEM_ATTRIBUTE lpItemAttribute = GetItemAttr(wPetItemNumber);
 
 					if (lpItemAttribute != NULL)
@@ -2827,20 +2817,20 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 	else if (lpMsg->MapNumber == 217)
 	{
-		if (gObj[lpMsg->aIndex].Connected > PLAYER_CONNECTED)
+		if (lpObj->m_PlayerData->ConnectUser->Connected > PLAYER_CONNECTED)
 		{
-			CItem Item;
+			CItemObject* Item;
 
 			int iType = ITEM_GET_TYPE(lpMsg->Type);
 			int iTypeIndex = ITEM_GET_INDEX(lpMsg->Type);
-			Item.m_Level = lpMsg->Level;
-			Item.m_Durability = lpMsg->Dur;
-			Item.m_Number = lpMsg->m_Number;
-			Item.m_Type = lpMsg->Type;
+			Item->m_Level = lpMsg->Level;
+			Item->m_Durability = lpMsg->Dur;
+			Item->m_Number = lpMsg->m_Number;
+			Item->m_Type = lpMsg->Type;
 
-			Item.Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
+			Item->Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
 
-			BYTE iItemPos = gObjInventoryInsertItem(lpMsg->aIndex, Item);
+			BYTE iItemPos = gObjInventoryInsertItem(*lpObj, *Item);
 
 			PMSG_ANS_RUUD_STORE_BUYITEM pMsg;
 			PHeadSubSetB((LPBYTE)&pMsg, 0xD0, 0xF0, sizeof(pMsg));
@@ -2853,11 +2843,11 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			{
 				pMsg.btResult = 0;
 				pMsg.btPos = iItemPos;
-				ItemByteConvert(pMsg.btItemInfo, Item);
+				ItemByteConvert(pMsg.btItemInfo, *Item);
 
 			}
 			GSProtocol.GCInventoryItemOneSend(lpObj, iItemPos);
-			//IOCP.DataSend(lpMsg->aIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+			//GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, sizeof(pMsg));
 		}
 	}
 
@@ -2877,12 +2867,12 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 		if (mapnumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL && g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 		{
-			if (gObj[lpMsg->aIndex].MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+			if (lpObj->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 			{
-				if (gObjIsConnected(lpMsg->aIndex))
+				if (gObjIsConnected(*lpObj))
 				{
-					lpMsg->x = gObj[lpMsg->aIndex].X;
-					lpMsg->y = gObj[lpMsg->aIndex].Y;
+					lpMsg->x = lpObj->X;
+					lpMsg->y = lpObj->Y;
 				}
 			}
 
@@ -2894,9 +2884,9 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			}
 		}
 
-		CItem Item;
+		CItemObject* Item;
 
-		Item.m_Type = lpMsg->Type;
+		Item->m_Type = lpMsg->Type;
 
 		BYTE SocketSlotCount = 0;
 		BYTE SocketOption[5] = { 0, 0, 0, 0, 0 };
@@ -3038,15 +3028,15 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 		{
 			if (iRetMapNumber >= 238 && iRetMapNumber <= 245)
 			{
-				MapC[mapnumber].m_cItem[iItemCount].m_Time = GetTickCount() + 300000;
-				MapC[mapnumber].m_cItem[iItemCount].m_LootTime = GetTickCount() + 20000;
+				MapC[mapnumber].m_cItem[iItemCount]->m_Time = GetTickCount() + 300000;
+				MapC[mapnumber].m_cItem[iItemCount]->m_LootTime = GetTickCount() + 20000;
 
 			}
 
 			if (iRetMapNumber >= 246 && iRetMapNumber <= 253)
 			{
-				MapC[mapnumber].m_cItem[iItemCount].m_Time = GetTickCount() + 900000;
-				MapC[mapnumber].m_cItem[iItemCount].m_LootTime = GetTickCount() + 10000;
+				MapC[mapnumber].m_cItem[iItemCount]->m_Time = GetTickCount() + 900000;
+				MapC[mapnumber].m_cItem[iItemCount]->m_LootTime = GetTickCount() + 10000;
 
 				int iBridgeIndex = g_BloodCastle.GetBridgeIndex(mapnumber); //s3 add-on (loc108)
 
@@ -3106,6 +3096,8 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 	}
 }
 
+// UPTO
+
 /* * * * * * * * * * * * * * * * * * * * *
  *	Mu Item Move Packet
  *	Direction : GameServer -> DataServer
@@ -3148,7 +3140,7 @@ void ItemMovePathSave(char* ActID, char* Name, BYTE level, BYTE mapnumber, BYTE 
 	memcpy(pMsg.Name, Name, sizeof(pMsg.Name));
 	strcpy(pMsg.ServerName, g_ConfigRead.server.GetServerName());
 
-	wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 }
 
 
@@ -3193,14 +3185,14 @@ void DGOptionDataSend(CGameObject* lpObj, char* szName, BYTE * KeyBuffer, BYTE G
 	pMsg.QWERLevelDefine = QWER;
 	pMsg.EnableTransformMode = Transform;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 
 
 void DGOptionDataRecv(SDHP_SKILLKEYDATA_SEND * lpMsg)
 {
-	CGameObject* lpObj = lpMsg->aIndex;
+	CGameObject* lpObj = getGameObject(lpObj);
 	char szName[MAX_ACCOUNT_LEN + 1];
 
 	if (aIndex < 0 || aIndex >= g_ConfigRead.server.GetObjectMax())
@@ -3218,7 +3210,7 @@ void DGOptionDataRecv(SDHP_SKILLKEYDATA_SEND * lpMsg)
 
 	::GSProtocol.GCSkillKeySend(lpObj, lpMsg->SkillKeyBuffer, lpMsg->GameOption, lpMsg->QkeyDefine, lpMsg->WkeyDefine, lpMsg->EkeyDefine, lpMsg->ChatWindow, lpMsg->RkeyDefine, lpMsg->QWERLevelDefine);
 	lpObj->m_PlayerData->m_EnableUseChangeSkin = lpMsg->EnableTransformMode;
-	gObjViewportListProtocolCreate(&gObj[aIndex]);
+	gObjViewportListProtocolCreate(*lpObj);
 }
 
 void DGMoveOtherServer(SDHP_CHARACTER_TRANSFER_RESULT * lpMsg)
@@ -3288,7 +3280,7 @@ struct SDHP_REQUEST_PETITEM_INFO
 
 void gObjRequestPetItemInfo(CGameObject* lpObj, int inventype)
 {
-	LPOBJ lpObj = &gObj[aIndex];
+	LPOBJ lpObj = *lpObj;
 	char pbuffer[4096];
 	int lofs = sizeof(SDHP_REQUEST_PETITEM_INFO);
 	int founditemcount = 0;
@@ -3342,7 +3334,7 @@ void gObjRequestPetItemInfo(CGameObject* lpObj, int inventype)
 		pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 
 		memcpy(pbuffer, &pMsg, sizeof(pMsg));
-		wsDataCli.DataSend((PCHAR)pbuffer, lofs + sizeof(pMsg));
+		//wsDataCli.DataSend((PCHAR)pbuffer, lofs + sizeof(pMsg));
 	}
 }
 
@@ -3448,7 +3440,7 @@ struct SDHP_SAVE_PETITEM_INFO
 
 void gObjSavePetItemInfo(CGameObject* lpObj, int inventype)
 {
-	LPOBJ lpObj = &gObj[aIndex];
+	LPOBJ lpObj = *lpObj;
 	char pbuffer[4096];
 	int lofs = sizeof(SDHP_SAVE_PETITEM_INFO);
 	int founditemcount = 0;
@@ -3519,7 +3511,7 @@ void gObjSavePetItemInfo(CGameObject* lpObj, int inventype)
 
 		memcpy(pbuffer, &pMsg, sizeof(pMsg));
 
-		wsDataCli.DataSend(pbuffer, lofs + sizeof(pMsg));
+		//wsDataCli.DataSend(pbuffer, lofs + sizeof(pMsg));
 	}
 }
 
@@ -3551,7 +3543,7 @@ void GS_GDReqCastleTotalInfo(int iMapSvrGroup, int iCastleEventCycle)
 	pMsg.wMapSvrNum = iMapSvrGroup;
 	pMsg.iCastleEventCycle = iCastleEventCycle;
 
-	::wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	:://wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -3587,7 +3579,7 @@ void GS_GDReqOwnerGuildMaster(int iMapSvrGroup, CGameObject* lpObj)
 	pMsg.wMapSvrNum = iMapSvrGroup;
 	pMsg.iIndex = aIndex;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -3643,7 +3635,7 @@ void GS_GDReqCastleNpcBuy(int iMapSvrGroup, CGameObject* lpObj, int iNpcNumber, 
 	pMsg.btNpcDIR = btNpcDIR;
 	pMsg.iBuyCost = iBuyCost;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -3685,7 +3677,7 @@ void GS_GDReqCastleNpcRepair(int iMapSvrGroup, CGameObject* lpObj, int iNpcNumbe
 	pMsg.iNpcIndex = iNpcIndex;
 	pMsg.iRepairCost = iRepairCost;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -3730,7 +3722,7 @@ void GS_GDReqCastleNpcUpgrade(int iMapSvrGroup, CGameObject* lpObj, int iNpcNumb
 	pMsg.iNpcUpValue = iNpcUpValue;
 	pMsg.iNpcUpIndex = iNpcUpIndex;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -3765,7 +3757,7 @@ void GS_GDReqTaxInfo(int iMapSvrGroup, CGameObject* lpObj)
 	pMsg.wMapSvrNum = iMapSvrGroup;
 	pMsg.iIndex = aIndex;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 
@@ -3805,7 +3797,7 @@ void GS_GDReqTaxRateChange(int iMapSvrGroup, CGameObject* lpObj, int iTaxType, i
 	pMsg.iTaxRate = iTaxRate;
 	pMsg.iTaxKind = iTaxType;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -3842,7 +3834,7 @@ void GS_GDReqCastleMoneyChange(int iMapSvrGroup, CGameObject* lpObj, int iMoneyC
 	pMsg.iIndex = aIndex;
 	pMsg.iMoneyChanged = iMoneyChange;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -3884,7 +3876,7 @@ void GS_GDReqSiegeDateChange(int iMapSvrGroup, CGameObject* lpObj, WORD wStartYe
 	pMsg.btEndMonth = btEndMonth;
 	pMsg.btEndDay = btEndDay;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -3921,7 +3913,7 @@ void GS_GDReqGuildMarkRegInfo(int iMapSvrGroup, CGameObject* lpObj)
 	pMsg.iIndex = aIndex;
 	memcpy(pMsg.szGuildName, lpObj->m_PlayerData->GuildName, 8);
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -3951,7 +3943,7 @@ void GS_GDReqSiegeEndedChange(int iMapSvrGroup, BOOL bIsSiegeEnded)
 	pMsg.wMapSvrNum = iMapSvrGroup;
 	pMsg.bIsSiegeEnded = bIsSiegeEnded;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -3988,7 +3980,7 @@ void GS_GDReqCastleOwnerChange(int iMapSvrGroup, BOOL bIsCastleOccupied, char* l
 	pMsg.bIsCastleOccupied = bIsCastleOccupied;
 	memcpy(pMsg.szOwnerGuildName, lpszGuildName, 8);
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -4025,7 +4017,7 @@ void GS_GDReqRegAttackGuild(int iMapSvrGroup, CGameObject* lpObj)
 	pMsg.iIndex = aIndex;
 	memcpy(pMsg.szEnemyGuildName, lpObj->m_PlayerData->GuildName, 8);
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -4053,7 +4045,7 @@ void GS_GDReqRestartCastleState(int iMapSvrGroup)
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x0E, sizeof(CSP_REQ_CASTLESIEGEEND));
 	pMsg.wMapSvrNum = iMapSvrGroup;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -4089,7 +4081,7 @@ void GS_GDReqMapSvrMsgMultiCast(int iMapSvrGroup, char * lpszMsgText)
 	strcpy(pMsg.szMsgText, lpszMsgText);
 	pMsg.szMsgText[127] = 0;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 struct CSP_GLOBALPOST_MULTICAST
@@ -4131,7 +4123,7 @@ void GS_GDReqGlobalPostMultiCast(int iMapSvrGroup, CGameObject* lpObj, char * sz
 	pMsg.btColorRGB[1] = g_ConfigRead.data.post.btGPostColorRGB[1];
 	pMsg.btColorRGB[2] = g_ConfigRead.data.post.btGPostColorRGB[2];
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -4170,7 +4162,7 @@ void GS_GDReqRegGuildMark(int iMapSvrGroup, CGameObject* lpObj, int iItemPos)
 	pMsg.iItemPos = iItemPos;
 	memcpy(&pMsg.szGuildName, lpObj->m_PlayerData->GuildName, sizeof(pMsg.szGuildName));
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -4212,7 +4204,7 @@ void GS_GDReqGuildMarkReset(int iMapSvrGroup, CGameObject* lpObj, char* lpszGuil
 	pMsg.iIndex = aIndex;
 	memcpy(pMsg.szGuildName, lpszGuildName, 8);
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -4251,7 +4243,7 @@ void GS_GDReqGuildSetGiveUp(int iMapSvrGroup, CGameObject* lpObj, BOOL bIsGiveUp
 	pMsg.bIsGiveUp = bIsGiveUp;
 	memcpy(pMsg.szGuildName, lpObj->m_PlayerData->GuildName, 8);
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -4283,7 +4275,7 @@ void GS_GDReqNpcRemove(int iMapSvrGroup, int iNpcNumber, int iNpcIndex)
 	pMsg.iNpcNumber = iNpcNumber;
 	pMsg.iNpcIndex = iNpcIndex;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -4321,7 +4313,7 @@ void GS_GDReqCastleStateSync(int iMapSvrGroup, int iCastleState, int iTaxRateCha
 	pMsg.iTaxHuntZone = iTaxHuntZone;
 	memcpy(pMsg.szOwnerGuildName, lpszOwnerGuild, 8);
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -4356,7 +4348,7 @@ void GS_GDReqCastleTributeMoney(int iMapSvrGroup, int iCastleTributeMoney)
 	pMsg.wMapSvrNum = iMapSvrGroup;
 	pMsg.iCastleTributeMoney = iCastleTributeMoney;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -4384,7 +4376,7 @@ void GS_GDReqResetCastleTaxInfo(int iMapSvrGroup)
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x19, sizeof(CSP_REQ_RESETCASTLETAXINFO));
 	pMsg.wMapSvrNum = iMapSvrGroup;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -4412,7 +4404,7 @@ void GS_GDReqResetSiegeGuildInfo(int iMapSvrGroup)
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x1A, sizeof(CSP_REQ_RESETSIEGEGUILDINFO));
 	pMsg.wMapSvrNum = iMapSvrGroup;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -4440,7 +4432,7 @@ void GS_GDReqResetRegSiegeInfo(int iMapSvrGroup)
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x1B, sizeof(CSP_REQ_RESETREGSIEGEINFO));
 	pMsg.wMapSvrNum = iMapSvrGroup;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -4469,7 +4461,7 @@ void GS_GDReqCastleInitData(int iMapSvrGroup, int iCastleEventCycle)
 	pMsg.wMapSvrNum = iMapSvrGroup;
 	pMsg.iCastleEventCycle = iCastleEventCycle;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -4498,7 +4490,7 @@ void GS_GDReqCastleNpcInfo(int iMapSvrGroup, CGameObject* lpObj)
 	pMsg.wMapSvrNum = iMapSvrGroup;
 	pMsg.iIndex = aIndex;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -4527,7 +4519,7 @@ void GS_GDReqAllGuildMarkRegInfo(int iMapSvrGroup, CGameObject* lpObj)
 	pMsg.wMapSvrNum = iMapSvrGroup;
 	pMsg.iIndex = aIndex;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -4554,7 +4546,7 @@ void GS_GDReqCalcRegGuildList(int iMapSvrGroup)
 	pMsg.h.set((LPBYTE)&pMsg, 0x85, sizeof(CSP_REQ_CALCREGGUILDLIST));
 	pMsg.wMapSvrNum = iMapSvrGroup;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -4581,7 +4573,7 @@ void GS_GDReqCsLoadTotalGuildInfo(int iMapSvrGroup)
 	pMsg.h.set((LPBYTE)&pMsg, 0x88, sizeof(CSP_REQ_CSLOADTOTALGUILDINFO));
 	pMsg.wMapSvrNum = iMapSvrGroup;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 struct CSP_ANS_CASTLEDATA
@@ -5886,7 +5878,7 @@ void GDReqCrywolfSync(int iMapSvrGroup, int iCrywolfState, int iOccupationState)
 	pMsg.iMinusMonHPBenefitRate = g_CrywolfSync.GetMonHPBenefitRate();
 	pMsg.iKundunHPRefillState = g_CrywolfSync.GetKundunHPRefillState();
 
-	wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 }
 
 
@@ -5952,7 +5944,7 @@ void GDReqCrywolfInfoLoad(int iMapSvrGroup)
 	pMsg.h.set((LPBYTE)&pMsg, 0xB1, sizeof(CWP_REQ_CRYWOLFINFOLOAD));
 	pMsg.wMapSvrNum = iMapSvrGroup;
 
-	wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 }
 
 
@@ -6019,7 +6011,7 @@ void GDReqCrywolfInfoSave(int iMapSvrGroup, int iCrywolfState, int iOccupationSt
 	pMsg.iCrywolfState = iCrywolfState;
 	pMsg.iOccupationState = iOccupationState;
 
-	wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 }
 
 
@@ -6041,11 +6033,11 @@ void GDReqInGameShopItemList(CGameObject* lpObj, BYTE InventoryType, BYTE Invent
 	PHeadSubSetB((LPBYTE)&pMsg, 0xD2, 0x02, sizeof(pMsg));
 
 	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, 11);
-	pMsg.aIndex = aIndex;
+	pMsg.aIndex = lpObj->m_Index;
 	pMsg.InvType = InventoryType;
 	pMsg.InvNum = InventoryNum;
 
-	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
+	//wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
 }
 
 void DGAnsInGameShopItemList(LPBYTE lpRecv)
@@ -6053,7 +6045,7 @@ void DGAnsInGameShopItemList(LPBYTE lpRecv)
 	ISHOP_ANS_ITEMLIST * lpMsg = (ISHOP_ANS_ITEMLIST *)(lpRecv);
 	ISHOP_ITEMLIST * lpMsgBody = (ISHOP_ITEMLIST *)(lpRecv + sizeof(ISHOP_ANS_ITEMLIST));
 
-	LPOBJ lpObj = &gObj[lpMsg->aIndex];
+	CGameObject* lpObj = getGameObject(lpObj);
 
 	g_CashShop.GCCashInventoryItemCount(lpObj, lpRecv);
 }
@@ -6064,21 +6056,21 @@ void GDReqInGameShopPoint(CGameObject* lpObj)
 
 	PHeadSetB((LPBYTE)&pMsg, 0xD1, sizeof(pMsg));
 	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, 11);
-	pMsg.aIndex = aIndex;
+	pMsg.aIndex = lpObj->m_Index;
 
-	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
+	//wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
 }
 
 void DGAnsInGameShopPoint(ISHOP_ANS_POINT *lpMsg)
 {
-	if (lpMsg->aIndex < g_ConfigRead.server.GetObjectStartUserIndex() || lpMsg->aIndex > g_ConfigRead.server.GetObjectMax())
+	if (lpObj < g_ConfigRead.server.GetObjectStartUserIndex() || lpObj > g_ConfigRead.server.GetObjectMax())
 		return;
 
-	gObj[lpMsg->aIndex].m_PlayerData->m_WCoinC = lpMsg->CoinC;
-	gObj[lpMsg->aIndex].m_PlayerData->m_WCoinP = lpMsg->CoinP;
-	gObj[lpMsg->aIndex].m_PlayerData->m_GoblinPoint = lpMsg->Goblin;
+	lpObj->m_PlayerData->m_WCoinC = lpMsg->CoinC;
+	lpObj->m_PlayerData->m_WCoinP = lpMsg->CoinP;
+	lpObj->m_PlayerData->m_GoblinPoint = lpMsg->Goblin;
 
-	g_CashShop.GCCashPoint(&gObj[lpMsg->aIndex]);
+	g_CashShop.GCCashPoint(lpObj);
 }
 
 void GDReqInGameShopPointAdd(CGameObject* lpObj, BYTE Type, float Coin)
@@ -6087,12 +6079,12 @@ void GDReqInGameShopPointAdd(CGameObject* lpObj, BYTE Type, float Coin)
 
 	PHeadSetB((LPBYTE)&pMsg, 0xD7, sizeof(pMsg));
 
-	pMsg.aIndex = aIndex;
+	pMsg.aIndex = lpObj->m_Index;
 	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, 11);
 	pMsg.Type = Type;
 	pMsg.Coin = Coin;
 
-	wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 }
 
 void DGAnsInGameShopItemBuy(LPBYTE lpRecv)
@@ -6107,7 +6099,7 @@ void GDReqInGameShopItemBuy(CGameObject* lpObj, int ID1, int ID2, int ID3, int P
 	ISHOP_ITEM_BUY pMsg;
 	PHeadSetB((LPBYTE)&pMsg, 0xD5, sizeof(pMsg));
 
-	pMsg.aIndex = aIndex;
+	pMsg.aIndex = lpObj->m_Index;
 	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, 11);
 	pMsg.ID1 = ID1;
 	pMsg.ID2 = ID2;
@@ -6115,7 +6107,7 @@ void GDReqInGameShopItemBuy(CGameObject* lpObj, int ID1, int ID2, int ID3, int P
 	pMsg.Price = Price;
 	pMsg.CoinType = CoinType;
 
-	wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 }
 
 void GDReqInGameShopItemUse(CGameObject* lpObj, int UniqueCode, int AuthCode)
@@ -6123,20 +6115,20 @@ void GDReqInGameShopItemUse(CGameObject* lpObj, int UniqueCode, int AuthCode)
 	ISHOP_ITEM_USE pMsg;
 	PHeadSetB((LPBYTE)&pMsg, 0xD9, sizeof(pMsg));
 
-	pMsg.aIndex = aIndex;
+	pMsg.aIndex = lpObj->m_Index;
 	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, 11);
 	pMsg.UniqueCode = UniqueCode;
 	pMsg.AuthCode = AuthCode;
 
-	wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 }
 
 void DGAnsInGameShopItemUse(ISHOP_ITEM_USEANS * lpMsg)
 {
-	if (!ObjectMaxRange(lpMsg->aIndex))
+	if (!ObjectMaxRange(lpObj))
 		return;
 
-	g_CashShop.GCCashInventoryItemUse(&gObj[lpMsg->aIndex], lpMsg->Result, lpMsg->UniqueCode, lpMsg->AuthCode, lpMsg->ID1, lpMsg->ID2, lpMsg->ID3);
+	g_CashShop.GCCashInventoryItemUse(lpObj, lpMsg->Result, lpMsg->UniqueCode, lpMsg->AuthCode, lpMsg->ID1, lpMsg->ID2, lpMsg->ID3);
 }
 
 void GDReqInGameShopItemGift(CGameObject* lpObj, int ID1, int ID2, int ID3, int Price, BYTE CoinType, char Target[11], char Message[200])
@@ -6144,7 +6136,7 @@ void GDReqInGameShopItemGift(CGameObject* lpObj, int ID1, int ID2, int ID3, int 
 	ISHOP_ITEM_GIFT pMsg;
 	PHeadSetW((LPBYTE)&pMsg, 0xD6, sizeof(pMsg));
 
-	pMsg.aIndex = aIndex;
+	pMsg.aIndex = lpObj->m_Index;
 	memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, 11);
 	pMsg.ID1 = ID1;
 	pMsg.ID2 = ID2;
@@ -6155,7 +6147,7 @@ void GDReqInGameShopItemGift(CGameObject* lpObj, int ID1, int ID2, int ID3, int 
 	memcpy(pMsg.Name, lpObj->Name, 11);
 	memcpy(pMsg.Message, Message, 200);
 
-	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
+	//wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
 }
 
 void DGAnsInGameShopItemGift(LPBYTE lpRecv)
@@ -6174,7 +6166,7 @@ void GDReqInGameShopItemDelete(CGameObject* lpObj, int UniqueCode, int AuthCode)
 	pMsg.UniqueCode = UniqueCode;
 	pMsg.AuthCode = AuthCode;
 
-	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
+	//wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
 }
 
 void GDReqInGameShopItemRollbackUse(CGameObject* lpObj, int UniqueCode, int AuthCode)
@@ -6186,7 +6178,7 @@ void GDReqInGameShopItemRollbackUse(CGameObject* lpObj, int UniqueCode, int Auth
 	pMsg.UniqueCode = UniqueCode;
 	pMsg.AuthCode = AuthCode;
 
-	wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
+	//wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg));
 }
 
 void GDReqBanUser(CGameObject* lpObj, BYTE Type, BYTE Ban)
@@ -6207,7 +6199,7 @@ void GDReqBanUser(CGameObject* lpObj, BYTE Type, BYTE Ban)
 		memcpy(pBan.AccName, lpObj->Name, 11);
 	}
 
-	wsDataCli.DataSend((PCHAR)&pBan, pBan.h.size);
+	//wsDataCli.DataSend((PCHAR)&pBan, pBan.h.size);
 }
 
 struct SDHP_EXPANDEDWAREHOUSE_SET
@@ -6236,7 +6228,7 @@ void GDSetExpWare(CGameObject* lpObj, BYTE ExpansionType, BYTE ExpansionLevel)
 
 	pMsg.ExpansionLevel = ExpansionLevel;
 
-	wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 }
 
 void GDCharCardBuy(char AccountID[11], BYTE Type)
@@ -6249,7 +6241,7 @@ void GDCharCardBuy(char AccountID[11], BYTE Type)
 
 	pCard.Type = Type;
 
-	wsDataCli.DataSend((PCHAR)&pCard, pCard.h.size);
+	//wsDataCli.DataSend((PCHAR)&pCard, pCard.h.size);
 }
 
 void DGSetWarehouseList(PMSG_ANS_WARESAVE *lpMsg)
@@ -6291,7 +6283,7 @@ void GDReqSecLock(CGameObject* lpObj, int Code)
 
 	pLock.Code = Code;
 
-	wsDataCli.DataSend((char *)&pLock, pLock.h.size);
+	//wsDataCli.DataSend((char *)&pLock, pLock.h.size);
 }
 
 void ReqMonsterCount(CGameObject* lpObj)
@@ -6300,10 +6292,10 @@ void ReqMonsterCount(CGameObject* lpObj)
 	pMsg.h.c = 0xC1;
 	pMsg.h.headcode = 0xFD;
 	pMsg.h.size = sizeof(pMsg);
-	pMsg.aIndex = aIndex;
+	pMsg.aIndex = lpObj->m_Index;
 	memcpy(pMsg.character, lpObj->Name, 10);
 	pMsg.character[10] = 0;
-	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 
 }
 
@@ -6324,7 +6316,7 @@ void ReqSaveMonsterCount(short aIndex, int monsterid)
 	pMsg.type = monsterid;
 	memcpy(pMsg.character, lpObj->Name, 10);
 	pMsg.character[10] = 0;
-	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void ReqSavePlayerKiller(short kIndex, short vIndex)
@@ -6337,7 +6329,7 @@ void ReqSavePlayerKiller(short kIndex, short vIndex)
 	pMsg.Victim[10] = 0;
 	memcpy(pMsg.Killer, gObj[kIndex].Name, 10);
 	pMsg.Killer[10] = 0;
-	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void GDReqArcaBattleGuildJoin(CGameObject* lpObj)
@@ -6352,7 +6344,7 @@ void GDReqArcaBattleGuildJoin(CGameObject* lpObj)
 	memcpy(pMsg.szGuildName, obj->m_PlayerData->lpGuild->Name, MAX_GUILD_LEN + 1);
 	pMsg.wNumber = obj->m_Index;
 	pMsg.dwGuild = obj->m_PlayerData->GuildNumber;
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 void DGAnsArcaBattleGuildJoin(PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg)
@@ -6378,7 +6370,7 @@ void DGAnsArcaBattleGuildJoinSelect(PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg)
 	if (lpObj->Type != OBJ_USER)
 		return;
 
-	LPOBJ lpObj = &gObj[aIndex];
+	LPOBJ lpObj = *lpObj;
 
 	if (gObjIsConnected(lpObj))
 	{
@@ -6440,7 +6432,7 @@ void GDReqArcaBattleGuildMemberJoin(CGameObject* lpObj)
 	pMsg.dwGuild = obj->m_PlayerData->GuildNumber;
 	pMsg.wNumber = obj->m_Index;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 void DGAnsArcaBattleGuildMemberJoin(PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *lpMsg)
@@ -6454,7 +6446,7 @@ void DGAnsArcaBattleGuildMemberJoin(PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *l
 	if (lpObj->Type != OBJ_USER)
 		return;
 
-	LPOBJ lpObj = &gObj[aIndex];
+	LPOBJ lpObj = *lpObj;
 
 	if (gObjIsConnected(lpObj))
 	{
@@ -6514,7 +6506,7 @@ void GDReqArcaBattleEnter(CGameObject* lpObj, BYTE btEnterSeq)
 	pMsg.wNumber = obj->m_Index;
 	pMsg.btEnterSeq = btEnterSeq;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 void DGAnsArcaBattleEnter(PMSG_ANS_ARCA_BATTLE_ENTER_DS *lpMsg)
@@ -6726,7 +6718,7 @@ void GCMuunInventoryItemListSend(CGameObject* lpObj)
 
 	sOfs = 6;
 	pMsgILSize = 13;
-	lpObj = &gObj[aIndex];
+	lpObj = *lpObj;
 	itemcount = 0;
 	for (int n = 0; n < MUUN_INVENTORY_SIZE; ++n)
 	{
@@ -6802,7 +6794,7 @@ void GDReqSaveEventInvenItem(CGameObject* lpObj)
 	pMsg.h.headcode = 0xE7;
 	ItemByteConvert32(pMsg.dbInventory, lpObj->pEventInventory, 32);
 
-	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
+	//wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }
 
 void GDReqLoadEventInvenItem(CGameObject* lpObj)
@@ -6831,7 +6823,7 @@ void GDReqLoadEventInvenItem(CGameObject* lpObj)
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.h.headcode = 0xE6;
 
-	wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
+	//wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }
 
 void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
@@ -6842,7 +6834,7 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 	}
 
 	char szId[11];
-	CGameObject* lpObj = lpMsg->aIndex;
+	CGameObject* lpObj = getGameObject(lpObj);
 
 	szId[MAX_ACCOUNT_LEN] = 0;
 	memcpy(szId, lpObj->m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN);
@@ -6873,11 +6865,11 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 	}
 
 	lpObj->EventInventoryLoad = true;
-	LPOBJ lpObj = &gObj[aIndex];
+	LPOBJ lpObj = *lpObj;
 	int itype;
 	int _type;
 	BYTE OptionData;
-	CItem item;
+	CItemObject* Item;
 
 	memset(lpObj->pEventInventoryMap, (BYTE)-1, EVENT_INVENTORY_MAP_SIZE);
 
@@ -6920,31 +6912,31 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 
 		if (itype != -1)
 		{
-			item.m_Level = DBI_GET_LEVEL(lpMsg->dbItems[n*MAX_DBITEM_INFO + 1]);
+			Item->m_Level = DBI_GET_LEVEL(lpMsg->dbItems[n*MAX_DBITEM_INFO + 1]);
 
 			if (_type != ITEMGET(14, 11))	// Box Of Luck
 			{
-				if (item.m_Level > 15)
+				if (Item->m_Level > 15)
 				{
-					item.m_Level = 0;
+					Item->m_Level = 0;
 				}
 			}
 
 			OptionData = lpMsg->dbItems[n*MAX_DBITEM_INFO + 1];
-			item.m_Option1 = DBI_GET_SKILL(OptionData);
-			item.m_Option2 = DBI_GET_LUCK(OptionData);
-			item.m_Option3 = DBI_GET_OPTION(OptionData);
-			item.m_Option3 |= DBI_GET_DINO_OPTION(lpMsg->dbItems[n*MAX_DBITEM_INFO + 7]);
-			item.m_Durability = lpMsg->dbItems[n*MAX_DBITEM_INFO + 2];
-			item.m_JewelOfHarmonyOption = lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_JOH_DATA];
-			item.m_ItemOptionEx = DBI_GET_380OPTION(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_OPTION380_DATA]);
+			Item->m_Option1 = DBI_GET_SKILL(OptionData);
+			Item->m_Option2 = DBI_GET_LUCK(OptionData);
+			Item->m_Option3 = DBI_GET_OPTION(OptionData);
+			Item->m_Option3 |= DBI_GET_DINO_OPTION(lpMsg->dbItems[n*MAX_DBITEM_INFO + 7]);
+			Item->m_Durability = lpMsg->dbItems[n*MAX_DBITEM_INFO + 2];
+			Item->m_JewelOfHarmonyOption = lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_JOH_DATA];
+			Item->m_ItemOptionEx = DBI_GET_380OPTION(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_OPTION380_DATA]);
 
-			if (item.m_ItemOptionEx != 0)
+			if (Item->m_ItemOptionEx != 0)
 			{
-				item.m_Type = itype;
+				Item->m_Type = itype;
 				if (g_kItemSystemFor380.Is380Item(&item) == FALSE)
 				{
-					item.m_ItemOptionEx = 0;
+					Item->m_ItemOptionEx = 0;
 
 				}
 			}
@@ -6985,9 +6977,9 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 				}
 			}
 
-			item.m_PeriodItemOption = (lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_OPTION380_DATA] & 6) >> 1;
+			Item->m_PeriodItemOption = (lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_OPTION380_DATA] & 6) >> 1;
 
-			item.Convert(itype, item.m_Option1, item.m_Option2, item.m_Option3, DBI_GET_NOPTION(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_NOPTION_DATA]), lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SOPTION_DATA], item.m_ItemOptionEx, SocketOption, SocketOptionIndex, item.m_PeriodItemOption, CURRENT_DB_VERSION);
+			Item->Convert(itype, Item->m_Option1, Item->m_Option2, Item->m_Option3, DBI_GET_NOPTION(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_NOPTION_DATA]), lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SOPTION_DATA], Item->m_ItemOptionEx, SocketOption, SocketOptionIndex, Item->m_PeriodItemOption, CURRENT_DB_VERSION);
 
 			if (_type == ITEMGET(14, 7)) // Siege Potion
 			{
@@ -6996,29 +6988,29 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 
 			else if ((_type >= ITEMGET(14, 0) && _type <= ITEMGET(14, 8)) || (_type >= ITEMGET(14, 35) && _type <= ITEMGET(14, 40)))
 			{
-				if (item.m_Durability == 0.0f)
+				if (Item->m_Durability == 0.0f)
 				{
-					item.m_Durability = 1.0f;
+					Item->m_Durability = 1.0f;
 				}
 			}
 
-			else if (_type != ITEMGET(13, 10) && _type != ITEMGET(14, 29) && _type != ITEMGET(14, 21) && item.m_Level == 3)
+			else if (_type != ITEMGET(13, 10) && _type != ITEMGET(14, 29) && _type != ITEMGET(14, 21) && Item->m_Level == 3)
 			{
-				if (item.m_Durability > item.m_BaseDurability)
+				if (Item->m_Durability > Item->m_BaseDurability)
 				{
-					item.m_Durability = item.m_BaseDurability;
+					Item->m_Durability = Item->m_BaseDurability;
 				}
 			}
 
-			lpObj->pEventInventory[n].m_Option1 = item.m_Option1;
-			lpObj->pEventInventory[n].m_Option2 = item.m_Option2;
-			lpObj->pEventInventory[n].m_Option3 = item.m_Option3;
-			lpObj->pEventInventory[n].m_JewelOfHarmonyOption = item.m_JewelOfHarmonyOption;
-			lpObj->pEventInventory[n].m_ItemOptionEx = item.m_ItemOptionEx;
+			lpObj->pEventInventory[n].m_Option1 = Item->m_Option1;
+			lpObj->pEventInventory[n].m_Option2 = Item->m_Option2;
+			lpObj->pEventInventory[n].m_Option3 = Item->m_Option3;
+			lpObj->pEventInventory[n].m_JewelOfHarmonyOption = Item->m_JewelOfHarmonyOption;
+			lpObj->pEventInventory[n].m_ItemOptionEx = Item->m_ItemOptionEx;
 
 			DWORD hidword = MAKE_NUMBERDW(MAKE_NUMBERW(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL1], lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL2]), MAKE_NUMBERW(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL3], lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL4]));
 			DWORD lodword = MAKE_NUMBERDW(MAKE_NUMBERW(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL5], lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL6]), MAKE_NUMBERW(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL7], lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL8]));
-			item.m_Number = MAKEQWORD(hidword, lodword);
+			Item->m_Number = MAKEQWORD(hidword, lodword);
 
 			gObjEventInventoryInsertItemPos(lpObj->m_Index, item, n, -1);
 			gObjEventInventoryItemSet(lpObj->m_Index, n, 1);
@@ -7067,7 +7059,7 @@ void GDReqSwitchWare(CGameObject* lpObj, int WareID)
 	memcpy(pMsg.szAccountID, lpObj->m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN + 1);
 	pMsg.WarehouseID = WareID;
 
-	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DGAnsSwitchWare(PMSG_ANS_SWITCHWARE *lpMsg)
@@ -7370,7 +7362,7 @@ void GDReqCopyPetItemInfo(CGameObject* lpObj)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	LPOBJ lpObj = *lpObj;
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -7414,7 +7406,7 @@ void GDReqCopyPetItemInfo(CGameObject* lpObj)
 		pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
 		memcpy(&Buffer, &pMsg, sizeof(pMsg));
 
-		wsDataCli.DataSend(Buffer, lOfs);
+		//wsDataCli.DataSend(Buffer, lOfs);
 	}
 
 	sLog->outBasic("[UBF][GDReqCopyPetItemInfo][%s][%s] Move(Copy) the PetInfo Into UnityBattleField",
@@ -7430,7 +7422,7 @@ void DGAns_ChaosCastle_KillPoint_Result(SDHP_ANS_KILLPOINT_RESULT_CC_UBF *lpMsg)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	LPOBJ lpObj = *lpObj;
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -7491,7 +7483,7 @@ void GDReqDSFCanPartyEnter(CGameObject* lpObj)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	LPOBJ lpObj = *lpObj;
 	SYSTEMTIME sysTime;
 	GetLocalTime(&sysTime);
 	int dbnumber = 0, useridx = -1;
@@ -7531,7 +7523,7 @@ void GDReqDSFCanPartyEnter(CGameObject* lpObj)
 	pMsg.btEnterDay = sysTime.wDay;
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xFD, 0x00, sizeof(pMsg));
-	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DG_DSF_CanPartyEnter(PMSG_ANS_DSF_CAN_PARTY_ENTER *lpMsg)
@@ -7543,7 +7535,7 @@ void DG_DSF_CanPartyEnter(PMSG_ANS_DSF_CAN_PARTY_ENTER *lpMsg)
 		return;
 	}
 
-	LPOBJ lpObj = &gObj[aIndex];
+	LPOBJ lpObj = *lpObj;
 
 	if (!lpObj)
 	{
@@ -7860,7 +7852,7 @@ void GDReqMapSrvGroupServerCount()
 	DSMSG_REQ_SUBSERVER_COUNT pMsg;
 	pMsg.h.set((LPBYTE)&pMsg, 0xC3, 0x00, sizeof(pMsg));
 	pMsg.wMapSvrGroup = g_MapServerManager.GetMapSvrGroup();
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 void DGWhisperResponseRecv(DSMSG_GS_WHISPER_RESULT * aRecv)
@@ -7873,7 +7865,7 @@ void DGWhisperResponseRecv(DSMSG_GS_WHISPER_RESULT * aRecv)
 		return;
 	}
 
-	if (lpObj->Connected != PLAYER_PLAYING)
+	if (lpObj->m_PlayerData->ConnectUser->Connected != PLAYER_PLAYING)
 	{
 		sLog->outBasic("[%d] Is no longer online LINE %d", aRecv->OriginPlayerIndex, __LINE__);
 		return;
@@ -7901,7 +7893,7 @@ void GDWhisperResultSend(BYTE Result, int OriginPlayerIndex, int OriginGS)
 	pMsg.OriginGSIndex = OriginGS;
 	pMsg.OriginPlayerIndex = OriginPlayerIndex;
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 void GDReqDisconnectOtherChannel(char * charname)
 {
@@ -7911,7 +7903,7 @@ void GDReqDisconnectOtherChannel(char * charname)
 	pMsg.wMapSrvGroup = g_MapServerManager.GetMapSvrGroup();
 	memcpy(pMsg.szName, charname, MAX_ACCOUNT_LEN + 1);
 
-	wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 
 }
 void DGDisconnectOtherChannel(PMSG_RECV_DC_OTHER_CHANNEL * aRecv)
@@ -7955,12 +7947,12 @@ void DGMuBotSettingsSend(CGameObject* lpObj, char* szName, BYTE* lpSettings)
 	memcpy(pMsg.szName, szName, 10);
 	memcpy(pMsg.btDATA, lpSettings, sizeof(pMsg.btDATA));
 
-	wsDataCli.DataSend((char*)&pMsg, sizeof(pMsg));
+	//wsDataCli.DataSend((char*)&pMsg, sizeof(pMsg));
 }
 
 void DGMuBotOptionRecv(LPMUBOT_SETTINGS_SEND lpMsg)
 {
-	CGameObject* lpObj = lpMsg->aIndex;
+	CGameObject* lpObj = getGameObject(lpObj);
 	char szName[MAX_ACCOUNT_LEN + 1];
 
 	if (aIndex < 0 || aIndex >= g_ConfigRead.server.GetObjectMax())
@@ -7976,7 +7968,7 @@ void DGMuBotOptionRecv(LPMUBOT_SETTINGS_SEND lpMsg)
 		return;
 	}
 
-	GSProtocol.GCSendMuBotSettings(lpMsg->aIndex, lpMsg->btDATA);
+	GSProtocol.GCSendMuBotSettings(lpObj, lpMsg->btDATA);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
