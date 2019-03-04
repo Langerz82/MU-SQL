@@ -11,6 +11,7 @@
 #include "SocketItemType.h"
 #include "GameProtocol.h"
 #include "GOFunctions.h"
+#include "JewelOfHarmonySystem.h"
 
 using namespace pugi;
 ItemUpgradeJewels g_ItemUpgradeJewels;

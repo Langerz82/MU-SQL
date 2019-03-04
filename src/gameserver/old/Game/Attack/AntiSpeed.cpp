@@ -3,23 +3,23 @@
 #include "AntiSpeed.h"
 #include "ObjUseSkill.h"
 #include "GameProtocol.h"
+#include "GOFunctions.h"
 
 
-
-CAttackMelee::CAttackMelee( CGameObject &Obj, CGameObject lpTargetObj )
+CAttackMelee::CAttackMelee(CGameObject &Obj, CGameObject &TargetObj)
 {
-	m_Obj = lpObj;
-	m_TargetObj = lpTargetObj;
+	m_Obj = &Obj;
+	m_TargetObj = &TargetObj;
 }
 
 void CAttackMelee::Process()
 {
-	gObjAttack(m_Obj, m_TargetObj, NULL, 0, 0, 0, 0);
+	gObjAttack(*m_Obj, *m_TargetObj, NULL, 0, 0, 0, 0, 0, 0);
 }
 
 CAttackMagic::CAttackMagic( CGameObject &Obj,  BYTE* pmsg, int len)
 {
-	m_Obj = lpObj;
+	m_Obj = &Obj;
 	m_Msg = new BYTE[len];
 	std::memcpy(m_Msg, pmsg, len);
 }
@@ -31,13 +31,13 @@ CAttackMagic::~CAttackMagic()
 
 void CAttackMagic::Process()
 {
-	GSProtocol.CGMagicAttack((PMSG_MAGICATTACK *)this->m_Msg, m_Obj.m_Index);
-	//gObjUseSkill.UseSkill(m_Obj.m_Index, m_TargetObj.m_Index, m_Magic);
+	GSProtocol.CGMagicAttack((PMSG_MAGICATTACK *)this->m_Msg, m_Obj);
+	//gObjUseSkill.UseSkill(m_Obj->m_Index, m_TargetObj.m_Index, m_Magic);
 }
 
 CAttackRange::CAttackRange( CGameObject &Obj, BYTE* pmsg, int len, int type )
 {
-	m_Obj = lpObj;
+	m_Obj = &Obj;
 	m_Msg = new BYTE[len];
 	std::memcpy(m_Msg, pmsg, len);
 	m_Type = type;
@@ -51,9 +51,9 @@ CAttackRange::~CAttackRange()
 void CAttackRange::Process()
 {
 	if(m_Type == 0)
-		GSProtocol.CGBeattackRecv(m_Msg, m_Obj.m_Index, FALSE);
+		GSProtocol.CGBeattackRecv(m_Msg, m_Obj, FALSE);
 	else
-		GSProtocol.CGDurationMagicRecv((PMSG_DURATION_MAGIC_RECV*) m_Msg, m_Obj.m_Index);
+		GSProtocol.CGDurationMagicRecv((PMSG_DURATION_MAGIC_RECV*) m_Msg, m_Obj);
 }
 
 
@@ -68,7 +68,7 @@ void CAttackQueue::Push( BYTE* msg, int len, int type )
 {
 	try
 	{
-		m_Queue.push(new CAttackMsg(this->Obj.m_Index, msg, len, type));
+		m_Queue.push(new CAttackMsg(this->Obj, msg, len, type));
 	}
 
 	catch ( char * szMsg )
@@ -83,21 +83,21 @@ void CAttackQueue::ProcessQueue()
 
 	EnterCriticalSection(&this->m_CritQueue);
 	int TickCount = GetTickCount();
-	float dt = (float)(TickCount - m_Obj.m_LastAttackTime);
+	float dt = (float)(TickCount - m_Obj->m_LastAttackTime);
 
 	float HitPerSec;
 	// By hand
-	m_HandDelay = (0.0142333198777464 * m_Obj.m_AttackSpeed) + (2.03207312150395);
+	m_HandDelay = (0.0142333198777464 * m_Obj->m_AttackSpeed) + (2.03207312150395);
 	// By sword
-	m_SwordDelay = (0.0109365655658977 * m_Obj.m_AttackSpeed) + (1.0853155620929);
+	m_SwordDelay = (0.0109365655658977 * m_Obj->m_AttackSpeed) + (1.0853155620929);
 	// Magic
-	m_MagicDelay = (0.0142333198777464 * m_Obj.m_AttackSpeed) + (2.03207312150395);
+	m_MagicDelay = (0.0142333198777464 * m_Obj->m_AttackSpeed) + (2.03207312150395);
 
 	CheckSize();
-	if(m_Obj.Class == CLASS_WIZARD)	// DW
+	if(m_Obj->Class == CLASS_WIZARD)	// DW
 		HitPerSec = m_MagicDelay;
 	else{
-		if(m_Obj.pntInventory[0]->IsItem() || m_Obj.pntInventory[1]->IsItem())
+		if(m_Obj->pntInventory[0]->IsItem() || m_Obj->pntInventory[1]->IsItem())
 			HitPerSec = m_SwordDelay;
 		else
 			HitPerSec = m_HandDelay;
@@ -121,7 +121,7 @@ void CAttackQueue::ProcessQueue()
 				if(pAtt)
 				{
 					m_LastFrameAttack = true;
-					m_Obj.m_LastAttackTime = TickCount;
+					m_Obj->m_LastAttackTime = TickCount;
 					pAtt->Process();
 					delete pAtt; // nie wiem juz co robic ^. Kurde to jest przypadek tak specyficzny. Przecie¿ pop() idzie niemal w tym samym monencie co front(). Musia³oby w tym samym momencie w obu w¹tkach wywo³aæ front().... Sytuacja 1 na milion, nie wiem czemu tak sie dzieje...
 				}
@@ -146,7 +146,7 @@ void CAttackQueue::ProcessQueue()
 			if(pAtt)
 			{
 				m_LastFrameAttack = true;
-				m_Obj.m_LastAttackTime = TickCount;
+				m_Obj->m_LastAttackTime = TickCount;
 				pAtt->Process();
 				delete pAtt;
 			}
@@ -172,9 +172,9 @@ VOID CAttackQueue::AttackQueueProc(std::vector<CGameObject*> gObj)
 				continue;
 			}
 
-			if(Obj->Connected >= PLAYER_CONNECTED)
+			if(Obj->m_PlayerData->ConnectUser->Connected >= PLAYER_CONNECTED)
 			{
-				if(Obj->Connected >= PLAYER_PLAYING)
+				if(Obj->m_PlayerData->ConnectUser->Connected >= PLAYER_PLAYING)
 				{
 					Obj->m_PlayerData->m_AttackQueue->ProcessQueue();
 				}

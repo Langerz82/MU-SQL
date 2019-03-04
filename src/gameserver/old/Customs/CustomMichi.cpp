@@ -43,7 +43,7 @@ void CConfigMichi::LoadPotionHack()
 
 }
 
-void CConfigMichi::GCFireworksSend(CGameObject &Obj, int x, int y) // OK
+void CConfigMichi::GCFireworksSend(CGameObject *lpObj, int x, int y) // OK
 {
 	PMSG_SERVERCMD ServerCmd;
 
@@ -52,12 +52,12 @@ void CConfigMichi::GCFireworksSend(CGameObject &Obj, int x, int y) // OK
 	ServerCmd.X = x;
 	ServerCmd.Y = y;
 
-	GIOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&ServerCmd, ServerCmd.h.size);
-	GSProtocol.MsgSendV2(&Obj, (BYTE*)&ServerCmd, ServerCmd.h.size);
+	GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (BYTE*)&ServerCmd, ServerCmd.h.size);
+	GSProtocol.MsgSendV2(lpObj, (BYTE*)&ServerCmd, ServerCmd.h.size);
 }
 
 
-void CConfigMichi::UseHealingPotion(CItemObject * CItemObject, int pos, CGameObject &Obj)
+void CConfigMichi::UseHealingPotion(CItemObject* ObjItem, int pos, CGameObject &Obj)
 {
 	if (this->FixHackPotions.m_CheckHealingAutoPotionHack == 1)
 	{
@@ -70,7 +70,7 @@ void CConfigMichi::UseHealingPotion(CItemObject * CItemObject, int pos, CGameObj
 	
 	Obj.m_PlayerData->PotionTime = GetTickCount();
 
-	int tLife = (CItemObject->m_Value * 10) - (Obj.Level * 2);
+	int tLife = (ObjItem->m_Value * 10) - (Obj.Level * 2);
 
 	if (tLife <  0)
 	{
@@ -79,7 +79,7 @@ void CConfigMichi::UseHealingPotion(CItemObject * CItemObject, int pos, CGameObj
 
 	int nAddRate = 0;
 
-	switch (CItemObject->m_Type)
+	switch (ObjItem->m_Type)
 	{
 	case ITEMGET(14, 0):
 		nAddRate = this->FixHackPotions.Potion0;
@@ -95,16 +95,16 @@ void CConfigMichi::UseHealingPotion(CItemObject * CItemObject, int pos, CGameObj
 		break;
 	}
 
-	if (CItemObject->m_Level == 1)
+	if (ObjItem->m_Level == 1)
 	{
 		nAddRate += 5;
 	}
 
 	tLife += ((int)Obj.MaxLife * nAddRate) / 100;
 
-	if (CItemObject->m_Type == ITEMGET(14, 0))
+	if (ObjItem->m_Type == ITEMGET(14, 0))
 	{
-		if (CItemObject->m_Level < 2)
+		if (ObjItem->m_Level < 2)
 		{
 			Obj.FillLife += tLife;
 			tLife = 0;
@@ -127,11 +127,11 @@ void CConfigMichi::UseHealingPotion(CItemObject * CItemObject, int pos, CGameObj
 	Obj.FillLifeMax = tLife;
 	Obj.FillLife = tLife;
 
-	if (CItemObject->m_Type == ITEMGET(14, 0) && CItemObject->m_Level < 2)	//ok
+	if (ObjItem->m_Type == ITEMGET(14, 0) && ObjItem->m_Level < 2)	//ok
 	{
 		Obj.FillLifeCount = 0;
 	}
-	else if (CItemObject->m_Level == 1)
+	else if (ObjItem->m_Level == 1)
 	{
 		Obj.FillLifeCount = 2;
 	}

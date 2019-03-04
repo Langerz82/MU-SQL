@@ -101,7 +101,7 @@ public:
 	static bool ThreadActive;
 	static VOID AttackQueueProc(std::vector<CGameObject*> gObj);
 	
-	CUserData* m_Obj;
+	CGameObject* m_Obj;
 	CRITICAL_SECTION m_CritQueue;
 };
 

@@ -129,6 +129,14 @@ struct CCF_MONSTER_POSITION
 	BYTE m_Dir;
 };
 
+struct PMSG_SEND_CCF_INFO_ALL_SVR
+{
+	PBMSG_HEAD2 h;
+	int nMin;
+	int nType;
+	WORD wMapSvrNum;
+};
+
 struct _CCFRankingInfo
 {
 	BYTE byRank;
@@ -150,6 +158,58 @@ struct _stCCFRankingInfo
 	int nPoint;
 };
 
+struct PMSG_REQ_CCF_PERMISSION
+{
+	PBMSG_HEAD2 h;
+	char szCharName[MAX_ACCOUNT_LEN + 1];
+	BYTE byCCFType;
+	int nIndex;
+};
+
+struct SDHP_REQ_CCF_RANKING
+{
+	PBMSG_HEAD2 h;
+	BYTE byRankingType;
+	int nServerCategory;
+};
+
+struct SDHP_RENEW_RANKING
+{
+	PBMSG_HEAD2 h;
+	BYTE byRankingType;
+};
+
+struct PMSG_REQ_SAVE_CCF_RESULT
+{
+	PBMSG_HEAD2 h;
+	char szCharName[MAX_ACCOUNT_LEN + 1];
+	int nPoint;
+	int nCharClass;
+	int nCharLevel;
+	UINT64 nCharExp;
+	BYTE byCCFType;
+};
+
+struct PMSG_ANS_CCF_RANK
+{
+	PWMSG_HEAD h;
+	BYTE byUserCnt;
+	_stCCFRankingInfo RankingInfo[50];
+};
+
+struct PMSG_ANS_CCF_SCHEDULE
+{
+	PWMSG_HEAD2 h;
+	int nCount;
+	BYTE Tryout1;
+	BYTE Tryout2;
+	BYTE Tryout3;
+	BYTE SemiFinal1;
+	BYTE SemiFinal2;
+	BYTE Final;
+	BYTE byCCFType;
+};
+
 struct PMSG_ANS_CCF_TIME
 {
 	int Hour;
@@ -157,6 +217,16 @@ struct PMSG_ANS_CCF_TIME
 	int TryOut;
 	int SemiFinal;
 	int Final;
+};
+
+struct PMSG_ANS_CCF_RESULT
+{
+	PBMSG_HEAD2 h;
+	int type;
+	int result;
+	int point;
+	int MobKillCnt;
+	int PCKillCnt;
 };
 
 static int g_iCCF_GroundAxis[4] = { 23, 75, 44, 108 };
@@ -189,7 +259,7 @@ static int g_iCCF_MapHollowZone[MAX_CCF_TRAP_STEP][MAX_CCF_HOLLOW_ZONE][4] =
 	0x1B, 0x51, 0x1C, 0x66
 };
 
-static int g_iCCF_Jewel_Random_Drop[5][6] = 
+static int g_iCCF_Jewel_Random_Drop[5][6] =
 {
 	0x1D, 0x52, 0x1F, 0x66, 0x1E, 0x54,
 	0x24, 0x52, 0x26, 0x65, 0x25, 0x52,
@@ -222,6 +292,7 @@ struct CCF_WING_REWARD
 	BYTE m_btNewOption[9];
 	DWORD m_dwExpiryTime;
 };
+
 
 #pragma once
 class ChaosCastleFinal

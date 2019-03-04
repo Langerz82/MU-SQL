@@ -113,6 +113,19 @@ struct AcheronEventTime
 	int m_iMinute;
 };
 
+struct PMSG_REQ_AE_PLAY_DS
+{
+	PBMSG_HEAD2 h;
+	WORD wMapSvrNum;
+	BYTE btPlay;
+};
+
+struct PMSG_ANS_AE_PLAY_DS
+{
+	PBMSG_HEAD2 h;
+	BYTE btPlay;
+};
+
 
 class CAcheronGuardianEvent
 {

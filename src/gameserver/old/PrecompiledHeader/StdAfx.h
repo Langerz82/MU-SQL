@@ -114,6 +114,12 @@
 #include <boost/uuid/uuid_serialize.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/random_generator.hpp>
+#include <boost/date_time/local_time/local_time.hpp>
+#include "boost/date_time/time_zone_base.hpp"
+
+namespace lt = boost::local_time;
+namespace pt = boost::posix_time;
+namespace gregorian = boost::gregorian;
 
 
 #pragma comment(lib, "shared.lib")

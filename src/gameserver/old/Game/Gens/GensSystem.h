@@ -145,7 +145,7 @@ private:
 	int									m_wBattleZoneWarp[MAX_MOVE_COMMAND];
 
 	CRITICAL_SECTION					criti;
-	STR_GENS_RANKING_DATA				m_GensRanking[MAX_GENS_CLASS];
+	GENS_RANKING_DATA				m_GensRanking[MAX_GENS_CLASS];
 };
 
 extern GensSystem g_GensSystem;

@@ -35,10 +35,10 @@ bool CBag::LoadBag(const char* lpFileName)
 	}
 
 	pugi::xml_node mainXML_section = file.child("ItemBag");
-	pugi::xml_node config_section = main_section.child("BagConfig");
-	pugi::xml_node coin_section = main_section.child("AddCoin");
-	pugi::xml_node summon_section = main_section.child("SummonBook");
-	pugi::xml_node ruud = main_section.child("Ruud");
+	pugi::xml_node config_section = mainXML_section.child("BagConfig");
+	pugi::xml_node coin_section = mainXML_section.child("AddCoin");
+	pugi::xml_node summon_section = mainXML_section.child("SummonBook");
+	pugi::xml_node ruud = mainXML_section.child("Ruud");
 
 	strcpy(this->m_BagData.szBagName, config_section.attribute("Name").as_string());
 	this->m_BagData.dwItemDropRate = config_section.attribute("ItemRate").as_int(0);
@@ -70,7 +70,7 @@ bool CBag::LoadBag(const char* lpFileName)
 	BAG_SECTION_ITEMS m_ItemSection;
 	BAG_ITEM m_Item;
 
-	for (pugi::xml_node section = main_section.child("DropAllow"); section; section = section.next_sibling())
+	for (pugi::xml_node section = mainXML_section.child("DropAllow"); section; section = section.next_sibling())
 	{
 		SectionNumber = 1;
 
@@ -168,11 +168,6 @@ void CBag::InitBag()
 int CBag::GetDropSection(CGameObject &Obj, BAG_SECTION_DROP &pRetDrop)
 {
 	if (this->m_BagData.m_bLoadBag == false)
-	{
-		return FALSE;
-	}	
-	
-	if (ObjectMaxRange(Obj.m_Index) == false)
 	{
 		return FALSE;
 	}
@@ -287,8 +282,8 @@ int CBag::GetReadyItemToUse(CGameObject &Obj, CItemObject &pItem, time_t & Durat
 	if (rand() % 10000 >= this->m_BagData.dwItemDropRate)
 	{
 		Obj.m_PlayerData->Money += this->m_BagData.dwDropMoney;
-		GSProtocol.GCMoneySend(Obj.m_Index, Obj.m_PlayerData->Money);
-		MsgOutput(Obj.m_Index, "Obtained %d Zen", this->m_BagData.dwDropMoney);
+		GSProtocol.GCMoneySend(&Obj, Obj.m_PlayerData->Money);
+		MsgOutput(&Obj, "Obtained %d Zen", this->m_BagData.dwDropMoney);
 
 		return 2;
 	}
@@ -298,11 +293,11 @@ int CBag::GetReadyItemToUse(CGameObject &Obj, CItemObject &pItem, time_t & Durat
 		int iRuudValue = this->GetValueMinMax(this->m_BagData.dwMinGainRuud, this->m_BagData.dwMaxGainRuud);
 		Obj.m_PlayerData->Ruud += iRuudValue;
 
-		GSProtocol.GCSendRuud(Obj.m_Index, Obj.m_PlayerData->Ruud, iRuudValue, true);
+		GSProtocol.GCSendRuud(&Obj, Obj.m_PlayerData->Ruud, iRuudValue, true);
 		return 3;
 	}
 
-	int iResult = this->GetDropSection(Obj.m_Index, m_DropSection);
+	int iResult = this->GetDropSection(Obj, m_DropSection);
 
 	if (iResult == FALSE)
 	{
@@ -320,7 +315,7 @@ int CBag::GetReadyItemToUse(CGameObject &Obj, CItemObject &pItem, time_t & Durat
 	{
 		return 0;
 	}
-	bool bResult = gLuaBag.MakeItemFromBag(Obj.m_Index, &m_Item, pItem, DurationItem);
+	bool bResult = gLuaBag.MakeItemFromBag(Obj, &m_Item, pItem, DurationItem);
 
 	if (bResult == false)
 	{
@@ -374,15 +369,11 @@ void CBag::MakeBagEffectUse(CGameObject &Obj, int iMonsterIndex)
 	}
 
 	GSProtocol.MsgSendV2(getGameObject(Obj.m_Index), (BYTE*)&ServerCmd, ServerCmd.h.size);
-	IOCP.DataSend(Obj.m_Index, (BYTE*)&ServerCmd, ServerCmd.h.size);
+	GIOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&ServerCmd, ServerCmd.h.size);
 }
 
 void CBag::AddCoin(CGameObject &Obj)
 {
-	if (ObjectMaxRange(Obj.m_Index) == false)
-	{
-		return;
-	}
 
 	if (this->m_BagData.bAddCoinEnable == false)
 	{
@@ -392,17 +383,13 @@ void CBag::AddCoin(CGameObject &Obj)
 	
 
 	char *CoinTypes[] = { "C", "P", "G" };
-	GDReqInGameShopPointAdd(Obj.m_Index, this->m_BagData.btAddCoinType, this->m_BagData.dwAddCoinValue);
-	MsgOutput(Obj.m_Index, Lang.GetText(0,502), CoinTypes[this->m_BagData.btAddCoinType], this->m_BagData.dwAddCoinValue);
+	GDReqInGameShopPointAdd(Obj, this->m_BagData.btAddCoinType, this->m_BagData.dwAddCoinValue);
+	MsgOutput(Obj, Lang.GetText(0,502), CoinTypes[this->m_BagData.btAddCoinType], this->m_BagData.dwAddCoinValue);
 	sLog->outBasic("[Bag Manager] (%s)(%s) Add Coin: (Type:%d) (Amount:%d) (Bag:%s)", Obj.AccountID, Obj.Name, this->m_BagData.btAddCoinType, this->m_BagData.dwAddCoinValue, this->m_BagData.szBagName);
 }
 
 void CBag::DropSummonItem(CGameObject &Obj)
 {
-	if (ObjectMaxRange(Obj.m_Index) == false)
-	{
-		return;
-	}
 
 	if (this->m_BagData.bSummonBookEnable == false)
 	{
@@ -425,7 +412,7 @@ void CBag::DropSummonItem(CGameObject &Obj)
 			return;
 		}
 
-		ItemCreate(Obj.m_Index, Obj.MapNumber, Obj.X, Obj.Y, iType, 0, -1, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
+		ItemCreate(Obj, Obj.MapNumber, Obj.X, Obj.Y, iType, 0, -1, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
 	}
 }
 

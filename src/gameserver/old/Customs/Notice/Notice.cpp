@@ -8,6 +8,8 @@
 #include "util.h"
 #include "Logging/Log.h"
 #include "configread.h"
+#include "IOCP.h"
+#include "GOFunctions.h"
 
 CNotice gNotice;
 //////////////////////////////////////////////////////////////////////
@@ -152,7 +154,7 @@ void CNotice::GCNoticeSend(CGameObject &Obj, BYTE type, BYTE count, BYTE opacity
 
 	pMsg.message[size] = 0;
 
-	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.header.size);
+	GIOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.header.size);
 }
 
 void CNotice::GCNoticeSendToAll(BYTE type, BYTE count, BYTE opacity, WORD delay, DWORD color, BYTE speed, char* message, ...) // OK
@@ -188,11 +190,11 @@ void CNotice::GCNoticeSendToAll(BYTE type, BYTE count, BYTE opacity, WORD delay,
 
 	pMsg.message[size] = 0;
 
-	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
+	for each (std::pair<int,CGameObject*> user in gGameObjects)
 	{
-		if (gObjIsConnectedGP(n) != 0)
+		if (gObjIsConnectedGP(*user.second) != 0)
 		{
-			IOCP.DataSend(n, (BYTE*)&pMsg, pMsg.header.size);
+			GIOCP.DataSend(user.second->m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.header.size);
 		}
 	}
 }
@@ -218,7 +220,7 @@ void CNotice::NewMessageDevTeam(CGameObject &Obj, char* message, ...) // OK
 
 	pMsg.message[size] = 0;
 
-	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.header.size);
+	GIOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.header.size);
 
 }
 
@@ -253,7 +255,7 @@ void CNotice::NewNoticeSend(CGameObject &Obj, BYTE count, BYTE opacity, WORD del
 
 	pMsg.message[size] = 0;
 
-	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.header.size);
+	GIOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.header.size);
 }
 
 void CNotice::ChatSend(int Index, char* szChat, ...)
@@ -277,18 +279,12 @@ void CNotice::ChatSend(int Index, char* szChat, ...)
 
 	pMsg.message[size] = 0;
 
-	for (Index = g_ConfigRead.server.GetObjectStartUserIndex(); Index < g_ConfigRead.server.GetObjectMax(); Index++)
+	for each (std::pair<int, CGameObject*> user in gGameObjects)
 	{
-		if (gObjIsConnectedGP(Index) != 0)
+		if (gObjIsConnectedGP(*user.second) != 0)
 		{
-			IOCP.DataSend(Index, (BYTE*)&pMsg, pMsg.header.size);
+			GIOCP.DataSend(user.second->m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.header.size);
 		}
 	}
-
-	IOCP.DataSend(Index, (BYTE*)&pMsg, pMsg.header.size);
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
 

@@ -8,7 +8,7 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "BaseBagClass/Bag.h"
+#include "ItemBags/BaseBagClass/Bag.h"
 #include "MuLua.h"
 #include "ItemObject.h"
 #include "GremoryCase.h"

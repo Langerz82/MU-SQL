@@ -7,7 +7,7 @@
 #include "MapServerManager.h"
 #include "MemScript.h"
 #include "TNotice.h"
-// #include "ScheduleManager.h" - TODO Make non-win equivalent
+#include "ScheduleManager.h"
 
 #include "CUserData.h"
 #include "GOEventFunctions.h"
@@ -347,7 +347,7 @@ void CCustomEventDrop::ProcState_START(CUSTOM_EVENT_DROP_INFO* lpInfo) // OK
 					Y = lpInfo->RuleInfo.Y;
 				}
 
-				ItemCreate(this->GetDummyUserIndex(), lpInfo->RuleInfo.Map, X, Y, it->ItemIndex, it->ItemLevel, it->Durability, Option1, Option2, Option3, -1, ExcOption, SetOption, 0, 0, 0);
+				ItemCreate(*getGameObject(this->GetDummyUserIndex()), lpInfo->RuleInfo.Map, X, Y, it->ItemIndex, it->ItemLevel, it->Durability, Option1, Option2, Option3, -1, ExcOption, SetOption, 0, 0, 0);
 			}
 		}
 	}
@@ -411,13 +411,13 @@ void CCustomEventDrop::CheckSync(CUSTOM_EVENT_DROP_INFO* lpInfo) // OK
 		return;
 	}
 
-	CTime ScheduleTime;
+	pt::ptime ScheduleTime;
 
 	CScheduleManager ScheduleManager;
 
 	for (std::vector<CUSTOM_EVENT_DROP_START_TIME>::iterator it = lpInfo->StartTime.begin(); it != lpInfo->StartTime.end(); it++)
 	{
-		ScheduleManager.AddSchedule(it->Year, it->Month, it->Day, it->Hour, it->Minute, it->Second, it->DayOfWeek);
+		ScheduleManager.AddSchedule(it->Day, it->Hour, it->Minute, it->Second);
 	}
 
 	if (ScheduleManager.GetSchedule(&ScheduleTime) == 0)
@@ -426,9 +426,9 @@ void CCustomEventDrop::CheckSync(CUSTOM_EVENT_DROP_INFO* lpInfo) // OK
 		return;
 	}
 
-	lpInfo->RemainTime = (int)difftime(ScheduleTime.GetTime(), time(0));
+	lpInfo->RemainTime = (int)ScheduleTime.date - boost::posix_time::second_clock::local_time();
 
-	lpInfo->TargetTime = (int)ScheduleTime.GetTime();
+	lpInfo->TargetTime = (int)ScheduleTime.date;
 }
 
 /*

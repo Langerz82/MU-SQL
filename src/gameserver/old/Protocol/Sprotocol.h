@@ -7,7 +7,7 @@
 #endif // _MSC_VER > 1000
 
 #include "StdAfx.h"
-#include "WzUdp.h"
+//#include "WzUdp.h"
 #include "Database/Query.h"
 #include "MapServerManager.h"
 
