@@ -2132,14 +2132,14 @@ void GameProtocol::PChatProc(PMSG_CHATDATA * lpChat, CGameObject* lpObj)
 	}
 
 	// Guild
-	/*else if (lpChat->chatmsg[0] == '@')
+	else if (lpChat->chatmsg[0] == '@')
 	{
 		if (lpObj->m_PlayerData->GuildNumber > 0)
 		{
 			// Notice
 			if (lpChat->chatmsg[1] == '>')
 			{
-				if (lpObj->Name[0] == lpObj->m_PlayerData->lpGuild->Names[0][0])
+				if (lpObj->Name[0] == lpObj->m_PlayerData->lpGuild->[0][0]) // UPTO
 				{
 					if (!strcmp(lpObj->Name, lpObj->m_PlayerData->lpGuild->Names[0]))
 					{
@@ -2147,7 +2147,7 @@ void GameProtocol::PChatProc(PMSG_CHATDATA * lpChat, CGameObject* lpObj)
 						{
 							if (lpChat->chatmsg[i] == '%')
 							{
-								MsgOutput(lpObj, Lang.GetText(0, 514));
+								MsgOutput(*lpObj, Lang.GetText(0, 514));
 								return;
 							}
 						}
@@ -2251,7 +2251,7 @@ void GameProtocol::PChatProc(PMSG_CHATDATA * lpChat, CGameObject* lpObj)
 				szTargetNameCount++;
 			}
 		}
-	}*/
+	}
 	else
 	{
 		if ((lpObj->Authority & 0x20) == 0x20 && gObjCheckUsedBuffEffect(*lpObj, BUFFTYPE_INVISABLE) == TRUE)
@@ -7431,37 +7431,29 @@ struct PMSG_PARTYREQUESTSEND
 	BYTE NumberL;	// 4
 };
 
-/*
+
 void GameProtocol::CGPartyRequestRecv(PMSG_PARTYREQUEST * lpMsg, CGameObject* lpObj)
 {
 	int number = MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL);
 	PMSG_PARTYREQUESTSEND pMsg;
-
-	if (number < 0 || number > g_ConfigRead.server.GetObjectMax() - 1)
-		return;
+	CGameObject* lpTargetObj = getGameObject(number);
 
 	if (!PacketCheckTime(lpObj))
 		return;
 
-	if (!gObjIsConnected(&gObj[number]))
-	{
-		this->GCResultSend(lpObj, 0x41, 0x03);
-		return;
-	}
-
-	if (lpObj->CloseCount >= 0 || gObj[number].CloseCount >= 0)
+	if (lpObj->m_PlayerData->ConnectUser->CloseCount >= 0 || lpTargetObj->m_PlayerData->ConnectUser->CloseCount >= 0)
 	{
 		this->GCResultSend(lpObj, 0x41, 0x00);
 		return;
 	}
 
-	if (gObj[number].m_PlayerData->m_bUsePartyMatching)
+	if (lpTargetObj->m_PlayerData->m_bUsePartyMatching)
 	{
 		GCResultSend(lpObj, 0x41, 0x09);
 		return;
 	}
 
-	if (gObj[number].Type != OBJ_USER)
+	if (lpTargetObj->Type != OBJ_USER)
 	{
 		this->GCSendDisableReconnect(lpObj);
 		//GIOCP.CloseClient(lpObj->m_PlayerData->ConnectUser->Index);
@@ -7504,13 +7496,13 @@ void GameProtocol::CGPartyRequestRecv(PMSG_PARTYREQUEST * lpMsg, CGameObject* lp
 		return;
 	}
 
-	if (gObj[number].m_IfState.use > 0)
+	if (lpTargetObj->m_IfState.use > 0)
 	{
 		this->GCResultSend(lpObj, 0x41, 0x00);
 		return;
 	}
 
-	if ((gObj[number].m_Option & 1) != TRUE)
+	if ((lpTargetObj->m_Option & 1) != TRUE)
 	{
 		this->GCResultSend(lpObj, 0x41, 0x01);
 		return;
@@ -7533,13 +7525,13 @@ void GameProtocol::CGPartyRequestRecv(PMSG_PARTYREQUEST * lpMsg, CGameObject* lp
 	if (lpObj->PartyTargetUser >= 0)
 		return;
 
-	if (gObj[number].PartyNumber >= 0)
+	if (lpTargetObj->PartyNumber >= 0)
 	{
 		this->GCResultSend(lpObj, 0x41, 0x04);
 		return;
 	}
 
-	if (gObj[number].PartyTargetUser >= 0)
+	if (lpTargetObj->PartyTargetUser >= 0)
 	{
 		this->GCResultSend(lpObj, 0x41, 0x00);
 		return;
@@ -7557,7 +7549,7 @@ void GameProtocol::CGPartyRequestRecv(PMSG_PARTYREQUEST * lpMsg, CGameObject* lp
 		return;
 	}
 
-	if (g_ArcaBattle.IsArcaBattleServer() && lpObj->m_PlayerData->GuildNumber != gObj[number].m_PlayerData->GuildNumber)
+	if (g_ArcaBattle.IsArcaBattleServer() && lpObj->m_PlayerData->GuildNumber != lpTargetObj->m_PlayerData->GuildNumber)
 	{
 		if (g_AcheronGuardianEvent.IsPlayStart() == false)
 		{
@@ -7572,7 +7564,7 @@ void GameProtocol::CGPartyRequestRecv(PMSG_PARTYREQUEST * lpMsg, CGameObject* lp
 		return;
 	}
 
-	if (gObj[number].m_PlayerData->RegisterdLMS == 1)
+	if (lpTargetObj->m_PlayerData->RegisterdLMS == 1)
 	{
 		MsgOutput(lpObj, Lang.GetText(0, 524));
 		return;
@@ -7581,31 +7573,31 @@ void GameProtocol::CGPartyRequestRecv(PMSG_PARTYREQUEST * lpMsg, CGameObject* lp
 	int maxlevel = 0;
 	int minlevel = 0;
 
-	if (gObj[number].PartyNumber >= 0)
+	if (lpTargetObj->PartyNumber >= 0)
 	{
 
-		if (gParty.Isleader(gObj[number].PartyNumber, number, gObj[number].DBNumber) == FALSE)
+		if (gParty.Isleader(lpTargetObj->PartyNumber, number, lpTargetObj->DBNumber) == FALSE)
 		{
 			char szTemp[256];
-			wsprintf(szTemp, "%s is already in a party.", gObj[number].Name);
+			wsprintf(szTemp, "%s is already in a party.", lpTargetObj->Name);
 			GCServerMsgStringSend(szTemp, lpObj, 1);
 			return;
 		}
 
-		if (gParty.GetLevel(gObj[number].PartyNumber, maxlevel, minlevel) == TRUE)
+		if (gParty.GetLevel(lpTargetObj->PartyNumber, maxlevel, minlevel) == TRUE)
 		{
 			int limmaxlevel;
 			int limmaxlevel2;
 
-			if (maxlevel > gObj[number].Level)
+			if (maxlevel > lpTargetObj->Level)
 				limmaxlevel = maxlevel;
 			else
-				limmaxlevel = gObj[number].Level;
+				limmaxlevel = lpTargetObj->Level;
 
-			if (maxlevel < gObj[number].Level)
+			if (maxlevel < lpTargetObj->Level)
 				limmaxlevel2 = maxlevel;
 			else
-				limmaxlevel2 = gObj[number].Level;
+				limmaxlevel2 = lpTargetObj->Level;
 
 			if ((limmaxlevel - limmaxlevel2) > g_MaxStatsInfo.GetClass.Max_Party_Level_Dif)
 			{
@@ -7617,15 +7609,15 @@ void GameProtocol::CGPartyRequestRecv(PMSG_PARTYREQUEST * lpMsg, CGameObject* lp
 			int limminlevel;
 			int limminlevel2;
 
-			if (maxlevel > gObj[number].Level)
+			if (maxlevel > lpTargetObj->Level)
 				limminlevel = minlevel;
 			else
-				limminlevel = gObj[number].Level;
+				limminlevel = lpTargetObj->Level;
 
-			if (maxlevel < gObj[number].Level)
+			if (maxlevel < lpTargetObj->Level)
 				limminlevel2 = minlevel;
 			else
-				limminlevel2 = gObj[number].Level;
+				limminlevel2 = lpTargetObj->Level;
 
 			if ((limminlevel - limminlevel2) > g_MaxStatsInfo.GetClass.Max_Party_Level_Dif)
 			{
@@ -7639,15 +7631,15 @@ void GameProtocol::CGPartyRequestRecv(PMSG_PARTYREQUEST * lpMsg, CGameObject* lp
 	{
 		short sMaxMinLevel[2];
 
-		if (lpObj->Level > gObj[number].Level)
+		if (lpObj->Level > lpTargetObj->Level)
 			sMaxMinLevel[1] = lpObj->Level;
 		else
-			sMaxMinLevel[1] = gObj[number].Level;
+			sMaxMinLevel[1] = lpTargetObj->Level;
 
-		if (lpObj->Level < gObj[number].Level)
+		if (lpObj->Level < lpTargetObj->Level)
 			sMaxMinLevel[0] = lpObj->Level;
 		else
-			sMaxMinLevel[0] = gObj[number].Level;
+			sMaxMinLevel[0] = lpTargetObj->Level;
 
 		if ((sMaxMinLevel[1] - sMaxMinLevel[0]) > g_MaxStatsInfo.GetClass.Max_Party_Level_Dif)
 		{
@@ -7660,13 +7652,13 @@ void GameProtocol::CGPartyRequestRecv(PMSG_PARTYREQUEST * lpMsg, CGameObject* lp
 	lpObj->m_IfState->use = TRUE;
 	lpObj->m_IfState->type = 2;
 	lpObj->m_IfState->state = 0;
-	gObj[number].m_IfState.use = TRUE;
-	gObj[number].m_IfState.type = 2;
-	gObj[number].m_IfState.state = 0;
+	lpTargetObj->m_IfState.use = TRUE;
+	lpTargetObj->m_IfState.type = 2;
+	lpTargetObj->m_IfState.state = 0;
 	lpObj->TargetNumber = number;
-	gObj[number].TargetNumber = lpObj;
+	lpTargetObj->TargetNumber = lpObj;
 	lpObj->m_InterfaceTime = GetTickCount();
-	gObj[number].m_InterfaceTime = GetTickCount();
+	lpTargetObj->m_InterfaceTime = GetTickCount();
 	lpObj->PartyTargetUser = number;
 
 	PHeadSetB((LPBYTE)&pMsg, 0x40, sizeof(pMsg));
@@ -7689,21 +7681,9 @@ void GameProtocol::CGPartyRequestResultRecv(PMSG_PARTYREQUESTRESULT * lpMsg, CGa
 		return;
 
 	number = MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL);
-
-	if (number < 0 || number > g_ConfigRead.server.GetObjectMax() - 1)
-		return;
-
-	if (!gObjIsConnected(*lpObj))
-		return;
-
-	if (!gObjIsConnected(&gObj[number]))
-	{
-		GCResultSend(lpObj, 0x41, 0x04);
-	}
-	else
-	{
-		result = true;
-	}
+	CGameObject* lpTargetObj = getGameObject(number);
+	
+	result = true;
 
 	if (lpObj->m_PlayerData->m_bUsePartyMatching)
 	{
@@ -7711,89 +7691,89 @@ void GameProtocol::CGPartyRequestResultRecv(PMSG_PARTYREQUESTRESULT * lpMsg, CGa
 		return;
 	}
 
-	if (gObj[number].MapNumber != lpObj->MapNumber)
+	if (lpTargetObj->MapNumber != lpObj->MapNumber)
 	{
 		result = false;
-		GCResultSend(number, 0x41, 0x00);
+		GCResultSend(lpTargetObj, 0x41, 0x00);
 	}
 
 	if (lpObj->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 	{
 		this->GCServerMsgStringSend(Lang.GetText(0, 573), lpObj, 1);
 		result = false;
-		GCResultSend(number, 0x41, 0x00);
+		GCResultSend(lpTargetObj, 0x41, 0x00);
 	}
 
 	if (CC_MAP_RANGE(lpObj->MapNumber))
 	{
 		GCServerMsgStringSend(Lang.GetText(0, 116), lpObj, 1);
 		result = false;
-		this->GCResultSend(number, 0x41, 0x00);
+		this->GCResultSend(lpTargetObj, 0x41, 0x00);
 	}
 
 	if (lpMsg->Result == 0)
 	{
 		result = false;
-		this->GCResultSend(number, 0x41, 0x01);
+		this->GCResultSend(lpTargetObj, 0x41, 0x01);
 	}
 
-	if (gObj[number].m_IfState.use == 0 || gObj[number].m_IfState.type != 2)
+	if (lpTargetObj->m_IfState.use == 0 || lpTargetObj->m_IfState.type != 2)
 	{
 		result = false;
-		this->GCResultSend(number, 0x41, 0x00);
+		this->GCResultSend(lpTargetObj, 0x41, 0x00);
 	}
 
 	if (lpObj->m_IfState->use == 0 || lpObj->m_IfState->type != 2)
 	{
 		result = false;
-		this->GCResultSend(number, 0x41, 0x00);
+		this->GCResultSend(lpTargetObj, 0x41, 0x00);
 	}
 
 	if (result == 1)
 	{
-		if (gObj[number].PartyNumber < 0)
+		if (lpTargetObj->PartyNumber < 0)
 		{
-			gObj[number].PartyNumber = gParty.Create(number, gObj[number].DBNumber, gObj[number].Level);
+			lpTargetObj->PartyNumber = gParty.Create(*lpTargetObj, lpTargetObj->DBNumber, lpTargetObj->Level);
 		}
 
-		if (gObj[number].PartyNumber >= 0)
+		if (lpTargetObj->PartyNumber >= 0)
 		{
-			pnumber = gObj[number].PartyNumber;
-			int iPartyPos = gParty.Add(gObj[number].PartyNumber, lpObj, lpObj->DBNumber, lpObj->Level);
+			pnumber = lpTargetObj->PartyNumber;
+			int iPartyPos = gParty.Add(lpTargetObj->PartyNumber, *lpObj, lpObj->DBNumber, lpObj->Level);
 
 			if (iPartyPos >= 0)
 			{
-				lpObj->PartyNumber = gObj[number].PartyNumber;
+				lpObj->PartyNumber = lpTargetObj->PartyNumber;
 				result = true;
 
 				if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 				{
 					wsprintf(szTemp, Lang.GetText(0, 20), lpObj->m_PlayerData->m_RealNameOfUBF);
-					this->GCServerMsgStringSend(szTemp, number, 1);
-					wsprintf(szTemp, Lang.GetText(0, 20), gObj[number].m_PlayerData->m_RealNameOfUBF);
+					this->GCServerMsgStringSend(szTemp, lpTargetObj, 1);
+					wsprintf(szTemp, Lang.GetText(0, 20), lpTargetObj->m_PlayerData->m_RealNameOfUBF);
 					this->GCServerMsgStringSend(szTemp, lpObj, 1);
 				}
 
 				else
 				{
 					wsprintf(szTemp, Lang.GetText(0, 20), lpObj->Name);
-					this->GCServerMsgStringSend(szTemp, number, 1);
-					wsprintf(szTemp, Lang.GetText(0, 20), gObj[number].Name);
+					this->GCServerMsgStringSend(szTemp, lpTargetObj, 1);
+					wsprintf(szTemp, Lang.GetText(0, 20), lpTargetObj->Name);
 					this->GCServerMsgStringSend(szTemp, lpObj, 1);
 				}
 
 				gParty.Paint(pnumber);
 
-				if (gObj[number].m_PlayerData->m_bUsePartyMatching == true)
+				if (lpTargetObj->m_PlayerData->m_bUsePartyMatching == true)
 				{
 					char szLeaderName[MAX_ACCOUNT_LEN + 1];
-					memcpy(szLeaderName, gObj[number].Name, MAX_ACCOUNT_LEN + 1);
-					GDReqAcceptMemberJoin(number, 1, szLeaderName, lpObj->Name, 1);
+					memcpy(szLeaderName, lpTargetObj->Name, MAX_ACCOUNT_LEN + 1);
+					GDReqAcceptMemberJoin(lpTargetObj, 1, szLeaderName, lpObj->Name, 1);
 				}
 			}
 			else if (iPartyPos == -1)
 			{
-				GCResultSend(number, 0x41, 2);
+				GCResultSend(lpTargetObj, 0x41, 2);
 				GCResultSend(lpObj, 0x41, 2);
 			}
 			else if (iPartyPos == -2)
@@ -7811,10 +7791,10 @@ void GameProtocol::CGPartyRequestResultRecv(PMSG_PARTYREQUESTRESULT * lpMsg, CGa
 		lpObj->PartyTargetUser = -1;
 	}
 
-	if (gObj[number].m_IfState.use != 0 && gObj[number].m_IfState.type == 2)
+	if (lpTargetObj->m_IfState.use != 0 && lpTargetObj->m_IfState.type == 2)
 	{
-		gObj[number].m_IfState.use = 0;
-		gObj[number].PartyTargetUser = -1;
+		lpTargetObj->m_IfState.use = 0;
+		lpTargetObj->PartyTargetUser = -1;
 	}
 
 	if (pnumber >= 0)
@@ -7850,22 +7830,23 @@ void GameProtocol::CGPartyList(CGameObject* lpObj)
 		for (int n = 0; n < MAX_USER_IN_PARTY; n++)
 		{
 			number = gParty.m_PartyS[pnumber].Number[n];
+			CGameObject* lpTargetObj = getGameObject(number);
 
 			if (number >= 0)
 			{
-				if (gObjIsConnected(&gObj[number], gParty.m_PartyS[pnumber].DbNumber[n]) == TRUE)
+				if (gObjIsConnected(*lpTargetObj, gParty.m_PartyS[pnumber].DbNumber[n]) == TRUE)
 				{
 					memset(&pList, 0, sizeof(pList));
-					memcpy(pList.szId, gObj[number].Name, MAX_ACCOUNT_LEN);
+					memcpy(pList.szId, lpTargetObj->Name, MAX_ACCOUNT_LEN);
 					pList.Number = n;
-					pList.MapNumber = gObj[number].MapNumber;
-					pList.X = gObj[number].X;
-					pList.Y = gObj[number].Y;
-					pList.Life = gObj[number].Life;
-					pList.MaxLife = gObj[number].MaxLife + gObj[number].AddLife;
-					pList.nServerChannel = gObj[number].m_PlayerData->m_nServerChannel + 1;
-					pList.nMana = gObj[number].Mana;
-					pList.nMaxMana = gObj[number].MaxMana;
+					pList.MapNumber = lpTargetObj->MapNumber;
+					pList.X = lpTargetObj->X;
+					pList.Y = lpTargetObj->Y;
+					pList.Life = lpTargetObj->Life;
+					pList.MaxLife = lpTargetObj->MaxLife + lpTargetObj->AddLife;
+					pList.nServerChannel = lpTargetObj->m_PlayerData->m_nServerChannel + 1;
+					pList.nMana = lpTargetObj->Mana;
+					pList.nMaxMana = lpTargetObj->MaxMana;
 
 					memcpy(&sendbuf[lOfs], &pList, sizeof(pList));
 					lOfs += sizeof(pList);
@@ -7911,32 +7892,33 @@ void GameProtocol::CGPartyListAll(int pnumber)
 	for (int n = 0; n < MAX_USER_IN_PARTY; n++)
 	{
 		number = gParty.m_PartyS[pnumber].Number[n];
+		CGameObject* lpTargetObj = getGameObject(number);
 
 		if (number >= 0)
 		{
-			if (gObjIsConnected(&gObj[number], gParty.m_PartyS[pnumber].DbNumber[n]) == TRUE)
+			if (gObjIsConnected(*lpTargetObj, gParty.m_PartyS[pnumber].DbNumber[n]) == TRUE)
 			{
 				memset(&pList, 0, sizeof(pList));
 
 				if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 				{
-					memcpy(pList.szId, gObj[number].m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN);
+					memcpy(pList.szId, lpTargetObj->m_PlayerData->m_RealNameOfUBF, MAX_ACCOUNT_LEN);
 				}
 
 				else
 				{
-					memcpy(pList.szId, gObj[number].Name, MAX_ACCOUNT_LEN);
+					memcpy(pList.szId, lpTargetObj->Name, MAX_ACCOUNT_LEN);
 				}
 
 				pList.Number = n;
-				pList.MapNumber = gObj[number].MapNumber;
-				pList.X = gObj[number].X;
-				pList.Y = gObj[number].Y;
-				pList.Life = gObj[number].Life;
-				pList.MaxLife = gObj[number].MaxLife;
-				pList.nServerChannel = gObj[number].m_PlayerData->m_nServerChannel + 1;
-				pList.nMana = gObj[number].Mana;
-				pList.nMaxMana = gObj[number].MaxMana;
+				pList.MapNumber = lpTargetObj->MapNumber;
+				pList.X = lpTargetObj->X;
+				pList.Y = lpTargetObj->Y;
+				pList.Life = lpTargetObj->Life;
+				pList.MaxLife = lpTargetObj->MaxLife;
+				pList.nServerChannel = lpTargetObj->m_PlayerData->m_nServerChannel + 1;
+				pList.nMana = lpTargetObj->Mana;
+				pList.nMaxMana = lpTargetObj->MaxMana;
 
 				memcpy(&sendbuf[lOfs], &pList, sizeof(pList));
 				lOfs += sizeof(pList);
@@ -7963,7 +7945,7 @@ void GameProtocol::CGPartyListAll(int pnumber)
 
 		if (number >= 0)
 		{
-			this->GCDisplayBuffeffectPartyMember(number);
+			this->GCDisplayBuffeffectPartyMember(getGameObject(number));
 		}
 	}
 }
@@ -8037,7 +8019,7 @@ void GameProtocol::CGPartyDelUser(PMSG_PARTYDELUSER * lpMsg, CGameObject* lpObj,
 		return;
 	}
 
-	if (!DG_MAP_RANGE(gObj[usernumber].MapNumber))
+	if (!DG_MAP_RANGE(getGameObject(usernumber)->MapNumber))
 	{
 		if (!lpMsg->Number)
 		{
@@ -8045,11 +8027,11 @@ void GameProtocol::CGPartyDelUser(PMSG_PARTYDELUSER * lpMsg, CGameObject* lpObj,
 
 			for (int n = 1; n < 5; n++)
 			{
-				CGameObject *lpObj = gParty.m_PartyS[pnumber].Number[n];
+				CGameObject *lpObjParty = gParty.m_PartyS[pnumber].Number[n];
 
-				if (iIndex != -1)
+				if (lpObjParty->m_Index != -1)
 				{
-					if (DG_MAP_RANGE(lpObj->MapNumber))
+					if (DG_MAP_RANGE(lpObjParty->MapNumber))
 					{
 						bDPUser = TRUE;
 						break;
@@ -8061,17 +8043,17 @@ void GameProtocol::CGPartyDelUser(PMSG_PARTYDELUSER * lpMsg, CGameObject* lpObj,
 			{
 				gParty.Delete(pnumber, lpMsg->Number);
 				count = gParty.GetCount(lpObj->PartyNumber);
-				gObj[usernumber].PartyNumber = -1;
-				gObj[usernumber].PartyTargetUser = -1;
+				lpObj->PartyNumber = -1;
+				lpObj->PartyTargetUser = -1;
 				gParty.UpdatePKPartyPanalty(pnumber);
 				gParty.ChangeLeader(pnumber);
-				this->GCPartyDelUserSend(usernumber);
+				this->GCPartyDelUserSend(lpObj);
 				this->CGPartyListAll(pnumber);
 				return;
 			}
 		}
 
-		if (!IMPERIAL_MAP_RANGE(gObj[usernumber].MapNumber))
+		if (!IMPERIAL_MAP_RANGE(lpObj->MapNumber))
 		{
 			if (!lpMsg->Number)
 			{
@@ -8079,34 +8061,32 @@ void GameProtocol::CGPartyDelUser(PMSG_PARTYDELUSER * lpMsg, CGameObject* lpObj,
 
 				for (int i = 1; i < 5; i++)
 				{
-					CGameObject *lpObj = gParty.m_PartyS[pnumber].Number[i];
-					if (iIndex != -1)
+					CGameObject* lpObjParty = gParty.m_PartyS[pnumber].Number[i];
+					if (IMPERIAL_MAP_RANGE(lpObjParty->MapNumber))
 					{
-						if (IMPERIAL_MAP_RANGE(lpObj->MapNumber))
-						{
-							bIGUser = TRUE;
-							break;
-						}
+						bIGUser = TRUE;
+						break;
 					}
+
 				}
 
 				if (bIGUser == TRUE && count > 2)
 				{
 					gParty.Delete(pnumber, lpMsg->Number);
 					count = gParty.GetCount(lpObj->PartyNumber);
-					gObj[usernumber].PartyNumber = -1;
-					gObj[usernumber].PartyTargetUser = -1;
+					lpObj->PartyNumber = -1;
+					lpObj->PartyTargetUser = -1;
 					gParty.UpdatePKPartyPanalty(pnumber);
 					gParty.ChangeLeader(pnumber);
-					this->GCPartyDelUserSend(usernumber);
+					this->GCPartyDelUserSend(lpObj);
 					this->CGPartyListAll(pnumber);
 					return;
 				}
 			}
 
-			if (gObj[usernumber].m_PlayerData->lpGuild)
+			if (lpObj->m_PlayerData->lpGuild)
 			{
-				if (gObj[usernumber].m_PlayerData->lpGuild->WarState == 1 && gObj[usernumber].IsInBattleGround)
+				if (lpObj->m_PlayerData->lpGuild->WarState == 1 && lpObj->IsInBattleGround)
 				{
 					this->GCServerMsgStringSend(Lang.GetText(0, 574), lpObj, TRUE);
 					return;
@@ -8114,13 +8094,14 @@ void GameProtocol::CGPartyDelUser(PMSG_PARTYDELUSER * lpMsg, CGameObject* lpObj,
 
 				if (usernumber == gParty.m_PartyS[pnumber].Number[0])
 				{
+					CGameObject* lpObjParty = getGameObject(number);
 					for (int j = 0; j < 5; j++)
 					{
 						int number = gParty.m_PartyS[pnumber].Number[j];
 						if (number >= 0
-							&& gObj[number].m_PlayerData->lpGuild
-							&& gObj[number].m_PlayerData->lpGuild->WarState == TRUE
-							&& gObj[number].IsInBattleGround)
+							&& lpObjParty->m_PlayerData->lpGuild
+							&& lpObjParty->m_PlayerData->lpGuild->WarState == TRUE
+							&& lpObjParty->IsInBattleGround)
 						{
 							this->GCServerMsgStringSend(Lang.GetText(0, 574), lpObj, TRUE);
 							return;
@@ -8133,42 +8114,42 @@ void GameProtocol::CGPartyDelUser(PMSG_PARTYDELUSER * lpMsg, CGameObject* lpObj,
 			{
 				gParty.Delete(pnumber, lpMsg->Number);
 				count = gParty.GetCount(lpObj->PartyNumber);
-				gObj[usernumber].PartyNumber = -1;
-				gObj[usernumber].PartyTargetUser = -1;
+				lpObj->PartyNumber = -1;
+				lpObj->PartyTargetUser = -1;
 				gParty.UpdatePKPartyPanalty(pnumber);
-				this->GCPartyDelUserSend(usernumber);
+				this->GCPartyDelUserSend(lpObj);
 				CGPartyListAll(pnumber);
 			}
 			else
 			{
-				if (!IT_MAP_RANGE(gObj[usernumber].MapNumber) || lpMsg->Number || count <= 2)
+				if (!IT_MAP_RANGE(lpObj->MapNumber) || lpMsg->Number || count <= 2)
 				{
-					if (IT_MAP_RANGE(gObj[usernumber].MapNumber) && count <= 2)
+					if (IT_MAP_RANGE(lpObj->MapNumber) && count <= 2)
 					{
 						gParty.Delete(pnumber, lpMsg->Number);
 						count = gParty.GetCount(lpObj->PartyNumber);
-						gObj[usernumber].PartyNumber = -1;
-						gObj[usernumber].PartyTargetUser = -1;
+						lpObj->PartyNumber = -1;
+						lpObj->PartyTargetUser = -1;
 						gParty.UpdatePKPartyPanalty(pnumber);
 						if (!lpMsg->Number)
 							gParty.ChangeLeader(pnumber);
-						this->GCPartyDelUserSend(usernumber);
+						this->GCPartyDelUserSend(lpObj);
 						this->CGPartyListAll(pnumber);
 					}
 					else
 					{
-						if (!ITL_MAP_RANGE(gObj[usernumber].MapNumber) || lpMsg->Number || count <= 2)
+						if (!ITL_MAP_RANGE(lpObj->MapNumber) || lpMsg->Number || count <= 2)
 						{
-							if (ITL_MAP_RANGE(gObj[usernumber].MapNumber) && count <= 2)
+							if (ITL_MAP_RANGE(lpObj->MapNumber) && count <= 2)
 							{
 								gParty.Delete(pnumber, lpMsg->Number);
 								count = gParty.GetCount(lpObj->PartyNumber);
-								gObj[usernumber].PartyNumber = -1;
-								gObj[usernumber].PartyTargetUser = -1;
+								lpObj->PartyNumber = -1;
+								lpObj->PartyTargetUser = -1;
 								gParty.UpdatePKPartyPanalty(pnumber);
 								if (!lpMsg->Number)
 									gParty.ChangeLeader(pnumber);
-								this->GCPartyDelUserSend(usernumber);
+								this->GCPartyDelUserSend(lpObj);
 								this->CGPartyListAll(pnumber);
 							}
 							else
@@ -8176,16 +8157,17 @@ void GameProtocol::CGPartyDelUser(PMSG_PARTYDELUSER * lpMsg, CGameObject* lpObj,
 								for (int index = 0; index < 5; index++)
 								{
 									number = gParty.m_PartyS[pnumber].Number[index];
+									CGameObject* lpObjParty = getGameObject(number);
 
 									if (number >= 0)
 									{
 										gParty.Delete(pnumber, index);
-										gObj[number].PartyNumber = -1;
-										gObj[number].PartyTargetUser = -1;
-										if (gObj[number].m_PlayerData->m_bUsePartyMatching == true)
-											this->GCPartyDelUserSendNoMessage(number);
+										lpObjParty->PartyNumber = -1;
+										lpObjParty->PartyTargetUser = -1;
+										if (lpObjParty->m_PlayerData->m_bUsePartyMatching == true)
+											this->GCPartyDelUserSendNoMessage(lpObjParty);
 										else
-											this->GCPartyDelUserSend(number);
+											this->GCPartyDelUserSend(lpObjParty);
 									}
 								}
 
@@ -8196,11 +8178,11 @@ void GameProtocol::CGPartyDelUser(PMSG_PARTYDELUSER * lpMsg, CGameObject* lpObj,
 						{
 							gParty.Delete(pnumber, lpMsg->Number);
 							count = gParty.GetCount(lpObj->PartyNumber);
-							gObj[usernumber].PartyNumber = -1;
-							gObj[usernumber].PartyTargetUser = -1;
+							lpObj->PartyNumber = -1;
+							lpObj->PartyTargetUser = -1;
 							gParty.UpdatePKPartyPanalty(pnumber);
 							gParty.ChangeLeader(pnumber);
-							this->GCPartyDelUserSend(usernumber);
+							this->GCPartyDelUserSend(lpObj);
 							this->CGPartyListAll(pnumber);
 							if (!count)
 								gParty.Destroy(pnumber);
@@ -8211,11 +8193,11 @@ void GameProtocol::CGPartyDelUser(PMSG_PARTYDELUSER * lpMsg, CGameObject* lpObj,
 				{
 					gParty.Delete(number, lpMsg->Number);
 					count = gParty.GetCount(lpObj->PartyNumber);
-					gObj[usernumber].PartyNumber = -1;
-					gObj[usernumber].PartyTargetUser = -1;
+					lpObj->PartyNumber = -1;
+					lpObj->PartyTargetUser = -1;
 					gParty.UpdatePKPartyPanalty(pnumber);
 					gParty.ChangeLeader(pnumber);
-					this->GCPartyDelUserSend(usernumber);
+					this->GCPartyDelUserSend(lpObj);
 					this->CGPartyListAll(pnumber);
 					if (!count)
 						gParty.Destroy(pnumber);
@@ -8251,9 +8233,9 @@ void GameProtocol::GCPartyDelUserSendNoMessage(CGameObject* lpObj)
 
 	GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
-*/
 
-/*
+
+
 struct PMSG_GUILDQUESTSEND
 {
 	PBMSG_HEAD h;	// C1:50
@@ -9654,7 +9636,7 @@ void GameProtocol::GCGuildWarScore(CGameObject* lpObj)
 		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 	}
 }
-*/
+
 
 
 
