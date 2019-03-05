@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // EDSProtocol.cpp
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "EDSProtocol.h"
 #include "GuildClass.h"
 #include "Utility/util.h"
 #include "TUnion.h"
 #include "GameServer.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "TNotice.h"
 #include "GensSystemProtocol.h"
 #include "GensSystem.h"
@@ -345,7 +345,7 @@ void ExDataServerLogin()
 	pInfo.ServerCode = g_ConfigRead.server.GetGameServerCode();
 	strcpy(pInfo.ServerName, g_ConfigRead.server.GetServerName());
 
-	wsExDbCli.DataSend((char*)&pInfo, pInfo.h.size);
+	//wsExDbCli.DataSend((char*)&pInfo, pInfo.h.size);
 }
 
 
@@ -365,7 +365,7 @@ void GDCharClose(int type, char* GuildName, char* Name)
 		memcpy(pMsg.GuildName, GuildName, sizeof(pMsg.GuildName));
 	}
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 
@@ -374,19 +374,16 @@ void ExDataServerLoginResult(SDHP_RESULT * lpMsg)
 {
 	if ( lpMsg->Result == false )
 	{
-		g_Log.Add("ExDB Server Login Fail: %d", lpMsg->Result);
+		sLog->outBasic("ExDB Server Login Fail: %d", lpMsg->Result);
 
 		return;
 	}
 
-	for (int i=0;i<g_ConfigRead.server.GetObjectMax();i++)
+	for each (std::pair<int,CGameObject*> user in gGameObjects)
 	{
-		if ( gObjIsConnectedGP(i) == TRUE )
+		if ( user.second->m_FriendServerOnline == FRIEND_SERVER_STATE_OFFLINE )
 		{
-			if ( gObj[i].m_FriendServerOnline == FRIEND_SERVER_STATE_OFFLINE )
-			{
-				gObj[i].m_FriendServerOnline = FALSE;
-			}
+			user.second->m_FriendServerOnline = FALSE;
 		}
 	}
 	
@@ -434,7 +431,7 @@ void GDGuildCreateSend(int aIndex, char* Name, char* Master,unsigned char* Mark,
 	pMsg.NumberL = SET_NUMBERL(aIndex);
 	pMsg.btGuildType = iGuildType;
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 
@@ -443,10 +440,10 @@ void GDGuildCreateRecv(SDHP_GUILDCREATE_RESULT * lpMsg)
 {
 	int aIndex = -1;
 	PMSG_GUILDCREATED_RESULT pMsg;
-	_GUILD_INFO_STRUCT * lpNode;
+	GUILD_INFO_STRUCT * lpNode;
 	char szMaster[MAX_ACCOUNT_LEN+1];
 	char szGuildName[MAX_GUILD_LEN+1];
-
+	
 	szMaster[MAX_ACCOUNT_LEN] = 0;
 	szGuildName[MAX_GUILD_LEN] = 0;
 	memcpy(szMaster, lpMsg->Master, MAX_ACCOUNT_LEN);
@@ -455,6 +452,7 @@ void GDGuildCreateRecv(SDHP_GUILDCREATE_RESULT * lpMsg)
 	if (lpMsg->Result == 0 )
 	{
 		aIndex = MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL);
+		CGameObject* lpObj = getGameObject(aIndex);
 
 		PMSG_GUILDCREATED_RESULT pResult;
 
@@ -462,11 +460,11 @@ void GDGuildCreateRecv(SDHP_GUILDCREATE_RESULT * lpMsg)
 		pResult.Result = 0;
 		pResult.btGuildType = lpMsg->btGuildType;
 
-		IOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		GIOCP.DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 
-		if ( gObj[aIndex].m_IfState.use != 0 && gObj[aIndex].m_IfState.type == 5 )
+		if ( lpObj->m_IfState->use != 0 && lpObj->m_IfState->type == 5 )
 		{
-			gObj[aIndex].m_IfState.use = 0;
+			lpObj->m_IfState->use = 0;
 		}
 
 		return;
@@ -475,44 +473,44 @@ void GDGuildCreateRecv(SDHP_GUILDCREATE_RESULT * lpMsg)
 	if ( lpMsg->Flag == 1 )
 	{
 		aIndex = MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL);
+		CGameObject* lpObj = getGameObject(aIndex);
 
-		if ( gObjIsConnectedGP(aIndex) == TRUE )
+		if ( szMaster[0] == lpObj->Name[0] )
 		{
-			if ( szMaster[0] == gObj[aIndex].Name[0] )
+			if ( strcmp(szMaster, lpObj->Name) == 0 )
 			{
-				if ( strcmp(szMaster, gObj[aIndex].Name) == 0 )
-				{
-					pMsg.h.c = 0xC1;
-					pMsg.h.headcode = 0x56;
-					pMsg.h.size = sizeof(pMsg);
-					pMsg.Result = lpMsg->Result;
-					pMsg.btGuildType = lpMsg->btGuildType;
+				pMsg.h.c = 0xC1;
+				pMsg.h.headcode = 0x56;
+				pMsg.h.size = sizeof(pMsg);
+				pMsg.Result = lpMsg->Result;
+				pMsg.btGuildType = lpMsg->btGuildType;
 
-					IOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
-				}
+				GIOCP.DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 			}
 		}
+
 	}
 	
 	if ( lpMsg->Result == 1 )
 	{
 		lpNode = Guild.AddGuild(lpMsg->GuildNumber, szGuildName, lpMsg->Mark, szMaster, 0);
+		CGameObject* lpObj = getGameObject(aIndex);
 
-		if ( aIndex >= g_ConfigRead.server.GetObjectStartUserIndex() && lpNode != NULL )
+		if (lpNode != NULL )
 		{
-			gObj[aIndex].m_PlayerData->lpGuild = lpNode;
-			gObj[aIndex].m_PlayerData->GuildNumber = lpMsg->GuildNumber;
-			gObj[aIndex].m_PlayerData->GuildStatus = 0x80;
+			lpObj->m_PlayerData->lpGuild = lpNode;
+			lpObj->m_PlayerData->GuildNumber = lpMsg->GuildNumber;
+			lpObj->m_PlayerData->GuildStatus = 0x80;
 			lpNode->iGuildRival = 0;
 			lpNode->iGuildUnion = 0;
 			lpNode->iTimeStamp = 0;
-			gObj[aIndex].m_PlayerData->iGuildUnionTimeStamp = 0;
+			lpObj->m_PlayerData->iGuildUnionTimeStamp = 0;
 
-			g_Log.Add("[U.System] Guild is Created - Guild : %s / [%s][%s]",
-				szGuildName, gObj[aIndex].AccountID, gObj[aIndex].Name);
+			sLog->outBasic("[U.System] Guild is Created - Guild : %s / [%s][%s]",
+				szGuildName, lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 
-			g_Log.Add("Guild War State: %d %d %s", lpNode->WarState, lpNode->WarDeclareState, szGuildName);
-			GSProtocol.GCGuildViewportNowPaint(aIndex, szGuildName, lpMsg->Mark, TRUE);
+			sLog->outBasic("Guild War State: %d %d %s", lpNode->WarState, lpNode->WarDeclareState, szGuildName);
+			GSProtocol.GCGuildViewportNowPaint(lpObj, szGuildName, lpMsg->Mark, TRUE);
 		}
 	}
 }
@@ -539,7 +537,7 @@ void GDGuildDestroySend(int aIndex, LPSTR Name, LPSTR Master)
 	memcpy(pMsg.Master, Master, sizeof(pMsg.Master));
 	memcpy(pMsg.GuildName, Name, sizeof(pMsg.GuildName));
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 
@@ -558,47 +556,46 @@ void GDGuildDestroyRecv(SDHP_GUILDDESTROY_RESULT * lpMsg)
 	if ( lpMsg->Flag == 1 )
 	{
 		aIndex = MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL);
+		CGameObject* lpObj = getGameObject(aIndex);
 
-		if ( gObjIsConnected(aIndex) == TRUE )
+		if ( szMaster[0] == lpObj->Name[0] )
 		{
-			if ( szMaster[0] == gObj[aIndex].Name[0] )
+			if ( strcmp(szMaster, lpObj->Name) == 0 )
 			{
-				if ( strcmp(szMaster, gObj[aIndex].Name) == 0 )
+				GSProtocol.GCResultSend(lpObj, 0x53, lpMsg->Result);
+
+				if ( lpMsg->Result == 1 || lpMsg->Result == 4 )
 				{
-					GSProtocol.GCResultSend(aIndex, 0x53, lpMsg->Result);
+					GSProtocol.GCGuildViewportDelNow(lpObj, TRUE);
 
-					if ( lpMsg->Result == 1 || lpMsg->Result == 4 )
+					if (lpObj->m_PlayerData->m_bUseGuildMatching == true)
 					{
-						GSProtocol.GCGuildViewportDelNow(aIndex, TRUE);
-
-						if (gObj[aIndex].m_PlayerData->m_bUseGuildMatching == true)
+						if (lpObj->m_PlayerData->GuildNumber > 0)
 						{
-							if (gObj[aIndex].m_PlayerData->GuildNumber > 0)
-							{
-								GDReqDelMatchingList(aIndex, gObj[aIndex].m_PlayerData->GuildNumber);
-							}
+							GDReqDelMatchingList(aIndex, lpObj->m_PlayerData->GuildNumber);
+						}
 
-							else
-							{
-								GDReqCancelJoinGuildMatching(aIndex, gObj[aIndex].Name, 0);
-							}
+						else
+						{
+							GDReqCancelJoinGuildMatching(aIndex, lpObj->Name, 0);
 						}
 					}
 				}
 			}
 		}
+
 	}
 
 	if ( lpMsg->Result == 1 || lpMsg->Result == 4)
 	{
-		_GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(szGuildName);
+		GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(szGuildName);
 
 		if ( lpGuild == NULL )
 		{
 			return;
 		}
 
-		_GUILD_INFO_STRUCT * lpRival = Guild.SearchGuild_Number(lpGuild->iGuildRival);
+		GUILD_INFO_STRUCT * lpRival = Guild.SearchGuild_Number(lpGuild->iGuildRival);
 
 		if ( lpRival != NULL )
 		{
@@ -615,14 +612,9 @@ void GDGuildDestroyRecv(SDHP_GUILDDESTROY_RESULT * lpMsg)
 
 			if ( lpGuild->Use[n] > 0 && iGuildMemberIndex != -1 )
 			{
-				LPOBJ lpObj = &gObj[iGuildMemberIndex];
+				CGameObject* lpObj = getGameObject(iGuildMemberIndex);
 				
 				if ( lpObj == NULL )
-				{
-					continue;
-				}
-
-				if ( gObjIsConnectedGP(iGuildMemberIndex) == FALSE )
 				{
 					continue;
 				}
@@ -634,10 +626,10 @@ void GDGuildDestroyRecv(SDHP_GUILDDESTROY_RESULT * lpMsg)
 				lpObj->m_PlayerData->GuildStatus = -1;
 				lpObj->m_PlayerData->iGuildUnionTimeStamp = 0;
 
-				GSProtocol.GCResultSend(n,0x53, 1);
-				GSProtocol.GCGuildViewportDelNow(lpObj->m_Index, FALSE);
+				GSProtocol.GCResultSend(lpObj, 0x53, 1);
+				GSProtocol.GCGuildViewportDelNow(lpObj, FALSE);
 
-				g_Log.Add("Guild delete: %s guild member delete", gObj[n].Name);
+				sLog->outBasic("Guild delete: %s guild member delete", lpObj->Name);
 			}
 		}
 
@@ -645,7 +637,7 @@ void GDGuildDestroyRecv(SDHP_GUILDDESTROY_RESULT * lpMsg)
 		UnionManager.DelUnion(lpGuild->Number);
 		Guild.DeleteGuild(szGuildName, szMaster);
 
-		g_Log.Add("(%s) Guild delete [ Master: %s ]", szGuildName, szMaster);
+		sLog->outBasic("(%s) Guild delete [ Master: %s ]", szGuildName, szMaster);
 	}
 }
 
@@ -674,7 +666,7 @@ void GDGuildMemberAdd(int aIndex, LPSTR Name, LPSTR MemberId)
 	memcpy(pMsg.MemberID, MemberId, MAX_ACCOUNT_LEN);
 	memcpy(pMsg.GuildName, Name, MAX_GUILD_LEN);
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 struct SDHP_GUILDMEMBERADD_WITHOUT_USERINDEX
@@ -696,14 +688,14 @@ void GDGuildMemberAddWithoutUserIndex(LPSTR Name, LPSTR MemberId)
 	memcpy(pMsg.MemberID, MemberId, MAX_ACCOUNT_LEN);
 	memcpy(pMsg.GuildName, Name, MAX_GUILD_LEN);
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 
 
 void GDGuildMemberAddResult(SDHP_GUILDMEMBERADD_RESULT * lpMsg)
 {
-	_GUILD_INFO_STRUCT * lpNode;
+	GUILD_INFO_STRUCT * lpNode;
 	int aIndex = -1;
 	int HereUserIndex=-1;
 	char szMember[MAX_ACCOUNT_LEN+1];
@@ -717,18 +709,14 @@ void GDGuildMemberAddResult(SDHP_GUILDMEMBERADD_RESULT * lpMsg)
 	if ( lpMsg->Flag == 1 )
 	{
 		aIndex = MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL);
+		CGameObject* lpObj = getGameObject(aIndex);
 
-		if ( gObjIsConnectedGP(aIndex) == TRUE )
+		if ( strcmp(szMember, lpObj->Name) == 0 )
 		{
-			//if ( szMember[0] == gObj[aIndex].Name[0] )
-			//{
-				if ( strcmp(szMember, gObj[aIndex].Name) == 0 )
-				{
-					GSProtocol.GCResultSend(aIndex, 0x51, lpMsg->Result);
-					HereUserIndex = aIndex;
-				}
-			//}
+			GSProtocol.GCResultSend(lpObj, 0x51, lpMsg->Result);
+			HereUserIndex = aIndex;
 		}
+
 	}
 
 	if ( lpMsg->Result == 1 )
@@ -737,11 +725,11 @@ void GDGuildMemberAddResult(SDHP_GUILDMEMBERADD_RESULT * lpMsg)
 
 		if (ObjectMaxRange(aIndex) && lpNode != NULL )
 		{
-			gObj[aIndex].m_PlayerData->lpGuild = lpNode;
-			gObj[aIndex].m_PlayerData->GuildStatus = 0;
-			gObj[aIndex].m_PlayerData->GuildNumber = lpNode->Number;
-			gObj[aIndex].m_PlayerData->iGuildUnionTimeStamp = 0;
-			GSProtocol.GCGuildViewportNowPaint(aIndex, szGuildName, gObj[aIndex].m_PlayerData->lpGuild->Mark, FALSE);
+			lpObj->m_PlayerData->lpGuild = lpNode;
+			lpObj->m_PlayerData->GuildStatus = 0;
+			lpObj->m_PlayerData->GuildNumber = lpNode->Number;
+			lpObj->m_PlayerData->iGuildUnionTimeStamp = 0;
+			GSProtocol.GCGuildViewportNowPaint(aIndex, szGuildName, lpObj->m_PlayerData->lpGuild->Mark, FALSE);
 
 			LPOBJ lpObj = &gObj[aIndex];
 
@@ -795,7 +783,7 @@ void GDGuildMemberAddResultWithoutUserIndex(SDHP_GUILDMEMBERADD_RESULT_WITHOUT_U
 
 		if (gObjIsConnectedGP(aIndex) == TRUE)
 		{
-			if (strcmp(szMember, gObj[aIndex].Name) == 0)
+			if (strcmp(szMember, lpObj->Name) == 0)
 			{
 				GSProtocol.GCResultSend(aIndex, 0x51, lpMsg->Result);
 				HereUserIndex = aIndex;
@@ -807,13 +795,13 @@ void GDGuildMemberAddResultWithoutUserIndex(SDHP_GUILDMEMBERADD_RESULT_WITHOUT_U
 	{
 		lpNode = Guild.AddMember(szGuildName, szMember, HereUserIndex, -1, 0, lpMsg->pServer);
 
-		if (ObjectMaxRange(aIndex) && lpNode != NULL && gObj[aIndex].Type == OBJ_USER)
+		if (ObjectMaxRange(aIndex) && lpNode != NULL && lpObj->Type == OBJ_USER)
 		{
-			gObj[aIndex].m_PlayerData->lpGuild = lpNode;
-			gObj[aIndex].m_PlayerData->GuildStatus = 0;
-			gObj[aIndex].m_PlayerData->GuildNumber = lpNode->Number;
-			gObj[aIndex].m_PlayerData->iGuildUnionTimeStamp = 0;
-			GSProtocol.GCGuildViewportNowPaint(aIndex, szGuildName, gObj[aIndex].m_PlayerData->lpGuild->Mark, FALSE);
+			lpObj->m_PlayerData->lpGuild = lpNode;
+			lpObj->m_PlayerData->GuildStatus = 0;
+			lpObj->m_PlayerData->GuildNumber = lpNode->Number;
+			lpObj->m_PlayerData->iGuildUnionTimeStamp = 0;
+			GSProtocol.GCGuildViewportNowPaint(aIndex, szGuildName, lpObj->m_PlayerData->lpGuild->Mark, FALSE);
 
 			LPOBJ lpObj = &gObj[aIndex];
 
@@ -871,7 +859,7 @@ void GDGuildMemberDel(int aIndex, LPSTR Name, LPSTR MemberId)
 	memcpy(pMsg.MemberID, MemberId, MAX_ACCOUNT_LEN);
 	memcpy(pMsg.GuildName, Name, MAX_GUILD_LEN);
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 
@@ -893,12 +881,12 @@ void GDGuildMemberDelResult(SDHP_GUILDMEMBERDEL_RESULT * lpMsg)
 
 		if ( gObjIsConnected(aIndex) == TRUE )
 		{
-			//if ( szMember[0] == gObj[aIndex].Name[0] )
+			//if ( szMember[0] == lpObj->Name[0] )
 			//{
-				if ( strcmp(szMember, gObj[aIndex].Name) == 0 )
+				if ( strcmp(szMember, lpObj->Name) == 0 )
 				{
 					GSProtocol.GCResultSend(aIndex, 0x53, lpMsg->Result);
-					g_Log.Add("Request to delete guild member caused to send 53 %s", gObj[aIndex].Name);
+					sLog->outBasic("Request to delete guild member caused to send 53 %s", lpObj->Name);
 				}
 				else
 				{
@@ -908,7 +896,7 @@ void GDGuildMemberDelResult(SDHP_GUILDMEMBERDEL_RESULT * lpMsg)
 		}
 		else
 		{
-			g_Log.Add("%s is not connected", gObj[aIndex].Name);
+			sLog->outBasic("%s is not connected", lpObj->Name);
 		}
 	}
 
@@ -933,7 +921,7 @@ void GDGuildMemberDelResult(SDHP_GUILDMEMBERDEL_RESULT * lpMsg)
 							gObjNotifyUpdateUnionV1(&gObj[iMember]);
 
 							// User is ejected from guild %d %s
-							g_Log.Add("User is ejected from guild %d %s", aIndex, gObj[iMember].Name);
+							sLog->outBasic("User is ejected from guild %d %s", aIndex, gObj[iMember].Name);
 							break;
 						}
 					}
@@ -954,7 +942,7 @@ void GDGuildMemberDelResult(SDHP_GUILDMEMBERDEL_RESULT * lpMsg)
 	}
 	else
 	{
-		g_Log.Add("%s failed to delete from guild, result: %d", szGuildName, lpMsg->Result);
+		sLog->outBasic("%s failed to delete from guild, result: %d", szGuildName, lpMsg->Result);
 	}
 }
 
@@ -973,7 +961,7 @@ void GDGuildUpdate(LPSTR Name, LPSTR Master, GUILDMARK Mark, int score, int coun
 	pMsg.Score = score;
 	pMsg.Count = count;
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 void GDGuildUpdateRecv(LPBYTE lpMsg)
@@ -998,9 +986,9 @@ void DGGuildMemberInfoRequest(int aIndex)
 	pMsg.h.set((LPBYTE)&pMsg, 0x35, sizeof(pMsg));
 	pMsg.NumberH = SET_NUMBERH(aIndex);
 	pMsg.NumberL = SET_NUMBERL(aIndex);
-	memcpy(pMsg.MemberID, gObj[aIndex].Name, sizeof(pMsg.MemberID));
+	memcpy(pMsg.MemberID, lpObj->Name, sizeof(pMsg.MemberID));
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 
@@ -1054,10 +1042,10 @@ void DGGuildMemberInfo(SDHP_GUILDMEMBER_INFO * lpMsg)
 							GSProtocol.GCServerMsgStringSend(gObj[n].m_PlayerData->lpGuild->Notice, n, 2);
 						}
 
-						g_Log.Add("[U.System][Guild Status][Info] Guild : %s / [%s][%s] / %d",
+						sLog->outBasic("[U.System][Guild Status][Info] Guild : %s / [%s][%s] / %d",
 							szGuildName, gObj[n].AccountID, szName, gObj[n].m_PlayerData->GuildStatus);
 
-						g_Log.Add("[%s][%s] GuildName: %s", gObj[n].AccountID, szName, szGuildName);
+						sLog->outBasic("[%s][%s] GuildName: %s", gObj[n].AccountID, szName, szGuildName);
 
 						pMsg.GuildNumber = gObj[n].m_PlayerData->GuildNumber;
 						pMsg.NumberH = SET_NUMBERH(n) & 0x7F;
@@ -1103,7 +1091,7 @@ void DGGuildMemberInfo(SDHP_GUILDMEMBER_INFO * lpMsg)
 						pGVCount.Count = 0x01;
 						memcpy(GuildInfoBuf, &pGVCount, sizeof(PMSG_SIMPLE_GUILDVIEWPORT_COUNT));
 
-						IOCP.DataSend(n, (LPBYTE)GuildInfoBuf, GuildInfoOfs);
+						GIOCP.DataSend(n, (LPBYTE)GuildInfoBuf, GuildInfoOfs);
 
 						if (!Guild.SearchGuild(gObj[n].m_PlayerData->lpGuild->szGuildRivalName))
 						{
@@ -1127,7 +1115,7 @@ void DGGuildMemberInfo(SDHP_GUILDMEMBER_INFO * lpMsg)
 							gObj[n].m_bCsGuildInvolved = 0;
 						}
 
-						g_Log.Add("error: Failed to receive guild information while connectting");
+						sLog->outBasic("error: Failed to receive guild information while connectting");
 					}
 
 					return;
@@ -1230,7 +1218,7 @@ void GDGuildInfoSendRequest(char *szGuildName)
 	memcpy(pMsg.szGuildName, szGuildName, MAX_GUILD_LEN);
 	pMsg.szGuildName[MAX_GUILD_LEN] = 0;
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 
@@ -1242,9 +1230,9 @@ void DGGuildScoreUpdate(LPSTR guildname, int score)
 	pMsg.Score = score;
 	strcpy(pMsg.GuildName, guildname);
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 
-	g_Log.Add("Guild Score send: %s %d", guildname, score);
+	sLog->outBasic("Guild Score send: %s %d", guildname, score);
 }
 
 
@@ -1259,7 +1247,7 @@ void GDGuildScoreUpdateRecv(SDHP_GUILDSCOREUPDATE * lpMsg)
 	}
 
 	lpNode->TotalScore = lpMsg->Score;
-	g_Log.Add("%s Guild Score update (%d)", lpMsg->GuildName, lpMsg->Score);
+	sLog->outBasic("%s Guild Score update (%d)", lpMsg->GuildName, lpMsg->Score);
 }
 
 
@@ -1286,7 +1274,7 @@ void GDGuildNoticeSave(LPSTR guild_name, LPSTR guild_notice)
 	strcpy(pMsg.GuildName, guild_name);
 	strcpy(pMsg.szGuildNotice, guild_notice);
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 
@@ -1301,7 +1289,7 @@ void DGGuildNoticeRecv(SDHP_GUILDNOTICE * lpMsg)
 	}
 
 	strcpy(lpNode->Notice, lpMsg->szGuildNotice);
-	g_Log.Add("Notice (%s) : %s", lpMsg->GuildName, lpMsg->szGuildNotice);
+	sLog->outBasic("Notice (%s) : %s", lpMsg->GuildName, lpMsg->szGuildNotice);
 
 	for ( int n=0;n<MAX_USER_GUILD;n++)
 	{
@@ -1332,7 +1320,7 @@ void DGGuildListRequest()
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x40, sizeof(SDHP_GUILDLISTREQUEST));
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 
@@ -1365,7 +1353,7 @@ void GDGuildServerGroupChattingSend(int iGuildNum,  PMSG_CHATDATA* lpChatData)
 	memcpy(pMsg.szCharacterName, lpChatData->chatid, sizeof(pMsg.szCharacterName));
 	memcpy(pMsg.szChattingMsg, lpChatData->chatmsg, sizeof(pMsg.szChattingMsg));
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 void DGGuildServerGroupChattingRecv( EXSDHP_SERVERGROUP_GUILD_CHATTING_RECV* lpMsg)
@@ -1396,7 +1384,7 @@ void DGGuildServerGroupChattingRecv( EXSDHP_SERVERGROUP_GUILD_CHATTING_RECV* lpM
 					{
 						if ( !strcmp(lpGuildInfo->Names[i], gObj[iUserIndex].Name ))
 						{
-							IOCP.DataSend(iUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+							GIOCP.DataSend(iUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 						}
 					}
 				}
@@ -1423,7 +1411,7 @@ void GDUnionServerGroupChattingSend(int iUnionNum,  PMSG_CHATDATA* lpChatData)
 	memcpy(pMsg.szCharacterName, lpChatData->chatid, sizeof(pMsg.szCharacterName));
 	memcpy(pMsg.szChattingMsg, lpChatData->chatmsg, sizeof(pMsg.szChattingMsg));
 
-	wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 }
 
 void DGUnionServerGroupChattingRecv( EXSDHP_SERVERGROUP_UNION_CHATTING_RECV* lpMsg)
@@ -1460,7 +1448,7 @@ void DGUnionServerGroupChattingRecv( EXSDHP_SERVERGROUP_UNION_CHATTING_RECV* lpM
 						{
 							if ( !strcmp(lpGuildInfo->Names[n], gObj[iUserIndex].Name ))
 							{
-								IOCP.DataSend(iUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+								GIOCP.DataSend(iUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 							}
 						}
 					}
@@ -1490,10 +1478,10 @@ void GDGuildReqAssignStatus(int aIndex, int iAssignType, LPSTR szTagetName, int 
 	pMsg.wUserIndex = aIndex;
 	pMsg.szGuildName[MAX_GUILD_LEN] = 0;
 	pMsg.szTargetName[MAX_ACCOUNT_LEN] = 0;
-	memcpy(pMsg.szGuildName, gObj[aIndex].m_PlayerData->lpGuild->Name, MAX_GUILD_LEN);
+	memcpy(pMsg.szGuildName, lpObj->m_PlayerData->lpGuild->Name, MAX_GUILD_LEN);
 	memcpy(pMsg.szTargetName, szTagetName, MAX_ACCOUNT_LEN);
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 
@@ -1517,7 +1505,7 @@ void DGGuildAnsAssignStatus(EXSDHP_GUILD_ASSIGN_STATUS_RESULT * lpMsg)
 		pMsg.btResult = lpMsg->btResult;
 		memcpy(pMsg.szTagetName, lpMsg->szTargetName, sizeof(pMsg.szTagetName));
 
-		IOCP.DataSend(lpMsg->wUserIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+		GIOCP.DataSend(lpMsg->wUserIndex, (LPBYTE)&pMsg, sizeof(pMsg));
 
 		if ( lpMsg->btResult == 0 )
 		{
@@ -1526,7 +1514,7 @@ void DGGuildAnsAssignStatus(EXSDHP_GUILD_ASSIGN_STATUS_RESULT * lpMsg)
 
 		Guild.SetGuildMemberStatus(lpMsg->szGuildName, lpMsg->szTargetName, lpMsg->btGuildStatus);
 
-		g_Log.Add("[U.System][Guild Status][Assign] Guild : ( %s ) Member : ( %s ) Status : ( %d )",
+		sLog->outBasic("[U.System][Guild Status][Assign] Guild : ( %s ) Member : ( %s ) Status : ( %d )",
 			lpMsg->szGuildName, lpMsg->szTargetName, lpMsg->btGuildStatus);
 
 		for ( int i=0;i<MAX_USER_GUILD;i++)
@@ -1561,7 +1549,7 @@ void DGGuildAnsAssignStatus(EXSDHP_GUILD_ASSIGN_STATUS_RESULT * lpMsg)
 		
 		Guild.SetGuildMemberStatus(lpMsg->szGuildName, lpMsg->szTargetName, lpMsg->btGuildStatus);
 
-		g_Log.Add("[U.System][Guild Status][Assign] Guild : ( %s ) Member : ( %s ) Status : ( %d )",
+		sLog->outBasic("[U.System][Guild Status][Assign] Guild : ( %s ) Member : ( %s ) Status : ( %d )",
 			lpMsg->szGuildName, lpMsg->szTargetName, lpMsg->btGuildStatus);
 		
 		if ( lpMsg->btResult == 0 )
@@ -1610,9 +1598,9 @@ void GDGuildReqAssignType(int aIndex, int iGuildType)
 	pMsg.btGuildType = iGuildType;
 	pMsg.wUserIndex = aIndex;
 	pMsg.szGuildName[MAX_GUILD_LEN] = 0;
-	memcpy(pMsg.szGuildName, gObj[aIndex].m_PlayerData->lpGuild->Name, MAX_GUILD_LEN);
+	memcpy(pMsg.szGuildName, lpObj->m_PlayerData->lpGuild->Name, MAX_GUILD_LEN);
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 
@@ -1636,7 +1624,7 @@ void DGGuildAnsAssignType(EXSDHP_GUILD_ASSIGN_TYPE_RESULT * lpMsg)
 		pMsg.btGuildType = lpMsg->btGuildType;
 		pMsg.btResult = lpMsg->btResult;
 
-		IOCP.DataSend(lpMsg->wUserIndex, (LPBYTE)&pMsg,sizeof(pMsg));
+		GIOCP.DataSend(lpMsg->wUserIndex, (LPBYTE)&pMsg,sizeof(pMsg));
 
 		if ( lpMsg->btResult == 0 )
 		{
@@ -1695,12 +1683,12 @@ struct EXSDHP_RELATIONSHIP_JOIN_REQ
 
 void GDRelationShipReqJoin(int aIndex, int iTargetUserIndex, int iRelationShipType)
 {
-	if(gObj[aIndex].Type != OBJ_USER || gObj[iTargetUserIndex].Type != OBJ_USER)
+	if(lpObj->Type != OBJ_USER || gObj[iTargetUserIndex].Type != OBJ_USER)
 	{
 		return;
 	}
 
-	_GUILD_INFO_STRUCT * lpGuildInfo = gObj[aIndex].m_PlayerData->lpGuild;
+	_GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
 	_GUILD_INFO_STRUCT * lpTargetGuildInfo = gObj[iTargetUserIndex].m_PlayerData->lpGuild;
 
 	if ( !lpGuildInfo || !lpTargetGuildInfo )
@@ -1714,10 +1702,10 @@ void GDRelationShipReqJoin(int aIndex, int iTargetUserIndex, int iRelationShipTy
 	pMsg.wRequestUserIndex = aIndex;
 	pMsg.wTargetUserIndex = iTargetUserIndex;
 	pMsg.btRelationShipType = iRelationShipType;
-	pMsg.iRequestGuildNum = gObj[aIndex].m_PlayerData->lpGuild->Number;
+	pMsg.iRequestGuildNum = lpObj->m_PlayerData->lpGuild->Number;
 	pMsg.iTargetGuildNum = gObj[iTargetUserIndex].m_PlayerData->lpGuild->Number;
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 
@@ -1745,12 +1733,12 @@ void DGRelationShipAnsJoin(EXSDHP_RELATIONSHIP_JOIN_RESULT * lpMsg)
 		pMsg.btTargetUserIndexH = SET_NUMBERH(lpMsg->wTargetUserIndex);
 		pMsg.btTargetUserIndexL = SET_NUMBERL(lpMsg->wTargetUserIndex);
 
-		IOCP.DataSend(lpMsg->wRequestUserIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+		GIOCP.DataSend(lpMsg->wRequestUserIndex, (LPBYTE)&pMsg, sizeof(pMsg));
 
 		pMsg.btTargetUserIndexH = SET_NUMBERH(lpMsg->wRequestUserIndex);
 		pMsg.btTargetUserIndexL = SET_NUMBERL(lpMsg->wRequestUserIndex);
 
-		IOCP.DataSend(lpMsg->wTargetUserIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+		GIOCP.DataSend(lpMsg->wTargetUserIndex, (LPBYTE)&pMsg, sizeof(pMsg));
 
 		if ( lpMsg->btResult == EX_RESULT_FAIL ||lpMsg->btResult == EX_RESULT_FAIL_FOR_CASTLE )
 			return;
@@ -1771,7 +1759,7 @@ void DGRelationShipAnsJoin(EXSDHP_RELATIONSHIP_JOIN_RESULT * lpMsg)
 		lpReqGuild->SetGuildUnion(lpTargetGuild->Number);
 		lpTargetGuild->SetGuildUnion(lpTargetGuild->Number);
 
-		g_Log.Add("[U.System][Union][Join] ( Union Master Guild: %s ), (Union Member Guild: %s)",
+		sLog->outBasic("[U.System][Union][Join] ( Union Master Guild: %s ), (Union Member Guild: %s)",
 			lpTargetGuild->Name, lpReqGuild->Name);
 	}
 	else if ( lpMsg->btRelationShipType == G_RELATIONSHIP_RIVAL )
@@ -1781,7 +1769,7 @@ void DGRelationShipAnsJoin(EXSDHP_RELATIONSHIP_JOIN_RESULT * lpMsg)
 		memcpy(lpReqGuild->szGuildRivalName, lpMsg->szTargetGuildName, MAX_GUILD_LEN);
 		memcpy(lpTargetGuild->szGuildRivalName, lpMsg->szRequestGuildName, MAX_GUILD_LEN);
 
-		g_Log.Add("[U.System][Rival][Join] (  %s ) vs ( %s )",
+		sLog->outBasic("[U.System][Rival][Join] (  %s ) vs ( %s )",
 			lpReqGuild->Name, lpTargetGuild->Name);
 	}
 
@@ -1840,12 +1828,12 @@ struct EXSDHP_RELATIONSHIP_BREAKOFF_REQ
 
 void GDUnionBreakOff(int aIndex, int iUnionNumber)
 {
-	if ( gObj[aIndex].Type != OBJ_USER )
+	if ( lpObj->Type != OBJ_USER )
 	{
 		return;
 	}
 
-	_GUILD_INFO_STRUCT * lpGuildInfo = gObj[aIndex].m_PlayerData->lpGuild;
+	_GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
 
 	if ( !lpGuildInfo )
 	{
@@ -1861,7 +1849,7 @@ void GDUnionBreakOff(int aIndex, int iUnionNumber)
 	pMsg.iRequestGuildNum = lpGuildInfo->Number;
 	pMsg.iTargetGuildNum = iUnionNumber;
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 
 }
 
@@ -1889,7 +1877,7 @@ void DGUnionBreakOff(EXSDHP_RELATIONSHIP_BREAKOFF_RESULT * lpMsg)
 		pMsg.btTargetUserIndexH = SET_NUMBERH(lpMsg->wTargetUserIndex);
 		pMsg.btTargetUserIndexL = SET_NUMBERL(lpMsg->wTargetUserIndex);
 
-		IOCP.DataSend(lpMsg->wRequestUserIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+		GIOCP.DataSend(lpMsg->wRequestUserIndex, (LPBYTE)&pMsg, sizeof(pMsg));
 
 		if ( lpMsg->btResult == EX_RESULT_FAIL ||lpMsg->btResult == EX_RESULT_FAIL_FOR_CASTLE )
 			return;
@@ -1907,7 +1895,7 @@ void DGUnionBreakOff(EXSDHP_RELATIONSHIP_BREAKOFF_RESULT * lpMsg)
 
 	lpReqGuild->SetGuildUnion(0);
 
-	g_Log.Add("[GS][U.System][Union][BreakOff] Request Union Member Guild: %s)",
+	sLog->outBasic("[GS][U.System][Union][BreakOff] Request Union Member Guild: %s)",
 		lpReqGuild->Name);
 
 	for ( int n=0;n<MAX_USER_GUILD;n++)
@@ -1925,7 +1913,7 @@ void DGUnionBreakOff(EXSDHP_RELATIONSHIP_BREAKOFF_RESULT * lpMsg)
 	if ( !lpTargetGuild)
 		return;
 
-	g_Log.Add("[GS][U.System][Union][BreakOff] ( Union Master Guild: %s ), (Union Member Guild: %s)",
+	sLog->outBasic("[GS][U.System][Union][BreakOff] ( Union Master Guild: %s ), (Union Member Guild: %s)",
 		lpTargetGuild->Name, lpReqGuild->Name);
 
 	for (int n=0;n<MAX_USER_GUILD;n++)
@@ -1945,12 +1933,12 @@ void DGUnionBreakOff(EXSDHP_RELATIONSHIP_BREAKOFF_RESULT * lpMsg)
 
 void GDRelationShipReqBreakOff(int aIndex, int iTargetUserIndex, int iRelationShipType)
 {
-	if ( gObj[aIndex].Type != OBJ_USER || gObj[iTargetUserIndex].Type != OBJ_USER )
+	if ( lpObj->Type != OBJ_USER || gObj[iTargetUserIndex].Type != OBJ_USER )
 	{
 		return;
 	}
 
-	_GUILD_INFO_STRUCT * lpGuildInfo = gObj[aIndex].m_PlayerData->lpGuild;
+	_GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
 	_GUILD_INFO_STRUCT * lpTargetGuildInfo = gObj[iTargetUserIndex].m_PlayerData->lpGuild;
 
 	if ( !lpGuildInfo || !lpTargetGuildInfo )
@@ -1965,7 +1953,7 @@ void GDRelationShipReqBreakOff(int aIndex, int iTargetUserIndex, int iRelationSh
 	pMsg.iRequestGuildNum = lpGuildInfo->Number;
 	pMsg.iTargetGuildNum = lpTargetGuildInfo->Number;
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 
@@ -1998,13 +1986,13 @@ void DGRelationShipAnsBreakOff(EXSDHP_RELATIONSHIP_BREAKOFF_RESULT * lpMsg)
 		pMsg.btTargetUserIndexL = SET_NUMBERL(lpMsg->wTargetUserIndex);
 
 		if ( lpMsg->wRequestUserIndex != -1 )
-			IOCP.DataSend(lpMsg->wRequestUserIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+			GIOCP.DataSend(lpMsg->wRequestUserIndex, (LPBYTE)&pMsg, sizeof(pMsg));
 
 		pMsg.btTargetUserIndexH = SET_NUMBERH(lpMsg->wRequestUserIndex);
 		pMsg.btTargetUserIndexL = SET_NUMBERL(lpMsg->wRequestUserIndex);
 
 		if ( lpMsg->wTargetUserIndex != -1 )
-			IOCP.DataSend(lpMsg->wTargetUserIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+			GIOCP.DataSend(lpMsg->wTargetUserIndex, (LPBYTE)&pMsg, sizeof(pMsg));
 
 		if ( lpMsg->btResult == EX_RESULT_FAIL ||lpMsg->btResult == EX_RESULT_FAIL_FOR_CASTLE )
 			return;
@@ -2028,7 +2016,7 @@ void DGRelationShipAnsBreakOff(EXSDHP_RELATIONSHIP_BREAKOFF_RESULT * lpMsg)
 		lpTargetGuild->szGuildRivalName[0]=0;
 	}
 
-	g_Log.Add("[U.System][Rival][BreakOff] (  %s ) vs ( %s )",
+	sLog->outBasic("[U.System][Rival][BreakOff] (  %s ) vs ( %s )",
 		lpReqGuild->Name, lpTargetGuild->Name);
 
 	for ( int n=0;n<MAX_USER_GUILD;n++)
@@ -2065,7 +2053,7 @@ void DGRelationShipNotificationRecv(EXSDHP_NOTIFICATION_RELATIONSHIP * lpMsg)
 			lpGuildInfo->iGuildUnion = 0;
 			lpGuildInfo->SetTimeStamp();
 
-			g_Log.Add("[U.System][Union][Auto BreakOff] ( Union Master Guild: %s ), (Union Member Guild: %s)",
+			sLog->outBasic("[U.System][Union][Auto BreakOff] ( Union Master Guild: %s ), (Union Member Guild: %s)",
 				lpGuildInfo->Name, lpGuildInfo->Name);
 
 			for ( int n=0;n<MAX_USER_GUILD;n++)
@@ -2125,7 +2113,7 @@ void GDUnionListSend(int iUserIndex, int iUnionMasterGuildNumber)
 	pMsg.wRequestUserIndex = iUserIndex;
 	pMsg.iUnionMasterGuildNumber = iUnionMasterGuildNumber;
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 
@@ -2197,7 +2185,7 @@ void DGUnionListRecv(LPBYTE aRecv)
 	}
 
 	PHeadSetW((LPBYTE)lpMsg, 0xE9, lpMsg->btCount * sizeof(PMSG_UNIONLIST) + 0x10);	// #warning Check plus operation ( why 0x10 ??? )
-	IOCP.DataSend(lpRecvMsg->wRequestUserIndex, (LPBYTE)lpMsg, MAKE_NUMBERW(lpMsg->h.sizeH, lpMsg->h.sizeL));
+	GIOCP.DataSend(lpRecvMsg->wRequestUserIndex, (LPBYTE)lpMsg, MAKE_NUMBERW(lpMsg->h.sizeH, lpMsg->h.sizeL));
 }
 
 
@@ -2214,12 +2202,12 @@ struct EXSDHP_KICKOUT_UNIONMEMBER_REQ
 
 void GDRelationShipReqKickOutUnionMember(int aIndex, LPSTR szTargetGuildName)
 {
-	if ( gObj[aIndex].Type != OBJ_USER )
+	if ( lpObj->Type != OBJ_USER )
 	{
 		return;
 	}
 
-	_GUILD_INFO_STRUCT * lpGuildInfo = gObj[aIndex].m_PlayerData->lpGuild;
+	_GUILD_INFO_STRUCT * lpGuildInfo = lpObj->m_PlayerData->lpGuild;
 
 	if ( lpGuildInfo == NULL )
 	{
@@ -2233,7 +2221,7 @@ void GDRelationShipReqKickOutUnionMember(int aIndex, LPSTR szTargetGuildName)
 	memcpy(pMsg.szUnionMasterGuildName, lpGuildInfo->Name, sizeof(pMsg.szUnionMasterGuildName));
 	memcpy(pMsg.szUnionMemberGuildName, szTargetGuildName, sizeof(pMsg.szUnionMemberGuildName));
 
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
 
@@ -2265,7 +2253,7 @@ void DGRelationShipAnsKickOutUnionMember(EXSDHP_KICKOUT_UNIONMEMBER_RESULT * lpM
 		pMsg.btRequestType = 2;
 		pMsg.btRelationShipType = 1;
 
-		IOCP.DataSend(lpMsg->wRequestUserIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+		GIOCP.DataSend(lpMsg->wRequestUserIndex, (LPBYTE)&pMsg, sizeof(pMsg));
 
 		if ( lpMsg->btResult == 0 || lpMsg->btResult == 0x10 )
 			return;
@@ -2295,7 +2283,7 @@ void DGRelationShipAnsKickOutUnionMember(EXSDHP_KICKOUT_UNIONMEMBER_RESULT * lpM
 		}
 	}
 
-	g_Log.Add("[GS][U.System][Union][KickOut] ( Union Master Guild: %s ), (Union Member Guild: %s)",
+	sLog->outBasic("[GS][U.System][Union][KickOut] ( Union Master Guild: %s ), (Union Member Guild: %s)",
 		lpMsg->szUnionMasterGuildName, lpMsg->szUnionMemberGuildName);
 
 	if ( !lpUnionMemberGuild )
@@ -2333,33 +2321,33 @@ void FriendListRequest(int aIndex)
 {
 	if ( gObjIsConnectedGP(aIndex) == FALSE )
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
-	if (gObj[aIndex].m_FriendServerOnline == 2 )
+	if (lpObj->m_FriendServerOnline == 2 )
 	{
-		g_Log.Add("error-L3 : [%s][%s] FriendServer Online Request ", gObj[aIndex].AccountID, gObj[aIndex].Name);
+		sLog->outBasic("error-L3 : [%s][%s] FriendServer Online Request ", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 		return;
 	}
 
-	if (gObj[aIndex].m_FriendServerOnline == FRIEND_SERVER_STATE_OFFLINE )
+	if (lpObj->m_FriendServerOnline == FRIEND_SERVER_STATE_OFFLINE )
 	{
-		g_Log.Add("error-L3 : [%s][%s] FriendServer Offline", gObj[aIndex].AccountID, gObj[aIndex].Name);
+		sLog->outBasic("error-L3 : [%s][%s] FriendServer Offline", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 		return;
 	}
 
 	FHP_FRIENDLIST_REQ pMsg;
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x60, sizeof(FHP_FRIENDLIST_REQ));
-	memcpy(pMsg.Name, gObj[aIndex].Name, sizeof(pMsg.Name));
+	memcpy(pMsg.Name, lpObj->Name, sizeof(pMsg.Name));
 	pMsg.Number = aIndex;
 	pMsg.pServer = g_ConfigRead.server.GetGameServerCode();
 	
-	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
 
-	gObj[aIndex].m_FriendServerOnline = 2;
-	gObj[aIndex].m_PlayerData->m_nServerChannel = g_ConfigRead.server.GetGameServerCode();
+	lpObj->m_FriendServerOnline = 2;
+	lpObj->m_PlayerData->m_nServerChannel = g_ConfigRead.server.GetGameServerCode();
 
 }
 
@@ -2405,7 +2393,7 @@ void FriendListResult(LPBYTE lpMsg)
 	
 	if ( !gObjIsConnectedGP(lpCount->Number, Name.GetBuffer()))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -2429,7 +2417,7 @@ void FriendListResult(LPBYTE lpMsg)
 	pCount.h.set((LPBYTE)&pCount, 0xC0, pOfs);
 	memcpy(TmpSendBuf, &pCount, sizeof(PMSG_FRIEND_LIST_COUNT));
 
-	IOCP.DataSend(lpCount->Number, TmpSendBuf, pOfs);
+	GIOCP.DataSend(lpCount->Number, TmpSendBuf, pOfs);
 
 }
 
@@ -2447,7 +2435,7 @@ void WaitFriendListResult(FHP_WAITFRIENDLIST_COUNT * lpMsg)
 
 	if ( !gObjIsConnectedGP(lpMsg->Number, Name.GetBuffer()))
 	{
-		g_Log.Add("error-L2 : (%s) Index %s %d ",
+		sLog->outBasic("error-L2 : (%s) Index %s %d ",
 			Name.GetBuffer(), __FILE__, __LINE__);
 		return;
 	}
@@ -2458,9 +2446,9 @@ void WaitFriendListResult(FHP_WAITFRIENDLIST_COUNT * lpMsg)
 	pMsg.h.set((LPBYTE)&pMsg, 0xC2, sizeof(pMsg));
 	memcpy(pMsg.Name, lpMsg->FriendName, sizeof(pMsg.Name));
 
-	IOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
+	GIOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
 
-	g_Log.Add("[%s] WaitFriend List [%s]", gObj[lpMsg->Number].Name, Name.GetBuffer());
+	sLog->outBasic("[%s] WaitFriend List [%s]", gObj[lpMsg->Number].Name, Name.GetBuffer());
 }
 
 
@@ -2476,17 +2464,17 @@ void FriendStateClientRecv(PMSG_FRIEND_STATE_C * lpMsg, int aIndex)
 {
 	if ( !gObjIsConnectedGP(aIndex))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
 	FHP_FRIEND_STATE_C pMsg;
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x62, sizeof(pMsg));
-	memcpy(pMsg.Name, gObj[aIndex].Name, sizeof(pMsg.Name));
+	memcpy(pMsg.Name, lpObj->Name, sizeof(pMsg.Name));
 	pMsg.State = lpMsg->ChatVeto;
 
-	wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 }
 
 
@@ -2497,7 +2485,7 @@ void FriendStateRecv(FHP_FRIEND_STATE * lpMsg)
 
 	if ( !gObjIsConnectedGP(lpMsg->Number, Name.GetBuffer()))
 	{
-		g_Log.Add("error-L2 : (%s) Index %s %d ", Name.GetBuffer(), __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : (%s) Index %s %d ", Name.GetBuffer(), __FILE__, __LINE__);
 		return;
 	}
 
@@ -2507,9 +2495,9 @@ void FriendStateRecv(FHP_FRIEND_STATE * lpMsg)
 	memcpy(pMsg.Name, lpMsg->FriendName, sizeof(pMsg.Name));
 	pMsg.State = lpMsg->State;
 
-	IOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
+	GIOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
 
-	g_Log.Add("[%s] Friend State (%d)", gObj[lpMsg->Number].Name, lpMsg->State);
+	sLog->outBasic("[%s] Friend State (%d)", gObj[lpMsg->Number].Name, lpMsg->State);
 }
 
 
@@ -2536,7 +2524,7 @@ void FriendAddRequest(PMSG_FRIEND_ADD_REQ * lpMsg, int aIndex)
 {
 	if ( !gObjIsConnectedGP(aIndex))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -2546,8 +2534,8 @@ void FriendAddRequest(PMSG_FRIEND_ADD_REQ * lpMsg, int aIndex)
     if(ObjectMaxRange(aTargetIndex) == true && gObj[aTargetIndex].Type != OBJ_USER  )
     {
 		g_Log.AddC(TColor::Red,"[HACKTOOL] : NPC-FriendAddRequest npc:%d ip:%s account:%s name:%s State:%d",
-			gObj[aTargetIndex].Class,gObj[aIndex].m_PlayerData->Ip_addr,gObj[aIndex].AccountID,
-			gObj[aIndex].Name,gObj[aIndex].Connected);
+			gObj[aTargetIndex].Class,lpObj->m_PlayerData->Ip_addr,lpObj->m_PlayerData->ConnectUser->AccountID,
+			lpObj->Name,lpObj->Connected);
 		GSProtocol.GCSendDisableReconnect(aIndex);
 		// IOCP.CloseClient(aIndex);
         return;
@@ -2557,16 +2545,16 @@ void FriendAddRequest(PMSG_FRIEND_ADD_REQ * lpMsg, int aIndex)
 	FHP_FRIEND_ADD_REQ pMsg;
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x63, sizeof(pMsg));
-	memcpy(pMsg.Name, gObj[aIndex].Name, sizeof(pMsg.Name));
+	memcpy(pMsg.Name, lpObj->Name, sizeof(pMsg.Name));
 	memcpy(pMsg.FriendName, lpMsg->Name, sizeof(pMsg.FriendName));
 	pMsg.Number = aIndex;
 	char_ID szFriendName(lpMsg->Name);
 	
-	g_Log.Add("[%s] Friend add request Name: [%s]", gObj[aIndex].Name,		szFriendName.GetBuffer());
+	sLog->outBasic("[%s] Friend add request Name: [%s]", lpObj->Name,		szFriendName.GetBuffer());
 
-	if ( !strcmp(gObj[aIndex].Name, szFriendName.GetBuffer()))
+	if ( !strcmp(lpObj->Name, szFriendName.GetBuffer()))
 	{
-		g_Log.Add("error-L3 : [%s] Friend add : Not self", gObj[aIndex].Name);
+		sLog->outBasic("error-L3 : [%s] Friend add : Not self", lpObj->Name);
 		
 		PMSG_FRIEND_ADD_RESULT pResult;
 
@@ -2575,11 +2563,11 @@ void FriendAddRequest(PMSG_FRIEND_ADD_REQ * lpMsg, int aIndex)
 		pResult.Result = 5;
 		pResult.State = -1;
 
-		IOCP.DataSend(aIndex, (LPBYTE)&pResult, sizeof(pResult));
+		GIOCP.DataSend(aIndex, (LPBYTE)&pResult, sizeof(pResult));
 	}
 	else
 	{
-		wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+		//wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 	}
 }		
 
@@ -2591,7 +2579,7 @@ void FriendAddResult(FHP_FRIEND_ADD_RESULT * lpMsg)
 
 	if ( !gObjIsConnectedGP(lpMsg->Number, Name.GetBuffer()))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -2603,9 +2591,9 @@ void FriendAddResult(FHP_FRIEND_ADD_RESULT * lpMsg)
 	pMsg.Result = lpMsg->Result;
 	pMsg.State = lpMsg->Server;
 
-	IOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
+	GIOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
 
-	g_Log.Add("[%s] Friend add result : (%d) friend Name : (%s)",
+	sLog->outBasic("[%s] Friend add result : (%d) friend Name : (%s)",
 		Name.GetBuffer(), lpMsg->Result, szFriendName.GetBuffer());
 }
 
@@ -2623,23 +2611,23 @@ void WaitFriendAddRequest(PMSG_FRIEND_ADD_SIN_RESULT * lpMsg, int aIndex)
 {
 	if ( !gObjIsConnectedGP(aIndex))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
 	FHP_WAITFRIEND_ADD_REQ pMsg;
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x64, sizeof(pMsg));
-	memcpy(pMsg.Name, gObj[aIndex].Name, sizeof(pMsg.Name));
+	memcpy(pMsg.Name, lpObj->Name, sizeof(pMsg.Name));
 	memcpy(pMsg.FriendName, lpMsg->Name, sizeof(pMsg.FriendName));
 	pMsg.Result = lpMsg->Result;
 	pMsg.Number = aIndex;
 
-	wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 
 	{
 		char_ID fname(lpMsg->Name);
-		g_Log.Add("[%s] WaitFriend add request [%s]", gObj[aIndex].Name, fname.GetBuffer());
+		sLog->outBasic("[%s] WaitFriend add request [%s]", lpObj->Name, fname.GetBuffer());
 	}
 }
 
@@ -2651,7 +2639,7 @@ void WaitFriendAddResult(FHP_WAITFRIEND_ADD_RESULT * lpMsg)
 
 	if ( !gObjIsConnectedGP(lpMsg->Number, Name.GetBuffer()))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -2664,10 +2652,10 @@ void WaitFriendAddResult(FHP_WAITFRIEND_ADD_RESULT * lpMsg)
 
 	char_ID szFriendName(lpMsg->FriendName);
 
-	g_Log.Add("[%s] WaitFriend add result (%d) [%s]",
+	sLog->outBasic("[%s] WaitFriend add result (%d) [%s]",
 		Name.GetBuffer(), lpMsg->Result, szFriendName.GetBuffer());
 
-	IOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
+	GIOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
 }
 
 
@@ -2676,7 +2664,7 @@ void FriendDelRequest(PMSG_FRIEND_DEL_REQ * lpMsg, int aIndex)
 {
 	if ( !gObjIsConnectedGP(aIndex))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -2684,13 +2672,13 @@ void FriendDelRequest(PMSG_FRIEND_DEL_REQ * lpMsg, int aIndex)
 	char_ID Name(lpMsg->Name);
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x65, sizeof(pMsg));
-	memcpy(pMsg.Name, gObj[aIndex].Name, sizeof(pMsg.Name));
+	memcpy(pMsg.Name, lpObj->Name, sizeof(pMsg.Name));
 	memcpy(pMsg.FriendName, Name.GetBuffer(), sizeof(pMsg.FriendName));
 	pMsg.Number = aIndex;
 
-	wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 
-	g_Log.Add("[%s] Friend del request [%s]", gObj[aIndex].Name, Name.GetBuffer());
+	sLog->outBasic("[%s] Friend del request [%s]", lpObj->Name, Name.GetBuffer());
 }
 
 
@@ -2707,7 +2695,7 @@ void FriendDelResult(FHP_FRIEND_DEL_RESULT * lpMsg)
 
 	if ( !gObjIsConnectedGP(lpMsg->Number, Name.GetBuffer()))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -2718,10 +2706,10 @@ void FriendDelResult(FHP_FRIEND_DEL_RESULT * lpMsg)
 	memcpy(pMsg.Name, lpMsg->FriendName, sizeof(pMsg.Name));
 	pMsg.Result = lpMsg->Result;
 
-	g_Log.Add("[%s] Friend del result (%d) [%s]",
+	sLog->outBasic("[%s] Friend del result (%d) [%s]",
 		Name.GetBuffer(), lpMsg->Result, FriendName.GetBuffer());
 
-	IOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
+	GIOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
 }
 
 struct FHP_FRIEND_CHATROOM_CREATE_REQ
@@ -2737,22 +2725,22 @@ void FriendChatRoomCreateReq(PMSG_FRIEND_ROOMCREATE_REQ * lpMsg, int aIndex)
 {
 	if ( !gObjIsConnectedGP(aIndex))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
 	FHP_FRIEND_CHATROOM_CREATE_REQ pMsg;
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x66, sizeof(pMsg));
-	memcpy(pMsg.Name, gObj[aIndex].Name, sizeof(pMsg.Name));
+	memcpy(pMsg.Name, lpObj->Name, sizeof(pMsg.Name));
 	pMsg.Number = aIndex;
 	memcpy(pMsg.fName, lpMsg->Name, sizeof(pMsg.fName));
 	
-	wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 
 	char_ID szName(lpMsg->Name);
 
-	g_Log.Add("[%s] Chatroom create request [%s]", gObj[aIndex].Name, szName.GetBuffer());
+	sLog->outBasic("[%s] Chatroom create request [%s]", lpObj->Name, szName.GetBuffer());
 }
 
 
@@ -2774,7 +2762,7 @@ void FriendChatRoomCreateResult(FHP_FRIEND_CHATROOM_CREATE_RESULT * lpMsg)
 
 	if ( !gObjIsConnectedGP(lpMsg->Number, Name.GetBuffer()))
 	{
-		g_Log.Add("error-L2 : Index %s %d (%s)", __FILE__, __LINE__, Name.GetBuffer());
+		sLog->outBasic("error-L2 : Index %s %d (%s)", __FILE__, __LINE__, Name.GetBuffer());
 		return;
 	}
 
@@ -2788,9 +2776,9 @@ void FriendChatRoomCreateResult(FHP_FRIEND_CHATROOM_CREATE_RESULT * lpMsg)
 	pMsg.Result = lpMsg->Result;
 	memcpy(pMsg.Name, lpMsg->FriendName, sizeof(pMsg.Name));
 
-	IOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
+	GIOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
 
-	g_Log.Add("[%s] Chatroom create result (%d) ticket:(%d)",
+	sLog->outBasic("[%s] Chatroom create result (%d) ticket:(%d)",
 		gObj[lpMsg->Number].Name, lpMsg->Result, lpMsg->Ticket);
 }
 
@@ -2815,7 +2803,7 @@ void FriendMemoSend(PMSG_FRIEND_MEMO * lpMsg, int aIndex)
 {
 	if ( !gObjIsConnectedGP(aIndex))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 	char_ID Name(lpMsg->Name);
@@ -2824,27 +2812,27 @@ void FriendMemoSend(PMSG_FRIEND_MEMO * lpMsg, int aIndex)
 	{
 		if (lpMsg->Name[i] == '%')
 		{
-			g_Log.Add("[HACKATTEMPT] Crash DB using n [NickName = %s]", gObj[aIndex].Name);
+			sLog->outBasic("[HACKATTEMPT] Crash DB using n [NickName = %s]", lpObj->Name);
 			FHP_FRIEND_MEMO_SEND_RESULT pResult;
 
 			pResult.Number = aIndex;
 			pResult.Result = 0;
 			pResult.WindowGuid = lpMsg->WindowGuid;
-			memcpy(pResult.Name, gObj[aIndex].Name, sizeof(pResult.Name));
+			memcpy(pResult.Name, lpObj->Name, sizeof(pResult.Name));
 
 			FriendMemoSendResult(&pResult);
 
 			return;
 		}
 	}
-	if ( gObj[aIndex].m_PlayerData->Money < 1000 )
+	if ( lpObj->m_PlayerData->Money < 1000 )
 	{
 		FHP_FRIEND_MEMO_SEND_RESULT pResult;
 
 		pResult.Number = aIndex;
 		pResult.Result = 7;
 		pResult.WindowGuid = lpMsg->WindowGuid;
-		memcpy(pResult.Name, gObj[aIndex].Name, sizeof(pResult.Name));
+		memcpy(pResult.Name, lpObj->Name, sizeof(pResult.Name));
 
 		FriendMemoSendResult(&pResult);
 
@@ -2858,7 +2846,7 @@ void FriendMemoSend(PMSG_FRIEND_MEMO * lpMsg, int aIndex)
 		pResult.Number = aIndex;
 		pResult.Result = 0;
 		pResult.WindowGuid = lpMsg->WindowGuid;
-		memcpy(pResult.Name, gObj[aIndex].Name, sizeof(pResult.Name));
+		memcpy(pResult.Name, lpObj->Name, sizeof(pResult.Name));
 
 		FriendMemoSendResult(&pResult);
 
@@ -2872,7 +2860,7 @@ void FriendMemoSend(PMSG_FRIEND_MEMO * lpMsg, int aIndex)
 		pResult.Number = aIndex;
 		pResult.Result = 0;
 		pResult.WindowGuid = lpMsg->WindowGuid;
-		memcpy(pResult.Name, gObj[aIndex].Name, sizeof(pResult.Name));
+		memcpy(pResult.Name, lpObj->Name, sizeof(pResult.Name));
 
 		FriendMemoSendResult(&pResult);
 
@@ -2890,14 +2878,14 @@ void FriendMemoSend(PMSG_FRIEND_MEMO * lpMsg, int aIndex)
 	pMsg.Dir = lpMsg->Dir;
 	pMsg.Action = lpMsg->Action;
 	memcpy(pMsg.Subject, lpMsg->Subject, sizeof(pMsg.Subject));
-	memcpy(pMsg.Name, gObj[aIndex].Name, sizeof(pMsg.Name));
-	memcpy(pMsg.Photo, gObj[aIndex].CharSet, sizeof(pMsg.Photo));
+	memcpy(pMsg.Name, lpObj->Name, sizeof(pMsg.Name));
+	memcpy(pMsg.Photo, lpObj->CharSet, sizeof(pMsg.Photo));
 	memcpy(pMsg.ToName, lpMsg->Name, sizeof(pMsg.ToName));
 	memcpy(pMsg.Memo, lpMsg->Memo, lpMsg->MemoSize);
 
-	wsExDbCli.DataSend((PCHAR)&pMsg, bsize);
+	//wsExDbCli.DataSend((PCHAR)&pMsg, bsize);
 
-	g_Log.Add("[%s] Friend mail send %s (Size:%d)", gObj[aIndex].Name, Name.GetBuffer(), bsize);
+	sLog->outBasic("[%s] Friend mail send %s (Size:%d)", lpObj->Name, Name.GetBuffer(), bsize);
 }
 
 
@@ -2928,9 +2916,9 @@ void MngFriendMemoSend(PMSG_JG_MEMO_SEND * lpMsg)
 	memcpy(pMsg.ToName, lpMsg->TargetName, sizeof(pMsg.ToName));
 	memcpy(pMsg.Memo, lpMsg->Memo, lpMsg->MemoSize);
 
-	wsExDbCli.DataSend((PCHAR)&pMsg, bsize);
+	//wsExDbCli.DataSend((PCHAR)&pMsg, bsize);
 
-	g_Log.Add("JoinServer mail send %s (Size:%d)", Name.GetBuffer(), bsize);
+	sLog->outBasic("JoinServer mail send %s (Size:%d)", Name.GetBuffer(), bsize);
 }
 
 
@@ -2946,8 +2934,8 @@ BOOL WithdrawUserMoney(LPSTR Type, LPOBJ lpObj, int Withdraw_Money)
 
 		GSProtocol.GCMoneySend(lpObj->m_Index, lpObj->m_PlayerData->Money);
 		
-		g_Log.Add("[%s][%s] (%s) Pay Money(In Inventory) : %d - %d = %d",
-			lpObj->AccountID, lpObj->Name, Type, oldmoney, Withdraw_Money, lpObj->m_PlayerData->Money);
+		sLog->outBasic("[%s][%s] (%s) Pay Money(In Inventory) : %d - %d = %d",
+			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, Type, oldmoney, Withdraw_Money, lpObj->m_PlayerData->Money);
 
 		return TRUE;
 	}
@@ -2969,18 +2957,18 @@ void FriendMemoSendResult(FHP_FRIEND_MEMO_SEND_RESULT * lpMsg)
 
 	if ( !strcmp(Name.GetBuffer(), "webzen"))	// #warning Deathway
 	{
-		g_Log.Add("JoinServer Send Mail result : (%d)", lpMsg->Result);
+		sLog->outBasic("JoinServer Send Mail result : (%d)", lpMsg->Result);
 		return;
 	}
 	
 	if (!strcmp(Name.GetBuffer(), "%"))	// #warning Deathway
 	{
-		g_Log.Add("[HACKATTEMPT] Crash DB using n [NickName = %s]", gObj[lpMsg->Number].Name);
+		sLog->outBasic("[HACKATTEMPT] Crash DB using n [NickName = %s]", gObj[lpMsg->Number].Name);
 		return;
 	}
 	if ( !gObjIsConnectedGP(lpMsg->Number, Name.GetBuffer()))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -2990,9 +2978,9 @@ void FriendMemoSendResult(FHP_FRIEND_MEMO_SEND_RESULT * lpMsg)
 	pMsg.Result = lpMsg->Result;
 	pMsg.WindowGuid = lpMsg->WindowGuid;
 
-	IOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
+	GIOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
 
-	g_Log.Add("[%s] Friend mail Send result : (%d) guid:(%d)",
+	sLog->outBasic("[%s] Friend mail Send result : (%d) guid:(%d)",
 		gObj[lpMsg->Number].Name, lpMsg->Result, lpMsg->WindowGuid);
 
 	if ( pMsg.Result == 1 )
@@ -3013,7 +3001,7 @@ void FriendMemoListReq(int aIndex)
 {
 	if ( !gObjIsConnectedGP(aIndex))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -3021,11 +3009,11 @@ void FriendMemoListReq(int aIndex)
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x71, sizeof(pMsg));
 	pMsg.Number = aIndex;
-	memcpy(pMsg.Name, gObj[aIndex].Name, sizeof(pMsg.Name));
+	memcpy(pMsg.Name, lpObj->Name, sizeof(pMsg.Name));
 
-	wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 
-	g_Log.Add("[%s] Friend mail list request", gObj[aIndex].Name);
+	sLog->outBasic("[%s] Friend mail list request", lpObj->Name);
 }
 
 struct PMSG_FRIEND_MEMO_LIST
@@ -3046,7 +3034,7 @@ void FriendMemoList(FHP_FRIEND_MEMO_LIST * lpMsg)
 
 	if ( !gObjIsConnectedGP(lpMsg->Number, RecvName.GetBuffer()))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -3067,9 +3055,9 @@ void FriendMemoList(FHP_FRIEND_MEMO_LIST * lpMsg)
 	pMsg.Number = memoindex;
 	pMsg.read = lpMsg->read;
 
-	IOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
+	GIOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
 	
-	g_Log.Add("[%s] Friend Mail list : (%d:%10s:%s:%s)",
+	sLog->outBasic("[%s] Friend Mail list : (%d:%10s:%s:%s)",
 		SendName.GetBuffer(), memoindex, date, RecvName.GetBuffer(), subject);
 }
 
@@ -3086,7 +3074,7 @@ void FriendMemoReadReq(PMSG_FRIEND_READ_MEMO_REQ * lpMsg, int aIndex)
 {
 	if ( !gObjIsConnectedGP(aIndex))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -3095,12 +3083,12 @@ void FriendMemoReadReq(PMSG_FRIEND_READ_MEMO_REQ * lpMsg, int aIndex)
 	pMsg.h.set((LPBYTE)&pMsg, 0x72, sizeof(pMsg));
 	pMsg.MemoIndex = lpMsg->MemoIndex;
 	pMsg.Number = aIndex;
-	memcpy(pMsg.Name, gObj[aIndex].Name, sizeof(pMsg.Name));
+	memcpy(pMsg.Name, lpObj->Name, sizeof(pMsg.Name));
 
-	wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 
-	g_Log.Add("[%s] Friend Mail read Index:%d", 
-		gObj[aIndex].Name, lpMsg->MemoIndex);
+	sLog->outBasic("[%s] Friend Mail read Index:%d", 
+		lpObj->Name, lpMsg->MemoIndex);
 
 }
 
@@ -3122,7 +3110,7 @@ void FriendMemoRead(FHP_FRIEND_MEMO_RECV * lpMsg)
 
 	if ( !gObjIsConnectedGP(lpMsg->Number, Name.GetBuffer()))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -3132,7 +3120,7 @@ void FriendMemoRead(FHP_FRIEND_MEMO_RECV * lpMsg)
 
 	if ( lpMsg->MemoSize < 0 || lpMsg->MemoSize > 1000 )
 	{
-		g_Log.Add("error-L2 : Friend Memo Max %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Friend Memo Max %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -3146,9 +3134,9 @@ void FriendMemoRead(FHP_FRIEND_MEMO_RECV * lpMsg)
 	memcpy(pMsg.Photo, lpMsg->Photo,sizeof(pMsg.Photo));
 	memcpy(pMsg.Memo, lpMsg->Memo, lpMsg->MemoSize);
 
-	IOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, nsize);
+	GIOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, nsize);
 
-	g_Log.Add("[%s] Friend Mail read (%d)",
+	sLog->outBasic("[%s] Friend Mail read (%d)",
 		gObj[lpMsg->Number].Name, lpMsg->MemoIndex);
 }
 
@@ -3165,7 +3153,7 @@ void FriendMemoDelReq(PMSG_FRIEND_MEMO_DEL_REQ * lpMsg, int aIndex)
 {
 	if ( !gObjIsConnectedGP(aIndex))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -3174,12 +3162,12 @@ void FriendMemoDelReq(PMSG_FRIEND_MEMO_DEL_REQ * lpMsg, int aIndex)
 	pMsg.h.set((LPBYTE)&pMsg, 0x73, sizeof(pMsg));
 	pMsg.MemoIndex = lpMsg->MemoIndex;
 	pMsg.Number = aIndex;
-	memcpy(pMsg.Name, gObj[aIndex].Name, sizeof(pMsg.Name));
+	memcpy(pMsg.Name, lpObj->Name, sizeof(pMsg.Name));
 
-	wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 
-	g_Log.Add("[%s] Friend mail delete request Index:(%d)",
-		gObj[aIndex].Name, lpMsg->MemoIndex);
+	sLog->outBasic("[%s] Friend mail delete request Index:(%d)",
+		lpObj->Name, lpMsg->MemoIndex);
 }
 
 
@@ -3196,7 +3184,7 @@ void FriendMemoDelResult(FHP_FRIEND_MEMO_DEL_RESULT * lpMsg)
 
 	if ( !gObjIsConnectedGP(lpMsg->Number, Name.GetBuffer()))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -3206,9 +3194,9 @@ void FriendMemoDelResult(FHP_FRIEND_MEMO_DEL_RESULT * lpMsg)
 	pMsg.MemoIndex = lpMsg->MemoIndex;
 	pMsg.Result = lpMsg->Result;
 
-	IOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
+	GIOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
 
-	g_Log.Add("[%s] Friend mail delete request (%d) index:(%d)",
+	sLog->outBasic("[%s] Friend mail delete request (%d) index:(%d)",
 		Name.GetBuffer(), lpMsg->Result, lpMsg->MemoIndex);
 }
 
@@ -3227,7 +3215,7 @@ void FriendRoomInvitationReq(PMSG_ROOM_INVITATION * lpMsg, int aIndex)
 {
 	if ( !gObjIsConnectedGP(aIndex))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -3238,12 +3226,12 @@ void FriendRoomInvitationReq(PMSG_ROOM_INVITATION * lpMsg, int aIndex)
 	pMsg.RoomNumber = lpMsg->RoomNumber;
 	pMsg.WindowGuid = lpMsg->WindowGuid;
 	memcpy(pMsg.FriendName, lpMsg->Name, sizeof(pMsg.FriendName));
-	memcpy(pMsg.Name, gObj[aIndex].Name, sizeof(pMsg.Name));
+	memcpy(pMsg.Name, lpObj->Name, sizeof(pMsg.Name));
 
-	wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((PCHAR)&pMsg, pMsg.h.size);
 
-	g_Log.Add("[%s] Friend Invistation request room:%d winguid:%d",
-		gObj[aIndex].Name, lpMsg->RoomNumber, lpMsg->WindowGuid);
+	sLog->outBasic("[%s] Friend Invistation request room:%d winguid:%d",
+		lpObj->Name, lpMsg->RoomNumber, lpMsg->WindowGuid);
 }
 
 
@@ -3261,7 +3249,7 @@ void FriendRoomInvitationRecv(FHP_FRIEND_INVITATION_RET* lpMsg)
 
 	if ( !gObjIsConnectedGP(lpMsg->Number, Name.GetBuffer()))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -3271,9 +3259,9 @@ void FriendRoomInvitationRecv(FHP_FRIEND_INVITATION_RET* lpMsg)
 	pMsg.Result = lpMsg->Result;
 	pMsg.WindowGuid = lpMsg->WindowGuid;
 
-	IOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
+	GIOCP.DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
 
-	g_Log.Add("[%s] Friend Invitation result :%d",
+	sLog->outBasic("[%s] Friend Invitation result :%d",
 		Name.GetBuffer(), pMsg.Result);
 }
 
@@ -3318,7 +3306,7 @@ void DGAnsGensInfo(PMSG_ANS_GENS_INFO_EXDB *lpMsg)
 	}
 	else
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 	}
 }
 
@@ -3345,7 +3333,7 @@ void DGAnsRegGensMember(PMSG_ANS_REG_GENS_MEMBER_EXDB *lpMsg)
 		PHeadSubSetBE((LPBYTE)&pMsg, 0xF8, 0x02, sizeof(pMsg));
 		pMsg.bResult = lpMsg->bResult; 
 		pMsg.iInfluence = lpMsg->bInfluence;
-		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		GIOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 		
 		switch (lpMsg->bResult)
 		{
@@ -3433,7 +3421,7 @@ void DGAnsSecedeGensMember(PMSG_ANS_SECEDE_GENS_MEMBER_EXDB *lpMsg)
 		
 		PHeadSubSetBE((LPBYTE)&pMsg, 0xF8, 0x04, sizeof(pMsg)); 
 		pMsg.bResult = lpMsg->bResult;		
-		IOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, 0x05); 
+		GIOCP.DataSend(lpObj->m_Index, (LPBYTE)&pMsg, 0x05); 
 	}
 	else
 	{
@@ -3463,7 +3451,7 @@ void DGAnsAbusingInfo(PMSG_ANS_ABUSING_INFO *lpMsg)
 	}
 	else
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 	}
 }
 
@@ -3497,13 +3485,13 @@ void DGAnsGensReward(PMSG_ANS_GENS_REWARD_EXDB *lpMsg)
 	 		}
 		}
 
-		g_Log.Add("[GensSystem] Send Gens Ranking Reward [%s][%s] Result [%d]", lpObj->AccountID, lpObj->Name, btResult);
+		sLog->outBasic("[GensSystem] Send Gens Ranking Reward [%s][%s] Result [%d]", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, btResult);
 		g_GensSystem.SendGensReward(lpObj, btResult);
 	}
 
 	else
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 	}
 }
 
@@ -3531,7 +3519,7 @@ void DGAnsGensRewardDayCheck(PMSG_ANS_GENS_REWARD_DAY_CHECK_EXDB *lpMsg)
 
 	else
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 	}
 }
 
@@ -3553,7 +3541,7 @@ void GDGensServerGroupChattingSend(int iGensInfluence, PMSG_CHATDATA* lpChatData
 	memcpy(pMsg.szCharacterName, lpChatData->chatid, MAX_ACCOUNT_LEN);
 	memcpy(pMsg.szChattingMsg, lpChatData->chatmsg, 90);
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DGGensServerGroupChattingRecv(EXSDHP_SERVERGROUP_GENS_CHATTING_RECV *lpMsg)
@@ -3574,7 +3562,7 @@ void DGGensServerGroupChattingRecv(EXSDHP_SERVERGROUP_GENS_CHATTING_RECV *lpMsg)
 			{
 				if(lpObj->m_PlayerData->m_GensInfluence == lpMsg->iGensNum)
 				{
-					IOCP.DataSend(i, (LPBYTE)&pMsg, pMsg.h.size);
+					GIOCP.DataSend(i, (LPBYTE)&pMsg, pMsg.h.size);
 				}
 			}
 		}
@@ -3596,7 +3584,7 @@ void GDReqGuildMatchingList(int nUserIndex, int nPage)
 		return;
 	}
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void GDReqGuildMatchingListSearchWord(int nUserIndex, int nPage, char *szSearchWord)
@@ -3614,7 +3602,7 @@ void GDReqGuildMatchingListSearchWord(int nUserIndex, int nPage, char *szSearchW
 	}
 
 	memcpy(pMsg.szSearchWord, szSearchWord, 11);
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DGAnsGuildMatchingList(_stAnsGuildMatchingList *lpMsg)
@@ -3656,7 +3644,7 @@ void DGAnsGuildMatchingList(_stAnsGuildMatchingList *lpMsg)
 	PHeadSubSetW((LPBYTE)&pMsg, 0xED, 0x00, nDataOffset + nHeaderOffset);
 
 	memcpy(&btSendBuffer, &pMsg, nHeaderOffset);
-	IOCP.DataSend(nUserIndex, btSendBuffer, nHeaderOffset + nDataOffset);
+	GIOCP.DataSend(nUserIndex, btSendBuffer, nHeaderOffset + nDataOffset);
 }
 
 void GDReqDelMatchingList(int nUserIndex, int nGuildNum)
@@ -3672,7 +3660,7 @@ void GDReqDelMatchingList(int nUserIndex, int nGuildNum)
 	pMsg.nGuildNumber = nGuildNum;
 	pMsg.nUserIndex = nUserIndex;
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DGAnsDelMatchingList(_stAnsDelGuildMatchingList *lpMsg)
@@ -3689,7 +3677,7 @@ void DGAnsDelMatchingList(_stAnsDelGuildMatchingList *lpMsg)
 	PHeadSubSetB((LPBYTE)&pMsg, 0xED, 0x03, sizeof(pMsg));
 	gObj[nUserIndex].m_PlayerData->m_bUseGuildMatching = false;
 
-	IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	GIOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void GDReqRegGuildMatchingList(int nUserIndex, _stGuildMatchingList stGuildMatchingList)
@@ -3712,7 +3700,7 @@ void GDReqRegGuildMatchingList(int nUserIndex, _stGuildMatchingList stGuildMatch
 	pMsg.nUserIndex = nUserIndex;
 	memcpy(&pMsg._stGuildMatchingList, &stGuildMatchingList, sizeof(stGuildMatchingList));
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DGAnsRegGuildMatchingList(_stAnsGuildMatchingData *lpMsg)
@@ -3728,7 +3716,7 @@ void DGAnsRegGuildMatchingList(_stAnsGuildMatchingData *lpMsg)
 	pMsg.nResult = lpMsg->nResult;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xED, 0x02, sizeof(pMsg));
 	
-	IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	GIOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void GDReqJoinGuildMatchingList(int nUserIndex, _stGuildMatchingAllowListDB stAllowList)
@@ -3744,7 +3732,7 @@ void GDReqJoinGuildMatchingList(int nUserIndex, _stGuildMatchingAllowListDB stAl
 	memcpy(&pMsg.stAllowList, &stAllowList, sizeof(stAllowList));
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA3, 0x04, sizeof(pMsg));
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DGAnsJoinGuildMatching(_stAnsWaitGuildMatching *lpMsg)
@@ -3760,7 +3748,7 @@ void DGAnsJoinGuildMatching(_stAnsWaitGuildMatching *lpMsg)
 	pMsg.nResult = lpMsg->nResult;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xED, 0x04, sizeof(pMsg));
 
-	IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	GIOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void GDReqCancelJoinGuildMatching(int nUserIndex, char *szName, int nType)
@@ -3778,7 +3766,7 @@ void GDReqCancelJoinGuildMatching(int nUserIndex, char *szName, int nType)
 	pMsg.nUserIndex = nUserIndex;
 	pMsg.nType = nType;
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DGAnsCancelJoinGuildMatching(_stAnsDelWaitGuildMatchingList *lpMsg)
@@ -3799,7 +3787,7 @@ void DGAnsCancelJoinGuildMatching(_stAnsDelWaitGuildMatchingList *lpMsg)
 	pMsg.nResult = lpMsg->nResult;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xED, 0x05, sizeof(pMsg));
 
-	IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	GIOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void GDReqAllowJoinGuildMatching(int nUserIndex, int nAllowType, char *szName, char *szGuildName)
@@ -3911,7 +3899,7 @@ void GDReqAllowJoinGuildMatching(int nUserIndex, int nAllowType, char *szName, c
 		memcpy(&pErrorMsg.szMemberName, szName, MAX_ACCOUNT_LEN + 1);
 
 		PHeadSubSetB((LPBYTE)&pErrorMsg, 0xED, 0x06, sizeof(pErrorMsg));
-		IOCP.DataSend(nUserIndex, (LPBYTE)&pErrorMsg, pErrorMsg.h.size);
+		GIOCP.DataSend(nUserIndex, (LPBYTE)&pErrorMsg, pErrorMsg.h.size);
 	}
 
 	else
@@ -3922,7 +3910,7 @@ void GDReqAllowJoinGuildMatching(int nUserIndex, int nAllowType, char *szName, c
 		memcpy(pMsg.szName, szName, MAX_ACCOUNT_LEN + 1);
 		memcpy(pMsg.szGuildName, szGuildName, MAX_GUILD_LEN + 1);
 
-		wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+		//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 	}
 }
 
@@ -3932,7 +3920,7 @@ void DGAnsAllowJoinGuildMatching(_stAnsAllowJoinGuildMatching *lpMsg)
 
 	if (!gObjIsConnectedGP(nUserIndex))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -3956,7 +3944,7 @@ void DGAnsAllowJoinGuildMatching(_stAnsAllowJoinGuildMatching *lpMsg)
 	memcpy(&pMsg.szMemberName, szName, MAX_ACCOUNT_LEN + 1);
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xED, 0x06, sizeof(pMsg));
-	IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	GIOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void GDReqWaitGuildMatchingList(int nGuildNumber, int nUserIndex)
@@ -3965,7 +3953,7 @@ void GDReqWaitGuildMatchingList(int nGuildNumber, int nUserIndex)
 
 	if (!gObjIsConnectedGP(nUserIndex))
 	{
-		g_Log.Add("error-L2 : Index %s %d", __FILE__, __LINE__);
+		sLog->outBasic("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
@@ -3974,7 +3962,7 @@ void GDReqWaitGuildMatchingList(int nGuildNumber, int nUserIndex)
 	pMsg.nUserIndex = nUserIndex;
 	pMsg.nGuildNumber = nGuildNumber;
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DGAnsWaitGuildMatchingList(_stAnsWaitGuildMatchingList *lpMsg)
@@ -4015,7 +4003,7 @@ void DGAnsWaitGuildMatchingList(_stAnsWaitGuildMatchingList *lpMsg)
 	PHeadSubSetW((LPBYTE)&pMsg, 0xED, 0x07, nHeaderOffset + nDataOffset);
 	memcpy(&btSendBuffer, &pMsg, sizeof(pMsg));
 
-	IOCP.DataSend(nUserIndex, btSendBuffer, nHeaderOffset + nDataOffset);
+	GIOCP.DataSend(nUserIndex, btSendBuffer, nHeaderOffset + nDataOffset);
 }
 
 void GDReqGetWaitStateListGuildMatching(int nUserIndex, char *szApplicantName)
@@ -4031,7 +4019,7 @@ void GDReqGetWaitStateListGuildMatching(int nUserIndex, char *szApplicantName)
 	pMsg.nUserIndex = nUserIndex;
 	memcpy(&pMsg.szName, szApplicantName, MAX_ACCOUNT_LEN + 1);
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DGAnsGetWaitStateListGuildMatching(_stAnsWaitStateListGuildMatching *lpMsg)
@@ -4050,7 +4038,7 @@ void DGAnsGetWaitStateListGuildMatching(_stAnsWaitStateListGuildMatching *lpMsg)
 	memcpy(pMsg.szGuildMasterName, lpMsg->szGuildMasterName, MAX_ACCOUNT_LEN + 1);
 	memcpy(pMsg.szGuildName, lpMsg->szGuildName, MAX_GUILD_LEN + 1);
 
-	IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	GIOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void DGAnsNotiGuildMatching(_stAnsNotiGuildMatching *lpMsg)
@@ -4070,7 +4058,7 @@ void DGAnsNotiGuildMatching(_stAnsNotiGuildMatching *lpMsg)
 		PHeadSubSetB((LPBYTE)&pMsg, 0xED, 0x09, sizeof(pMsg));
 		pMsg.nResult = lpMsg->nResult;
 
-		IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		GIOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 
 		GDReqCancelJoinGuildMatching(nUserIndex, gObj[nUserIndex].Name, 1);
 	}
@@ -4095,7 +4083,7 @@ void DGAnsNotiGuildMatchingForGuildMaster(_stAnsNotiGuildMatchingForGuildMaster 
 
 	pMsg.nResult = lpMsg->nResult;
 
-	IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	GIOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void DGAnsUseGuildMatchingGuild(_stAnsUseGuildMatchingGuild *lpMsg)
@@ -4128,7 +4116,7 @@ void GDReqRegWantedPartyMember(_PARTY_INFO_LISTDB stList, int nUserIndex)
 
 		pMsg.nResult = -3;
 
-		IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		GIOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -4151,7 +4139,7 @@ void GDReqRegWantedPartyMember(_PARTY_INFO_LISTDB stList, int nUserIndex)
 	memcpy(pMsg.btWantedClassDetailInfo, stList.btWantedClassDetailInfo, 7);
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA4, 0x00, sizeof(pMsg));
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DGAnsRegWantedPartyMember(_stAnsRegWantedPartyMember *lpMsg)
@@ -4174,7 +4162,7 @@ void DGAnsRegWantedPartyMember(_stAnsRegWantedPartyMember *lpMsg)
 	PHeadSubSetB((LPBYTE)&pMsg, 0xEF, 0x00, sizeof(pMsg));
 	pMsg.nResult = lpMsg->nResult;
 
-	IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	GIOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 
 	int nPartyNum = gObj[nUserIndex].PartyNumber;
 
@@ -4203,7 +4191,7 @@ void DGAnsRegWantedPartyMember(_stAnsRegWantedPartyMember *lpMsg)
 			memcpy(pAddMsg.szLeaderName, gObj[nUserIndex].Name, MAX_ACCOUNT_LEN + 1);
 			memcpy(pAddMsg.szMemberName, gObj[gParty.m_PartyS[nPartyNum].Number[i]].Name, MAX_ACCOUNT_LEN + 1);
 
-			wsExDbCli.DataSend((char *)&pAddMsg, pAddMsg.h.size);
+			//wsExDbCli.DataSend((char *)&pAddMsg, pAddMsg.h.size);
 		}
 	}
 }
@@ -4257,7 +4245,7 @@ void GDReqGetPartyMatchingList(int nPage, char *szSearchWord, int nType, int nUs
 	memcpy(pMsg.szSearchWord, szSearchWord, 11);
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA4, 0x01, sizeof(pMsg));
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DGAnsGetPartyMatchingList(_stAnsGetPartyMatchingList *lpMsg)
@@ -4296,7 +4284,7 @@ void DGAnsGetPartyMatchingList(_stAnsGetPartyMatchingList *lpMsg)
 	pMsg.nResult = lpMsg->nResult;
 	
 	memcpy(&btSendBuffer, &pMsg, sizeof(pMsg));
-	IOCP.DataSend(nUserIndex, btSendBuffer, nHeaderOffset + nDataOffset);
+	GIOCP.DataSend(nUserIndex, btSendBuffer, nHeaderOffset + nDataOffset);
 }
 
 void GDReqJoinMemberPartyMatching(char *szMemberName, char *szLeaderName, char *szPassWord, int nUserIndex, int nUserDBNumber, int nLevel, BYTE btClass, BYTE btRandomParty, BYTE btGensType, BYTE btChangeUpClass)
@@ -4313,7 +4301,7 @@ void GDReqJoinMemberPartyMatching(char *szMemberName, char *szLeaderName, char *
 		pMsg.nResult = -6;
 		PHeadSubSetB((LPBYTE)&pMsg, 0xEF, 0x02, sizeof(pMsg));
 
-		IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		GIOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -4331,7 +4319,7 @@ void GDReqJoinMemberPartyMatching(char *szMemberName, char *szLeaderName, char *
 	memcpy(pMsg.szMemberName, szMemberName, MAX_ACCOUNT_LEN + 1);
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA4, 0x02, sizeof(pMsg));
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DGAnsJoinMemberPartyMatching(_stAnsJoinMemberPartyMatching *lpMsg)
@@ -4352,7 +4340,7 @@ void DGAnsJoinMemberPartyMatching(_stAnsJoinMemberPartyMatching *lpMsg)
 	pMsg.nResult = lpMsg->nResult;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xEF, 0x02, sizeof(pMsg));
 
-	IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	GIOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void GDReqMemberJoinStateList(char *szMemberName, int nUserIndex)
@@ -4367,7 +4355,7 @@ void GDReqMemberJoinStateList(char *szMemberName, int nUserIndex)
 	memcpy(pMsg.szMemberName, szMemberName, MAX_ACCOUNT_LEN + 1);
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA4, 0x03, sizeof(pMsg));
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 void DGAnsMemberJoinStateList(_stAnsJoinMemberStateListPartyMatching *lpMsg)
 {
@@ -4385,7 +4373,7 @@ void DGAnsMemberJoinStateList(_stAnsJoinMemberStateListPartyMatching *lpMsg)
 
 	PHeadSubSetB((LPBYTE)&pMsg, 0xEF, 0x03, sizeof(pMsg));
 
-	IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	GIOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void GDReqMemberJoinStateListLeader(char *szLeaderName, int nUserIndex)
@@ -4400,7 +4388,7 @@ void GDReqMemberJoinStateListLeader(char *szLeaderName, int nUserIndex)
 	memcpy(pMsg.szLeaderName, szLeaderName, MAX_ACCOUNT_LEN + 1);
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA4, 0x04, sizeof(pMsg));
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DGAnsMemberJoinStateListLeader(_stAnsWaitListPartyMatching *lpMsg)
@@ -4437,7 +4425,7 @@ void DGAnsMemberJoinStateListLeader(_stAnsWaitListPartyMatching *lpMsg)
 	PHeadSubSetW((LPBYTE)&pMsg, 0xEF, 0x04, nHeaderOffset + nDataOffset);
 	memcpy(&btSendBuffer, &pMsg, sizeof(pMsg));
 
-	IOCP.DataSend(nUserIndex, btSendBuffer, nHeaderOffset + nDataOffset);
+	GIOCP.DataSend(nUserIndex, btSendBuffer, nHeaderOffset + nDataOffset);
 }
 
 void DGAnsSendPartyMemberListPartyMatching(_stAnsSendPartyMemberList *lpMsg)
@@ -4538,7 +4526,7 @@ void DGAnsSendPartyMemberListPartyMatching(_stAnsSendPartyMemberList *lpMsg)
 
 	pCount.h.size = lOfs;
 	memcpy(sendbuf, &pCount, sizeof(pCount));
-	IOCP.DataSend(nUserIndex, sendbuf, lOfs);
+	GIOCP.DataSend(nUserIndex, sendbuf, lOfs);
 }
 
 void GDReqCancelPartyMatching(int nUserIndex, BYTE btType)
@@ -4550,7 +4538,7 @@ void GDReqCancelPartyMatching(int nUserIndex, BYTE btType)
 	memcpy(pMsg.szName, gObj[nUserIndex].Name, MAX_ACCOUNT_LEN + 1);
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA4, 0x06, sizeof(pMsg));
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DGAnsCancelPartyMatching(_stAnsCancelPartyMatching *lpMsg)
@@ -4585,7 +4573,7 @@ void DGAnsCancelPartyMatching(_stAnsCancelPartyMatching *lpMsg)
 	pMsg.nResult = lpMsg->nResult;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xEF, 0x06, sizeof(pMsg));
 
-	IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	GIOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void GDReqAcceptMemberJoin(int nUserIndex, BYTE btType, char *szLeaderName, char *szMemberName, BYTE btManual)
@@ -4600,7 +4588,7 @@ void GDReqAcceptMemberJoin(int nUserIndex, BYTE btType, char *szLeaderName, char
 	memcpy(pMsg.szMemberName, szMemberName, MAX_ACCOUNT_LEN + 1);
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA4, 0x05, sizeof(pMsg));
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DGAnsAcceptMemberJoin(_stAnsAddPartyMember *lpMsg)
@@ -4630,7 +4618,7 @@ void DGAnsAcceptMemberJoin(_stAnsAddPartyMember *lpMsg)
 			gObj[lpMsg->nMemberIndex].m_PlayerData->m_bUsePartyMatching = false;
 		}
 
-		IOCP.DataSend(lpMsg->nMemberIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+		GIOCP.DataSend(lpMsg->nMemberIndex, (LPBYTE)&pMsg, sizeof(pMsg));
 	}
 
 	else
@@ -4641,7 +4629,7 @@ void DGAnsAcceptMemberJoin(_stAnsAddPartyMember *lpMsg)
 		}
 
 		pMsg.btFlag = FALSE;
-		IOCP.DataSend(lpMsg->nUserIndex, (LPBYTE)&pMsg, sizeof(pMsg));
+		GIOCP.DataSend(lpMsg->nUserIndex, (LPBYTE)&pMsg, sizeof(pMsg));
 	}
 }
 
@@ -4696,7 +4684,7 @@ void GDReqDeletePartyUser(int nUserIndex, char *szTargetName)
 	memcpy(pMsg.szTargetName, szTargetName, MAX_ACCOUNT_LEN + 1);
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA4, 0x07, sizeof(pMsg));
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DGAnsRequestJoinPartyMatchingNoti(_stAnsRequestJoinPartyMatchingNoti *lpMsg)
@@ -4711,7 +4699,7 @@ void DGAnsRequestJoinPartyMatchingNoti(_stAnsRequestJoinPartyMatchingNoti *lpMsg
 	PMSG_ANS_NOTI_JOINPARTYMATCHING pMsg;
 	PHeadSubSetB((LPBYTE)&pMsg, 0xEF, 0x08, sizeof(pMsg));
 
-	IOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	GIOCP.DataSend(nUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void DGAnsDeletePartyUser(_stAnsDelPartyUserPartyMatching *lpMsg)
@@ -4746,7 +4734,7 @@ void GDSendChatMsgPartyMatching(char *szMsg, char *szName, int nPartyMatchingInd
 	memcpy(pMsg.szSendCharName, szName, MAX_ACCOUNT_LEN + 1);
 	pMsg.nPartyIndex = nPartyMatchingIndex;
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void DGRecvChatMsgPartyMatching(_stAnsChattingPartyMatching *lpMsg)
@@ -4774,7 +4762,7 @@ void DGRecvChatMsgPartyMatching(_stAnsChattingPartyMatching *lpMsg)
 	memcpy(pMsg.chatmsg, lpMsg->szChat, 63);
 	memcpy(pMsg.chatid, lpMsg->szSendCharName, MAX_ACCOUNT_LEN);
 
-	IOCP.DataSend(nTargetIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	GIOCP.DataSend(nTargetIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void GDReqSendPartyMemberList(char *szLeaderName)
@@ -4784,7 +4772,7 @@ void GDReqSendPartyMemberList(char *szLeaderName)
 	PHeadSubSetB((LPBYTE)&pMsg, 0xA4, 0x11, sizeof(pMsg));
 	memcpy(pMsg.szLeaderName, szLeaderName, MAX_ACCOUNT_LEN + 1);
 
-	wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsExDbCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 // finished o.O

@@ -59,11 +59,11 @@ public:
 	virtual ~CSendNPCInfo(void);
 
 	void LoadScript(char *lpFileName);
-	void SendNpcCoordinate(int nDestUserIndex, BYTE btMapIndex, BYTE btAddType);
+	void SendNpcCoordinate(CGameObject* lpObj, BYTE btMapIndex, BYTE btAddType);
 	void SendPortalCoordinateMoveNpc(BYTE btBeforeMapNumber, BYTE btAfterMapNumber, BYTE btBeforeX, BYTE btBeforeY, BYTE btX, BYTE btY, int nNpcClass);
-	void SendPortalCoordinate(int nDestUserIndex, BYTE btMapNumber);
+	void SendPortalCoordinate(CGameObject* lpObj, BYTE btMapNumber);
 	void Find_ITL_Npc(BYTE byMapNumber, WORD wNpcType, BYTE & byMapTagIndex);
-	void SendITLNpcCoordinate(int nDestUserIndex, BYTE btMapIndex);
+	void SendITLNpcCoordinate(CGameObject* lpObj, BYTE btMapIndex);
 
 private:
 	bool								m_bLoadScript;

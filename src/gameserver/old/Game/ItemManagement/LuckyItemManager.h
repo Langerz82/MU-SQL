@@ -146,7 +146,7 @@ public:
 
 	int		GDReqLuckyItemInsert(CItemObject * pItem, int iObjIndex);
 	int		GDReqLuckyItemInsert(short wItemCode, UINT64 dwSerial, short wDurabilitySmall, int iObjIndex);
-	void	GDReqLuckyItemInsert2nd(int iObjIndex);
+	void	GDReqLuckyItemInsert2nd(CGameObject &Obj);
 	void	GDReqLuckyItemDelete(short wItemCode, UINT64 dwSerial, int iObjIndex);
 	void	DGAnsLuckyItemList(PMSG_ANS_LUCKYITEM_SELECT * lpRecv);
 	void	GDReqLuckyItemSelect(CGameObject &Obj);

@@ -71,7 +71,7 @@ void CSendNPCInfo::LoadScript(char *lpFileName)
 	this->m_bLoadScript = true;
 }
 
-void CSendNPCInfo::SendNpcCoordinate(int nDestUserIndex, BYTE btMapIndex, BYTE btAddType)
+void CSendNPCInfo::SendNpcCoordinate(CGameObject* lpObj, BYTE btMapIndex, BYTE btAddType)
 {
 	int nSize = this->m_vtSendNpcInfo.size();
 
@@ -189,7 +189,7 @@ void CSendNPCInfo::SendPortalCoordinateMoveNpc(BYTE btBeforeMapNumber, BYTE btAf
 	}
 }
 
-void CSendNPCInfo::SendPortalCoordinate(int nDestUserIndex, BYTE btMapNumber)
+void CSendNPCInfo::SendPortalCoordinate(CGameObject* lpObj, BYTE btMapNumber)
 {
 	int nSize = this->m_vtSendPortalInfo.size();
 
@@ -239,7 +239,7 @@ void CSendNPCInfo::Find_ITL_Npc(BYTE byMapNumber, WORD wNpcType, BYTE & byMapTag
 	}
 }
 
-void CSendNPCInfo::SendITLNpcCoordinate(int nDestUserIndex, BYTE btMapIndex)
+void CSendNPCInfo::SendITLNpcCoordinate(CGameObject* lpObj, BYTE btMapIndex)
 {
 	int nSize = this->m_vtSendNpcInfo.size();
 

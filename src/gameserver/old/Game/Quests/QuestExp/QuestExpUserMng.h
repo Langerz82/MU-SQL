@@ -30,23 +30,23 @@ public:
 	bool IsRandRewardIndex(int iRewardIndexID, QuestExpRewardKindRandom *pRewardKindRandom);
 	bool IsRandResultReward(int iRewardIndexID, QuestExpRewardKindRandom *pRewardKindRandom, int *iRandResultIndexID);
 	 
-    int InvenChk_EnableReward(int episode_number, int obj_index, int* rand_result_index_id);
-    int SendQuestReward(int episode_number, int obj_index);
-    void InitUserQuestAskInfo(int episode_number, int obj_index);
-    void SetQuestSwitch(int episode_number, int quest_switch, int obj_index);
-    bool AddUserQuestAskInfo(DWORD quest_info_index_id, int obj_index);
-    void AddUserQuestAskMonsterKill(QuestExpAsk* quest_exp_ask, int obj_index, int episode_number, int ask_count);
-    int GetQuestSwitch(int episode_number, int obj_index);
-    void UserAllQuestInfoSave(int obj_index);
-    void UserQuestInfoSave(DWORD quest_info_index_id, int obj_index);
-    void DB_ReqUserQuestInfo(int obj_index);
+    int InvenChk_EnableReward(int episode_number, CGameObject* lpObj, int* rand_result_index_id);
+    int SendQuestReward(int episode_number, CGameObject* lpObj);
+    void InitUserQuestAskInfo(int episode_number, CGameObject* lpObj);
+    void SetQuestSwitch(int episode_number, int quest_switch, CGameObject* lpObj);
+    bool AddUserQuestAskInfo(DWORD quest_info_index_id, CGameObject* lpObj);
+    void AddUserQuestAskMonsterKill(QuestExpAsk* quest_exp_ask, CGameObject* lpObj, int episode_number, int ask_count);
+    int GetQuestSwitch(int episode_number, CGameObject* lpObj);
+    void UserAllQuestInfoSave(CGameObject* lpObj);
+    void UserQuestInfoSave(DWORD quest_info_index_id, CGameObject* lpObj);
+    void DB_ReqUserQuestInfo(CGameObject* lpObj);
     void UserQuestInfoLoad(PMSG_ANS_QUESTEXP_INFO* lpRecv);
-    UserQuestInfo* GetUserQuestInfo(int episode_number, int obj_index);
+    UserQuestInfo* GetUserQuestInfo(int episode_number, CGameObject* lpObj);
 
-    int GetQuestProgState(DWORD quest_info_index_id, int obj_index);
-    int GetQuestProgState(int ep, int obj_index);
+    int GetQuestProgState(DWORD quest_info_index_id, CGameObject* lpObj);
+    int GetQuestProgState(int ep, CGameObject* lpObj);
 
-    bool IsQuestAccept(DWORD quest_info_index_id, int obj_index);
+    bool IsQuestAccept(DWORD quest_info_index_id, CGameObject* lpObj);
     bool InventoryExtentCheck(int x, int y, int w, int h);
     int CheckOutOfInventory(CGameObject &Obj, int sy, int height);
 };

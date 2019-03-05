@@ -116,7 +116,7 @@ public:
 	int m_width;	// 14
 	int m_height;	// 18
 	PATH* path;	// 1C
-	class CMapItem * m_CItemObject;	// 20
+	class CMapItem* m_CItemObject;	// 20
 	int m_ItemCount;	// 50DE0
 	RECT gRegenRect[MAX_NUMBER_MAP];	// 50DE4
 	int thisMapNumber;	// 51064

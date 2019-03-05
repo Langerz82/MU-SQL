@@ -48,9 +48,9 @@ public:
 	void GCServerMsgStringSendEx(CGameObject* lpObj, BYTE type, LPSTR szMsg, ...);
 	void GCServerMsgStringSendAll(LPSTR  szMsg, BYTE type);
 	void GCServerMsgStringSendAllEx(BYTE type, LPSTR szMsg, ...);
-	//void GCServerMsgStringSendGuild(_GUILD_INFO_STRUCT* lpNode, char* szMsg, unsigned char type);
-	//void GCEventStateSend(CGameObject* lpObj, unsigned char state, unsigned char event);
-	//void GCMapEventStateSend(int map, unsigned char state, unsigned char event);
+	void GCServerMsgStringSendGuild(_GUILD_INFO_STRUCT* lpNode, char* szMsg, unsigned char type);
+	void GCEventStateSend(CGameObject* lpObj, unsigned char state, unsigned char event);
+	void GCMapEventStateSend(int map, unsigned char state, unsigned char event);
 	void CGChatWhisperRecv(PMSG_CHATDATA_WHISPER* lpMsg, CGameObject* lpObj);
 	void SCPJoinResultSend(CGameObject* lpObj, unsigned char result);
 	void CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, CGameObject* lpObj);
@@ -60,8 +60,8 @@ public:
 	void CGClientCloseMsg(PMSG_CLIENTCLOSE* lpMsg, CGameObject* lpObj);
 	void GCCloseMsgSend(CGameObject* lpObj, unsigned char result);
 	void CGClientMsg(PMSG_CLIENTMSG* lpMsg, CGameObject* lpObj);
-	//void CGPCharacterCreate(PMSG_CHARCREATE* lpMsg, CGameObject* lpObj);
-	//void CGPCharDel(PMSG_CHARDELETE* lpMsg, CGameObject* lpObj);
+	void CGPCharacterCreate(PMSG_CHARCREATE* lpMsg, CGameObject* lpObj);
+	void CGPCharDel(PMSG_CHARDELETE* lpMsg, CGameObject* lpObj);
 	void CGPCharacterMapJoinRequest(PMSG_CHARMAPJOIN* lpMsg, CGameObject* lpObj);
 	void GCLevelUpMsgSend(CGameObject* lpObj, int iSendEffect);
 	void CGLevelUpPointAdd(PMSG_LVPOINTADD* lpMsg, CGameObject* lpObj);
@@ -103,16 +103,16 @@ public:
 	void CGTradeResult(CGameObject* lpObj, unsigned char result);
 	
 	// PARTY FUNCTIONS.
-	//void CGPartyRequestRecv(PMSG_PARTYREQUEST* lpMsg, CGameObject* lpObj);
-	//void CGPartyRequestResultRecv(PMSG_PARTYREQUESTRESULT* lpMsg, CGameObject* lpObj);
-	//void CGPartyList(CGameObject* lpObj);
-	//void CGPartyListAll(int pnumber);
-	//void CGPartyDelUser(PMSG_PARTYDELUSER* lpMsg, CGameObject* lpObj, int nType);
-	//void GCPartyDelUserSend(CGameObject* lpObj);
-	//void GCPartyDelUserSendNoMessage(CGameObject* lpObj);
+	void CGPartyRequestRecv(PMSG_PARTYREQUEST* lpMsg, CGameObject* lpObj);
+	void CGPartyRequestResultRecv(PMSG_PARTYREQUESTRESULT* lpMsg, CGameObject* lpObj);
+	void CGPartyList(CGameObject* lpObj);
+	void CGPartyListAll(int pnumber);
+	void CGPartyDelUser(PMSG_PARTYDELUSER* lpMsg, CGameObject* lpObj, int nType);
+	void GCPartyDelUserSend(CGameObject* lpObj);
+	void GCPartyDelUserSendNoMessage(CGameObject* lpObj);
 
 	// GUILD FUNCTIONS.
-	/*void CGGuildRequestRecv(PMSG_GUILDJOINQ* lpMsg, CGameObject* lpObj);
+	void CGGuildRequestRecv(PMSG_GUILDJOINQ* lpMsg, CGameObject* lpObj);
 	void CGGuildRequestResultRecv(PMSG_GUILDQRESULT* lpMsg, CGameObject* lpObj);
 	void CGGuildListAll(int pnumber);
 	void CGGuildDelUser(PMSG_GUILDDELUSER* lpMsg, CGameObject* lpObj);
@@ -131,7 +131,7 @@ public:
 	void GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT* lpMsg, CGameObject* lpObj);
 	void GCGuildWarDeclare(CGameObject* lpObj, char* _guildname);
 	void GCGuildWarEnd(CGameObject* lpObj, unsigned char result, char* _guildname);
-	void GCGuildWarScore(CGameObject* lpObj);*/
+	void GCGuildWarScore(CGameObject* lpObj);
 
 	void CGWarehouseMoneyInOut(CGameObject* lpObj,PMSG_WAREHOUSEMONEYINOUT* lpMsg);
 	void GCWarehouseInventoryMoneySend(CGameObject* lpObj, unsigned char result, int money, int wmoney);
@@ -192,10 +192,10 @@ public:
 	void GCUseRenaChangeZenRecv(PMSG_EXCHANGE_EVENTCHIP* lpMsg, CGameObject* lpObj);
 	
 	// QUEST FUNCTIONS.
-	//void CGRequestQuestInfo(CGameObject* lpObj);
-	//void GCSendQuestInfo(CGameObject* lpObj, int QuestIndex);
-	//void CGSetQuestState(PMSG_SETQUEST* lpMsg, CGameObject* lpObj);
-	//void GCSendQuestPrize(CGameObject* lpObj, unsigned char Type, unsigned char Count);
+	void CGRequestQuestInfo(CGameObject* lpObj);
+	void GCSendQuestInfo(CGameObject* lpObj, int QuestIndex);
+	void CGSetQuestState(PMSG_SETQUEST* lpMsg, CGameObject* lpObj);
+	void GCSendQuestPrize(CGameObject* lpObj, unsigned char Type, unsigned char Count);
 	
 	void CGCloseWindow(CGameObject* lpObj);
 	void CGRequestEnterBloodCastle(PMSG_REQ_MOVEBLOODCASTLE* lpMsg, CGameObject* lpObj);
@@ -205,39 +205,39 @@ public:
 	void CGRequestLottoRegister(PMSG_REQ_2ANV_LOTTO_EVENT* lpMsg, CGameObject* lpObj);
 	void CGReqMoveOtherServer(PMSG_REQ_MOVE_OTHERSERVER* lpMsg, CGameObject* lpObj);
 	void GCPacketCheckSumRecv(PMSG_PACKETCHECKSUM* aRecv, CGameObject* lpObj);
-	//void CGDuelStartRequestRecv(PMSG_REQ_START_DUEL* lpMsg, CGameObject* lpObj);
-	//void CGDuelEndRequestRecv(PMSG_REQ_END_DUEL* lpMsg, CGameObject* lpObj);
-	//void CGDuelOkRequestRecv(PMSG_ANS_DUEL_OK* lpMsg, CGameObject* lpObj);
-	//void GCSendDuelScore(CGameObject* lpObj1, CGameObject* lpObj2);
+	void CGDuelStartRequestRecv(PMSG_REQ_START_DUEL* lpMsg, CGameObject* lpObj);
+	void CGDuelEndRequestRecv(PMSG_REQ_END_DUEL* lpMsg, CGameObject* lpObj);
+	void CGDuelOkRequestRecv(PMSG_ANS_DUEL_OK* lpMsg, CGameObject* lpObj);
+	void GCSendDuelScore(CGameObject* lpObj1, CGameObject* lpObj2);
 	void GCSendGetItemInfoForParty(CGameObject* lpObj, class CMapItem* lpItem);
 	void GCSendEffectInfo(CGameObject* lpObj, BYTE btType);
 	void CGRequestPetItemCommand(PMSG_REQUEST_PET_ITEM_COMMAND* lpMsg, CGameObject* lpObj);
 	void CGRequestPetItemInfo(PMSG_REQUEST_PET_ITEMINFO* lpMsg, CGameObject* lpObj);
 	
-	//void GCGuildViewportInfo(PMSG_REQ_GUILDVIEWPORT* aRecv, CGameObject* lpObj);
-	//void CGGuildAssignStatus(PMSG_GUILD_ASSIGN_STATUS_REQ* aRecv, CGameObject* lpObj);
-	//void CGGuildAssignType(PMSG_GUILD_ASSIGN_TYPE_REQ* aRecv, CGameObject* lpObj);
+	void GCGuildViewportInfo(PMSG_REQ_GUILDVIEWPORT* aRecv, CGameObject* lpObj);
+	void CGGuildAssignStatus(PMSG_GUILD_ASSIGN_STATUS_REQ* aRecv, CGameObject* lpObj);
+	void CGGuildAssignType(PMSG_GUILD_ASSIGN_TYPE_REQ* aRecv, CGameObject* lpObj);
 	
-	//void CGRelationShipReqJoinBreakOff(PMSG_RELATIONSHIP_JOIN_BREAKOFF_REQ* aRecv, CGameObject* lpObj);
-	//void CGRelationShipAnsJoinBreakOff(PMSG_RELATIONSHIP_JOIN_BREAKOFF_ANS* aRecv, CGameObject* lpObj);
+	void CGRelationShipReqJoinBreakOff(PMSG_RELATIONSHIP_JOIN_BREAKOFF_REQ* aRecv, CGameObject* lpObj);
+	void CGRelationShipAnsJoinBreakOff(PMSG_RELATIONSHIP_JOIN_BREAKOFF_ANS* aRecv, CGameObject* lpObj);
 	
-	//void CGUnionList(PMSG_UNIONLIST_REQ* aRecv, CGameObject* lpObj);
-	//void CGRelationShipReqKickOutUnionMember(PMSG_KICKOUT_UNIONMEMBER_REQ* aRecv, CGameObject* lpObj);
+	void CGUnionList(PMSG_UNIONLIST_REQ* aRecv, CGameObject* lpObj);
+	void CGRelationShipReqKickOutUnionMember(PMSG_KICKOUT_UNIONMEMBER_REQ* aRecv, CGameObject* lpObj);
 	
 	void CGReqMapSvrAuth(PMSG_REQ_MAPSERVERAUTH* lpMsg, CGameObject *lpObj);
 	void GCAnsMapSvrAuth(CGameObject *lpObj, int iResult);
 	
-	//void CGReqCastleSiegeState(PMSG_REQ_CASTLESIEGESTATE* lpMsg, CGameObject *lpObj);
-	//void GCAnsCastleSiegeState(CGameObject *lpObj, int iResult, char* lpszGuildName, char* lpszGuildMaster);
-	//void CGReqRegCastleSiege(PMSG_REQ_REGCASTLESIEGE* lpMsg, CGameObject *lpObj);
-	//void GCAnsRegCastleSiege(CGameObject *lpObj, int iResult, char* lpszGuildName);
-	//void CGReqGiveUpCastleSiege(PMSG_REQ_GIVEUPCASTLESIEGE* lpMsg, CGameObject *lpObj);
-	//void GCAnsGiveUpCastleSiege(CGameObject *lpObj, int iResult, int bGiveUp, int iMarkCount, char* lpszGuildName);
+	void CGReqCastleSiegeState(PMSG_REQ_CASTLESIEGESTATE* lpMsg, CGameObject *lpObj);
+	void GCAnsCastleSiegeState(CGameObject *lpObj, int iResult, char* lpszGuildName, char* lpszGuildMaster);
+	void CGReqRegCastleSiege(PMSG_REQ_REGCASTLESIEGE* lpMsg, CGameObject *lpObj);
+	void GCAnsRegCastleSiege(CGameObject *lpObj, int iResult, char* lpszGuildName);
+	void CGReqGiveUpCastleSiege(PMSG_REQ_GIVEUPCASTLESIEGE* lpMsg, CGameObject *lpObj);
+	void GCAnsGiveUpCastleSiege(CGameObject *lpObj, int iResult, int bGiveUp, int iMarkCount, char* lpszGuildName);
 
-	//void CGReqGuildRegInfo(PMSG_REQ_GUILDREGINFO* lpMsg, CGameObject *lpObj);
-	//void GCAnsGuildRegInfo(CGameObject *lpObj, int iResult,CSP_ANS_GUILDREGINFO* lpMsgResult);
-	//void CGReqRegGuildMark(PMSG_REQ_REGGUILDMARK* lpMsg, CGameObject *lpObj);
-	//void GCAnsRegGuildMark(CGameObject *lpObj, int iResult,CSP_ANS_GUILDREGMARK* lpMsgResult);
+	void CGReqGuildRegInfo(PMSG_REQ_GUILDREGINFO* lpMsg, CGameObject *lpObj);
+	void GCAnsGuildRegInfo(CGameObject *lpObj, int iResult,CSP_ANS_GUILDREGINFO* lpMsgResult);
+	void CGReqRegGuildMark(PMSG_REQ_REGGUILDMARK* lpMsg, CGameObject *lpObj);
+	void GCAnsRegGuildMark(CGameObject *lpObj, int iResult,CSP_ANS_GUILDREGMARK* lpMsgResult);
 
 	void CGReqNpcBuy(PMSG_REQ_NPCBUY* lpMsg, CGameObject *lpObj);
 	void GCAnsNpcBuy(CGameObject *lpObj, int iResult, int iNpcNumber, int iNpcIndex);
@@ -271,8 +271,8 @@ public:
 	void GCAnsCsSetEnterHuntZone(CGameObject *lpObj, BYTE btResult, BYTE btEnterHuntZone);
 	void CGReqNpcDbList(PMSG_REQ_NPCDBLIST* lpMsg, CGameObject *lpObj);
 	
-	//void CGReqCsRegGuildList(PMSG_REQ_CSREGGUILDLIST* lpMsg, CGameObject *lpObj);
-	//void CGReqCsAttkGuildList(PMSG_REQ_CSATTKGUILDLIST* lpMsg, CGameObject *lpObj);
+	void CGReqCsRegGuildList(PMSG_REQ_CSREGGUILDLIST* lpMsg, CGameObject *lpObj);
+	void CGReqCsAttkGuildList(PMSG_REQ_CSATTKGUILDLIST* lpMsg, CGameObject *lpObj);
 
 	void CGReqWeaponUse(PMSG_REQ_USEWEAPON* aRecv, CGameObject *lpObj);
 	void CGReqWeaponDamageValue(PMSG_REQ_WEAPON_DAMAGE_VALUE* aRecv, CGameObject *lpObj);
@@ -313,10 +313,10 @@ public:
 	int OnCGLeaveDuel(LPPMSG_REQ_DUEL_EXIT lpMsg, CGameObject* lpObj);
 	int OnDuelChannelJoin(LPPMSG_REQ_DUEL_JOINCNANNEL lpMsg, CGameObject* lpObj);
 	int OnDuelChannelLeave(LPPMSG_REQ_DUEL_LEAVECNANNEL lpMsg, CGameObject* lpObj);
-	//void CGReqRegGensMember(PMSG_REQ_REG_GENS_MEMBER *lpMsg, CGameObject *lpObj);
-	//void CGReqSecedeGensMember(PMSG_REQ_SEGEDE_GENS_MEMBER *lpMsg, CGameObject *lpObj);
-	//void CGReqGensReward(PMSG_GENS_REWARD_CODE *lpMsg, CGameObject *lpObj);
-	//void CGReqGensMemberInfo(PMSG_REQ_GENS_INFO *lpMsg, CGameObject *lpObj);
+	void CGReqRegGensMember(PMSG_REQ_REG_GENS_MEMBER *lpMsg, CGameObject *lpObj);
+	void CGReqSecedeGensMember(PMSG_REQ_SEGEDE_GENS_MEMBER *lpMsg, CGameObject *lpObj);
+	void CGReqGensReward(PMSG_GENS_REWARD_CODE *lpMsg, CGameObject *lpObj);
+	void CGReqGensMemberInfo(PMSG_REQ_GENS_INFO *lpMsg, CGameObject *lpObj);
 	void CGInventoryEquipment(PMSG_REQ_INVENTORY_EQUIPMENT_ITEM *lpMsg, CGameObject* lpObj);
 	void CGReqUseTransformationRing(PMSG_REQ_USETRANSFORMATIONRING *lpMsg, CGameObject *lpObj);
 	void GCSendAttackSpeed(CGameObject *lpObj);
@@ -348,23 +348,23 @@ public:
 	void GCMuunInventoryItemOneSend(CGameObject* lpObj, int pos); 
 	void CGMuunItemGetRequest(PMSG_MUUNITEM_GETREQUEST *lpMsg, CGameObject* lpObj);
 	void CGMuunItemSellRequestRecv(PMSG_MUUN_ITEM_SELLREQUEST *lpMsg, CGameObject* lpObj);
-	void CGReqGuildMatchingList(PMSG_REQ_GUILDMATCHINGLIST *lpMsg, int nUserIndex);
-	void CGReqGuildMatchingListSearchWord(PMSG_REQ_GUILDMATCHINGLISTSEARCHWORD *lpMsg, int nUserIndex);
-	void CGReqRegGuildMatchingList(PMSG_REQ_REGGUILDMATCHINGDATA *lpMsg, int nUserIndex);
-	void CGReqCancelGuildMatchingList(PMSG_REQ_CANCEL_GUILDMATCHINGLIST *lpMsg, int nUserIndex);
-	void CGReqJoinGuildMatching(PMSG_REQ_JOIN_GUILDMATCHING *lpMsg, int nUserIndex);
-	void CGReqCancelJoinGuildMatching(int nUserIndex);
-	void CGReqAllowJoinGuildMatching(PMSG_REQ_ALLOW_JOIN_GUILDMATCHING *lpMsg, int nUserIndex);
-	void CGReqGetAllowListJoinGuildMatching(PMSG_REQ_ALLOWLIST_GUILDMATCHING *lpMsg, int nUserIndex);
-	void CGReqGetWaitStateListGuildMatching(int nUserIndex);
+	void CGReqGuildMatchingList(PMSG_REQ_GUILDMATCHINGLIST *lpMsg, CGameObject* lpObj);
+	void CGReqGuildMatchingListSearchWord(PMSG_REQ_GUILDMATCHINGLISTSEARCHWORD *lpMsg, CGameObject* lpObj);
+	void CGReqRegGuildMatchingList(PMSG_REQ_REGGUILDMATCHINGDATA *lpMsg, CGameObject* lpObj);
+	void CGReqCancelGuildMatchingList(PMSG_REQ_CANCEL_GUILDMATCHINGLIST *lpMsg, CGameObject* lpObj);
+	void CGReqJoinGuildMatching(PMSG_REQ_JOIN_GUILDMATCHING *lpMsg, CGameObject* lpObj);
+	void CGReqCancelJoinGuildMatching(CGameObject* lpObj);
+	void CGReqAllowJoinGuildMatching(PMSG_REQ_ALLOW_JOIN_GUILDMATCHING *lpMsg, CGameObject* lpObj);
+	void CGReqGetAllowListJoinGuildMatching(PMSG_REQ_ALLOWLIST_GUILDMATCHING *lpMsg, CGameObject* lpObj);
+	void CGReqGetWaitStateListGuildMatching(CGameObject* lpObj);
 
-	void CGReqRegWantedPartyMember(PMSG_REQ_REG_WANTED_PARTYMEMBER *lpMsg, int nUserIndex);
-	void CGReqGetPartyMatchingList(PMSG_REQ_GET_PARTYMATCHINGLIST *lpMsg, int nUserIndex);
-	void CGReqJoinMemberPartyMatching(PMSG_REQ_MEMBERJOIN_PARTYMATCHINGLIST *lpMsg, int nUserIndex);
-	void CGReqMemberJoinStateList(PMSG_REQ_MEMBERJOIN_STATELIST_PARTYMATCHING *lpMsg, int nUserIndex);
-	void CGReqMemberJoinStateListLeader(PMSG_REQ_WAITLIST_PARTYMATCHING *lpMsg, int nUserIndex);
-	void CGReqAcceptJoinMemberPartyMatching(PMSG_REQ_ACCEPTMEMBER_PARTYMATCHING *lpMsg, int nUserIndex);
-	void CGReqCancelPartyMatching(PMSG_REQ_CANCEL_JOIN_PARTYMATCHING *lpMsg, int nUserIndex);
+	void CGReqRegWantedPartyMember(PMSG_REQ_REG_WANTED_PARTYMEMBER *lpMsg, CGameObject* lpObj);
+	void CGReqGetPartyMatchingList(PMSG_REQ_GET_PARTYMATCHINGLIST *lpMsg, CGameObject* lpObj);
+	void CGReqJoinMemberPartyMatching(PMSG_REQ_MEMBERJOIN_PARTYMATCHINGLIST *lpMsg, CGameObject* lpObj);
+	void CGReqMemberJoinStateList(PMSG_REQ_MEMBERJOIN_STATELIST_PARTYMATCHING *lpMsg, CGameObject* lpObj);
+	void CGReqMemberJoinStateListLeader(PMSG_REQ_WAITLIST_PARTYMATCHING *lpMsg, CGameObject* lpObj);
+	void CGReqAcceptJoinMemberPartyMatching(PMSG_REQ_ACCEPTMEMBER_PARTYMATCHING *lpMsg, CGameObject* lpObj);
+	void CGReqCancelPartyMatching(PMSG_REQ_CANCEL_JOIN_PARTYMATCHING *lpMsg, CGameObject* lpObj);
 
 	void GCDisplayBuffeffectPartyMember(CGameObject* lpObj);
 	void GCPartyMemberPosition(CGameObject* lpObj);

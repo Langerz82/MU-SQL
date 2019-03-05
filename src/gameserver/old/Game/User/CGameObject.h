@@ -40,6 +40,7 @@ struct SKILL_INFO;
 struct MUUN_EFFECT_LIST;
 struct STR_CS_USER;
 struct STR_ACTION_STATE;
+struct STR_INTERFACE_STATE;
 
 std::map<int, CGameObject*> gGameObjects;
 std::map<int, CGameObject*> gGameUserObjects;

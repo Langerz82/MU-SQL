@@ -24,10 +24,6 @@ extern void(*ItemCreate)(CGameObject* lpObj, BYTE MapNumber, BYTE x, BYTE y, int
 void DataServerProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen);
 void DataServerLogin();
 void DataServerLoginResult( SDHP_RESULT* lpMsg);
-void DataServerGetCharListRequest( short aIndex);
-void JGCharacterCreateRequest( SDHP_CREATECHARRESULT* lpMsg);
-void JGCharacterCreateFailSend(CGameObject* lpObj, char* id);
-void JGCharDelRequest( SDHP_CHARDELETERESULT* lpMsg);
 void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT* lpMsg);
 void GCItemListSend(CGameObject* lpObj);
 void GJSetCharacterInfo(CGameObject* lpObj, BOOL bMapServerMove);
@@ -166,7 +162,7 @@ void DGAnsArcaBattleGuildMemberJoin(PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *l
 void GDReqArcaBattleEnter(CGameObject* lpObj, BYTE btEnterSeq);
 void DGAnsArcaBattleEnter(PMSG_ANS_ARCA_BATTLE_ENTER_DS *lpMsg);
 
-//void DGAnsArcaBattleWinGuildInfo(PMSG_ANS_AB_WIN_GUILD_INFO_DS *lpMsg);
+void DGAnsArcaBattleWinGuildInfo(PMSG_ANS_AB_WIN_GUILD_INFO_DS *lpMsg);
 
 void DGReqArcaBattleProcMultiCast(PMSG_ANS_AB_PROC_STATE_DS *lpMsg);
 

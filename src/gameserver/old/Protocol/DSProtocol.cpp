@@ -719,18 +719,10 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 
 	char szAccountId[MAX_ACCOUNT_LEN + 1];
 	char szName[MAX_ACCOUNT_LEN + 1];
-	CGameObject* lpObj = getGameObject(lpMsg->Number);
+	CGameObject* lpObj = getGameObject((int) lpMsg->Number);
 
 	szAccountId[MAX_ACCOUNT_LEN] = 0;
 	memcpy(szAccountId, lpMsg->AccountID, MAX_ACCOUNT_LEN);
-
-	if (gObjIsAccontConnect(*lpObj, szAccountId) == FALSE)
-	{
-		sLog->outError("Request to receive character information doesn't match the user %s", szAccountId);
-		GIOCP.CloseClient(lpObj->m_PlayerData->ConnectUser->Index);
-
-		return;
-	}
 
 	szName[MAX_ACCOUNT_LEN] = 0;
 	memcpy(szName, lpMsg->Name, MAX_ACCOUNT_LEN);
@@ -819,7 +811,7 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 				return;
 			}
 
-			GJReqMapSvrMove(lpObj, wGameServerCode, lpObj->MapNumber, lpObj->X, lpObj->Y);
+			GJReqMapSvrMove(*lpObj, wGameServerCode, lpObj->MapNumber, lpObj->X, lpObj->Y);
 			sLog->outBasic("[MapServerMng] Request to Move Map Server : (%d) - [%s][%s] (%d)",
 				wGameServerCode, lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_Index);
 
@@ -963,9 +955,9 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 	g_SendNPCInfo.SendPortalCoordinate(lpObj, lpObj->MapNumber);
 	//[K2]
 	g_UnityBattleField.GDReqCheckJoinedUnityBattleField(*lpObj, g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE ? TRUE : FALSE, 0);
-	g_UnityBattleField.SendUBFNotice(lpObj);
-	g_EvoMonMng.GCSendEvoMonNotice(lpObj);
-	g_EvoMonMng.GDReqEvoMonMaxScore(lpObj);
+	g_UnityBattleField.SendUBFNotice(*lpObj);
+	g_EvoMonMng.GCSendEvoMonNotice(*lpObj);
+	g_EvoMonMng.GDReqEvoMonMaxScore(*lpObj);
 	DGGuildMemberInfoRequest(lpObj);
 
 	lpObj->m_PlayerData->m_dwMapMoveKeyValue = g_KeyGenerater.GenerateSeedValue();
@@ -1234,7 +1226,7 @@ void GJSetCharacterInfo(CGameObject* lpObj, BOOL bMapServerMove)
 	gObjItemTextSave(*lpObj);
 	gObjStatTextSave(*lpObj);
 	gObjSavePetItemInfo(lpObj, 0);
-	g_LuckyItemManager.GDReqLuckyItemInsert2nd(lpObj);
+	g_LuckyItemManager.GDReqLuckyItemInsert2nd(*lpObj);
 	g_QuestExpUserMng.UserAllQuestInfoSave(lpObj);
 	g_GensSystem.GDReqSaveContributePoint(*lpObj);
 	g_GensSystem.DBSaveAbusingKillUserName(*lpObj);
@@ -1309,8 +1301,7 @@ void DGGetWarehouseList(SDHP_GETWAREHOUSEDB_SAVE * lpMsg)
 
 	szId[MAX_ACCOUNT_LEN] = 0;
 	memcpy(szId, lpMsg->AccountID, sizeof(lpMsg->AccountID));
-	CGameObject* lpObj = getGameObject(lpObj);
-
+	CGameObject* lpObj = getGameObject(lpMsg->aIndex);
 
 	if (lpObj->m_PlayerData->m_bMapSvrMoveReq == true)
 	{
@@ -1335,7 +1326,7 @@ void DGGetWarehouseList(SDHP_GETWAREHOUSEDB_SAVE * lpMsg)
 
 	if (!gObjIsAccontConnect(*lpObj, szId))
 	{
-		sLog->outError("Error-L1 : Request to receive Warehouse information doesn't match the user [%s][%d]", szId, aIndex);
+		sLog->outError("Error-L1 : Request to receive Warehouse information doesn't match the user [%s][%d]", szId, lpObj->m_Index);
 		return;
 	}
 
@@ -1508,7 +1499,7 @@ void DGGetWarehouseList(SDHP_GETWAREHOUSEDB_SAVE * lpMsg)
 	pResult.result = 2;
 
 	GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pResult, pResult.h.size);
-	GSProtocol.GCUserWarehouseSend(*lpObj);
+	GSProtocol.GCUserWarehouseSend(lpObj);
 
 	if (bCanWarehouseLock == TRUE)
 	{
@@ -1541,7 +1532,7 @@ void DGGetWarehouseList(SDHP_GETWAREHOUSEDB_SAVE * lpMsg)
 void GDGetWarehouseNoItem(SDHP_GETWAREHOUSEDB_RESULT * lpMsg)
 {
 	char szId[11];
-	CGameObject* lpObj = getGameObject(lpObj);
+	CGameObject* lpObj = getGameObject(lpMsg->aIndex);
 	PMSG_TALKRESULT pResult;
 
 	szId[MAX_ACCOUNT_LEN] = 0;
@@ -1605,7 +1596,7 @@ void GDSetWarehouseList(CGameObject* lpObj, BOOL bCloseWindow)
 	pMsg.WarehouseID = lpObj->WarehouseID;
 	pMsg.CloseWindow = bCloseWindow;
 
-	ItemByteConvert32(pMsg.dbItems, lpObj->pntWarehouse, WAREHOUSE_SIZE);
+	ItemByteConvert32(pMsg.dbItems, *lpObj->pntWarehouse, WAREHOUSE_SIZE);
 
 	////wsDataCli.DataSend((PCHAR)&pMsg, sizeof(pMsg)); // TODO
 
@@ -1850,7 +1841,7 @@ void PetItemSerialCreateSend(CGameObject* lpObj, BYTE MapNumber, BYTE x, BYTE y,
 
 void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 {
-	CGameObject* lpObj = getGameObject(lpObj);
+	CGameObject* lpObj = getGameObject(lpMsg->aIndex);
 	int mapnumber = lpMsg->MapNumber;
 	int lootindex = lpMsg->lootindex;
 
@@ -2126,7 +2117,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 				if (lpMsg->lDuration > 0)
 				{
-					g_PeriodItemEx.SendPeriodItemInfoOnce(lpObj, &Item);
+					g_PeriodItemEx.SendPeriodItemInfoOnce(*lpObj, Item);
 				}
 
 				GSProtocol.GCAnsLuckyCoinTrade(lpObj, 1);
@@ -2167,7 +2158,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 				if (lpMsg->lDuration > 0)
 				{
-					g_PeriodItemEx.SendPeriodItemInfoOnce(lpObj, &Item);
+					g_PeriodItemEx.SendPeriodItemInfoOnce(*lpObj, Item);
 				}
 			}
 
@@ -2208,7 +2199,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 				if (lpMsg->lDuration > 0)
 				{
-					g_PeriodItemEx.SendPeriodItemInfoOnce(lpObj, &pCreateItem);
+					g_PeriodItemEx.SendPeriodItemInfoOnce(*lpObj, pCreateItem);
 				}
 			}
 		}
@@ -2241,7 +2232,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 					return;
 				}
 
-				int iBuyTaxMoney = (g_GamblingItemBag.GetGamblingValue() * (__int64)g_CastleSiegeSync.GetTaxRateChaos(lpObj->m_Index) / (__int64)100);
+				int iBuyTaxMoney = (g_GamblingItemBag.GetGamblingValue() * (__int64)g_CastleSiegeSync.GetTaxRateChaos(*lpObj) / (__int64)100);
 				g_CastleSiegeSync.AddTributeMoney(iBuyTaxMoney);
 
 				lpObj->m_PlayerData->Money -= iBuyTaxMoney + g_GamblingItemBag.GetGamblingValue();
@@ -2253,7 +2244,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 				GSProtocol.GCInventoryItemOneSend(lpObj, btItemPos);
 
 				BYTE ExOption[6];
-				ItemIsBufExOption(ExOption, &pCreateItem);
+				ItemIsBufExOption(ExOption, pCreateItem);
 
 				if (lpMsg->Type == ITEMGET(3, 11) ||
 					lpMsg->Type == ITEMGET(5, 33) ||
@@ -2413,7 +2404,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 			Item->Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
 
-			BYTE btItemPos = gObjEventInventoryInsertItem(*lpObj, *Item);
+			BYTE btItemPos = gObjEventInventoryInsertItem(lpObj, *Item);
 
 			if (btItemPos == (BYTE)-1)
 			{
@@ -2738,7 +2729,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 				GSProtocol.GCInventoryItemOneSend(lpObj, btItemPos);
 
 				BYTE NewOption[MAX_EXOPTION_SIZE];
-				ItemIsBufExOption(NewOption, &Item);
+				ItemIsBufExOption(NewOption, Item);
 
 				lpObj->ChaosLock = FALSE;
 			}
@@ -2791,7 +2782,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			else
 			{
 				BYTE NewOption[MAX_EXOPTION_SIZE];
-				ItemIsBufExOption(NewOption, &Item);
+				ItemIsBufExOption(NewOption, Item);
 
 				if (g_CMuunSystem.IsStoneofEvolution(lpMsg->Type) == TRUE)
 				{
@@ -3192,7 +3183,7 @@ void DGOptionDataSend(CGameObject* lpObj, char* szName, BYTE * KeyBuffer, BYTE G
 
 void DGOptionDataRecv(SDHP_SKILLKEYDATA_SEND * lpMsg)
 {
-	CGameObject* lpObj = getGameObject(lpObj);
+	CGameObject* lpObj = getGameObject(lpMsg->aIndex);
 	char szName[MAX_ACCOUNT_LEN + 1];
 
 
@@ -3227,7 +3218,7 @@ void DGMoveOtherServer(SDHP_CHARACTER_TRANSFER_RESULT * lpMsg)
 
 		lpObj->m_MoveOtherServer = 0;
 
-		GSProtocol.GCServerMsgStringSend("???? ????? change@webzen.co.kr?? ?????? ??ñ??????", lpObj->m_Index, 1);
+		GSProtocol.GCServerMsgStringSend("???? ????? change@webzen.co.kr?? ?????? ??ñ??????", lpObj, 1);
 		// Deathway translation here
 		return;
 	}
@@ -3237,7 +3228,7 @@ void DGMoveOtherServer(SDHP_CHARACTER_TRANSFER_RESULT * lpMsg)
 
 	GSProtocol.GCServerMsgStringSend("?????? ???????.", lpObj, 1);// Deathway translation here
 	GSProtocol.GCServerMsgStringSend("???? ?????? ????????ñ? ??????.", lpObj, 1);// Deathway translation here
-	GJSetCharacterInfo(lpObj, lpObj->m_Index, 0);
+	GJSetCharacterInfo(lpObj, 0);
 	lpObj->LoadWareHouseInfo = false;
 	gObjCloseSet(*lpObj, 2);
 	lpObj->m_MoveOtherServer = 0;
@@ -3533,7 +3524,7 @@ void GS_GDReqCastleTotalInfo(int iMapSvrGroup, int iCastleEventCycle)
 	pMsg.wMapSvrNum = iMapSvrGroup;
 	pMsg.iCastleEventCycle = iCastleEventCycle;
 
-	:://wsDataCli.DataSend((char*)&pMsg, pMsg.h.size); // TODO
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size); // TODO
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -5535,9 +5526,6 @@ void GS_DGAnsAllGuildMarkRegInfo(LPBYTE lpRecv)
 		sLog->outError("[CastleSiege] PACKET-ERROR [0x83] GS_DGAnsAllGuildMarkRegInfo() - lpMsg->wMapSvrNum != g_MapServerManager.GetMapSvrGroup()");
 		return;
 	}
-
-	if (!gObjIsConnected(lpMsg->iIndex))
-		return;
 
 	lpMsgSend = (PMSG_ANS_CSREGGUILDLIST*)cBUFFER;
 	lpMsgSendBody = (PMSG_CSREGGUILDLIST*)&cBUFFER[12];

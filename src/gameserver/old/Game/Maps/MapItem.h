@@ -11,8 +11,9 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "StdAfx.h"
 #include "ItemObject.h"
-#include "User/CUserData.h"
+//#include "User/CUserData.h"
 
 class CMapItem : public CItemObject
 {

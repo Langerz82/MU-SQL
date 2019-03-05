@@ -163,7 +163,7 @@ public:
 	bool GetMuunItemValueOfOptType(CGameObject lpObj, int iMuunOtpIndex, int *EffectValue1, int *EffectValue2);
 
 	void GDReqLoadMuunInvenItem(CGameObject &obj);
-	void DGLoadMuunInvenItem(SDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg);
+	void DGLoadMuunInvenItem(_tagSDHP_ANS_DBMUUN_INVEN_LOAD *lpMsg);
 	void GDReqSaveMuunInvenItem(CGameObject &obj);
 
 	void GCSendConditionStatus(CGameObject &Obj, int iPos, int iStatus);
