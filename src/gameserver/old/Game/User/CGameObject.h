@@ -283,7 +283,7 @@ public:
 	int VPCount2;	// ABC
 	HITDAMAGE_STRUCT* sHD;	// AC0
 	short sHDCount;	// CA0
-	struct STR_INTERFACE_STATE* m_IfState;	// CA4
+	struct STR_INTERFACE_STATE m_IfState;	// CA4
 	DWORD m_InterfaceTime;	// CA8
 	CItemObject** pntInventory; // CAC
 	LPBYTE  pInventoryMap; // CB0

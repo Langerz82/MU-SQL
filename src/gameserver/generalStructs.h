@@ -1027,7 +1027,7 @@ struct GUILD_INFO_STRUCT
 	BYTE Mark[32];	//D
 	BYTE Count;	//2D
 	BYTE TotalCount;	//2E
-	//std::vector<CGameObject*> Users; // TODO
+	std::vector<CGameObject*> Users; // TODO
 	//char Names[MAX_USER_GUILD][11];	//2F
 	short Index[MAX_USER_GUILD];	//3A0
 	BYTE Use[MAX_USER_GUILD];	//440
@@ -1051,7 +1051,7 @@ struct GUILD_INFO_STRUCT
 	char szGuildRivalName[9];	//728
 	GUILD_INFO_STRUCT *back;	//734
 	GUILD_INFO_STRUCT *next;	//738
-	//CGameObject* lpLifeStone;
+	CGameObject* lpLifeStone;
 	int btLifeStoneCount;
 
 	// #error Deathay Fix here
@@ -1099,7 +1099,7 @@ typedef union _PATHTABLE
 	char cPathTable[32];
 } PATHTABLE, *LPPATHTABLE;
 
-typedef struct ActionState
+typedef struct STR_ACTION_STATE
 {
 	unsigned long Rest : 1;	// 0
 	unsigned long Attack : 1;	// 1
@@ -1108,15 +1108,15 @@ typedef struct ActionState
 	unsigned long Emotion : 4;	// 4
 	unsigned long EmotionCount : 8;	// 8
 
-} STR_ACTION_STATE, *LPACTION_STATE;
+} *LPACTION_STATE;
 
-typedef struct InterfaceState
+typedef struct STR_INTERFACE_STATE
 {
 	DWORD use : 2;
 	DWORD state : 4;
 	DWORD type : 10;
 
-} STR_INTERFACE_STATE, *LPINTERFACE_STATE;
+} *LPINTERFACE_STATE;
 
 extern short RoadPathTable[MAX_ROAD_PATH_TABLE];
 extern BOOL g_EnergyCheckOff;
