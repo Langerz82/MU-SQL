@@ -4294,7 +4294,7 @@ struct CSP_ANS_GUILDREGINFO
 	PBMSG_HEAD2 h;
 	int iResult;	// 4
 	WORD wMapSvrNum;	// 8
-	class CGameObject *lpObj;	// C
+	int iIndex;	// C
 	char szGuildName[8];	// 10
 	int iRegMarkCount;	// 18
 	BYTE bIsGiveUp;	// 1C
@@ -4312,7 +4312,7 @@ struct CSP_ANS_GUILDREGMARK
 	struct PBMSG_HEAD2 h;
 	int iResult;
 	WORD wMapSvrNum;
-	class CGameObject *lpObj;
+	int iIndex;
 	char szGuildName[8];
 	int iItemPos;
 	int iRegMarkCount;

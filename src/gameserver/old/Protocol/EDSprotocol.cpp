@@ -3,8 +3,7 @@
 #include "stdafx.h"
 #include "EDSProtocol.h"
 #include "GuildClass.h"
-#include "winutil.h"
-#include "TLog.h"
+#include "Utility/util.h"
 #include "TUnion.h"
 #include "GameServer.h"
 #include "GameMain.h"
@@ -13,10 +12,10 @@
 #include "GensSystem.h"
 #include "configread.h"
 #include "CastleSiegeSync.h"
-#include "./Eventos/ArcaBattle/ArcaBattle.h"
+#include "ArcaBattle.h"
 #include "NewPVP.h"
 #include "PartyClass.h"
-#include "./Eventos/AcheronGuardianEvent/AcheronGuardianEvent.h"
+#include "AcheronGuardianEvent.h"
 
 // GS-N 0.99.60T 0x0044B770
 // GS-N	1.00.18	JPN	0x0045A3E0	-	Completed

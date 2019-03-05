@@ -3096,7 +3096,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 	}
 }
 
-// UPTO
+
 
 /* * * * * * * * * * * * * * * * * * * * *
  *	Mu Item Move Packet
@@ -3195,10 +3195,6 @@ void DGOptionDataRecv(SDHP_SKILLKEYDATA_SEND * lpMsg)
 	CGameObject* lpObj = getGameObject(lpObj);
 	char szName[MAX_ACCOUNT_LEN + 1];
 
-	if (aIndex < 0 || aIndex >= g_ConfigRead.server.GetObjectMax())
-	{
-		return;
-	}
 
 	memset(szName, 0, sizeof(szName));
 	memcpy(szName, lpMsg->Name, sizeof(lpMsg->Name));
@@ -3215,13 +3211,7 @@ void DGOptionDataRecv(SDHP_SKILLKEYDATA_SEND * lpMsg)
 
 void DGMoveOtherServer(SDHP_CHARACTER_TRANSFER_RESULT * lpMsg)
 {
-	if (!gObjIsConnectedGP(lpMsg->Number))
-	{
-		sLog->outError("error-L3 [%s][%d]", __FILE__, __LINE__);
-		return;
-	}
-
-	LPOBJ lpObj = &gObj[lpMsg->Number];
+	CGameObject* lpObj = getGameObject(lpMsg->Number);
 
 	if (lpMsg->Result != 0)
 	{
@@ -3230,7 +3220,7 @@ void DGMoveOtherServer(SDHP_CHARACTER_TRANSFER_RESULT * lpMsg)
 		PHeadSetB((LPBYTE)&pResult, 0x99, sizeof(pResult));
 		pResult.result = 1;
 
-		IOCP.DataSend(lpMsg->Number, (LPBYTE)&pResult, pResult.h.size);
+		GIOCP.DataSend(lpMsg->Number, (LPBYTE)&pResult, pResult.h.size);
 
 		sLog->outBasic("[CharTrasfer] Fail [%s][%s] (%d)",
 			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpMsg->Result);
@@ -3245,11 +3235,11 @@ void DGMoveOtherServer(SDHP_CHARACTER_TRANSFER_RESULT * lpMsg)
 	sLog->outBasic("[CharTrasfer] Success [%s][%s] (%d)",
 		lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpMsg->Result);
 
-	GSProtocol.GCServerMsgStringSend("?????? ???????.", lpObj->m_Index, 1);// Deathway translation here
-	GSProtocol.GCServerMsgStringSend("???? ?????? ????????ñ? ??????.", lpObj->m_Index, 1);// Deathway translation here
+	GSProtocol.GCServerMsgStringSend("?????? ???????.", lpObj, 1);// Deathway translation here
+	GSProtocol.GCServerMsgStringSend("???? ?????? ????????ñ? ??????.", lpObj, 1);// Deathway translation here
 	GJSetCharacterInfo(lpObj, lpObj->m_Index, 0);
 	lpObj->LoadWareHouseInfo = false;
-	gObjCloseSet(lpMsg->Number, 2);
+	gObjCloseSet(*lpObj, 2);
 	lpObj->m_MoveOtherServer = 0;
 }
 
@@ -3280,7 +3270,7 @@ struct SDHP_REQUEST_PETITEM_INFO
 
 void gObjRequestPetItemInfo(CGameObject* lpObj, int inventype)
 {
-	LPOBJ lpObj = *lpObj;
+
 	char pbuffer[4096];
 	int lofs = sizeof(SDHP_REQUEST_PETITEM_INFO);
 	int founditemcount = 0;
@@ -3327,7 +3317,7 @@ void gObjRequestPetItemInfo(CGameObject* lpObj, int inventype)
 
 		pMsg.h.set((LPBYTE)&pMsg, 0x56, lofs + sizeof(pMsg));
 		memcpy(pMsg.AccountID, lpObj->m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN);
-		pMsg.Number = aIndex;
+		pMsg.Number = lpObj->m_Index;
 		pMsg.InvenType = inventype;
 		pMsg.nCount = founditemcount;
 		pMsg.ServerType = g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE ? TRUE : FALSE;
@@ -3359,13 +3349,13 @@ void DGRecvPetItemInfo(LPBYTE lpData)
 {
 	SDHP_RECV_PETITEM_INFO* lpMsg = (SDHP_RECV_PETITEM_INFO *)lpData;
 	Recv_PetItem_Info* pPetItemInfo = (Recv_PetItem_Info *)(lpData + sizeof(SDHP_RECV_PETITEM_INFO));
-	CGameObject* lpObj = lpMsg->Number;
+	CGameObject* lpObj = getGameObject(lpMsg->Number);
 	char szAccountId[MAX_ACCOUNT_LEN + 1];
 	szAccountId[MAX_ACCOUNT_LEN] = 0;
 
 	memcpy(szAccountId, lpMsg->AccountID, MAX_ACCOUNT_LEN);
 
-	if (!gObjIsAccontConnect(lpObj, szAccountId))
+	if (!gObjIsAccontConnect(*lpObj, szAccountId))
 	{
 		sLog->outError("Request to receive petitem infomation doesn't match the user %s", szAccountId);
 		GIOCP.CloseClient(lpObj->m_PlayerData->ConnectUser->Index);
@@ -3384,18 +3374,18 @@ void DGRecvPetItemInfo(LPBYTE lpData)
 				ReCalc = 1;
 			}
 
-			if (lpObj->pInventory[pPetItemInfo[n].nPos].IsItem())
+			if (lpObj->pntInventory[pPetItemInfo[n].nPos]->IsItem())
 			{
-				if (lpObj->pInventory[pPetItemInfo[n].nPos].m_Number == pPetItemInfo[n].nSerial)
+				if (lpObj->pntInventory[pPetItemInfo[n].nPos]->m_Number == pPetItemInfo[n].nSerial)
 				{
-					lpObj->pInventory[pPetItemInfo[n].nPos].SetPetItemInfo(pPetItemInfo[n].Level, pPetItemInfo[n].Exp);
+					lpObj->pntInventory[pPetItemInfo[n].nPos]->SetPetItemInfo(pPetItemInfo[n].Level, pPetItemInfo[n].Exp);
 				}
 			}
 		}
 
 		if (ReCalc != FALSE)
 		{
-			gObjCalCharacter.CalcCharacter(lpObj);
+			gObjCalCharacter.CalcCharacter(*lpObj);
 		}
 	}
 	else if (lpMsg->InvenType == 1)
@@ -3403,11 +3393,11 @@ void DGRecvPetItemInfo(LPBYTE lpData)
 		for (int n = 0; n < lpMsg->nCount; n++)
 		{
 
-			if (lpObj->pWarehouse[pPetItemInfo[n].nPos].IsItem())
+			if (lpObj->pntWarehouse[pPetItemInfo[n].nPos]->IsItem())
 			{
-				if (lpObj->pWarehouse[pPetItemInfo[n].nPos].m_Number == pPetItemInfo[n].nSerial)
+				if (lpObj->pntWarehouse[pPetItemInfo[n].nPos]->m_Number == pPetItemInfo[n].nSerial)
 				{
-					lpObj->pWarehouse[pPetItemInfo[n].nPos].SetPetItemInfo(pPetItemInfo[n].Level, pPetItemInfo[n].Exp);
+					lpObj->pntWarehouse[pPetItemInfo[n].nPos]->SetPetItemInfo(pPetItemInfo[n].Level, pPetItemInfo[n].Exp);
 				}
 			}
 		}
@@ -3440,7 +3430,7 @@ struct SDHP_SAVE_PETITEM_INFO
 
 void gObjSavePetItemInfo(CGameObject* lpObj, int inventype)
 {
-	LPOBJ lpObj = *lpObj;
+
 	char pbuffer[4096];
 	int lofs = sizeof(SDHP_SAVE_PETITEM_INFO);
 	int founditemcount = 0;
@@ -3511,7 +3501,7 @@ void gObjSavePetItemInfo(CGameObject* lpObj, int inventype)
 
 		memcpy(pbuffer, &pMsg, sizeof(pMsg));
 
-		//wsDataCli.DataSend(pbuffer, lofs + sizeof(pMsg));
+		//wsDataCli.DataSend(pbuffer, lofs + sizeof(pMsg)); // TODO
 	}
 }
 
@@ -3543,7 +3533,7 @@ void GS_GDReqCastleTotalInfo(int iMapSvrGroup, int iCastleEventCycle)
 	pMsg.wMapSvrNum = iMapSvrGroup;
 	pMsg.iCastleEventCycle = iCastleEventCycle;
 
-	:://wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	:://wsDataCli.DataSend((char*)&pMsg, pMsg.h.size); // TODO
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -3568,18 +3558,13 @@ void GS_GDReqOwnerGuildMaster(int iMapSvrGroup, CGameObject* lpObj)
 		return;
 	}
 
-	if (ObjectMaxRange(lpObj) == FALSE)
-	{
-		return;
-	}
-
 	CSP_REQ_OWNERGUILDMASTER pMsg;
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x01, sizeof(CSP_REQ_OWNERGUILDMASTER));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = aIndex;
+	pMsg.iIndex = lpObj->m_Index;
 
-	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size); // TODO
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -3614,16 +3599,11 @@ void GS_GDReqCastleNpcBuy(int iMapSvrGroup, CGameObject* lpObj, int iNpcNumber, 
 		return;
 	}
 
-	if (ObjectMaxRange(lpObj) == FALSE)
-	{
-		return;
-	}
-
 	CSP_REQ_NPCBUY pMsg;
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x03, sizeof(CSP_REQ_NPCBUY));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = aIndex;
+	pMsg.iIndex = lpObj->m_Index;
 	pMsg.iNpcNumber = iNpcNumber;
 	pMsg.iNpcIndex = iNpcIndex;
 	pMsg.iNpcDfLevel = iNpcDfLevel;
@@ -3663,16 +3643,11 @@ void GS_GDReqCastleNpcRepair(int iMapSvrGroup, CGameObject* lpObj, int iNpcNumbe
 		return;
 	}
 
-	if (ObjectMaxRange(lpObj) == FALSE)
-	{
-		return;
-	}
-
 	CSP_REQ_NPCREPAIR pMsg;
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x04, sizeof(CSP_REQ_NPCREPAIR));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = aIndex;
+	pMsg.iIndex = lpObj->m_Index;
 	pMsg.iNpcNumber = iNpcNumber;
 	pMsg.iNpcIndex = iNpcIndex;
 	pMsg.iRepairCost = iRepairCost;
@@ -3706,16 +3681,12 @@ void GS_GDReqCastleNpcUpgrade(int iMapSvrGroup, CGameObject* lpObj, int iNpcNumb
 		return;
 	}
 
-	if (ObjectMaxRange(lpObj) == FALSE)
-	{
-		return;
-	}
 
 	CSP_REQ_NPCUPGRADE pMsg;
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x05, sizeof(CSP_REQ_NPCUPGRADE));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = aIndex;
+	pMsg.iIndex = lpObj->m_Index;
 	pMsg.iNpcNumber = iNpcNumber;
 	pMsg.iNpcIndex = iNpcIndex;
 	pMsg.iNpcUpType = iNpcUpType;
@@ -3746,16 +3717,12 @@ void GS_GDReqTaxInfo(int iMapSvrGroup, CGameObject* lpObj)
 		return;
 	}
 
-	if (ObjectMaxRange(lpObj) == FALSE)
-	{
-		return;
-	}
 
 	CSP_REQ_TAXINFO pMsg;
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x06, sizeof(CSP_REQ_TAXINFO));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = aIndex;
+	pMsg.iIndex = lpObj->m_Index;
 
 	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
@@ -3784,16 +3751,11 @@ void GS_GDReqTaxRateChange(int iMapSvrGroup, CGameObject* lpObj, int iTaxType, i
 		return;
 	}
 
-	if (ObjectMaxRange(lpObj) == FALSE)
-	{
-		return;
-	}
-
 	CSP_REQ_TAXRATECHANGE pMsg;
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x07, sizeof(CSP_REQ_TAXRATECHANGE));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = aIndex;
+	pMsg.iIndex = lpObj->m_Index;
 	pMsg.iTaxRate = iTaxRate;
 	pMsg.iTaxKind = iTaxType;
 
@@ -3822,16 +3784,11 @@ void GS_GDReqCastleMoneyChange(int iMapSvrGroup, CGameObject* lpObj, int iMoneyC
 		return;
 	}
 
-	if (ObjectMaxRange(lpObj) == FALSE)
-	{
-		return;
-	}
-
 	CSP_REQ_MONEYCHANGE pMsg;
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x08, sizeof(CSP_REQ_MONEYCHANGE));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = aIndex;
+	pMsg.iIndex = lpObj->m_Index;
 	pMsg.iMoneyChanged = iMoneyChange;
 
 	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
@@ -3868,7 +3825,7 @@ void GS_GDReqSiegeDateChange(int iMapSvrGroup, CGameObject* lpObj, WORD wStartYe
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x09, sizeof(CSP_REQ_SDEDCHANGE));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = aIndex;
+	pMsg.iIndex = lpObj->m_Index;
 	pMsg.wStartYear = wStartYear;
 	pMsg.btStartMonth = btStartMonth;
 	pMsg.btStartDay = btStartDay;
@@ -3901,16 +3858,11 @@ void GS_GDReqGuildMarkRegInfo(int iMapSvrGroup, CGameObject* lpObj)
 		return;
 	}
 
-	if (ObjectMaxRange(lpObj) == FALSE)
-	{
-		return;
-	}
-
 	CSP_REQ_GUILDREGINFO pMsg;
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x0A, sizeof(CSP_REQ_GUILDREGINFO));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = aIndex;
+	pMsg.iIndex = lpObj->m_Index;
 	memcpy(pMsg.szGuildName, lpObj->m_PlayerData->GuildName, 8);
 
 	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
@@ -4005,16 +3957,11 @@ void GS_GDReqRegAttackGuild(int iMapSvrGroup, CGameObject* lpObj)
 		return;
 	}
 
-	if (ObjectMaxRange(lpObj) == FALSE)
-	{
-		return;
-	}
-
 	CSP_REQ_REGATTACKGUILD pMsg;
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x0D, sizeof(CSP_REQ_REGATTACKGUILD));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = aIndex;
+	pMsg.iIndex = lpObj->m_Index;
 	memcpy(pMsg.szEnemyGuildName, lpObj->m_PlayerData->GuildName, 8);
 
 	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
@@ -4101,11 +4048,6 @@ void GS_GDReqGlobalPostMultiCast(int iMapSvrGroup, CGameObject* lpObj, char * sz
 		return;
 	}
 
-	if (!ObjectMaxRange(lpObj))
-	{
-		return;
-	}
-
 	if (szMessage == NULL)
 	{
 		return;
@@ -4149,16 +4091,11 @@ void GS_GDReqRegGuildMark(int iMapSvrGroup, CGameObject* lpObj, int iItemPos)
 		return;
 	}
 
-	if (ObjectMaxRange(lpObj) == FALSE)
-	{
-		return;
-	}
-
 	CSP_REQ_GUILDREGMARK pMsg;
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x10, sizeof(CSP_REQ_GUILDREGMARK));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = aIndex;
+	pMsg.iIndex = lpObj->m_Index;
 	pMsg.iItemPos = iItemPos;
 	memcpy(&pMsg.szGuildName, lpObj->m_PlayerData->GuildName, sizeof(pMsg.szGuildName));
 
@@ -4187,11 +4124,6 @@ void GS_GDReqGuildMarkReset(int iMapSvrGroup, CGameObject* lpObj, char* lpszGuil
 		return;
 	}
 
-	if (ObjectMaxRange(lpObj) == FALSE)
-	{
-		return;
-	}
-
 	if (lpszGuildName == NULL)
 	{
 		return;
@@ -4201,7 +4133,7 @@ void GS_GDReqGuildMarkReset(int iMapSvrGroup, CGameObject* lpObj, char* lpszGuil
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x11, sizeof(CSP_REQ_GUILDRESETMARK));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = aIndex;
+	pMsg.iIndex = lpObj->m_Index;
 	memcpy(pMsg.szGuildName, lpszGuildName, 8);
 
 	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
@@ -4230,16 +4162,11 @@ void GS_GDReqGuildSetGiveUp(int iMapSvrGroup, CGameObject* lpObj, BOOL bIsGiveUp
 		return;
 	}
 
-	if (ObjectMaxRange(lpObj) == FALSE)
-	{
-		return;
-	}
-
 	CSP_REQ_GUILDSETGIVEUP pMsg;
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x80, 0x12, sizeof(CSP_REQ_GUILDSETGIVEUP));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = aIndex;
+	pMsg.iIndex = lpObj->m_Index;
 	pMsg.bIsGiveUp = bIsGiveUp;
 	memcpy(pMsg.szGuildName, lpObj->m_PlayerData->GuildName, 8);
 
@@ -4488,7 +4415,7 @@ void GS_GDReqCastleNpcInfo(int iMapSvrGroup, CGameObject* lpObj)
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x82, sizeof(CSP_REQ_NPCDATA));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = aIndex;
+	pMsg.iIndex = lpObj->m_Index;
 
 	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
@@ -4517,7 +4444,7 @@ void GS_GDReqAllGuildMarkRegInfo(int iMapSvrGroup, CGameObject* lpObj)
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x83, sizeof(CSP_REQ_ALLGUILDREGINFO));
 	pMsg.wMapSvrNum = iMapSvrGroup;
-	pMsg.iIndex = aIndex;
+	pMsg.iIndex = lpObj->m_Index;
 
 	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
@@ -4653,7 +4580,7 @@ void GS_DGAnsOwnerGuildMaster(LPBYTE lpRecv)
 		return;
 	}
 
-	GSProtocol.GCAnsCastleSiegeState(lpMsg->iIndex, lpMsg->iResult, lpMsg->szCastleOwnGuild, lpMsg->szCastleOwnGuildMaster);
+	GSProtocol.GCAnsCastleSiegeState(*getGameObject(lpMsg->iIndex), lpMsg->iResult, lpMsg->szCastleOwnGuild, lpMsg->szCastleOwnGuildMaster);
 }
 
 struct CSP_ANS_NPCBUY {
@@ -4669,6 +4596,7 @@ struct CSP_ANS_NPCBUY {
 
 void GS_DGAnsCastleNpcBuy(LPBYTE lpRecv)
 {
+	
 	if (g_ConfigRead.server.GetServerType() != SERVER_CASTLE)
 	{
 		return;
@@ -4688,20 +4616,20 @@ void GS_DGAnsCastleNpcBuy(LPBYTE lpRecv)
 	if (lpMsg->iResult == 1)
 	{
 		BOOL bAddResult = g_CastleSiege.AddDbNPC(lpMsg->iNpcNumber, lpMsg->iNpcIndex);
+		CGameObject* lpObj = getGameObject(lpMsg->iIndex);
 
 		if (bAddResult == TRUE)
 		{
-			if (gObjIsConnected(lpMsg->iIndex))
+
+			lpObj->m_PlayerData->Money -= lpMsg->iBuyCost;
+
+			if (lpObj->m_PlayerData->Money < 0)
 			{
-				gObj[lpMsg->iIndex].m_PlayerData->Money -= lpMsg->iBuyCost;
-
-				if (gObj[lpMsg->iIndex].m_PlayerData->Money < 0)
-				{
-					gObj[lpMsg->iIndex].m_PlayerData->Money = 0;
-				}
-
-				GSProtocol.GCMoneySend(lpMsg->iIndex, gObj[lpMsg->iIndex].m_PlayerData->Money);
+				lpObj->m_PlayerData->Money = 0;
 			}
+
+			GSProtocol.GCMoneySend(lpObj, lpObj->m_PlayerData->Money);
+
 
 			sLog->outBasic("[CastleSiege] GS_DGAnsCastleNpcBuy() - CCastleSiege::AddDbNPC() OK - Npc:(CLS:%d, IDX:%d)", lpMsg->iNpcNumber, lpMsg->iNpcIndex);
 		}
@@ -4715,7 +4643,7 @@ void GS_DGAnsCastleNpcBuy(LPBYTE lpRecv)
 		sLog->outBasic("[CastleSiege] GS_DGAnsCastleNpcBuy() FAILED - Result:(%d), Npc:(CLS:%d, IDX:%d)", lpMsg->iResult, lpMsg->iNpcNumber, lpMsg->iNpcIndex);
 	}
 
-	GSProtocol.GCAnsNpcBuy(lpMsg->iIndex, lpMsg->iResult, lpMsg->iNpcNumber, lpMsg->iNpcIndex);
+	GSProtocol.GCAnsNpcBuy(getGameObject(lpMsg->iIndex), lpMsg->iResult, lpMsg->iNpcNumber, lpMsg->iNpcIndex);
 }
 
 struct CSP_ANS_NPCREPAIR {
@@ -4748,22 +4676,20 @@ void GS_DGAnsCastleNpcRepair(LPBYTE lpRecv)
 		return;
 	}
 
+	CGameObject* lpObj = getGameObject(lpMsg->iIndex);
 	if (lpMsg->iResult == 1)
 	{
 		BOOL bRepairResult = g_CastleSiege.RepairDbNPC(lpMsg->iNpcNumber, lpMsg->iNpcIndex, lpMsg->iNpcHp, lpMsg->iNpcMaxHp);
 		if (bRepairResult == TRUE)
 		{
-			if (gObjIsConnected(lpMsg->iIndex))
+			lpObj->m_PlayerData->Money -= lpMsg->iRepairCost;
+
+			if (lpObj->m_PlayerData->Money < 0)
 			{
-				gObj[lpMsg->iIndex].m_PlayerData->Money -= lpMsg->iRepairCost;
-
-				if (gObj[lpMsg->iIndex].m_PlayerData->Money < 0)
-				{
-					gObj[lpMsg->iIndex].m_PlayerData->Money = 0;
-				}
-
-				GSProtocol.GCMoneySend(lpMsg->iIndex, gObj[lpMsg->iIndex].m_PlayerData->Money);
+				lpObj->m_PlayerData->Money = 0;
 			}
+
+			GSProtocol.GCMoneySend(lpObj, lpObj->m_PlayerData->Money);
 
 			sLog->outBasic("[CastleSiege] GS_DGAnsCastleNpcRepair() - CCastleSiege::RepairDbNPC() OK - Npc:(CLS:%d, IDX:%d)", lpMsg->iNpcNumber, lpMsg->iNpcIndex);
 		}
@@ -4777,7 +4703,7 @@ void GS_DGAnsCastleNpcRepair(LPBYTE lpRecv)
 		sLog->outBasic("[CastleSiege] GS_DGAnsCastleNpcRepair() FAILED - Result:(%d), Npc:(CLS:%d, IDX:%d)", lpMsg->iResult, lpMsg->iNpcNumber, lpMsg->iNpcIndex);
 	}
 
-	GSProtocol.GCAnsNpcRepair(lpMsg->iIndex, lpMsg->iResult, lpMsg->iNpcNumber, lpMsg->iNpcIndex, lpMsg->iNpcHp, lpMsg->iNpcMaxHp);
+	GSProtocol.GCAnsNpcRepair(lpObj, lpMsg->iResult, lpMsg->iNpcNumber, lpMsg->iNpcIndex, lpMsg->iNpcHp, lpMsg->iNpcMaxHp);
 }
 
 struct CSP_ANS_NPCUPGRADE {
@@ -4800,6 +4726,7 @@ void GS_DGAnsCastleNpcUpgrade(LPBYTE lpRecv)
 	}
 
 	CSP_ANS_NPCUPGRADE* lpMsg = (CSP_ANS_NPCUPGRADE*)lpRecv;
+	CGameObject* lpObj = getGameObject(lpMsg->iIndex);
 
 	if (lpMsg == NULL)
 		return;
@@ -4816,11 +4743,11 @@ void GS_DGAnsCastleNpcUpgrade(LPBYTE lpRecv)
 	}
 	else
 	{
-		g_CastleSiege.UpgradeDbNPC(lpMsg->iIndex, lpMsg->iNpcNumber, lpMsg->iNpcIndex, lpMsg->iNpcUpType, lpMsg->iNpcUpValue, lpMsg->iNpcUpIndex);
+		g_CastleSiege.UpgradeDbNPC(*lpObj, lpMsg->iNpcNumber, lpMsg->iNpcIndex, lpMsg->iNpcUpType, lpMsg->iNpcUpValue, lpMsg->iNpcUpIndex);
 		sLog->outBasic("[CastleSiege] [0x80][0x06] GS_DGAnsTaxInfo() - Npc Upgrade OK (CLS:%d, IDX:%d, UPTYPE:%d, UPVAL:%d)", lpMsg->iNpcNumber, lpMsg->iNpcIndex, lpMsg->iNpcUpType, lpMsg->iNpcUpValue);
 	}
 
-	GSProtocol.GCAnsNpcUpgrade(lpMsg->iIndex, lpMsg->iResult, lpMsg->iNpcNumber, lpMsg->iNpcIndex, lpMsg->iNpcUpType, lpMsg->iNpcUpValue);
+	GSProtocol.GCAnsNpcUpgrade(lpObj, lpMsg->iResult, lpMsg->iNpcNumber, lpMsg->iNpcIndex, lpMsg->iNpcUpType, lpMsg->iNpcUpValue);
 }
 
 struct CSP_ANS_TAXINFO {
@@ -4842,6 +4769,7 @@ void GS_DGAnsTaxInfo(LPBYTE lpRecv)
 	}
 
 	CSP_ANS_TAXINFO* lpMsg = (CSP_ANS_TAXINFO*)lpRecv;
+	CGameObject* lpObj = getGameObject(lpMsg->iIndex);
 
 	if (lpMsg == NULL)
 		return;
@@ -4854,7 +4782,7 @@ void GS_DGAnsTaxInfo(LPBYTE lpRecv)
 
 	if (lpMsg->iResult == TRUE)
 	{
-		GSProtocol.GCAnsTaxMoneyInfo(lpMsg->iIndex, lpMsg->iResult, lpMsg->iTaxRateChaos, lpMsg->iTaxRateStore, lpMsg->i64CastleMoney);
+		GSProtocol.GCAnsTaxMoneyInfo(lpObj, lpMsg->iResult, lpMsg->iTaxRateChaos, lpMsg->iTaxRateStore, lpMsg->i64CastleMoney);
 		g_CastleSiege.SetCastleMoney(lpMsg->i64CastleMoney);
 	}
 }
@@ -4876,6 +4804,7 @@ void GS_DGAnsTaxRateChange(LPBYTE lpRecv)
 	}
 
 	CSP_ANS_TAXRATECHANGE* lpMsg = (CSP_ANS_TAXRATECHANGE*)lpRecv;
+	CGameObject* lpObj = getGameObject(lpMsg->iIndex);
 
 	if (lpMsg == NULL)
 		return;
@@ -4889,7 +4818,7 @@ void GS_DGAnsTaxRateChange(LPBYTE lpRecv)
 	if (lpMsg->iResult == 1)
 	{
 		g_CastleSiege.SetTaxRate(lpMsg->iTaxKind, lpMsg->iTaxRate);
-		GSProtocol.GCAnsTaxRateChange(lpMsg->iIndex, lpMsg->iResult, lpMsg->iTaxKind, lpMsg->iTaxRate);
+		GSProtocol.GCAnsTaxRateChange(lpObj, lpMsg->iResult, lpMsg->iTaxKind, lpMsg->iTaxRate);
 	}
 }
 
@@ -4910,6 +4839,7 @@ void GS_DGAnsCastleMoneyChange(LPBYTE lpRecv)
 	}
 
 	CSP_ANS_MONEYCHANGE* lpMsg = (CSP_ANS_MONEYCHANGE*)lpRecv;
+	CGameObject* lpObj = getGameObject(lpMsg->iIndex);
 
 	if (lpMsg == NULL)
 		return;
@@ -4922,27 +4852,25 @@ void GS_DGAnsCastleMoneyChange(LPBYTE lpRecv)
 
 	if (lpMsg->iResult == TRUE)
 	{
-		if (gObjIsConnected(lpMsg->iIndex))
+		if (lpMsg->iMoneyChanged < 0)
 		{
-			if (lpMsg->iMoneyChanged < 0)
+			lpObj->m_PlayerData->Money -= lpMsg->iMoneyChanged;
+
+			if (lpObj->m_PlayerData->Money > MAX_ZEN)
 			{
-				gObj[lpMsg->iIndex].m_PlayerData->Money -= lpMsg->iMoneyChanged;
-
-				if (gObj[lpMsg->iIndex].m_PlayerData->Money > MAX_ZEN)
-				{
-					gObj[lpMsg->iIndex].m_PlayerData->Money = MAX_ZEN;
-				}
-
-				GSProtocol.GCMoneySend(lpMsg->iIndex, gObj[lpMsg->iIndex].m_PlayerData->Money);
-
-				sLog->outBasic("[CastleSiege] [0x80][0x08] GS_DGAnsCastleMoneyChange() - Withdraw Request OK [%s][%s] (ReqMoney:%d, TotMoney:%I64d)", gObj[lpMsg->iIndex].AccountID,
-					gObj[lpMsg->iIndex].Name, lpMsg->iMoneyChanged, lpMsg->i64CastleMoney);
+				lpObj->m_PlayerData->Money = MAX_ZEN;
 			}
+
+			GSProtocol.GCMoneySend(lpObj, lpObj->m_PlayerData->Money);
+
+			sLog->outBasic("[CastleSiege] [0x80][0x08] GS_DGAnsCastleMoneyChange() - Withdraw Request OK [%s][%s] (ReqMoney:%d, TotMoney:%I64d)", lpObj->m_PlayerData->ConnectUser->AccountID,
+				lpObj->Name, lpMsg->iMoneyChanged, lpMsg->i64CastleMoney);
 		}
+
 		g_CastleSiege.SetCastleMoney(lpMsg->i64CastleMoney);
 	}
 
-	GSProtocol.GCAnsMoneyDrawOut(lpMsg->iIndex, lpMsg->iResult, lpMsg->i64CastleMoney);
+	GSProtocol.GCAnsMoneyDrawOut(lpObj, lpMsg->iResult, lpMsg->i64CastleMoney);
 }
 
 struct CSP_ANS_SDEDCHANGE {
@@ -4985,6 +4913,7 @@ void GS_DGAnsGuildMarkRegInfo(LPBYTE lpRecv)
 	}
 
 	CSP_ANS_GUILDREGINFO* lpMsg = (CSP_ANS_GUILDREGINFO*)lpRecv;
+	CGameObject* lpObj = getGameObject(lpMsg->iIndex);
 
 	if (lpMsg == NULL)
 		return;
@@ -4995,7 +4924,7 @@ void GS_DGAnsGuildMarkRegInfo(LPBYTE lpRecv)
 		return;
 	}
 
-	GSProtocol.GCAnsGuildRegInfo(lpMsg->iIndex, lpMsg->iResult, lpMsg);
+	GSProtocol.GCAnsGuildRegInfo(lpObj, lpMsg->iResult, lpMsg);
 }
 
 struct CSP_ANS_SIEGEENDCHANGE {
@@ -5069,6 +4998,7 @@ void GS_DGAnsRegAttackGuild(LPBYTE lpRecv)
 	}
 
 	CSP_ANS_REGATTACKGUILD* lpMsg = (CSP_ANS_REGATTACKGUILD*)lpRecv;
+	CGameObject* lpObj = getGameObject(lpMsg->iIndex);
 
 	if (lpMsg == NULL)
 		return;
@@ -5079,7 +5009,7 @@ void GS_DGAnsRegAttackGuild(LPBYTE lpRecv)
 		return;
 	}
 
-	GSProtocol.GCAnsRegCastleSiege(lpMsg->iIndex, lpMsg->iResult, lpMsg->szEnemyGuildName);
+	GSProtocol.GCAnsRegCastleSiege(lpObj, lpMsg->iResult, lpMsg->szEnemyGuildName);
 }
 
 struct CSP_ANS_CASTLESIEGEEND {
@@ -5087,6 +5017,8 @@ struct CSP_ANS_CASTLESIEGEEND {
 	/*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
 	/*<thisrel this+0x8>*/ /*|0x2|*/ WORD wMapSvrNum;
 };
+
+
 
 void GS_DGAnsRestartCastleState(LPBYTE lpRecv)
 {
@@ -5206,7 +5138,7 @@ void GS_DGAnsRegGuildMark(LPBYTE lpRecv)
 	}
 	else
 	{
-		GSProtocol.GCAnsRegGuildMark(lpMsg->iIndex, lpMsg->iResult, lpMsg);
+		GSProtocol.GCAnsRegGuildMark(getGameObject(lpMsg->iIndex), lpMsg->iResult, lpMsg);
 	}
 }
 
@@ -5270,7 +5202,7 @@ void GS_DGAnsGuildSetGiveUp(LPBYTE lpRecv)
 		return;
 	}
 
-	GSProtocol.GCAnsGiveUpCastleSiege(lpMsg->iIndex, lpMsg->iResult, lpMsg->bIsGiveUp, lpMsg->iRegMarkCount, lpMsg->szGuildName);
+	GSProtocol.GCAnsGiveUpCastleSiege(getGameObject(lpMsg->iIndex), lpMsg->iResult, lpMsg->bIsGiveUp, lpMsg->iRegMarkCount, lpMsg->szGuildName);
 }
 
 struct CSP_ANS_NPCREMOVE {
@@ -5631,7 +5563,7 @@ void GS_DGAnsAllGuildMarkRegInfo(LPBYTE lpRecv)
 
 	lpMsgSend->h.set((LPBYTE)&cBUFFER, 0xB4, (lpMsgSend->iCount * sizeof(PMSG_CSREGGUILDLIST) + sizeof(PMSG_ANS_CSREGGUILDLIST)));
 
-	IOCP.DataSend(lpMsg->iIndex, (LPBYTE)&cBUFFER, (lpMsgSend->iCount * sizeof(PMSG_CSREGGUILDLIST) + sizeof(PMSG_ANS_CSREGGUILDLIST)));
+	GIOCP.DataSend(getGameObject(lpMsg->iIndex)->m_PlayerData->ConnectUser->Index, (LPBYTE)&cBUFFER, (lpMsgSend->iCount * sizeof(PMSG_CSREGGUILDLIST) + sizeof(PMSG_ANS_CSREGGUILDLIST)));
 }
 
 struct CSP_ANS_NPCSAVEDATA {
@@ -5922,7 +5854,7 @@ void DGAnsCrywolfSync(LPBYTE lpRecv)
 
 	if (GetTickCount() > (dwCrywolfSyncLogTickCount + 60000))
 	{
-		g_Log.AddC(TColor::Blue, "[Crywolf Sync] Occupation: %d, State: %d, Benefit: %d, Penalty: %d, PlusChaosRate: %d, GemDropPenaltyRate: %d, ExpPenaltyRate: %d, MinusMonHPBenefitRate: %d, KundunHPRefillState: %d",
+		sLog->outBasic("[Crywolf Sync] Occupation: %d, State: %d, Benefit: %d, Penalty: %d, PlusChaosRate: %d, GemDropPenaltyRate: %d, ExpPenaltyRate: %d, MinusMonHPBenefitRate: %d, KundunHPRefillState: %d",
 			lpMsg->iOccupationState, lpMsg->iCrywolfState, lpMsg->iApplyBenefit, lpMsg->iApplyPenalty, lpMsg->iPlusChaosRate, lpMsg->iGemDropPenaltyRate, lpMsg->iGettingExpPenaltyRate, lpMsg->iMinusMonHPBenefitRate, lpMsg->iKundunHPRefillState);
 		dwCrywolfSyncLogTickCount = GetTickCount();
 	}
@@ -6045,9 +5977,9 @@ void DGAnsInGameShopItemList(LPBYTE lpRecv)
 	ISHOP_ANS_ITEMLIST * lpMsg = (ISHOP_ANS_ITEMLIST *)(lpRecv);
 	ISHOP_ITEMLIST * lpMsgBody = (ISHOP_ITEMLIST *)(lpRecv + sizeof(ISHOP_ANS_ITEMLIST));
 
-	CGameObject* lpObj = getGameObject(lpObj);
+	CGameObject* lpObj = getGameObject(lpMsg->aIndex);
 
-	g_CashShop.GCCashInventoryItemCount(lpObj, lpRecv);
+	g_CashShop.GCCashInventoryItemCount(*lpObj, lpRecv);
 }
 
 void GDReqInGameShopPoint(CGameObject* lpObj)
@@ -6063,14 +5995,13 @@ void GDReqInGameShopPoint(CGameObject* lpObj)
 
 void DGAnsInGameShopPoint(ISHOP_ANS_POINT *lpMsg)
 {
-	if (lpObj < g_ConfigRead.server.GetObjectStartUserIndex() || lpObj > g_ConfigRead.server.GetObjectMax())
-		return;
+	CGameObject* lpObj = getGameObject(lpMsg->aIndex);
 
 	lpObj->m_PlayerData->m_WCoinC = lpMsg->CoinC;
 	lpObj->m_PlayerData->m_WCoinP = lpMsg->CoinP;
 	lpObj->m_PlayerData->m_GoblinPoint = lpMsg->Goblin;
 
-	g_CashShop.GCCashPoint(lpObj);
+	g_CashShop.GCCashPoint(*lpObj);
 }
 
 void GDReqInGameShopPointAdd(CGameObject* lpObj, BYTE Type, float Coin)
@@ -6090,8 +6021,9 @@ void GDReqInGameShopPointAdd(CGameObject* lpObj, BYTE Type, float Coin)
 void DGAnsInGameShopItemBuy(LPBYTE lpRecv)
 {
 	ISHOP_ITEM_BUYANS * pItem = (ISHOP_ITEM_BUYANS *)(lpRecv);
+	CGameObject* lpObj = getGameObject(pItem->aIndex);
 
-	g_CashShop.GCCashItemBuy(&gObj[pItem->aIndex], pItem->ID1, pItem->ID2, pItem->ID3, pItem->Result);
+	g_CashShop.GCCashItemBuy(*lpObj, pItem->ID1, pItem->ID2, pItem->ID3, pItem->Result);
 }
 
 void GDReqInGameShopItemBuy(CGameObject* lpObj, int ID1, int ID2, int ID3, int Price, BYTE CoinType)
@@ -6125,10 +6057,9 @@ void GDReqInGameShopItemUse(CGameObject* lpObj, int UniqueCode, int AuthCode)
 
 void DGAnsInGameShopItemUse(ISHOP_ITEM_USEANS * lpMsg)
 {
-	if (!ObjectMaxRange(lpObj))
-		return;
+	CGameObject* lpObj = getGameObject(lpMsg->aIndex);
 
-	g_CashShop.GCCashInventoryItemUse(lpObj, lpMsg->Result, lpMsg->UniqueCode, lpMsg->AuthCode, lpMsg->ID1, lpMsg->ID2, lpMsg->ID3);
+	g_CashShop.GCCashInventoryItemUse(*lpObj, lpMsg->Result, lpMsg->UniqueCode, lpMsg->AuthCode, lpMsg->ID1, lpMsg->ID2, lpMsg->ID3);
 }
 
 void GDReqInGameShopItemGift(CGameObject* lpObj, int ID1, int ID2, int ID3, int Price, BYTE CoinType, char Target[11], char Message[200])
@@ -6153,8 +6084,9 @@ void GDReqInGameShopItemGift(CGameObject* lpObj, int ID1, int ID2, int ID3, int 
 void DGAnsInGameShopItemGift(LPBYTE lpRecv)
 {
 	ISHOP_ITEM_GIFTANS * pItem = (ISHOP_ITEM_GIFTANS *)(lpRecv);
+	CGameObject* lpObj = getGameObject(pItem->aIndex);
 
-	g_CashShop.GCCashItemGift(&gObj[pItem->aIndex], pItem->ID1, pItem->ID2, pItem->ID3, pItem->Result);
+	g_CashShop.GCCashItemGift(*lpObj, pItem->ID1, pItem->ID2, pItem->ID3, pItem->Result);
 }
 
 void GDReqInGameShopItemDelete(CGameObject* lpObj, int UniqueCode, int AuthCode)
@@ -6246,28 +6178,25 @@ void GDCharCardBuy(char AccountID[11], BYTE Type)
 
 void DGSetWarehouseList(PMSG_ANS_WARESAVE *lpMsg)
 {
-	if (!ObjectMaxRange(lpMsg->iIndex))
+	CGameObject* lpObj = getGameObject(lpMsg->iIndex);
+
+	if (lpObj->Type != OBJ_USER)
 	{
 		return;
 	}
 
-	if (gObj[lpMsg->iIndex].Type != OBJ_USER)
-	{
-		return;
-	}
-
-	gObj[lpMsg->iIndex].WarehouseSaveLock = FALSE;
+	lpObj->WarehouseSaveLock = FALSE;
 
 	if (lpMsg->CloseWindow == TRUE)
 	{
-		gObj[lpMsg->iIndex].m_btOpenWarehouse = FALSE;
-		gObj[lpMsg->iIndex].WarehouseTick = GetTickCount();
+		lpObj->m_btOpenWarehouse = FALSE;
+		lpObj->WarehouseTick = GetTickCount();
 
-		if (gObj[lpMsg->iIndex].m_IfState.use == 1 && gObj[lpMsg->iIndex].m_IfState.type == 6)
+		if (lpObj->m_IfState.use == 1 && lpObj->m_IfState.type == 6)
 		{
-			gObj[lpMsg->iIndex].m_IfState.use = 0;
-			gObj[lpMsg->iIndex].m_IfState.type = 0;
-			gObj[lpMsg->iIndex].m_IfState.state = 0;
+			lpObj->m_IfState.use = 0;
+			lpObj->m_IfState.type = 0;
+			lpObj->m_IfState.state = 0;
 		}
 	}
 
@@ -6301,9 +6230,11 @@ void ReqMonsterCount(CGameObject* lpObj)
 
 void ReqMonsterCountAns(DS_GET_MONSTERCNT * aRecv)
 {
-	if (gObj[aRecv->aIndex].Connected == PLAYER_PLAYING && gObj[aRecv->aIndex].Type == OBJ_USER)
+	CGameObject* lpObj = getGameObject(aRecv->aIndex);
+
+	if (lpObj->Type == OBJ_USER)
 	{
-		gObj[aRecv->aIndex].m_PlayerData->IGC_KillCount = aRecv->cnt;
+		lpObj->m_PlayerData->IGC_KillCount = aRecv->cnt;
 	}
 }
 
@@ -6314,7 +6245,7 @@ void ReqSaveMonsterCount(short aIndex, int monsterid)
 	pMsg.h.headcode = 0xFC;
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.type = monsterid;
-	memcpy(pMsg.character, lpObj->Name, 10);
+	memcpy(pMsg.character, getGameObject(aIndex)->Name, 10);
 	pMsg.character[10] = 0;
 	//wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
@@ -6325,9 +6256,9 @@ void ReqSavePlayerKiller(short kIndex, short vIndex)
 	pMsg.h.c = 0xC1;
 	pMsg.h.headcode = 0xFE;
 	pMsg.h.size = sizeof(pMsg);
-	memcpy(pMsg.Victim, gObj[vIndex].Name, 10);
+	memcpy(pMsg.Victim, getGameObject(vIndex)->Name, 10);
 	pMsg.Victim[10] = 0;
-	memcpy(pMsg.Killer, gObj[kIndex].Name, 10);
+	memcpy(pMsg.Killer, getGameObject(kIndex)->Name, 10);
 	pMsg.Killer[10] = 0;
 	//wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
@@ -6335,15 +6266,14 @@ void ReqSavePlayerKiller(short kIndex, short vIndex)
 void GDReqArcaBattleGuildJoin(CGameObject* lpObj)
 {
 	PMSG_REQ_ARCA_BATTLE_GUILD_JOIN_DS pMsg;
-
 	pMsg.h.c = 0xC1;
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.h.headcode = 0xF8;
 	pMsg.h.subcode = 0x30;
-	memcpy(pMsg.szGuildMaster, obj->Name, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szGuildName, obj->m_PlayerData->lpGuild->Name, MAX_GUILD_LEN + 1);
-	pMsg.wNumber = obj->m_Index;
-	pMsg.dwGuild = obj->m_PlayerData->GuildNumber;
+	memcpy(pMsg.szGuildMaster, lpObj->Name, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szGuildName, lpObj->m_PlayerData->lpGuild->Name, MAX_GUILD_LEN + 1);
+	pMsg.wNumber = lpObj->m_Index;
+	pMsg.dwGuild = lpObj->m_PlayerData->GuildNumber;
 	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
 
@@ -6356,67 +6286,60 @@ void DGAnsArcaBattleGuildJoin(PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg)
 	pMsg.h.headcode = 0xF8;
 	pMsg.h.subcode = 0x31;
 	pMsg.btResult = lpMsg->btResult;
-	IOCP.DataSend(lpMsg->wNumber, (LPBYTE)&pMsg, sizeof(pMsg));
+	GIOCP.DataSend(lpMsg->wNumber, (LPBYTE)&pMsg, sizeof(pMsg));
 }
 
 void DGAnsArcaBattleGuildJoinSelect(PMSG_ANS_ARCA_BATTLE_GUILD_JOIN_DS *lpMsg)
 {
 	PMSG_ANS_ARCA_BATTLE_JOIN pMsg;
-	CGameObject* lpObj = lpMsg->wNumber;
-
-	if (ObjectMaxRange(lpObj) == false)
-		return;
+	CGameObject* lpObj = getGameObject(lpMsg->wNumber);
 
 	if (lpObj->Type != OBJ_USER)
 		return;
 
-	LPOBJ lpObj = *lpObj;
-
-	if (gObjIsConnected(lpObj))
+	switch (lpMsg->btResult)
 	{
-		switch (lpMsg->btResult)
-		{
-		case 0:
-			sLog->outBasic("[ArcaBattle] [%s][%s][%s] ArcaBattle Guild Join", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildName);
-			GDReqArcaBattleGuildJoin(lpObj);
-			return;
+	case 0:
+		sLog->outBasic("[ArcaBattle] [%s][%s][%s] ArcaBattle Guild Join", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildName);
+		GDReqArcaBattleGuildJoin(lpObj);
+		return;
 
-		case 1:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Not Guild Master", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
-			break;
+	case 1:
+		sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Not Guild Master", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
+		break;
 
-		case 2:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Below Guild Member", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
-			break;
+	case 2:
+		sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Below Guild Member", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
+		break;
 
-		case 3:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Guild Over", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
-			break;
+	case 3:
+		sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Guild Over", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
+		break;
 
-		case 4:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to be Guild Name Same", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
-			break;
+	case 4:
+		sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to be Guild Name Same", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
+		break;
 
-		case 5:
-			sLog->outBasic("[ArcaBattle] [%s][%s] (Guild Master) ArcaBattle Join Fail to Time Over", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
-			break;
+	case 5:
+		sLog->outBasic("[ArcaBattle] [%s][%s] (Guild Master) ArcaBattle Join Fail to Time Over", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
+		break;
 
-		case 6:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to not enough Guild Rank", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
-			break;
+	case 6:
+		sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to not enough Guild Rank", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
+		break;
 
-		default:
-			sLog->outBasic("[ArcaBattle] [%s][%s] GuildJoin Error Result : %d", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpMsg->btResult);
-			break;
-		}
-
-		pMsg.h.c = 0xC1;
-		pMsg.h.size = sizeof(pMsg);
-		pMsg.h.headcode = 0xF8;
-		pMsg.h.subcode = 0x31;
-		pMsg.btResult = lpMsg->btResult;
-		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, sizeof(pMsg));
+	default:
+		sLog->outBasic("[ArcaBattle] [%s][%s] GuildJoin Error Result : %d", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpMsg->btResult);
+		break;
 	}
+
+	pMsg.h.c = 0xC1;
+	pMsg.h.size = sizeof(pMsg);
+	pMsg.h.headcode = 0xF8;
+	pMsg.h.subcode = 0x31;
+	pMsg.btResult = lpMsg->btResult;
+	GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, sizeof(pMsg));
+
 }
 
 void GDReqArcaBattleGuildMemberJoin(CGameObject* lpObj)
@@ -6427,10 +6350,10 @@ void GDReqArcaBattleGuildMemberJoin(CGameObject* lpObj)
 	pMsg.h.size = sizeof(pMsg);
 	pMsg.h.headcode = 0xF8;
 	pMsg.h.subcode = 0x32;
-	memcpy(pMsg.szCharName, obj->Name, MAX_ACCOUNT_LEN + 1);
-	memcpy(pMsg.szGuildName, obj->m_PlayerData->lpGuild->Name, MAX_GUILD_LEN + 1);
-	pMsg.dwGuild = obj->m_PlayerData->GuildNumber;
-	pMsg.wNumber = obj->m_Index;
+	memcpy(pMsg.szCharName, lpObj->Name, MAX_ACCOUNT_LEN + 1);
+	memcpy(pMsg.szGuildName, lpObj->m_PlayerData->lpGuild->Name, MAX_GUILD_LEN + 1);
+	pMsg.dwGuild = lpObj->m_PlayerData->GuildNumber;
+	pMsg.wNumber = lpObj->m_Index;
 
 	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
 }
@@ -6438,60 +6361,53 @@ void GDReqArcaBattleGuildMemberJoin(CGameObject* lpObj)
 void DGAnsArcaBattleGuildMemberJoin(PMSG_ANS_ARCA_BATTLE_GUILD_MEMBER_JOIN_DS *lpMsg)
 {
 	PMSG_ANS_ARCA_BATTLE_JOIN pMsg;
-	CGameObject* lpObj = lpMsg->wNumber;
-
-	if (ObjectMaxRange(lpObj) == false)
-		return;
+	CGameObject* lpObj = getGameObject(lpMsg->wNumber);
 
 	if (lpObj->Type != OBJ_USER)
 		return;
 
-	LPOBJ lpObj = *lpObj;
-
-	if (gObjIsConnected(lpObj))
+	switch (lpMsg->btResult)
 	{
-		switch (lpMsg->btResult)
-		{
-		case 0:
-			sLog->outBasic("[ArcaBattle] [%s][%s][%s] ArcaBattle Guild Member Join", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildName);
-			return;
+	case 0:
+		sLog->outBasic("[ArcaBattle] [%s][%s][%s] ArcaBattle Guild Member Join", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildName);
+		return;
 
-		case 7:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Not Guild Member", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
-			break;
+	case 7:
+		sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Not Guild Member", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
+		break;
 
-		case 8:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to be Name Same", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
-			break;
+	case 8:
+		sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to be Name Same", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
+		break;
 
-		case 9:
-			sLog->outBasic("[ArcaBattle] [%s][%s] (Guild Member) ArcaBattle Join Fail to Guild Member Over", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
-			break;
+	case 9:
+		sLog->outBasic("[ArcaBattle] [%s][%s] (Guild Member) ArcaBattle Join Fail to Guild Member Over", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
+		break;
 
-		case 10:
-			sLog->outBasic("[ArcaBattle] [%s][%s] (Guild Member) ArcaBattle Join Fail to Time Over", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
-			break;
+	case 10:
+		sLog->outBasic("[ArcaBattle] [%s][%s] (Guild Member) ArcaBattle Join Fail to Time Over", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
+		break;
 
-		case 13:
-			sLog->outBasic("[ArcaBattle] [%s][%s] (Guild Master) ArcaBattle Join Fail GuildMaster Will be Registered Automatically", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
-			break;
+	case 13:
+		sLog->outBasic("[ArcaBattle] [%s][%s] (Guild Master) ArcaBattle Join Fail GuildMaster Will be Registered Automatically", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
+		break;
 
-		case 14:
-			sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Guild Master Join Time ", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
-			break;
+	case 14:
+		sLog->outBasic("[ArcaBattle] [%s][%s] ArcaBattle Join Fail to Guild Master Join Time ", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
+		break;
 
-		default:
-			sLog->outBasic("[ArcaBattle] [%s][%s] GuildMemberJoin Error Result : %d", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpMsg->btResult);
-			break;
-		}
-
-		pMsg.h.c = 0xC1;
-		pMsg.h.size = sizeof(pMsg);
-		pMsg.h.headcode = 0xF8;
-		pMsg.h.subcode = 0x33;
-		pMsg.btResult = lpMsg->btResult;
-		GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, sizeof(pMsg));
+	default:
+		sLog->outBasic("[ArcaBattle] [%s][%s] GuildMemberJoin Error Result : %d", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpMsg->btResult);
+		break;
 	}
+
+	pMsg.h.c = 0xC1;
+	pMsg.h.size = sizeof(pMsg);
+	pMsg.h.headcode = 0xF8;
+	pMsg.h.subcode = 0x33;
+	pMsg.btResult = lpMsg->btResult;
+	GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, sizeof(pMsg));
+
 }
 
 void GDReqArcaBattleEnter(CGameObject* lpObj, BYTE btEnterSeq)
@@ -6502,8 +6418,8 @@ void GDReqArcaBattleEnter(CGameObject* lpObj, BYTE btEnterSeq)
 	pMsg.h.headcode = 0xF8;
 	pMsg.h.subcode = 0x34;
 	pMsg.h.size = sizeof(pMsg);
-	memcpy(pMsg.szCharName, obj->Name, MAX_ACCOUNT_LEN + 1);
-	pMsg.wNumber = obj->m_Index;
+	memcpy(pMsg.szCharName, lpObj->Name, MAX_ACCOUNT_LEN + 1);
+	pMsg.wNumber = lpObj->m_Index;
 	pMsg.btEnterSeq = btEnterSeq;
 
 	//wsDataCli.DataSend((char*)&pMsg, pMsg.h.size);
@@ -6511,12 +6427,7 @@ void GDReqArcaBattleEnter(CGameObject* lpObj, BYTE btEnterSeq)
 
 void DGAnsArcaBattleEnter(PMSG_ANS_ARCA_BATTLE_ENTER_DS *lpMsg)
 {
-	CGameObject* lpObj = lpMsg->wNumber;
-
-	if (gObjIsConnected(lpObj) == FALSE)
-	{
-		return;
-	}
+	CGameObject* lpObj = getGameObject(lpMsg->wNumber);
 
 	if (lpObj->Teleport != FALSE)
 	{
@@ -6537,7 +6448,7 @@ void DGAnsArcaBattleEnter(PMSG_ANS_ARCA_BATTLE_ENTER_DS *lpMsg)
 	{
 		if (lpMsg->btEnterSeq == TRUE)
 		{
-			gObjMoveGate(lpObj, 426);
+			gObjMoveGate(*lpObj, 426);
 			sLog->outBasic("[ArcaBattle] [%s][%s][%s] ArcaBattle Enter", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_PlayerData->GuildName);
 			return;
 		}
@@ -6586,7 +6497,7 @@ void GDAnsJoinMemberUnder(PMSG_ANS_AB_JOIN_MEMBER_UNDER_DS *lpMsg)
 
 	for (int i = 0; i < lpMsg->btGuildCnt; ++i)
 	{
-		_GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(lpMsg->GuildMemberCnt[i].szGuildNames);
+		GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(lpMsg->GuildMemberCnt[i].szGuildNames);
 
 		if (lpMsg->GuildMemberCnt[i].btGuildMemberCnt < g_ArcaBattle.GetJoinMemberCnt() && lpGuild != NULL)
 		{
@@ -6594,10 +6505,10 @@ void GDAnsJoinMemberUnder(PMSG_ANS_AB_JOIN_MEMBER_UNDER_DS *lpMsg)
 			{
 				if (lpGuild->GuildStatus[j] == GUILD_MASTER)
 				{
-					if (gObjIsConnected(lpGuild->Index[j]) == 1)
+					if (gObjIsConnected(*getGameObject(lpGuild->Index[j])) == 1)
 					{
 						pMsg.btGuildMemberCnt = lpMsg->GuildMemberCnt[i].btGuildMemberCnt;
-						IOCP.DataSend(lpGuild->Index[j], (LPBYTE)&pMsg, pMsg.h.size);
+						GIOCP.DataSend(getGameObject(lpGuild->Index[j])->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 					}
 
 					break;
@@ -6631,28 +6542,21 @@ void DGAns_CCF_Info_Notify(SDHP_ANS_CCF_INFO_NOTIFY *lpMsg)
 
 	char szMsg[256];
 
-	for (int nUser = g_ConfigRead.server.GetObjectStartUserIndex(); nUser < g_ConfigRead.server.GetObjectMax(); nUser++)
+	for each (std::pair<int, CGameObject*> user in gGameObjects)
 	{
-		LPOBJ lpObj = &gObj[nUser];
-
-		if (gObjIsConnected(nUser) && lpObj->Type == OBJ_USER)
+		if (user.second->Type == OBJ_USER)
 		{
 			memset(szMsg, 0x00, sizeof(szMsg));
 			sprintf(szMsg, Lang.GetText(0, 567), szTemp, lpMsg->nMin);
 
-			GSProtocol.GCServerMsgStringSend(szMsg, nUser, 0);
+			GSProtocol.GCServerMsgStringSend(szMsg, user.second, 0);
 		}
 	}
 }
 
 void DGAns_GetCCFPermission(SDHP_ANS_CCF_GETPERMISSION *lpMsg)
 {
-	if (gObjIsConnected(lpMsg->nIndex) == false)
-	{
-		return;
-	}
-
-	LPOBJ lpObj = &gObj[lpMsg->nIndex];
+	CGameObject* lpObj = getGameObject(lpMsg->nIndex);
 
 	BYTE byCCF_Enter_Result = -1;
 
@@ -6690,14 +6594,14 @@ void DGAns_GetCCFPermission(SDHP_ANS_CCF_GETPERMISSION *lpMsg)
 		pResult.byRemainTime = 0;
 		pResult.byRemainTime_LOW = 0;
 
-		IOCP.DataSend(lpMsg->nIndex, (LPBYTE)&pResult, pResult.h.size);
+		GIOCP.DataSend(lpMsg->nIndex, (LPBYTE)&pResult, pResult.h.size);
 		lpObj->m_byCCF_CanEnter = 0;
 		lpObj->m_bCCF_UI_Using = false;
 	}
 
 	else
 	{
-		int nResult = GSProtocol.CGReqEnterChaosCastleFinal(lpMsg->nIndex);
+		int nResult = GSProtocol.CGReqEnterChaosCastleFinal(lpObj);
 
 		if (nResult)
 		{
@@ -6709,7 +6613,6 @@ void DGAns_GetCCFPermission(SDHP_ANS_CCF_GETPERMISSION *lpMsg)
 void GCMuunInventoryItemListSend(CGameObject* lpObj)
 {
 	int itemcount;
-	CGameObject* lpObj;
 	BYTE sendBuf[4096];
 	unsigned int pMsgILSize;
 	unsigned int sOfs;
@@ -6718,22 +6621,21 @@ void GCMuunInventoryItemListSend(CGameObject* lpObj)
 
 	sOfs = 6;
 	pMsgILSize = 13;
-	lpObj = *lpObj;
 	itemcount = 0;
 	for (int n = 0; n < MUUN_INVENTORY_SIZE; ++n)
 	{
-		if (lpObj->pMuunInventory[n].IsItem() == 1)
+		if (lpObj->pntMuunInventory[n]->IsItem() == 1)
 		{
-			if (lpObj->pMuunInventory[n].m_bItemExist)
+			if (lpObj->pntMuunInventory[n]->m_bItemExist)
 			{
 				/*			pMsgIL.Pos = n;
-			ItemByteConvert(pMsgIL.ItemInfo,lpObj->pInventory[n]);
+			ItemByteConvert(pMsgIL.ItemInfo,lpObj->pntInventory[n]);
 			memcpy(&sendBuf[sOfs], &pMsgIL, pMsgILSize);
 			itemcount++;
 			sOfs += pMsgILSize;*/
 				pMsgIL.Pos = n;
 				//memcpy(&sendBuf[3920], &lpObj->pMuunInventory[n], 0xC8u);
-				ItemByteConvert(pMsgIL.ItemInfo, lpObj->pMuunInventory[n]);
+				ItemByteConvert(pMsgIL.ItemInfo, *lpObj->pntMuunInventory[n]);
 				memcpy(&sendBuf[sOfs], &pMsgIL, pMsgILSize);
 				++itemcount;
 				sOfs += pMsgILSize;
@@ -6763,23 +6665,13 @@ void GDReqSaveEventInvenItem(CGameObject* lpObj)
 		return;
 	}
 
-	if (ObjectMaxRange(lpObj->m_Index) == false)
-	{
-		return;
-	}
-
-	if (!gObjIsConnected(lpObj->m_Index))
-	{
-		return;
-	}
-
 	BYTE NewOption[MAX_EXOPTION_SIZE];
 
 	for (int n = 0; n < EVENT_INVENTORY_SIZE; n++)
 	{
-		if (lpObj->pEventInventory[n].IsItem() == TRUE)
+		if (lpObj->pntEventInventory[n]->IsItem() == TRUE)
 		{
-			ItemIsBufExOption(NewOption, &lpObj->pEventInventory[n]);
+			ItemIsBufExOption(NewOption, lpObj->pntEventInventory[n]);
 
 		}
 	}
@@ -6792,7 +6684,7 @@ void GDReqSaveEventInvenItem(CGameObject* lpObj)
 	pMsg.h.sizeH = HIBYTE(sizeof(pMsg));
 	pMsg.h.sizeL = LOBYTE(sizeof(pMsg));
 	pMsg.h.headcode = 0xE7;
-	ItemByteConvert32(pMsg.dbInventory, lpObj->pEventInventory, 32);
+	ItemByteConvert32(pMsg.dbInventory, *lpObj->pntEventInventory, 32);
 
 	//wsDataCli.DataSend((char *)&pMsg, sizeof(pMsg));
 }
@@ -6800,16 +6692,6 @@ void GDReqSaveEventInvenItem(CGameObject* lpObj)
 void GDReqLoadEventInvenItem(CGameObject* lpObj)
 {
 	if (g_CMuRummyMng.IsMuRummyEventOn() == false && g_ConfigRead.data.common.EventInventoryOpen == false)
-	{
-		return;
-	}
-
-	if (ObjectMaxRange(lpObj->m_Index) == false)
-	{
-		return;
-	}
-
-	if (!gObjIsConnected(lpObj->m_Index))
 	{
 		return;
 	}
@@ -6834,15 +6716,10 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 	}
 
 	char szId[11];
-	CGameObject* lpObj = getGameObject(lpObj);
+	CGameObject* lpObj = getGameObject(lpMsg->aIndex);
 
 	szId[MAX_ACCOUNT_LEN] = 0;
 	memcpy(szId, lpObj->m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN);
-
-	if (ObjectMaxRange(lpObj) == FALSE)
-	{
-		return;
-	}
 
 	if (lpObj->m_PlayerData->m_bMapSvrMoveReq == true)
 	{
@@ -6859,19 +6736,13 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 		return;
 	}
 
-	if (!gObjIsAccontConnect(lpObj, szId))
-	{
-		return;
-	}
-
 	lpObj->EventInventoryLoad = true;
-	LPOBJ lpObj = *lpObj;
 	int itype;
 	int _type;
 	BYTE OptionData;
 	CItemObject* Item;
 
-	memset(lpObj->pEventInventoryMap, (BYTE)-1, EVENT_INVENTORY_MAP_SIZE);
+	memset(lpObj->EventInventoryMap, (BYTE)-1, EVENT_INVENTORY_MAP_SIZE);
 
 	int count = 0;
 	for (int n = 0; n < EVENT_INVENTORY_SIZE; n++)
@@ -6882,7 +6753,7 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 		itype |= (lpMsg->dbItems[n*MAX_DBITEM_INFO + 7] & 0x80) << 1;
 		_type = itype;
 
-		lpObj->pEventInventory[n].Clear();
+		lpObj->pntEventInventory[n]->Clear();
 
 		if (lpMsg->dbItems[n*MAX_DBITEM_INFO] == (BYTE)-1 && (lpMsg->dbItems[n*MAX_DBITEM_INFO + 9] & 0xF0) == 0xF0 && (lpMsg->dbItems[n*MAX_DBITEM_INFO + 7] & 0x80) == 0x80)
 		{
@@ -6934,7 +6805,7 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 			if (Item->m_ItemOptionEx != 0)
 			{
 				Item->m_Type = itype;
-				if (g_kItemSystemFor380.Is380Item(&item) == FALSE)
+				if (g_kItemSystemFor380.Is380Item(Item) == FALSE)
 				{
 					Item->m_ItemOptionEx = 0;
 
@@ -7002,18 +6873,18 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 				}
 			}
 
-			lpObj->pEventInventory[n].m_Option1 = Item->m_Option1;
-			lpObj->pEventInventory[n].m_Option2 = Item->m_Option2;
-			lpObj->pEventInventory[n].m_Option3 = Item->m_Option3;
-			lpObj->pEventInventory[n].m_JewelOfHarmonyOption = Item->m_JewelOfHarmonyOption;
-			lpObj->pEventInventory[n].m_ItemOptionEx = Item->m_ItemOptionEx;
+			lpObj->pntEventInventory[n]->m_Option1 = Item->m_Option1;
+			lpObj->pntEventInventory[n]->m_Option2 = Item->m_Option2;
+			lpObj->pntEventInventory[n]->m_Option3 = Item->m_Option3;
+			lpObj->pntEventInventory[n]->m_JewelOfHarmonyOption = Item->m_JewelOfHarmonyOption;
+			lpObj->pntEventInventory[n]->m_ItemOptionEx = Item->m_ItemOptionEx;
 
 			DWORD hidword = MAKE_NUMBERDW(MAKE_NUMBERW(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL1], lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL2]), MAKE_NUMBERW(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL3], lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL4]));
 			DWORD lodword = MAKE_NUMBERDW(MAKE_NUMBERW(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL5], lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL6]), MAKE_NUMBERW(lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL7], lpMsg->dbItems[n*MAX_DBITEM_INFO + DBI_SERIAL8]));
 			Item->m_Number = MAKEQWORD(hidword, lodword);
 
-			gObjEventInventoryInsertItemPos(lpObj->m_Index, item, n, -1);
-			gObjEventInventoryItemSet(lpObj->m_Index, n, 1);
+			gObjEventInventoryInsertItemPos(*lpObj, *Item, n, -1);
+			gObjEventInventoryItemSet(*lpObj, n, 1);
 			count++;
 		}
 	}
@@ -7022,9 +6893,9 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 
 	for (int n = 0; n < EVENT_INVENTORY_SIZE; n++)
 	{
-		if (lpObj->pEventInventory[n].IsItem() == TRUE)
+		if (lpObj->pntEventInventory[n]->IsItem() == TRUE)
 		{
-			ItemIsBufExOption(NewOption, &lpObj->pEventInventory[n]);
+			ItemIsBufExOption(NewOption, lpObj->pntEventInventory[n]);
 
 		}
 	}
@@ -7036,15 +6907,15 @@ void DGLoadEventInvenItem(_tagSDHP_ANS_DBEVENT_INVEN_LOAD *lpMsg)
 		GSProtocol.GCSendEventBanner(lpObj, 1); //[K2]
 	}
 
-	GSProtocol.GCPlayerStatsPanelRates(lpObj->m_Index);
-	GSProtocol.GCPlayerStatsPanelNew(lpObj->m_Index);
+	GSProtocol.GCPlayerStatsPanelRates(lpObj);
+	GSProtocol.GCPlayerStatsPanelNew(lpObj);
 
 	for (int n = 0; n < INVENTORY_SIZE; n++)
 	{
 		if (lpObj->pntInventory[n]->IsPeriodItemExpire() == 1)
 		{
 			lpObj->pntInventory[n]->SetPeriodItemExpire();
-			g_PeriodItemEx.RemovePeriodItemDataByForce(lpObj, lpObj->pntInventory[n]->m_Type, lpObj->pntInventory[n]->m_Number);
+			g_PeriodItemEx.RemovePeriodItemDataByForce(*lpObj, lpObj->pntInventory[n]->m_Type, lpObj->pntInventory[n]->m_Number);
 			lpObj->pntInventory[n]->Clear();
 		}
 	}
@@ -7055,7 +6926,7 @@ void GDReqSwitchWare(CGameObject* lpObj, int WareID)
 	PMSG_REQ_SWITCHWARE pMsg;
 	PHeadSetB((LPBYTE)&pMsg, 0x03, sizeof(pMsg));
 
-	pMsg.iIndex = aIndex;
+	pMsg.iIndex = lpObj->m_Index;
 	memcpy(pMsg.szAccountID, lpObj->m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN + 1);
 	pMsg.WarehouseID = WareID;
 
@@ -7065,51 +6936,37 @@ void GDReqSwitchWare(CGameObject* lpObj, int WareID)
 void DGAnsSwitchWare(PMSG_ANS_SWITCHWARE *lpMsg)
 {
 	int iIndex = lpMsg->iIndex;
-
-	if (ObjectMaxRange(iIndex) == false)
-	{
-		return;
-	}
-
-	if (!gObjIsAccontConnect(iIndex, lpMsg->szAccountID))
-	{
-		return;
-	}
+	CGameObject* lpObj = getGameObject(iIndex);
 
 	if (lpMsg->Result == 0)
 	{
-		MsgOutput(iIndex, Lang.GetText(0, 452), lpMsg->WarehouseID);
+		MsgOutput(*lpObj, Lang.GetText(0, 452), lpMsg->WarehouseID);
 	}
 
 	else if (lpMsg->Result == 1)
 	{
-		MsgOutput(iIndex, "Internal error");
+		MsgOutput(*lpObj, "Internal error");
 	}
 
 	else if (lpMsg->Result == 2)
 	{
-		MsgOutput(iIndex, "You cannot switch warehouse now, please wait.");
+		MsgOutput(*lpObj, "You cannot switch warehouse now, please wait.");
 	}
 
 	else if (lpMsg->Result == 3)
 	{
-		MsgOutput(iIndex, "You cannot switch warehouse now, warehouse is open or still not saved");
+		MsgOutput(*lpObj, "You cannot switch warehouse now, warehouse is open or still not saved");
 	}
 
 	else if (lpMsg->Result == 4)
 	{
-		MsgOutput(iIndex, "This is already used warehouse (%d)", lpMsg->WarehouseID);
+		MsgOutput(*lpObj, "This is already used warehouse (%d)", lpMsg->WarehouseID);
 	}
 }
 
 void DGAnsUBFAccountUserInfo(PMSG_ANS_UBF_ACCOUNT_USERINFO *lpMsg)
 {
-	if (!ObjectMaxRange(lpMsg->iUserIndex))
-	{
-		return;
-	}
-
-	LPOBJ lpObj = &gObj[lpMsg->iUserIndex];
+	CGameObject* lpObj = getGameObject(lpMsg->iUserIndex);
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -7118,20 +6975,20 @@ void DGAnsUBFAccountUserInfo(PMSG_ANS_UBF_ACCOUNT_USERINFO *lpMsg)
 
 	if (lpMsg->btResult == TRUE)
 	{
-		g_UnityBattleField.DGAnsCheckJoinedUnityBattleField(lpObj->m_Index, lpMsg->btRegisterState);
+		g_UnityBattleField.DGAnsCheckJoinedUnityBattleField(*lpObj, lpMsg->btRegisterState);
 	}
 
 	else
 	{
-		g_UnityBattleField.DGAnsCheckJoinedUnityBattleField(lpObj->m_Index, 0);
+		g_UnityBattleField.DGAnsCheckJoinedUnityBattleField(*lpObj, 0);
 	}
 
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE && lpMsg->btObserverMode == TRUE && (lpMsg->btRegisterState == 0 || lpMsg->btResult == 0))
 	{
-		g_UnityBattleField.DGAnsCheckJoinedUnityBattleField(lpObj->m_Index, lpMsg->btRegisterState);
+		g_UnityBattleField.DGAnsCheckJoinedUnityBattleField(*lpObj, lpMsg->btRegisterState);
 
 		sLog->outBasic("[DGAnsUBFAccountUserInfo][%s][%s] LogOut, Because Not Resister State or Request To Cancel", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
-		gObjCloseSet(lpObj->m_Index, 0);
+		gObjCloseSet(*lpObj, 0);
 	}
 
 	if (lpMsg->btObserverMode == FALSE)
@@ -7139,18 +6996,15 @@ void DGAnsUBFAccountUserInfo(PMSG_ANS_UBF_ACCOUNT_USERINFO *lpMsg)
 		PMSG_ANS_UBF_INFO pResult;
 		PHeadSubSetB((LPBYTE)&pResult, 0xDC, 0x01, sizeof(pResult));
 		pResult.btResult = lpMsg->btRegisterState;
-		IOCP.DataSend(lpMsg->iUserIndex, (LPBYTE)&pResult, pResult.h.size);
+		GIOCP.DataSend(lpMsg->iUserIndex, (LPBYTE)&pResult, pResult.h.size);
 	}
 }
 
+
+
 void DGUBFRegisterAccountUserResult(PMSG_UBF_REGISTER_ACCOUNT_USER_RESULT *lpMsg)
 {
-	if (!ObjectMaxRange(lpMsg->iUserIndex))
-	{
-		return;
-	}
-
-	LPOBJ lpObj = &gObj[lpMsg->iUserIndex];
+	CGameObject* lpObj = getGameObject(lpMsg->iUserIndex);
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -7163,34 +7017,24 @@ void DGUBFRegisterAccountUserResult(PMSG_UBF_REGISTER_ACCOUNT_USER_RESULT *lpMsg
 			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpMsg->btResult);
 	}
 
-	g_UnityBattleField.DGAnsJoinUnityBattleField(lpMsg->iUserIndex, lpMsg->btResult, lpMsg->nLeftSec);
+	g_UnityBattleField.DGAnsJoinUnityBattleField(*lpObj, lpMsg->btResult, lpMsg->nLeftSec);
 }
 
 void DGUBFAccountUserCopyResult(PMSG_UBF_ACCOUNT_USER_COPY_RESULT *lpMsg)
 {
-	if (!ObjectMaxRange(lpMsg->iUserIndex))
-	{
-		return;
-	}
-
-	LPOBJ lpObj = &gObj[lpMsg->iUserIndex];
+	CGameObject* lpObj = getGameObject(lpMsg->iUserIndex);
 
 	if (lpObj->Type != OBJ_USER)
 	{
 		return;
 	}
 
-	g_UnityBattleField.DGAnsCopyCharacterInfo(lpMsg->iUserIndex, lpMsg->btResult, lpMsg->btSubResult);
+	g_UnityBattleField.DGAnsCopyCharacterInfo(*lpObj, lpMsg->btResult, lpMsg->btSubResult);
 }
 
 void DGAnsUBFGetReward(PMSG_ANS_UBF_GET_REWARD *lpMsg)
 {
-	if (!ObjectMaxRange(lpMsg->iUserIndex))
-	{
-		return;
-	}
-
-	LPOBJ lpObj = &gObj[lpMsg->iUserIndex];
+	CGameObject* lpObj = getGameObject(lpMsg->iUserIndex);
 
 	if (lpObj->Type != OBJ_USER)
 	{
@@ -7201,7 +7045,7 @@ void DGAnsUBFGetReward(PMSG_ANS_UBF_GET_REWARD *lpMsg)
 	PHeadSubSetB((LPBYTE)&pMsg, 0xCD, 0x06, sizeof(pMsg));
 
 	pMsg.btResult = lpMsg->btReturn;
-	IOCP.DataSend(lpMsg->iUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	GIOCP.DataSend(lpMsg->iUserIndex, (LPBYTE)&pMsg, pMsg.h.size);
 
 	if (lpMsg->btReturn == 0)
 	{
@@ -7303,73 +7147,52 @@ void DGAnsUBFGetReward(PMSG_ANS_UBF_GET_REWARD *lpMsg)
 		{
 			for (int i = 0; i < lpMsg->btRewardCount1[0]; i++)
 			{
-				g_ChaosCastle.GiveUBFReward(lpObj->m_Index, 0);
+				g_ChaosCastle.GiveUBFReward(*lpObj, 0);
 			}
 
 			for (int i = 0; i < lpMsg->btRewardCount1[1]; i++)
 			{
-				g_ChaosCastle.GiveUBFReward(lpObj->m_Index, 1);
+				g_ChaosCastle.GiveUBFReward(*lpObj, 1);
 			}
 		}
 	}
 
-	g_UnityBattleField.GDReqSetReceivedWinnerItem(lpMsg->iUserIndex, lpMsg->btBattleKind);
+	g_UnityBattleField.GDReqSetReceivedWinnerItem(*lpObj, lpMsg->btBattleKind);
 }
 
 void DGAnsSetReceivedWinnerItem(PMSG_ANS_UBF_SET_RECEIVED_REWARD *lpMsg)
 {
-	if (!ObjectMaxRange(lpMsg->iUserIndex))
-	{
-		return;
-	}
-
-	LPOBJ lpObj = &gObj[lpMsg->iUserIndex];
+	CGameObject* lpObj = getGameObject(lpMsg->iUserIndex);
 
 	if (lpObj->Type != OBJ_USER)
 	{
 		return;
 	}
 
-	g_UnityBattleField.DGAnsSetReceivedWinnerItem(lpMsg->iUserIndex, lpMsg->btReturn);
+	g_UnityBattleField.DGAnsSetReceivedWinnerItem(*lpObj, lpMsg->btReturn);
 }
 
 void DGUBFAnsCancelToJoinResult(PMSG_UBF_ANS_CANCEL_REGISTER_USER *lpMsg)
 {
-	g_UnityBattleField.DGAnsCancelUnityBattleField(lpMsg->iUserIndex, lpMsg->btCanceledResult, lpMsg->btDeletedResult);
+	g_UnityBattleField.DGAnsCancelUnityBattleField(*getGameObject(lpMsg->iUserIndex), lpMsg->btCanceledResult, lpMsg->btDeletedResult);
 }
 
 void DGUBFAnsGetRealNameAndServerCode(PMSG_ANS_GET_UBF_REAL_NAME *lpMsg)
 {
-	if (!ObjectMaxRange(lpMsg->iUserIndex))
-	{
-		return;
-	}
-
-	LPOBJ lpObj = &gObj[lpMsg->iUserIndex];
+	CGameObject* lpObj = getGameObject(lpMsg->iUserIndex);
 
 	if (lpObj->Type != OBJ_USER)
 	{
 		return;
 	}
 
-	g_UnityBattleField.DGAnsGetRealNameAndServerCode(lpMsg->iUserIndex, lpMsg->iServerCode);
+	g_UnityBattleField.DGAnsGetRealNameAndServerCode(*lpObj, lpMsg->iServerCode);
 }
 
 void GDReqCopyPetItemInfo(CGameObject* lpObj)
 {
-	if (!ObjectMaxRange(lpObj))
-	{
-		return;
-	}
-
-	LPOBJ lpObj = *lpObj;
 
 	if (lpObj->Type != OBJ_USER)
-	{
-		return;
-	}
-
-	if (!gObjIsConnected(lpObj))
 	{
 		return;
 	}
@@ -7383,11 +7206,11 @@ void GDReqCopyPetItemInfo(CGameObject* lpObj)
 
 	for (int i = 0; i < INVENTORY_SIZE; i++)
 	{
-		if (lpObj->pInventory[i].IsItem() == TRUE &&
-			(lpObj->pInventory[i].m_Type == ITEMGET(13, 4) || lpObj->pInventory[i].m_Type == ITEMGET(13, 5)))
+		if (lpObj->pntInventory[i]->IsItem() == TRUE &&
+			(lpObj->pntInventory[i]->m_Type == ITEMGET(13, 4) || lpObj->pntInventory[i]->m_Type == ITEMGET(13, 5)))
 		{
 			pPetItem.btItemPos = i;
-			pPetItem.i64ItemSerial = lpObj->pInventory[i].m_Number;
+			pPetItem.i64ItemSerial = lpObj->pntInventory[i]->m_Number;
 
 			memcpy(&Buffer[lOfs], &pPetItem, sizeof(pPetItem));
 			lOfs += sizeof(pPetItem);
@@ -7400,7 +7223,7 @@ void GDReqCopyPetItemInfo(CGameObject* lpObj)
 		pMsg.h.set((LPBYTE)&pMsg, 0xF4, lOfs);
 		memcpy(pMsg.szAccountID, lpObj->m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN + 1);
 
-		pMsg.iUserIndex = aIndex;
+		pMsg.iUserIndex = lpObj->m_Index;
 		pMsg.btCount = Count;
 		pMsg.IsUnityBattleFieldServer = g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE ? TRUE : FALSE;
 		pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode() / 20;
@@ -7415,21 +7238,9 @@ void GDReqCopyPetItemInfo(CGameObject* lpObj)
 
 void DGAns_ChaosCastle_KillPoint_Result(SDHP_ANS_KILLPOINT_RESULT_CC_UBF *lpMsg)
 {
-	CGameObject* lpObj = lpMsg->nIndex;
-
-	if (!ObjectMaxRange(lpObj))
-	{
-		return;
-	}
-
-	LPOBJ lpObj = *lpObj;
+	CGameObject* lpObj = getGameObject(lpMsg->nIndex);
 
 	if (lpObj->Type != OBJ_USER)
-	{
-		return;
-	}
-
-	if (!gObjIsConnected(lpObj))
 	{
 		return;
 	}
@@ -7440,15 +7251,6 @@ void DGAns_ChaosCastle_KillPoint_Result(SDHP_ANS_KILLPOINT_RESULT_CC_UBF *lpMsg)
 
 void GDReqDSFCanPartyEnter(CGameObject* lpObj)
 {
-	if (!ObjectMaxRange(lpObj))
-	{
-		return;
-	}
-
-	if (!gObjIsConnected(lpObj))
-	{
-		return;
-	}
 
 	sLog->outBasic("[DSF][GDReqCanPartyEnter][%s][%s][%s][%d] DSF Enter Request",
 		lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
@@ -7467,7 +7269,7 @@ void GDReqDSFCanPartyEnter(CGameObject* lpObj)
 		return;
 	}
 
-	if (gParty.Isleader(lpObj->PartyNumber, aIndex, lpObj->DBNumber) == FALSE)
+	if (gParty.Isleader(lpObj->PartyNumber, *lpObj, lpObj->DBNumber) == FALSE)
 	{
 		pResult.btResult = 3;
 
@@ -7483,7 +7285,6 @@ void GDReqDSFCanPartyEnter(CGameObject* lpObj)
 		return;
 	}
 
-	LPOBJ lpObj = *lpObj;
 	SYSTEMTIME sysTime;
 	GetLocalTime(&sysTime);
 	int dbnumber = 0, useridx = -1;
@@ -7499,24 +7300,25 @@ void GDReqDSFCanPartyEnter(CGameObject* lpObj)
 			GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pResult, pResult.h.size);
 			return;
 		}
+		CGameObject* lpObjParty = getGameObject(useridx);
 
 		if (useridx > 0)
 		{
 			if (i == 0)
 			{
-				memcpy(pMsg.szAccountID1, gObj[useridx].AccountID, MAX_ACCOUNT_LEN + 1);
-				memcpy(pMsg.szUserName1, gObj[useridx].Name, MAX_ACCOUNT_LEN + 1);
+				memcpy(pMsg.szAccountID1, lpObjParty->m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN + 1);
+				memcpy(pMsg.szUserName1, lpObjParty->Name, MAX_ACCOUNT_LEN + 1);
 			}
 
 			else if (i == 1)
 			{
-				memcpy(pMsg.szAccountID2, gObj[useridx].AccountID, MAX_ACCOUNT_LEN + 1);
-				memcpy(pMsg.szUserName2, gObj[useridx].Name, MAX_ACCOUNT_LEN + 1);
+				memcpy(pMsg.szAccountID2, lpObjParty->m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN + 1);
+				memcpy(pMsg.szUserName2, lpObjParty->Name, MAX_ACCOUNT_LEN + 1);
 			}
 		}
 	}
 
-	pMsg.iUserIndex = aIndex;
+	pMsg.iUserIndex = lpObj->m_Index;
 	pMsg.btDSFType = g_DevilSquareFinal.WhatIsTodayTypeOfDSF();
 	pMsg.iEnterYear = sysTime.wYear;
 	pMsg.btEnterMonth = sysTime.wMonth;
@@ -7528,19 +7330,7 @@ void GDReqDSFCanPartyEnter(CGameObject* lpObj)
 
 void DG_DSF_CanPartyEnter(PMSG_ANS_DSF_CAN_PARTY_ENTER *lpMsg)
 {
-	CGameObject* lpObj = lpMsg->iUserIndex;
-
-	if (!gObjIsConnected(lpObj))
-	{
-		return;
-	}
-
-	LPOBJ lpObj = *lpObj;
-
-	if (!lpObj)
-	{
-		return;
-	}
+	CGameObject* lpObj = getGameObject(lpMsg->iUserIndex);
 
 	PMSG_ANS_DSF_ENTER pResult;
 	PHeadSubSetB((LPBYTE)&pResult, 0xDB, 0x01, sizeof(pResult));
@@ -7774,31 +7564,33 @@ void DG_DSF_GetReward(PMSG_ANS_GET_DSF_REWARD *lpMsg)
 		return;
 	}
 
+	CGameObject* lpObj = getGameObject(lpMsg->nUserIndex);
+
 	PMSG_ANS_DSF_GET_REWARD pResult;
 	PHeadSubSetB((LPBYTE)&pResult, 0xDB, 0x09, sizeof(pResult));
 
 	pResult.btResult = lpMsg->btResult;
-	IOCP.DataSend(lpMsg->nUserIndex, (LPBYTE)&pResult, pResult.h.size);
+	GIOCP.DataSend(lpMsg->nUserIndex, (LPBYTE)&pResult, pResult.h.size);
 
 	if (lpMsg->btResult == 1)
 	{
 		sLog->outBasic("[DSF][DG_DSF_GetReward] [%s][%s][%s][%d] Can't Get Reward : Not League Winner!",
-			gObj[lpMsg->nUserIndex].AccountID, gObj[lpMsg->nUserIndex].m_PlayerData->m_RealNameOfUBF,
-			gObj[lpMsg->nUserIndex].Name, gObj[lpMsg->nUserIndex].m_PlayerData->m_nServerCodeOfHomeWorld);
+			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
+			lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld);
 	}
 
 	else if (lpMsg->btResult == 2)
 	{
 		sLog->outBasic("[DSF][DG_DSF_GetReward] [%s][%s][%s][%d] Can't Get Reward : Get Reward Already!",
-			gObj[lpMsg->nUserIndex].AccountID, gObj[lpMsg->nUserIndex].m_PlayerData->m_RealNameOfUBF,
-			gObj[lpMsg->nUserIndex].Name, gObj[lpMsg->nUserIndex].m_PlayerData->m_nServerCodeOfHomeWorld);
+			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
+			lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld);
 	}
 
 	else
 	{
 		sLog->outBasic("[DSF][DG_DSF_GetReward] [%s][%s][%s][%d] Can Get Reward Success!!! ",
-			gObj[lpMsg->nUserIndex].AccountID, gObj[lpMsg->nUserIndex].m_PlayerData->m_RealNameOfUBF,
-			gObj[lpMsg->nUserIndex].Name, gObj[lpMsg->nUserIndex].m_PlayerData->m_nServerCodeOfHomeWorld);
+			lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->m_PlayerData->m_RealNameOfUBF,
+			lpObj->Name, lpObj->m_PlayerData->m_nServerCodeOfHomeWorld);
 	}
 }
 
@@ -7842,7 +7634,7 @@ void DGReqOtherChannelWishper(PMSG_RECV_CHATDATA_WHISPER *lpMsg)
 	{
 		pWhisper.h.size -= sizeof(pWhisper.chatmsg);
 		pWhisper.h.size += len + 1;
-		IOCP.DataSend(index, (UCHAR*)&pWhisper, pWhisper.h.size);
+		GIOCP.DataSend(index, (UCHAR*)&pWhisper, pWhisper.h.size);
 	}
 
 }
@@ -7857,7 +7649,7 @@ void GDReqMapSrvGroupServerCount()
 
 void DGWhisperResponseRecv(DSMSG_GS_WHISPER_RESULT * aRecv)
 {
-	LPOBJ lpObj = &gObj[aRecv->OriginPlayerIndex];
+	CGameObject* lpObj = getGameObject(aRecv->OriginPlayerIndex);
 
 	if (!lpObj)
 	{
@@ -7871,15 +7663,15 @@ void DGWhisperResponseRecv(DSMSG_GS_WHISPER_RESULT * aRecv)
 		return;
 	}
 
-	if (lpObj->m_Whispering.iWhisperSent == true)
+	if (lpObj->m_Whispering->iWhisperSent == true)
 	{
 		if (aRecv->btResult == 1)
-			lpObj->m_Whispering.iWhisperSent = false;
+			lpObj->m_Whispering->iWhisperSent = false;
 
-		lpObj->m_Whispering.wResponseCount++;
-		if (lpObj->m_Whispering.wResponseCount >= gMapSrvGroupOnlineServer && lpObj->m_Whispering.iWhisperSent == true) // if all gs return false , player is not found
+		lpObj->m_Whispering->wResponseCount++;
+		if (lpObj->m_Whispering->wResponseCount >= gMapSrvGroupOnlineServer && lpObj->m_Whispering->iWhisperSent == true) // if all gs return false , player is not found
 		{
-			GSProtocol.GCServerMsgSend(0, lpObj->m_Index);
+			GSProtocol.GCServerMsgSend(0, lpObj);
 		}
 	}
 }
@@ -7909,25 +7701,24 @@ void GDReqDisconnectOtherChannel(char * charname)
 void DGDisconnectOtherChannel(PMSG_RECV_DC_OTHER_CHANNEL * aRecv)
 {
 	int iTargetIndex = gObjGetIndex(aRecv->szName);
+	CGameObject* lpTargetObj = getGameObject(iTargetIndex);
 
 	if (iTargetIndex >= 0)
 	{
-		LPOBJ lpTargetObj = &gObj[iTargetIndex];
-
 		if (lpTargetObj == NULL)
 		{
 			return;
 		}
 
-		if (lpTargetObj->m_bOff != false)
+		if (lpTargetObj->m_PlayerData->ConnectUser->m_bOff != false)
 		{
-			GJSetCharacterInfo(lpTargetObj, iTargetIndex, FALSE);
-			gObj[iTargetIndex].m_bOff = false;
-			gObjDel(iTargetIndex);
+			GJSetCharacterInfo(lpTargetObj, FALSE);
+			lpTargetObj->m_PlayerData->ConnectUser->m_bOff = false;
+			gObjDel(*lpTargetObj);
 
 		}
 
-		GSProtocol.GCSendDisableReconnect(iTargetIndex);
+		GSProtocol.GCSendDisableReconnect(lpTargetObj);
 		sLog->outBasic("Multi-Cast Disconnect: %s", aRecv->szName);
 	}
 }
@@ -7952,13 +7743,8 @@ void DGMuBotSettingsSend(CGameObject* lpObj, char* szName, BYTE* lpSettings)
 
 void DGMuBotOptionRecv(LPMUBOT_SETTINGS_SEND lpMsg)
 {
-	CGameObject* lpObj = getGameObject(lpObj);
+	CGameObject* lpObj = getGameObject(lpMsg->aIndex);
 	char szName[MAX_ACCOUNT_LEN + 1];
-
-	if (aIndex < 0 || aIndex >= g_ConfigRead.server.GetObjectMax())
-	{
-		return;
-	}
 
 	memset(szName, 0, sizeof(szName));
 	memcpy(szName, lpMsg->szName, MAX_ACCOUNT_LEN);
@@ -7970,8 +7756,3 @@ void DGMuBotOptionRecv(LPMUBOT_SETTINGS_SEND lpMsg)
 
 	GSProtocol.GCSendMuBotSettings(lpObj, lpMsg->btDATA);
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-
