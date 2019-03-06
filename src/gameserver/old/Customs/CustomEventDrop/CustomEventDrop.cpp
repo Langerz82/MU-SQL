@@ -8,7 +8,7 @@
 #include "MemScript.h"
 #include "TNotice.h"
 #include "ScheduleManager.h"
-
+#include "DSProtocol.h"
 #include "CUserData.h"
 #include "GOEventFunctions.h"
 #include "GOFunctions.h"
@@ -347,7 +347,7 @@ void CCustomEventDrop::ProcState_START(CUSTOM_EVENT_DROP_INFO* lpInfo) // OK
 					Y = lpInfo->RuleInfo.Y;
 				}
 
-				ItemCreate(*getGameObject(this->GetDummyUserIndex()), lpInfo->RuleInfo.Map, X, Y, it->ItemIndex, it->ItemLevel, it->Durability, Option1, Option2, Option3, -1, ExcOption, SetOption, 0, 0, 0);
+				ItemCreate(getGameObject(this->GetDummyUserIndex()), lpInfo->RuleInfo.Map, X, Y, it->ItemIndex, it->ItemLevel, it->Durability, Option1, Option2, Option3, -1, ExcOption, SetOption, 0, 0, 0);
 			}
 		}
 	}
@@ -426,9 +426,10 @@ void CCustomEventDrop::CheckSync(CUSTOM_EVENT_DROP_INFO* lpInfo) // OK
 		return;
 	}
 
-	lpInfo->RemainTime = (int)ScheduleTime.date - boost::posix_time::second_clock::local_time();
-
-	lpInfo->TargetTime = (int)ScheduleTime.date;
+	pt::time_duration diff = ScheduleTime - pt::second_clock::local_time();
+	pt::time_duration diff2 = ScheduleTime - pt::from_time_t(0);
+	lpInfo->RemainTime = diff.ticks();
+	lpInfo->TargetTime = diff2.ticks();
 }
 
 /*

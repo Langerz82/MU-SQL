@@ -443,7 +443,7 @@ public:
 	bool m_bOffLevel;
 	DWORD64 m_dwOffLevelTime;
 	CUserData* m_PlayerData;
-	BOT_BUFF_LIST** pntBotBuffs;
+	struct BOT_BUFF_LIST** pntBotBuffs;
 	UINT64 MonsterMoneyDrop;
 	BYTE m_btOpenWarehouse;
 	WORD m_wMineCount;

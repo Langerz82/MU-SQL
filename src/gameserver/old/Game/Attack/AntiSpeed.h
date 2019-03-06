@@ -78,7 +78,7 @@ public:
 
 class CAttackQueue{
 private:
-	CGameObject &Obj;
+	CGameObject* m_Obj;
 	std::queue<CAttackMsg*> m_Queue;
 	
 
@@ -101,7 +101,7 @@ public:
 	static bool ThreadActive;
 	static VOID AttackQueueProc(std::vector<CGameObject*> gObj);
 	
-	CGameObject* m_Obj;
+	//CGameObject* m_Obj;
 	//CRITICAL_SECTION m_CritQueue;
 };
 

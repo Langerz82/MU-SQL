@@ -805,7 +805,7 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 				return;
 			}
 
-			GJReqMapSvrMove(*lpObj, wGameServerCode, lpObj->MapNumber, lpObj->X, lpObj->Y);
+			//GJReqMapSvrMove(*lpObj, wGameServerCode, lpObj->MapNumber, lpObj->X, lpObj->Y); // TODO
 			sLog->outBasic("[MapServerMng] Request to Move Map Server : (%d) - [%s][%s] (%d)",
 				wGameServerCode, lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name, lpObj->m_Index);
 

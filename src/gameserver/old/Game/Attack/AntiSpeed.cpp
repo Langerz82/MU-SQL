@@ -57,10 +57,9 @@ void CAttackRange::Process()
 }
 
 
-CAttackQueue::CAttackQueue(CGameObject* lpObj)
+CAttackQueue::CAttackQueue(CGameObject* lpObj): m_Obj(lpObj)
 {
 	//InitializeCriticalSection(&this->m_CritQueue);
-	this->m_Obj = lpObj;
 }
 
 void CAttackQueue::Push( BYTE* msg, int len, int type )

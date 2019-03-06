@@ -18,6 +18,7 @@ class ACE_SOCK_Stream;
 
 struct PER_IO_CONTEXT_L;
 struct _PER_SOCKET_CONTEXT;
+struct BOT_BUFF_LIST;
 
 
 #pragma pack (1)
@@ -6395,6 +6396,32 @@ struct PMSG_MUBOT_SETTINGS_RECV
 	BYTE btDATA[512];
 };
 
+struct DEFAULTCLASSTYPE
+{
+	DEFAULTCLASSTYPE() {
+		this->Equipment = new CItemObject[MAX_PLAYER_EQUIPMENT + 2];
+	};
+
+	~DEFAULTCLASSTYPE() {
+		delete[] this->Equipment;
+	}
+
+	int Experience;	// 0
+	WORD Strength;	// 4
+	WORD Dexterity;	// 6
+	WORD Vitality;	// 8
+	WORD Energy;	// A
+	float LevelLife;	// C
+	float Life;	// 10
+	float MaxLife;	// 14
+	float LevelMana;	// 18
+	float Mana;	// 1C
+	float MaxMana;	// 20
+	float VitalityToLife;	// 24
+	float EnergyToMana;	// 28
+	class CItemObject* Equipment;	// 2C
+	WORD Leadership;	// 9CC
+};
 
 
 #pragma pack ()

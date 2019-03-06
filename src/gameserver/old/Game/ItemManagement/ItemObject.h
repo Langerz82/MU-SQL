@@ -174,7 +174,6 @@ extern  ITEM_ATTRIBUTE ItemAttribute[MAX_ITEMS];
 typedef ITEM_ATTRIBUTE* LPITEM_ATTRIBUTE;
 
 class CGameObject;
-class CItemObject;
 
 class CItemObject
 {

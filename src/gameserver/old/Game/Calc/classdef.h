@@ -1,19 +1,13 @@
-
-#ifndef CLASSDEF_H
-#define CLASSDEF_H
+#ifndef MU_CLASSDEF_H
+#define MU_CLASSDEF_H
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000.
 
 #include "StdAfx.h"
-#include "ItemObject.h"
 #include "generalStructs.h"
-
-#ifndef _MUPROTOCOLSTRUCTS_H
-#define _MUPROTOCOLSTRUCTS_H
-
-#endif
+#include "ItemObject.h"
 
 #define TRACE_PACKET 0	
 #define CURRENT_DB_VERSION 3
@@ -21,8 +15,10 @@
 #define AUTO_REG 0
 #define DATASERVER_VERSION "1.0.0.0"
 
-struct PMSG_ANS_CLASSDEF;
+//class CItemObject;
 
+struct PMSG_ANS_CLASSDEF;
+struct DEFAULTCLASSTYPE;
 
 enum DBClassNumber
 {
@@ -46,25 +42,6 @@ enum ClassNumber
 	CLASS_SUMMONER = 0x5,
 	CLASS_RAGEFIGHTER = 0x6,
 	CLASS_GROWLANCER = 0x7
-};
-
-struct DEFAULTCLASSTYPE
-{
-	int Experience;	// 0
-	WORD Strength;	// 4
-	WORD Dexterity;	// 6
-	WORD Vitality;	// 8
-	WORD Energy;	// A
-	float LevelLife;	// C
-	float Life;	// 10
-	float MaxLife;	// 14
-	float LevelMana;	// 18
-	float Mana;	// 1C
-	float MaxMana;	// 20
-	float VitalityToLife;	// 24
-	float EnergyToMana;	// 28
-	CItem Equipment[MAX_PLAYER_EQUIPMENT + 2];	// 2C
-	WORD Leadership;	// 9CC
 };
 
 struct PMSG_REQ_CLASSDEF
@@ -112,7 +89,7 @@ public:
 
 public:
 
-	DEFAULTCLASSTYPE DefClass[MAX_TYPE_PLAYER];	// 4
+	struct DEFAULTCLASSTYPE* DefClass;	// 4
 };
 
 #endif

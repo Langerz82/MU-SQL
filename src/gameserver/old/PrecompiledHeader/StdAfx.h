@@ -116,6 +116,7 @@
 #include <boost/uuid/random_generator.hpp>
 #include <boost/date_time/local_time/local_time.hpp>
 #include "boost/date_time/time_zone_base.hpp"
+#include <boost/chrono.hpp>
 
 namespace lt = boost::local_time;
 namespace pt = boost::posix_time;
