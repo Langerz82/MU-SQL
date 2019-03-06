@@ -7,6 +7,21 @@
 
 struct MASTERLEVEL_PASSIVE_SKILL_OPTION;
 
+struct PMSG_MASTER_LEVEL_UP_SEND
+{
+	PBMSG_HEAD2 h;
+	WORD MasterLevel;
+	WORD GainPoint;
+	WORD MLPoint;
+	WORD MaxPoint;
+	WORD MaxLife;
+	WORD MaxMana;
+	WORD MaxShield;
+	WORD MaxBP;
+	int IGCMaxLife;
+	int IGCMaxMana;
+};
+
 class CMasterLevelSystem
 {
 public:

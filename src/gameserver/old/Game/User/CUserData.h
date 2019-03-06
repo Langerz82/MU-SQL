@@ -24,6 +24,25 @@ class CMuRummyInfo;
 class CSkillDelay;
 class UserQuestInfo;
 
+typedef struct STR_ACTION_STATE
+{
+	unsigned long Rest : 1;	// 0
+	unsigned long Attack : 1;	// 1
+	unsigned long Move : 1;	// 2
+	unsigned long Escape : 1;	// 3
+	unsigned long Emotion : 4;	// 4
+	unsigned long EmotionCount : 8;	// 8
+
+} *LPACTION_STATE;
+
+typedef struct STR_INTERFACE_STATE
+{
+	DWORD use : 2;
+	DWORD state : 4;
+	DWORD type : 10;
+
+} *LPINTERFACE_STATE;
+
 
 
 struct CharacterNameOfUBF

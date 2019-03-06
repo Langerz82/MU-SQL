@@ -18,7 +18,6 @@ class ACE_SOCK_Stream;
 
 struct PER_IO_CONTEXT_L;
 struct _PER_SOCKET_CONTEXT;
-//struct STR_USER_CHARACTERS;
 
 
 #pragma pack (1)
@@ -1098,25 +1097,6 @@ typedef union _PATHTABLE
 	short sPathTable[16];
 	char cPathTable[32];
 } PATHTABLE, *LPPATHTABLE;
-
-typedef struct STR_ACTION_STATE
-{
-	unsigned long Rest : 1;	// 0
-	unsigned long Attack : 1;	// 1
-	unsigned long Move : 1;	// 2
-	unsigned long Escape : 1;	// 3
-	unsigned long Emotion : 4;	// 4
-	unsigned long EmotionCount : 8;	// 8
-
-} *LPACTION_STATE;
-
-typedef struct STR_INTERFACE_STATE
-{
-	DWORD use : 2;
-	DWORD state : 4;
-	DWORD type : 10;
-
-} *LPINTERFACE_STATE;
 
 extern short RoadPathTable[MAX_ROAD_PATH_TABLE];
 extern BOOL g_EnergyCheckOff;

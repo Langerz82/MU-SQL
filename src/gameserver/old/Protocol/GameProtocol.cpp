@@ -2553,19 +2553,6 @@ void GameProtocol::CGChatWhisperRecv(PMSG_CHATDATA_WHISPER* lpMsg, CGameObject* 
 }
 
 
-
-#pragma pack (1)
-struct PMSG_JOINRESULT
-{
-	PBMSG_HEAD h;	// C1:F1
-	BYTE scode;	// 3
-	BYTE result;	// 4
-	BYTE NumberH;	// 5
-	BYTE NumberL;	// 6
-	BYTE CliVersion[5];	// 7
-};
-#pragma pack ()
-
 void GameProtocol::SCPJoinResultSend(CGameObject* lpObj, BYTE result)
 {
 	PMSG_JOINRESULT pResult;
@@ -2589,20 +2576,14 @@ void GameProtocol::SCPJoinResultSend(CGameObject* lpObj, BYTE result)
 	lpObj->m_PlayerData->ConnectUser->ConnectCheckTime = WorldTimer::getMSTime();
 }
 
-struct SDHP_BILLSEARCH
-{
-	PBMSG_HEAD h;	// C1:06
-	char Id[10];	// 3
-	short Number;	// E
-};
 
 void GameProtocol::GCJoinBillCheckSend(LPSTR AccountId, CGameObject* lpObj)
 {
 	SDHP_BILLSEARCH pMsg;
 
 	PHeadSetB((LPBYTE)&pMsg, 0x06, sizeof(pMsg));
-	memcpy(pMsg.Id, AccountId, sizeof(pMsg.Id));
-	pMsg.Number = lpObj->m_PlayerData->ConnectUser->Index;
+	std::memcpy(pMsg.Id, AccountId, sizeof(pMsg.Id));
+	pMsg.Number = lpObj->m_Index;
 
 	//wsJServerCli.DataSend((char*)&pMsg, pMsg.h.size); // TODO
 }
@@ -2870,7 +2851,7 @@ void GameProtocol::CGLevelUpPointAdd(PMSG_LVPOINTADD * lpMsg, CGameObject* lpObj
 	}
 
 	GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (UCHAR *)&pMsg, pMsg.h.size);
-	LeaveCriticalSection(&lpObj->m_PlayerData->AgiCheckCriti);
+	//LeaveCriticalSection(&lpObj->m_PlayerData->AgiCheckCriti);
 
 	GSProtocol.GCPlayerStatsPanelNew(lpObj);
 	GSProtocol.GCPlayerStatsPanelRates(lpObj);
@@ -7655,7 +7636,7 @@ void GameProtocol::CGPartyRequestRecv(PMSG_PARTYREQUEST * lpMsg, CGameObject* lp
 	lpTargetObj->m_IfState.type = 2;
 	lpTargetObj->m_IfState.state = 0;
 	lpObj->TargetNumber = number;
-	lpTargetObj->TargetNumber = lpObj;
+	lpTargetObj->TargetNumber = lpObj->m_Index;
 	lpObj->m_InterfaceTime = GetTickCount();
 	lpTargetObj->m_InterfaceTime = GetTickCount();
 	lpObj->PartyTargetUser = number;
@@ -8040,7 +8021,7 @@ void GameProtocol::CGPartyDelUser(PMSG_PARTYDELUSER * lpMsg, CGameObject* lpObj,
 
 			if (bDPUser == TRUE && count > 2)
 			{
-				gParty.Delete(pnumber, lpMsg->Number);
+				gParty.Delete(pnumber, *getGameObject(pnumber), lpMsg->Number);
 				count = gParty.GetCount(lpObj->PartyNumber);
 				lpObj->PartyNumber = -1;
 				lpObj->PartyTargetUser = -1;
@@ -8060,7 +8041,7 @@ void GameProtocol::CGPartyDelUser(PMSG_PARTYDELUSER * lpMsg, CGameObject* lpObj,
 
 				for (int i = 1; i < 5; i++)
 				{
-					CGameObject* lpObjParty = gParty.m_PartyS[pnumber].Number[i];
+					CGameObject* lpObjParty = getGameObject(gParty.m_PartyS[pnumber].Number[i]);
 					if (IMPERIAL_MAP_RANGE(lpObjParty->MapNumber))
 					{
 						bIGUser = TRUE;
@@ -8071,7 +8052,7 @@ void GameProtocol::CGPartyDelUser(PMSG_PARTYDELUSER * lpMsg, CGameObject* lpObj,
 
 				if (bIGUser == TRUE && count > 2)
 				{
-					gParty.Delete(pnumber, lpMsg->Number);
+					gParty.Delete(pnumber, *getGameObject(pnumber), lpMsg->Number);
 					count = gParty.GetCount(lpObj->PartyNumber);
 					lpObj->PartyNumber = -1;
 					lpObj->PartyTargetUser = -1;
@@ -8111,7 +8092,7 @@ void GameProtocol::CGPartyDelUser(PMSG_PARTYDELUSER * lpMsg, CGameObject* lpObj,
 
 			if (lpMsg->Number && count > 2)
 			{
-				gParty.Delete(pnumber, lpMsg->Number);
+				gParty.Delete(pnumber, *getGameObject(pnumber), lpMsg->Number);
 				count = gParty.GetCount(lpObj->PartyNumber);
 				lpObj->PartyNumber = -1;
 				lpObj->PartyTargetUser = -1;
@@ -8125,7 +8106,7 @@ void GameProtocol::CGPartyDelUser(PMSG_PARTYDELUSER * lpMsg, CGameObject* lpObj,
 				{
 					if (IT_MAP_RANGE(lpObj->MapNumber) && count <= 2)
 					{
-						gParty.Delete(pnumber, lpMsg->Number);
+						gParty.Delete(pnumber, *getGameObject(pnumber), lpMsg->Number);
 						count = gParty.GetCount(lpObj->PartyNumber);
 						lpObj->PartyNumber = -1;
 						lpObj->PartyTargetUser = -1;
@@ -8160,7 +8141,7 @@ void GameProtocol::CGPartyDelUser(PMSG_PARTYDELUSER * lpMsg, CGameObject* lpObj,
 
 									if (number >= 0)
 									{
-										gParty.Delete(pnumber, index);
+										gParty.Delete(pnumber, *getGameObject(pnumber), index);
 										lpObjParty->PartyNumber = -1;
 										lpObjParty->PartyTargetUser = -1;
 										if (lpObjParty->m_PlayerData->m_bUsePartyMatching == true)
@@ -8175,7 +8156,7 @@ void GameProtocol::CGPartyDelUser(PMSG_PARTYDELUSER * lpMsg, CGameObject* lpObj,
 						}
 						else
 						{
-							gParty.Delete(pnumber, lpMsg->Number);
+							gParty.Delete(pnumber, *getGameObject(pnumber), lpMsg->Number);
 							count = gParty.GetCount(lpObj->PartyNumber);
 							lpObj->PartyNumber = -1;
 							lpObj->PartyTargetUser = -1;
@@ -8291,7 +8272,7 @@ void GameProtocol::CGGuildRequestRecv(PMSG_GUILDJOINQ * lpMsg, CGameObject* lpOb
 		return;
 	}
 
-	if (g_NewPVP.IsDuel(lpObj) || g_NewPVP.IsDuel(lpTargetObj))
+	if (g_NewPVP.IsDuel(*lpObj) || g_NewPVP.IsDuel(*lpTargetObj))
 	{
 		this->GCServerMsgStringSend(Lang.GetText(0, 317), lpObj, 1);
 		return;
@@ -8323,7 +8304,7 @@ void GameProtocol::CGGuildRequestRecv(PMSG_GUILDJOINQ * lpMsg, CGameObject* lpOb
 
 	if (lpTargetObj->m_PlayerData->GuildNumber > 0)
 	{
-		if (strcmp(lpTargetObj->m_PlayerData->lpGuild->Names[0], lpTargetObj->Name))
+		if (strcmp(lpTargetObj->m_PlayerData->lpGuild->Users[0]->Name, lpTargetObj->Name))
 		{
 			if (lpTargetObj->m_PlayerData->GuildStatus != 64)
 			{
@@ -8355,7 +8336,7 @@ void GameProtocol::CGGuildRequestRecv(PMSG_GUILDJOINQ * lpMsg, CGameObject* lpOb
 		}
 
 		int OwnInfluence = g_GensSystem.GetGensInfluence(*lpObj);
-		int TarInfluence = g_GensSystem.GetGensInfluence(&gObj[number]);
+		int TarInfluence = g_GensSystem.GetGensInfluence(*getGameObject(number));
 
 		int iArcaBattleState = g_ArcaBattle.GetState();
 
@@ -8398,7 +8379,7 @@ void GameProtocol::CGGuildRequestRecv(PMSG_GUILDJOINQ * lpMsg, CGameObject* lpOb
 	lpTargetObj->m_IfState.state = 0;
 
 	lpObj->TargetNumber = number;
-	lpTargetObj->TargetNumber = lpObj;
+	lpTargetObj->TargetNumber = lpObj->m_Index;
 	lpObj->m_InterfaceTime = GetTickCount();
 	lpTargetObj->m_InterfaceTime = GetTickCount();
 
@@ -8410,7 +8391,7 @@ void GameProtocol::CGGuildRequestRecv(PMSG_GUILDJOINQ * lpMsg, CGameObject* lpOb
 
 }
 
-// UPTO
+
 
 void GameProtocol::CGGuildRequestResultRecv(PMSG_GUILDQRESULT * lpMsg, CGameObject* lpObj) //GS-CS Decompiled 100%
 {
@@ -8423,44 +8404,33 @@ void GameProtocol::CGGuildRequestResultRecv(PMSG_GUILDQRESULT * lpMsg, CGameObje
 
 	if (g_CastleSiegeSync.GetCastleState() == 7) //Good
 	{
-		MsgOutput(lpObj, (Lang.GetText(0, 195)));
+		MsgOutput(*lpObj, (Lang.GetText(0, 195)));
 		return;
 	}
 
 	number = MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL);
-
-	if (number < 0 || number > g_ConfigRead.server.GetObjectMax() - 1)
-		return;
-
-	if (!gObjIsConnected(&gObj[number]))
-	{
-		GCResultSend(lpObj, 0x51, 0x02);
-	}
-	else
-	{
-		result = 1;
-	}
+	CGameObject* lpObjTarget = getGameObject(number);
 
 	if (lpMsg->Result == 0)
 	{
 		result = 0;
-		GCResultSend(number, 0x51, 0x00);
+		GCResultSend(lpObjTarget, 0x51, 0x00);
 	}
 
 	if (result == 1)
 	{
 		if (lpObj->m_PlayerData->GuildNumber > 0)
 		{
-			GDGuildMemberAdd(number, lpObj->m_PlayerData->lpGuild->Name, gObj[number].Name);
-			GDReqCancelJoinGuildMatching(number, lpObj->Name, 1);
+			GDGuildMemberAdd(lpObjTarget, lpObj->m_PlayerData->lpGuild->Name, lpObjTarget->Name);
+			GDReqCancelJoinGuildMatching(lpObjTarget, lpObj->Name, 1);
 		}
 	}
 
 	if (lpObj->m_IfState.use && lpObj->m_IfState.type == 4)
 		lpObj->m_IfState.use = 0;
 
-	if (gObj[number].m_IfState.use && gObj[number].m_IfState.type == 4)
-		gObj[number].m_IfState.use = 0;
+	if (lpObjTarget->m_IfState.use && lpObjTarget->m_IfState.type == 4)
+		lpObjTarget->m_IfState.use = 0;
 }
 
 struct PMSG_GUILDLIST
@@ -8493,12 +8463,14 @@ struct PMSG_GUILDLISTCOUNT_S6
 
 void GameProtocol::CGGuildListAll(int pnumber)
 {
-	if (gObj[pnumber].Type != OBJ_USER)
+	CGameObject* lpObj = getGameObject(pnumber);
+
+	if (lpObj->Type != OBJ_USER)
 	{
 		return;
 	}
 
-	if (gObj[pnumber].m_PlayerData->lpGuild == NULL)
+	if (lpObj->m_PlayerData->lpGuild == NULL)
 		return;
 
 	PMSG_GUILDLISTCOUNT_EX700 pCount;
@@ -8516,27 +8488,27 @@ void GameProtocol::CGGuildListAll(int pnumber)
 	pCount.h.sizeH = SET_NUMBERH(lOfs);
 	pCount.h.sizeL = SET_NUMBERL(lOfs);
 
-	if (gObj[pnumber].m_PlayerData->GuildNumber < 1)
+	if (lpObj->m_PlayerData->GuildNumber < 1)
 	{
 		GIOCP.DataSend(pnumber, (LPBYTE)&pCount, lOfs);
 		return;
 	}
 
-	pCount.Count = gObj[pnumber].m_PlayerData->lpGuild->Count;
-	pCount.TotalScore = gObj[pnumber].m_PlayerData->lpGuild->TotalScore;
-	pCount.Score = gObj[pnumber].m_PlayerData->lpGuild->PlayScore;
+	pCount.Count = lpObj->m_PlayerData->lpGuild->Count;
+	pCount.TotalScore = lpObj->m_PlayerData->lpGuild->TotalScore;
+	pCount.Score = lpObj->m_PlayerData->lpGuild->PlayScore;
 	memset(pCount.szRivalGuild, 0, sizeof(pCount.szRivalGuild));
 
-	if (gObj[pnumber].m_PlayerData->lpGuild->iGuildRival)
+	if (lpObj->m_PlayerData->lpGuild->iGuildRival)
 	{
 		int iGuildCount = 0;
 		int iGuildList[MAX_UNION_GUILD] = { 0 };
 
-		if (UnionManager.GetGuildUnionMemberList(gObj[pnumber].m_PlayerData->lpGuild->iGuildRival, iGuildCount, iGuildList) == TRUE)
+		if (UnionManager.GetGuildUnionMemberList(lpObj->m_PlayerData->lpGuild->iGuildRival, iGuildCount, iGuildList) == TRUE)
 		{
 			for (int i = 0; i < iGuildCount; i++)
 			{
-				_GUILD_INFO_STRUCT *lpGuildInfo = Guild.SearchGuild_Number(iGuildList[i]);
+				GUILD_INFO_STRUCT *lpGuildInfo = Guild.SearchGuild_Number(iGuildList[i]);
 
 				if (!lpGuildInfo)
 					continue;
@@ -8547,7 +8519,7 @@ void GameProtocol::CGGuildListAll(int pnumber)
 
 		else
 		{
-			memcpy(pCount.szRivalGuild[0], gObj[pnumber].m_PlayerData->lpGuild->szGuildRivalName, MAX_GUILD_LEN);
+			memcpy(pCount.szRivalGuild[0], lpObj->m_PlayerData->lpGuild->szGuildRivalName, MAX_GUILD_LEN);
 		}
 	}
 
@@ -8561,19 +8533,20 @@ void GameProtocol::CGGuildListAll(int pnumber)
 
 	for (n = 0; n < MAX_USER_GUILD; n++)
 	{
-		number = gObj[pnumber].m_PlayerData->lpGuild->Use[n];
+		number = lpObj->m_PlayerData->lpGuild->Use[n];
+		CGameObject* lpGuildObj = getGameObject(number);
 
 		if (number > 0)
 		{
 			memset(&pList, 0, sizeof(pList));
-			memcpy(pList.Name, gObj[pnumber].m_PlayerData->lpGuild->Names[n], sizeof(pList.Name));
-			pList.Number = gObj[pnumber].m_PlayerData->lpGuild->pServer[n];
-			pList.ConnectAServer = (short)gObj[pnumber].m_PlayerData->lpGuild->pServer[n] & 0x7F;
+			memcpy(pList.Name, lpObj->m_PlayerData->lpGuild->Users[n]->Name, sizeof(pList.Name));
+			pList.Number = lpObj->m_PlayerData->lpGuild->pServer[n];
+			pList.ConnectAServer = (short)lpObj->m_PlayerData->lpGuild->pServer[n] & 0x7F;
 
-			if (gObj[pnumber].m_PlayerData->lpGuild->pServer[n] >= 0)
+			if (lpObj->m_PlayerData->lpGuild->pServer[n] >= 0)
 				pList.ConnectAServer |= 0x80;
 
-			pList.btGuildStatus = gObj[pnumber].m_PlayerData->lpGuild->GuildStatus[n];
+			pList.btGuildStatus = lpObj->m_PlayerData->lpGuild->GuildStatus[n];
 			memcpy(&sendbuf[lOfs], &pList, sizeof(pList));
 			lOfs += sizeof(pList);
 			pCount.Count++;
@@ -8584,7 +8557,7 @@ void GameProtocol::CGGuildListAll(int pnumber)
 	pCount.h.sizeL = SET_NUMBERL(lOfs);
 	memcpy(sendbuf, (LPBYTE)&pCount, sizeof(pCount));
 
-	GIOCP.DataSend(pnumber, (LPBYTE)sendbuf, lOfs);
+	GIOCP.DataSend(lpObj->m_Index, (LPBYTE)sendbuf, lOfs);
 }
 
 struct PMSG_GUILDDELUSER_RESULT
@@ -8598,14 +8571,11 @@ void GameProtocol::CGGuildDelUser(PMSG_GUILDDELUSER * lpMsg, CGameObject* lpObj)
 	if (!PacketCheckTime(lpObj))
 		return;
 
-	if (lpObj < g_ConfigRead.server.GetObjectStartUserIndex() || lpObj > g_ConfigRead.server.GetObjectMax() - 1)
-		return;
-
 	if (g_ConfigRead.server.GetServerType() == SERVER_CASTLE)
 	{
 		if (g_CastleSiegeSync.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE) //Good
 		{
-			MsgOutput(lpObj, Lang.GetText(0, 196));
+			MsgOutput(*lpObj, Lang.GetText(0, 196));
 			return;
 		}
 	}
@@ -8649,12 +8619,12 @@ void GameProtocol::CGGuildDelUser(PMSG_GUILDDELUSER * lpMsg, CGameObject* lpObj)
 	memcpy(memberid, lpMsg->Name, MAX_ACCOUNT_LEN);
 	strcpy(guildname, lpObj->m_PlayerData->lpGuild->Name);
 
-	if (!strcmp(lpObj->m_PlayerData->lpGuild->Names[0], lpObj->Name))
+	if (!strcmp(lpObj->m_PlayerData->lpGuild->Users[0]->Name, lpObj->Name))
 	{
 		memset(joomin, 0, sizeof(joomin));
 		memcpy(joomin, lpMsg->Password, sizeof(lpMsg->Password));
 
-		if (gObjPasswordCheck(lpObj, joomin) == FALSE)
+		if (gObjPasswordCheck(*lpObj, joomin) == FALSE)
 		{
 			pMsg.Result = 0;
 			GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
@@ -8667,7 +8637,7 @@ void GameProtocol::CGGuildDelUser(PMSG_GUILDDELUSER * lpMsg, CGameObject* lpObj)
 			{
 				if (strcmp(lpObj->m_PlayerData->lpGuild->Name, g_CastleSiegeSync.GetCastleOwnerGuild()) == 0)
 				{
-					MsgOutput(lpObj, Lang.GetText(0, 194));
+					MsgOutput(*lpObj, Lang.GetText(0, 194));
 					return;
 				}
 			}
@@ -8675,7 +8645,7 @@ void GameProtocol::CGGuildDelUser(PMSG_GUILDDELUSER * lpMsg, CGameObject* lpObj)
 			gObjGuildWarMasterClose(*lpObj);
 			GDGuildDestroySend(lpObj, lpObj->m_PlayerData->lpGuild->Name, lpObj->Name);
 			g_ArcaBattle.ReqRemoveRewardGuildBuff(lpObj->m_PlayerData->lpGuild->Name);
-			g_ArcaBattle.GDReqMarkRegDel(lpObj, lpObj->m_PlayerData->GuildNumber);
+			g_ArcaBattle.GDReqMarkRegDel(*lpObj, lpObj->m_PlayerData->GuildNumber);
 		}
 		else
 		{
@@ -8703,9 +8673,9 @@ void GameProtocol::CGGuildDelUser(PMSG_GUILDDELUSER * lpMsg, CGameObject* lpObj)
 		memset(joomin, 0, sizeof(joomin));
 		memcpy(joomin, lpMsg->Password, sizeof(lpMsg->Password));
 
-		if (gObjPasswordCheck(lpObj, joomin) == FALSE)
+		if (gObjPasswordCheck(*lpObj, joomin) == FALSE)
 		{
-			MsgOutput(lpObj, Lang.GetText(0, 525));
+			MsgOutput(*lpObj, Lang.GetText(0, 525));
 		}
 
 		else
@@ -8716,7 +8686,6 @@ void GameProtocol::CGGuildDelUser(PMSG_GUILDDELUSER * lpMsg, CGameObject* lpObj)
 
 	}
 }
-
 
 
 void GameProtocol::GCGuildDelUserResult(CGameObject* lpObj, BYTE Result)
@@ -8822,7 +8791,7 @@ void GameProtocol::CGGuildMasterInfoSave(CGameObject* lpObj, PMSG_GUILDINFOSAVE 
 
 	if (!g_prohibitedSymbols.Validate(GuildName, len, TYPE_GUILDNAME))
 	{
-		MsgOutput(lpObj, Lang.GetText(0, 546));
+		MsgOutput(*lpObj, Lang.GetText(0, 546));
 		return;
 	}
 
@@ -8854,12 +8823,11 @@ void GameProtocol::CGGuildMasterCreateCancel(CGameObject* lpObj)
 
 void GameProtocol::GCGuildViewportNowPaint(CGameObject* lpObj, char* guildname, BYTE* mark, BOOL isGuildMaster)
 {
-	_GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(guildname);
+	GUILD_INFO_STRUCT * lpGuild = Guild.SearchGuild(guildname);
 
 	if (lpGuild == NULL)
 		return;
 
-	LPOBJ lpObj = *lpObj;
 	BYTE _GuildInfoBuf[256] = { 0 };
 	int _GuildInfoOfs = 5;
 
@@ -8915,7 +8883,6 @@ void GameProtocol::GCGuildViewportDelNow(CGameObject* lpObj, BOOL isGuildMaster)
 {
 	PMSG_GUILDDEL_VIEWPORT_NOW pMsg;
 
-	LPOBJ lpObj = *lpObj;
 
 	PHeadSetB((LPBYTE)&pMsg, 0x5D, sizeof(pMsg));
 	pMsg.NumberH = SET_NUMBERH(lpObj) & 0x7F;
@@ -8934,42 +8901,14 @@ void GameProtocol::GCGuildViewportDelNow(CGameObject* lpObj, BOOL isGuildMaster)
 
 void GameProtocol::GCManagerGuildWarEnd(char * GuildName)
 {
-	_GUILD_INFO_STRUCT * lpNode = Guild.SearchGuild(GuildName);
+	GUILD_INFO_STRUCT * lpNode = Guild.SearchGuild(GuildName);
 
 	if (lpNode == NULL)
 	{
 		return;
 	}
 
-	int n = 0;
-	int warmaster = -1;
-
-	while (true)
-	{
-		if (gObj[n].Type == OBJ_USER)
-		{
-			if (gObj[n].Connected > PLAYER_LOGGED)
-			{
-				if (gObj[n].Name[0] == lpNode->Names[0][0])
-				{
-					if (strcmp(gObj[n].Name, lpNode->Names[0]) == 0)
-					{
-						warmaster = n;
-						break;
-					}
-				}
-			}
-		}
-
-		if (n < g_ConfigRead.server.GetObjectMax() - 1)
-		{
-			n++;
-		}
-		else
-		{
-			break;
-		}
-	}
+	int warmaster = lpNode->Users[0]->m_Index;
 
 	if (warmaster >= 1)
 	{
@@ -8996,15 +8935,15 @@ void GameProtocol::GCManagerGuildWarEnd(char * GuildName)
 		if (lpNode->WarType == 1)
 		{
 			gBattleGroundEnable(lpNode->BattleGroundIndex, FALSE);
-			gObjGuildWarEndSend(lpNode, lpNode->lpTargetGuildNode, Result1, Result2);
-			gObjGuildWarEnd(lpNode, lpNode->lpTargetGuildNode);
+			gObjGuildWarEndSend(*lpNode, *lpNode->lpTargetGuildNode, Result1, Result2);
+			gObjGuildWarEnd(*lpNode, *lpNode->lpTargetGuildNode);
 
 			cManager.BattleInfoSend(::GetBattleTeamName(0, 0), -1, ::GetBattleTeamName(0, 1), -1);
 		}
 		else
 		{
-			gObjGuildWarEndSend(lpNode, lpNode->lpTargetGuildNode, Result1, Result2);
-			gObjGuildWarEnd(lpNode, lpNode->lpTargetGuildNode);
+			gObjGuildWarEndSend(*lpNode, *lpNode->lpTargetGuildNode, Result1, Result2);
+			gObjGuildWarEnd(*lpNode, *lpNode->lpTargetGuildNode);
 		}
 	}
 }
@@ -9013,47 +8952,14 @@ void GameProtocol::GCManagerGuildWarEnd(char * GuildName)
 
 void GameProtocol::GCManagerGuildWarSet(LPSTR GuildName1, LPSTR GuildName2, int type)
 {
-	_GUILD_INFO_STRUCT * lpNode = Guild.SearchGuild(GuildName1);
+	GUILD_INFO_STRUCT * lpNode = Guild.SearchGuild(GuildName1);
 
 	if (lpNode == NULL)
 	{
 		return;
 	}
 
-	int n = 0;
-	int warmaster = -1;
-
-	while (true)
-	{
-		if (gObj[n].Type == OBJ_USER)
-		{
-			if (gObj[n].Connected > PLAYER_LOGGED)
-			{
-				if (gObj[n].Name[0] == lpNode->Names[0][0])
-				{
-					if (strcmp(gObj[n].Name, lpNode->Names[0]) == 0)
-					{
-						warmaster = n;
-						break;
-					}
-				}
-			}
-		}
-
-		if (n < g_ConfigRead.server.GetObjectMax() - 1)
-		{
-			n++;
-		}
-		else
-		{
-			break;
-		}
-	}
-
-	if (warmaster >= 1)
-	{
-		this->GCGuildWarRequestResult(GuildName2, warmaster, type);
-	}
+	this->GCGuildWarRequestResult(GuildName2, lpNode->Users[0], type);
 }
 
 
@@ -9086,7 +8992,7 @@ void GameProtocol::GCGuildWarRequestResult(LPSTR GuildName, CGameObject* lpObj, 
 		return;
 	}
 
-	_GUILD_INFO_STRUCT * lpMyGuild = lpObj->m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT * lpMyGuild = lpObj->m_PlayerData->lpGuild;
 
 	if (!lpMyGuild)
 	{
@@ -9113,7 +9019,7 @@ void GameProtocol::GCGuildWarRequestResult(LPSTR GuildName, CGameObject* lpObj, 
 		return;
 	}
 
-	if (strcmp(lpMyGuild->Names[0], lpObj->Name))
+	if (strcmp(lpMyGuild->Users[0]->Name, lpObj->Name))
 	{
 		pMsg.Result = 5;
 
@@ -9130,7 +9036,7 @@ void GameProtocol::GCGuildWarRequestResult(LPSTR GuildName, CGameObject* lpObj, 
 	if (!strncmp(lpMyGuild->Name, GuildName, MAX_GUILD_LEN))
 		return;
 
-	_GUILD_INFO_STRUCT * lpNode = Guild.SearchGuild(_guildname);
+	GUILD_INFO_STRUCT * lpNode = Guild.SearchGuild(_guildname);
 
 	if (lpNode)
 	{
@@ -9149,83 +9055,62 @@ void GameProtocol::GCGuildWarRequestResult(LPSTR GuildName, CGameObject* lpObj, 
 			return;
 		}
 
-		int n = g_ConfigRead.server.GetObjectStartUserIndex();	// #warning Change this 0 to ObjectStartUserIndex
-		int warmaster = -1;
 
-		while (true)
+		if (g_ConfigRead.pk.bPkPenaltyDisable == FALSE && lpNode->Users[0] != nullptr && lpNode->Users[0]->m_PK_Level >= 6)
 		{
-			if (gObj[n].Type == OBJ_USER)
-			{
-				if (gObj[n].Connected > PLAYER_LOGGED)
-				{
-					if (gObj[n].Name[0] == lpNode->Names[0][0])
-					{
-						if (!strcmp(gObj[n].Name, lpNode->Names[0]))
-						{
-							if (g_ConfigRead.pk.bPkPenaltyDisable == FALSE && gObj[n].m_PK_Level >= 6)
-							{
-								pMsg.Result = 4;
+			pMsg.Result = 4;
 
-								GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
+			GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 
-								return;
-							}
-
-							warmaster = n;
-							break;
-						}
-					}
-				}
-			}
-
-			if (n < g_ConfigRead.server.GetObjectMax() - 1)
-				n++;
-			else
-				break;
+			return;
 		}
 
-		if (warmaster >= 1)
+		if (lpNode->Users[0] != nullptr)
 		{
-			if (CC_MAP_RANGE(lpObj->MapNumber) || CC_MAP_RANGE(gObj[warmaster].MapNumber))
+			int warmaster = lpNode->Users[0]->m_Index;
+			if (warmaster >= 1)
 			{
-				GCServerMsgStringSend(Lang.GetText(0, 117), lpObj, 1);
-				return;
-			}
+				if (CC_MAP_RANGE(lpObj->MapNumber) || CC_MAP_RANGE(lpNode->Users[0]->MapNumber))
+				{
+					GCServerMsgStringSend(Lang.GetText(0, 117), lpObj, 1);
+					return;
+				}
 
-			if (lpObj->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL || gObj[warmaster].MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
-			{
-				GCServerMsgStringSend(Lang.GetText(0, 575), lpObj, 1);
-				return;
-			}
+				if (lpObj->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL || lpNode->Users[0]->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+				{
+					GCServerMsgStringSend(Lang.GetText(0, 575), lpObj, 1);
+					return;
+				}
 
-			if ((gObj[warmaster].m_Option & 1) != 1)
+				if ((lpNode->Users[0]->m_Option & 1) != 1)
+				{
+					pMsg.Result = 4;
+					GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
+
+					return;
+				}
+
+				pMsg.Result = 1;
+				GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
+				GCGuildWarRequestSend(lpMyGuild->Name, lpNode->Users[0], type);
+				lpMyGuild->WarDeclareState = 1;
+				lpNode->WarDeclareState = 1;
+				lpMyGuild->WarType = type;
+				lpNode->WarType = type;
+
+				// Declared guild war [%s][%s] sGuild:(%s) TargetGuild:(%s)
+				strcpy(lpMyGuild->TargetGuildName, lpNode->Name);
+				strcpy(lpNode->TargetGuildName, lpMyGuild->Name);
+				lpMyGuild->lpTargetGuildNode = lpNode;
+				lpNode->lpTargetGuildNode = lpMyGuild;
+			}
+			else
 			{
-				pMsg.Result = 4;
+				pMsg.Result = 2;
 				GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 
-				return;
+				//return;
 			}
-
-			pMsg.Result = 1;
-			GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
-			GCGuildWarRequestSend(lpMyGuild->Name, warmaster, type);
-			lpMyGuild->WarDeclareState = 1;
-			lpNode->WarDeclareState = 1;
-			lpMyGuild->WarType = type;
-			lpNode->WarType = type;
-
-			// Declared guild war [%s][%s] sGuild:(%s) TargetGuild:(%s)
-			strcpy(lpMyGuild->TargetGuildName, lpNode->Name);
-			strcpy(lpNode->TargetGuildName, lpMyGuild->Name);
-			lpMyGuild->lpTargetGuildNode = lpNode;
-			lpNode->lpTargetGuildNode = lpMyGuild;
-		}
-		else
-		{
-			pMsg.Result = 2;
-			GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
-
-			//return;
 		}
 	}
 	else
@@ -9277,9 +9162,6 @@ void GameProtocol::GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT * lpMsg, C
 		return;
 	}
 
-	if (lpObj->Connected != 3)
-		return;
-
 	PMSG_GUILDWAR_DECLARE pMsg;
 	int count = 0;
 	int g_call = 0;
@@ -9287,7 +9169,7 @@ void GameProtocol::GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT * lpMsg, C
 	PHeadSetB((LPBYTE)&pMsg, 0x62, sizeof(pMsg));
 	pMsg.Type = 0;
 
-	_GUILD_INFO_STRUCT * lpMyNode = lpObj->m_PlayerData->lpGuild;
+	GUILD_INFO_STRUCT * lpMyNode = lpObj->m_PlayerData->lpGuild;
 
 	if (!lpMyNode)
 	{
@@ -9304,19 +9186,14 @@ void GameProtocol::GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT * lpMsg, C
 
 	if (lpMyNode->lpTargetGuildNode && lpMsg->Result)
 	{
-		int iTarGetIndex = lpMyNode->lpTargetGuildNode->Index[0];
-
-		if (!ObjectMaxRange(iTarGetIndex))
-		{
-			return;
-		}
-
-		if (BC_MAP_RANGE(gObj[iTarGetIndex].MapNumber) ||
-			CC_MAP_RANGE(gObj[iTarGetIndex].MapNumber) ||
-			DS_MAP_RANGE(gObj[iTarGetIndex].MapNumber) ||
-			DG_MAP_RANGE(gObj[iTarGetIndex].MapNumber) ||
-			IT_MAP_RANGE(gObj[iTarGetIndex].MapNumber) ||
-			IMPERIAL_MAP_RANGE(gObj[iTarGetIndex].MapNumber))
+		int iTargetIndex = lpMyNode->lpTargetGuildNode->Index[0];
+		CGameObject* lpTargetObj = getGameObject(iTargetIndex);
+		if (BC_MAP_RANGE(lpTargetObj->MapNumber) ||
+			CC_MAP_RANGE(lpTargetObj->MapNumber) ||
+			DS_MAP_RANGE(lpTargetObj->MapNumber) ||
+			DG_MAP_RANGE(lpTargetObj->MapNumber) ||
+			IT_MAP_RANGE(lpTargetObj->MapNumber) ||
+			IMPERIAL_MAP_RANGE(lpTargetObj->MapNumber))
 		{
 			PMSG_NOTICE pNotice;
 
@@ -9327,7 +9204,7 @@ void GameProtocol::GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT * lpMsg, C
 			lpMsg->Result = 0;
 		}
 
-		if (gObj[iTarGetIndex].MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+		if (lpTargetObj->MapNumber == MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 		{
 			PMSG_NOTICE pNotice;
 
@@ -9397,7 +9274,7 @@ void GameProtocol::GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT * lpMsg, C
 						lpMyNode->lpTargetGuildNode->BattleGroundIndex = lpMyNode->BattleGroundIndex;
 
 						if (gBSGround[0]->m_BallIndex >= 0)
-							gObjMonsterRegen(&gObj[gBSGround[0]->m_BallIndex]);
+							gObjMonsterRegen(*getGameObject(gBSGround[0]->m_BallIndex));
 
 						BattleSoccerGoalEnd(0);
 						lpMyNode->PlayScore = 0;
@@ -9420,8 +9297,11 @@ void GameProtocol::GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT * lpMsg, C
 					pMsg.TeamCode = lpMyNode->BattleTeamCode;
 					count = 0;
 
+					CGameObject* lpObjMaster = getGameObject(lpMyNode->Index[0]);
+					
 					for (int n = 0; n < MAX_USER_GUILD; n++)
 					{
+						CGameObject* lpObjPartyUser = getGameObject(lpMyNode->Index[n]);
 						if (lpMyNode->Use[n])
 						{
 							if (lpMyNode->Index[n] >= 0)
@@ -9432,9 +9312,9 @@ void GameProtocol::GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT * lpMsg, C
 								{
 									if (lpMyNode->WarType == 1)
 									{
-										if (gObj[lpMyNode->Index[0]].PartyNumber >= 0)
+										if (lpObjMaster->PartyNumber >= 0)
 										{
-											if (gObj[lpMyNode->Index[0]].PartyNumber == gObj[lpMyNode->Index[n]].PartyNumber)
+											if (lpObjMaster->PartyNumber == lpObjPartyUser->PartyNumber)
 											{
 												g_call = 1;
 											}
@@ -9452,20 +9332,20 @@ void GameProtocol::GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT * lpMsg, C
 
 								if (g_call)
 								{
-									GIOCP.DataSend(lpMyNode->Index[n], (LPBYTE)&pMsg, pMsg.h.size);
+									GIOCP.DataSend(lpObjPartyUser->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
 									// Declared guild war against (%s)
-									GCGuildWarScore(lpMyNode->Index[n]);
+									GCGuildWarScore(lpObjPartyUser);
 									int x = 60;
 
 									if (lpMyNode->WarType == 1)
 									{
-										gObj[lpMyNode->Index[n]].IsInBattleGround = true;
+										lpObjPartyUser->IsInBattleGround = true;
 										pTeleportMsg.MoveNumber = 51;
 
-										if (g_ConfigRead.pk.bPkPenaltyDisable || gObj[lpMyNode->Index[n]].m_PK_Level < 6)
+										if (g_ConfigRead.pk.bPkPenaltyDisable || lpObjPartyUser->m_PK_Level < 6)
 										{
-											gObjTeleport(lpMyNode->Index[n], 6, x++, 153);
+											gObjTeleport(*lpObjPartyUser, 6, x++, 153);
 											count++;
 										}
 									}
@@ -9474,14 +9354,16 @@ void GameProtocol::GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT * lpMsg, C
 						}
 					}
 
-					memset(pMsg.GuildName, 0, sizeof(pMsg.GuildName));
-					memcpy(pMsg.GuildName, lpMyNode->Name, sizeof(pMsg.GuildName));
+					std::memset(pMsg.GuildName, 0, sizeof(pMsg.GuildName));
+					std::memcpy(pMsg.GuildName, lpMyNode->Name, sizeof(pMsg.GuildName));
 
 					pMsg.TeamCode = lpMyNode->lpTargetGuildNode->BattleTeamCode;
 					count = 0;
 
+					CGameObject* lpObjTargetWar = getGameObject(lpMyNode->lpTargetGuildNode->Index[0]);
 					for (int n = 0; n < MAX_USER_GUILD; n++)
 					{
+						CGameObject* lpObjTargetUser = getGameObject(lpMyNode->lpTargetGuildNode->Index[n]);
 						if (lpMyNode->lpTargetGuildNode->Use[n])
 						{
 							if (lpMyNode->lpTargetGuildNode->Index[n] >= 0)
@@ -9492,9 +9374,9 @@ void GameProtocol::GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT * lpMsg, C
 								{
 									if (lpMyNode->WarType == 1)
 									{
-										if (gObj[lpMyNode->lpTargetGuildNode->Index[0]].PartyNumber >= 0)
+										if (lpObjTargetWar->PartyNumber >= 0)
 										{
-											if (gObj[lpMyNode->lpTargetGuildNode->Index[0]].PartyNumber == gObj[lpMyNode->lpTargetGuildNode->Index[n]].PartyNumber)
+											if (lpObjTargetWar->PartyNumber == lpObjTargetUser->PartyNumber)
 											{
 												g_call = 1;
 											}
@@ -9515,16 +9397,16 @@ void GameProtocol::GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT * lpMsg, C
 									GIOCP.DataSend(lpMyNode->lpTargetGuildNode->Index[n], (LPBYTE)&pMsg, pMsg.h.size);
 
 									// Declared guild war against (%s)
-									GCGuildWarScore(lpMyNode->lpTargetGuildNode->Index[n]);
+									GCGuildWarScore(lpMyNode->lpTargetGuildNode->Users[n]);
 									int x = 59;
 
 									if (lpMyNode->lpTargetGuildNode->WarType == 1)
 									{
 
-										if (g_ConfigRead.pk.bPkPenaltyDisable != 0 || gObj[lpMyNode->lpTargetGuildNode->Index[n]].m_PK_Level < 6)
+										if (g_ConfigRead.pk.bPkPenaltyDisable != 0 || lpMyNode->lpTargetGuildNode->Users[n]->m_PK_Level < 6)
 										{
-											gObj[lpMyNode->lpTargetGuildNode->Index[n]].IsInBattleGround = true;
-											gObjTeleport(lpMyNode->lpTargetGuildNode->Index[n], 6, x++, 164);
+											lpMyNode->lpTargetGuildNode->Users[n]->IsInBattleGround = true;
+											gObjTeleport(*lpMyNode->lpTargetGuildNode->Users[n], 6, x++, 164);
 											count++;
 										}
 									}
@@ -9540,7 +9422,7 @@ void GameProtocol::GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT * lpMsg, C
 
 					if (lpMyNode->WarType == 1)
 					{
-						gObjAddMsgSendDelay(*lpObj, 5, lpObj, 10000, 0);
+						gObjAddMsgSendDelay(*lpObj, 5, *lpObj, 10000, 0);
 						GCServerMsgStringSendGuild(lpMyNode->lpTargetGuildNode, Lang.GetText(0, 62), 1);
 						GCServerMsgStringSendGuild(lpMyNode, Lang.GetText(0, 62), 1);
 					}
@@ -15829,7 +15711,7 @@ void GameProtocol::CGReqMoveOtherServer(PMSG_REQ_MOVE_OTHERSERVER * lpMsg, CGame
 
 	SDHP_CHARACTER_TRANSFER pCharTransfer;
 
-	GJSetCharacterInfo(lpObj, lpObj, FALSE);
+	GJSetCharacterInfo(lpObj, FALSE);
 	PHeadSetB((LPBYTE)&pCharTransfer, 0xCF, sizeof(pCharTransfer));
 	pCharTransfer.Number = lpObj->m_Index;
 	memcpy(pCharTransfer.Account, lpObj->m_PlayerData->ConnectUser->AccountID, sizeof(pCharTransfer.Account));
@@ -18747,7 +18629,7 @@ void GameProtocol::CGReqLuckyCoinTrade(PMSG_REQ_LUCKYCOIN_TRADE * aRecv, CGameOb
 		return;
 	}
 
-	GJSetCharacterInfo(lpObj, lpObj, FALSE);
+	GJSetCharacterInfo(lpObj, FALSE);
 
 	if (iBagResult == 0)
 	{
