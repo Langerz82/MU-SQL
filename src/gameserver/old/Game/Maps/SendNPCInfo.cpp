@@ -2,7 +2,7 @@
 // SendNPCInfo.cpp
 #include "StdAfx.h"
 #include "SendNPCInfo.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "Logging/Log.h"
 #include "configread.h"
 

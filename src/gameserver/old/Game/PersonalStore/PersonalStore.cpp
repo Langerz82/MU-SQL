@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "PersonalStore.h"
 #include "User/CUserData.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "util.h"
 #include "Logging/Log.h"
 #include "configread.h"

@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "StdAfx.h"
-#include "Gamemain.h"
+#include "Main.h"
 #include "Kanturu.h"
 #include "KanturuUtil.h"
 #include "KanturuBattleUserMng.h"

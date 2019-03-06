@@ -2,7 +2,7 @@
 // MuTimer.cpp
 #include "StdAfx.h"
 #include "MuTimer.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "GameServer.h"
 //#include "EDSProtocol.h"
 #include "NewPVP.h"

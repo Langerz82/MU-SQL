@@ -2,7 +2,7 @@
 // PVPZone.cpp
 #include "StdAfx.h"
 #include "PVPZone.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "Logging/Log.h"
 #include "readscript.h"
 #include "configread.h"

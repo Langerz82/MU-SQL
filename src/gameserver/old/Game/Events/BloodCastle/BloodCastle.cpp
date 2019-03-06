@@ -17,7 +17,7 @@
 #include "stdafx.h"
 #include "BloodCastle.h"
 #include "ChaosCastle.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "Logging/Log.h"
 #include "GameProtocol.h"
 #include "TNotice.h"

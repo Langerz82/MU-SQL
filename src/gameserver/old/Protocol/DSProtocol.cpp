@@ -9,7 +9,8 @@
 
 #include "StdAfx.h"
 #include "DSProtocol.h"
-#include "GameMain.h"
+#include "SProtocol.h"
+#include "Main.h"
 #include "GameServer.h"
 #include "DevilSquare.h"
 #include "MapServerManager.h"
@@ -23,6 +24,7 @@
 #include "CUserData.h"
 #include "CGameObject.h"
 #include "GOFunctions.h"
+#include "GOEventFunctions.h"
 #include "IOCP.h"
 #include "ObjUseSkill.h"
 #include "PeriodItemEx.h"
@@ -86,14 +88,6 @@ void DataServerProtocolCore(BYTE protoNum, unsigned char* aRecv, int aLen)
 
 	case 0x03:
 		DGAnsSwitchWare((PMSG_ANS_SWITCHWARE *)aRecv);
-		break;
-
-	case 0x04:
-		JGCharacterCreateRequest((SDHP_CREATECHARRESULT *)aRecv);
-		break;
-
-	case 0x05:
-		JGCharDelRequest((SDHP_CHARDELETERESULT *)aRecv);
 		break;
 
 	case 0x06:
@@ -1544,11 +1538,11 @@ void GDGetWarehouseNoItem(SDHP_GETWAREHOUSEDB_RESULT * lpMsg)
 		return;
 	}
 
-	if (lpObj->m_IfState->type == 6)
+	if (lpObj->m_IfState.type == 6)
 	{
-		if (lpObj->m_IfState->state == 0)
+		if (lpObj->m_IfState.state == 0)
 		{
-			lpObj->m_IfState->state = 1;
+			lpObj->m_IfState.state = 1;
 			pResult.h.c = 0xC3;
 			pResult.h.headcode = 0x30;
 			pResult.h.size = sizeof(pResult);
@@ -1862,12 +1856,12 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 		if (lpMsg->MapNumber == (BYTE)-2)
 		{
-			if (lpObj->m_IfState->type != 13)
+			if (lpObj->m_IfState.type != 13)
 			{
 				return;
 			}
 		}
-		else if (lpObj->m_IfState->type != 7)
+		else if (lpObj->m_IfState.type != 7)
 		{
 			return;
 		}
@@ -2404,7 +2398,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 			Item->Convert(ITEMGET(iType, iTypeIndex), lpMsg->Op1, lpMsg->Op2, lpMsg->Op3, lpMsg->NewOption, lpMsg->SetOption, 0, lpMsg->SocketOption, lpMsg->MainAttribute, 0, CURRENT_DB_VERSION);
 
-			BYTE btItemPos = gObjEventInventoryInsertItem(lpObj, *Item);
+			BYTE btItemPos = gObjEventInventoryInsertItem(*lpObj, *Item);
 
 			if (btItemPos == (BYTE)-1)
 			{
@@ -2413,7 +2407,7 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 
 			else
 			{
-				//GSProtocol.GCEventInvenItemOneSend(lpObj, btItemPos); // TODO
+				GSProtocol.GCEventInvenItemOneSend(lpObj, btItemPos);
 			}
 		}
 	}
@@ -3019,15 +3013,15 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 		{
 			if (iRetMapNumber >= 238 && iRetMapNumber <= 245)
 			{
-				MapC[mapnumber].m_cItem[iItemCount]->m_Time = GetTickCount() + 300000;
-				MapC[mapnumber].m_cItem[iItemCount]->m_LootTime = GetTickCount() + 20000;
+				MapC[mapnumber].m_cItem[iItemCount].m_Time = WorldTimer::getMSTime() + 300000;
+				MapC[mapnumber].m_cItem[iItemCount].m_LootTime = WorldTimer::getMSTime() + 20000;
 
 			}
 
 			if (iRetMapNumber >= 246 && iRetMapNumber <= 253)
 			{
-				MapC[mapnumber].m_cItem[iItemCount]->m_Time = GetTickCount() + 900000;
-				MapC[mapnumber].m_cItem[iItemCount]->m_LootTime = GetTickCount() + 10000;
+				MapC[mapnumber].m_cItem[iItemCount].m_Time = WorldTimer::getMSTime() + 900000;
+				MapC[mapnumber].m_cItem[iItemCount].m_LootTime = WorldTimer::getMSTime() + 10000;
 
 				int iBridgeIndex = g_BloodCastle.GetBridgeIndex(mapnumber); //s3 add-on (loc108)
 
@@ -3038,14 +3032,14 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 			{
 				if (lpMsg->Type == ITEMGET(14, 64))
 				{
-					MapC[mapnumber].m_cItem[iItemCount].m_Time = GetTickCount() + 15000;
-					MapC[mapnumber].m_cItem[iItemCount].m_LootTime = GetTickCount() + 5000;
+					MapC[mapnumber].m_cItem[iItemCount].m_Time = WorldTimer::getMSTime() + 15000;
+					MapC[mapnumber].m_cItem[iItemCount].m_LootTime = WorldTimer::getMSTime() + 5000;
 				}
 
 				if (lpMsg->Type == ITEMGET(12, 15))
 				{
-					MapC[mapnumber].m_cItem[iItemCount].m_Time = GetTickCount() + 300000;
-					MapC[mapnumber].m_cItem[iItemCount].m_LootTime = GetTickCount() + 10000;
+					MapC[mapnumber].m_cItem[iItemCount].m_Time = WorldTimer::getMSTime() + 300000;
+					MapC[mapnumber].m_cItem[iItemCount].m_LootTime = WorldTimer::getMSTime() + 10000;
 				}
 			}
 		}
@@ -4571,7 +4565,7 @@ void GS_DGAnsOwnerGuildMaster(LPBYTE lpRecv)
 		return;
 	}
 
-	GSProtocol.GCAnsCastleSiegeState(*getGameObject(lpMsg->iIndex), lpMsg->iResult, lpMsg->szCastleOwnGuild, lpMsg->szCastleOwnGuildMaster);
+	GSProtocol.GCAnsCastleSiegeState(getGameObject(lpMsg->iIndex), lpMsg->iResult, lpMsg->szCastleOwnGuild, lpMsg->szCastleOwnGuildMaster);
 }
 
 struct CSP_ANS_NPCBUY {
@@ -7585,7 +7579,7 @@ void DG_DSF_GetReward(PMSG_ANS_GET_DSF_REWARD *lpMsg)
 void DGReqOtherChannelWishper(PMSG_RECV_CHATDATA_WHISPER *lpMsg)
 {
 	int userIndex = gObjGetIndex(lpMsg->id);
-
+	CGameObject* lpObjTarget = getGameObject(userIndex);
 	if (userIndex == -1)
 	{
 		GDWhisperResultSend(0, lpMsg->OriginPlayerIndex, lpMsg->OriginGSIndex);

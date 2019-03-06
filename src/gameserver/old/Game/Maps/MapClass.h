@@ -79,7 +79,7 @@ public:
 		this->path = new PATH;
 		this->m_width = 0;
 		this->m_height = 0;
-		this->m_CItemObject = 0;
+		this->m_cItem = 0;
 	}	// line : 134
 
 	void free()	// line : 136
@@ -96,10 +96,10 @@ public:
 			this->path = 0;
 		}
 
-		if (this->m_CItemObject != 0)
+		if (this->m_cItem != 0)
 		{
-			delete[] this->m_CItemObject;
-			this->m_CItemObject = NULL;
+			delete[] this->m_cItem;
+			this->m_cItem = NULL;
 		}
 	}	// line : 147
 
@@ -116,7 +116,7 @@ public:
 	int m_width;	// 14
 	int m_height;	// 18
 	PATH* path;	// 1C
-	class CMapItem* m_CItemObject;	// 20
+	class CMapItem* m_cItem;	// 20
 	int m_ItemCount;	// 50DE0
 	RECT gRegenRect[MAX_NUMBER_MAP];	// 50DE4
 	int thisMapNumber;	// 51064

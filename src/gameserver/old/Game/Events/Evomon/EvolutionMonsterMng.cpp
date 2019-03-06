@@ -9,7 +9,7 @@
 #include "ChaosCastle.h"
 #include "KalimaGate.h"
 #include "MonsterAttr.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "BuffEffectSlot.h"
 #include "GremoryCase.h"
 #include "TNotice.h"

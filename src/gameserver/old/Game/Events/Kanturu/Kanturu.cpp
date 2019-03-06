@@ -7,7 +7,7 @@
 #include "KanturuMonsterMng.h"
 #include "KanturuBattleUserMng.h"
 #include "KanturuUtil.h"
-#include "Gamemain.h"
+#include "Main.h"
 #include "Logging/Log.h"
 #include "CashShop.h"
 #include "configread.h"

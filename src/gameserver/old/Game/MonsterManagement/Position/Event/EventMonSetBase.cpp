@@ -4,7 +4,7 @@
 #include "EventMonSetBase.h"
 #include "User/CUserData.h"
 #include "MapClass.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "MapServerManager.h"
 
 CEventMonSetBase gEventMSetBase;

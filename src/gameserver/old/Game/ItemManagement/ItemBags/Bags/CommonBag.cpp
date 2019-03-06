@@ -6,7 +6,7 @@
 #include "User/CUserData.h"
 #include "LuaBag.h"
 #include "MapClass.h"
-#include "GameMain.h"
+#include "Main.h"
 
 CCommonBag::CCommonBag()
 {

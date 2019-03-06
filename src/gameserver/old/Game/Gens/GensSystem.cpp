@@ -1,7 +1,7 @@
 ﻿////////////////////////////////////////////////////////////////////////////////
 // GensSystem.cpp
 
-#include "GameMain.h"
+#include "Main.h"
 #include "GuildClass.h"
 #include "GameProtocol.h"
 #include "IOCP.h"

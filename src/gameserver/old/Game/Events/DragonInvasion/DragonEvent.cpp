@@ -8,7 +8,7 @@
 // GS-N	1.00.18	JPN	0x0046A1F0	-	Completed
 #include "StdAfx.h"
 #include "DragonEvent.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "GameProtocol.h"
 #include "MapServerManager.h"
 

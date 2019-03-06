@@ -2,7 +2,7 @@
 // RaklionMonsterMng.cpp
 #include "StdAfx.h"
 #include "RaklionMonsterMng.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "Logging/Log.h"
 #include "configread.h"
 CRaklionMonsterMng g_RaklionMonsterMng;

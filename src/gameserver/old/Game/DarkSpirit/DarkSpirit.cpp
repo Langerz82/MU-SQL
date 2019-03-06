@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "DarkSpirit.h"
 #include "MapClass.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "GameProtocol.h"
 #include "BattleSoccerManager.h"
 #include "gObjMonster.h"

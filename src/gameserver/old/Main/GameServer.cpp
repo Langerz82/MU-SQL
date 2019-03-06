@@ -12,7 +12,7 @@
 #include "Lang.h"
 #include "resource.h"
 #include "GameServer.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "IOCP.h"
 #include "Logging/Log.h"
 #include "RingAttackEvent.h"

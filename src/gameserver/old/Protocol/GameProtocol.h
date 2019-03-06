@@ -379,7 +379,7 @@ public:
 	void CGRequestRepositionUserInCCF(PMSG_REQ_REPOSUSER_IN_CCF *lpMsg, CGameObject* lpObj);
 	void CGReq_CCF_Ranking(PMSG_REQ_CCF_RANKING *lpMsg, CGameObject* lpObj);
 
-	/*void CGReqEventInvenOpen(LPBYTE lpRecv, CGameObject* lpObj);
+	void CGReqEventInvenOpen(LPBYTE lpRecv, CGameObject* lpObj);
 	void CGEventItemGetRequest(PMSG_EVENTITEM_GETREQUEST *lpMsg, CGameObject* lpObj);
 	bool CGEventItemDropRequest(PMSG_EVENTITEM_THROW *lpMsg, CGameObject* lpObj);
 	void GCEventInventoryItemListSend(CGameObject* lpObj);
@@ -387,7 +387,7 @@ public:
 	void GCEventInvenItemOneSend(CGameObject* lpObj, int pos);
 	void GCEventInventoryItemDeleteSend(CGameObject* lpObj, BYTE pos, unsigned char flag);
 
-	void GCResSendExpEventInfo(CGameObject* lpObj);*/
+	void GCResSendExpEventInfo(CGameObject* lpObj);
 
 	void CGReq_ITL_Relics(PMSG_REQ_ITL_RELATE_RELICS *lpMsg, CGameObject *lpObj);
 	void CG_Req_Enter_ITR(PMSG_REQ_ENTER_ITR *lpMsg, CGameObject *lpObj);

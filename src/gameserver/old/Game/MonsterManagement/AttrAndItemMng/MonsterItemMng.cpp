@@ -4,7 +4,7 @@
 #include "MonsterItemMng.h"
 #include "User/CUserData.h"
 #include "MonsterAttr.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "Logging/Log.h"
 #include "LargeRand.h"
 #include "CashShop.h"

@@ -5,7 +5,7 @@
 #include "Logging/Log.h"
 #include "ChaosBox.h"
 #include "util.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "SetItemOption.h"
 
 #include "LuckyItemManager.h"

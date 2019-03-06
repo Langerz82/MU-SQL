@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "ChaosBox.h"
 #include "Logging/Log.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "util.h"
 
 #include "CastleSiegeSync.h"

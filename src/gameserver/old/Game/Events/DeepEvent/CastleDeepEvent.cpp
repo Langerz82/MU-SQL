@@ -8,7 +8,7 @@
 #include "Logging/Log.h"
 #include "CastleDeepEvent.h"
 #include "configread.h"
-#include "GameMain.h"
+#include "Main.h"
 
 using namespace std;
 CCastleDeepEvent g_CastleDeepEvent;

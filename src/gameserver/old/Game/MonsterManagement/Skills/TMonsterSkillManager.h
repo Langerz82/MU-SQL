@@ -30,9 +30,6 @@ struct _ST_MONSTER_SKILL_DELAYTIME_INFO
 
 	BOOL IsValid()
 	{
-		if ( !ObjectMaxRange(this->iIndex) || !ObjectMaxRange(this->iTargetIndex) )
-			return FALSE;
-
 		if ( this->lpMonsterSkillUnit == NULL )
 			return FALSE;
 

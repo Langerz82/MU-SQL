@@ -31,7 +31,7 @@ CAttackMagic::~CAttackMagic()
 
 void CAttackMagic::Process()
 {
-	GSProtocol.CGMagicAttack((PMSG_MAGICATTACK *)this->m_Msg, m_Obj);
+	GSProtocol.CGMagicAttack(this->m_Msg, m_Obj);
 	//gObjUseSkill.UseSkill(m_Obj->m_Index, m_TargetObj.m_Index, m_Magic);
 }
 
@@ -53,15 +53,14 @@ void CAttackRange::Process()
 	if(m_Type == 0)
 		GSProtocol.CGBeattackRecv(m_Msg, m_Obj, FALSE);
 	else
-		GSProtocol.CGDurationMagicRecv((PMSG_DURATION_MAGIC_RECV*) m_Msg, m_Obj);
+		GSProtocol.CGDurationMagicRecv(m_Msg, m_Obj);
 }
 
 
-CAttackQueue::CAttackQueue(CUserData* userData)
+CAttackQueue::CAttackQueue(CGameObject* lpObj)
 {
-
-	InitializeCriticalSection(&this->m_CritQueue);
-	this->m_Obj = userData;
+	//InitializeCriticalSection(&this->m_CritQueue);
+	this->m_Obj = lpObj;
 }
 
 void CAttackQueue::Push( BYTE* msg, int len, int type )
@@ -81,7 +80,7 @@ void CAttackQueue::ProcessQueue()
 {
 	//CGameObject m_Obj = getGameObject(this->Obj.m_Index);
 
-	EnterCriticalSection(&this->m_CritQueue);
+	//EnterCriticalSection(&this->m_CritQueue);
 	int TickCount = GetTickCount();
 	float dt = (float)(TickCount - m_Obj->m_LastAttackTime);
 
@@ -156,7 +155,7 @@ void CAttackQueue::ProcessQueue()
 
 		}
 	}
-	LeaveCriticalSection(&this->m_CritQueue);
+	//LeaveCriticalSection(&this->m_CritQueue);
 }
 
 bool CAttackQueue::ThreadActive = true;
@@ -189,7 +188,7 @@ VOID CAttackQueue::AttackQueueProc(std::vector<CGameObject*> gObj)
 
 CAttackQueue::~CAttackQueue()
 {
-	EnterCriticalSection(&this->m_CritQueue);
+	//EnterCriticalSection(&this->m_CritQueue);
 	int cnt = m_Queue.size();
 	for(int i = 0; i < cnt; i++)
 	{
@@ -201,8 +200,8 @@ CAttackQueue::~CAttackQueue()
 			delete pAtt;
 		}
 	}
-	LeaveCriticalSection(&this->m_CritQueue);
-	DeleteCriticalSection(&this->m_CritQueue);
+	//LeaveCriticalSection(&this->m_CritQueue);
+	//DeleteCriticalSection(&this->m_CritQueue);
 }
 
 void CAttackQueue::CheckSize()
@@ -226,7 +225,7 @@ void CAttackQueue::CheckSize()
 
 void CAttackQueue::Clear()
 {
-	EnterCriticalSection(&this->m_CritQueue);
+	//EnterCriticalSection(&this->m_CritQueue);
 	int cnt = m_Queue.size();
 	for(int i = 0; i < cnt; i++)
 	{
@@ -238,7 +237,7 @@ void CAttackQueue::Clear()
 			delete pAtt;
 		}
 	}
-	LeaveCriticalSection(&this->m_CritQueue);
+	//LeaveCriticalSection(&this->m_CritQueue);
 }
 
 CAttackMsg::CAttackMsg(CGameObject &Obj, BYTE* pmsg, int len, int type )
@@ -272,13 +271,13 @@ void CAttackMsg::Process()
 		GSProtocol.CGAttack((PMSG_ATTACK*)m_Msg, m_Obj);
 		break;
 	case ATTACK_MAGIC:
-		GSProtocol.CGMagicAttack((PMSG_MAGICATTACK*)m_Msg, m_Obj);
+		GSProtocol.CGMagicAttack(m_Msg, m_Obj);
 		break;
 	case ATTACK_RANGE_OLD:
 		GSProtocol.CGBeattackRecv(m_Msg, m_Obj, FALSE);
 		break;
 	case ATTACK_RANGE_NEW:
-		GSProtocol.CGDurationMagicRecv((PMSG_DURATION_MAGIC_RECV*)m_Msg, m_Obj);
+		GSProtocol.CGDurationMagicRecv(m_Msg, m_Obj);
 		break;
 	case ATTACK_RAGE_FIGHTER:
 		//

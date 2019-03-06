@@ -5,7 +5,7 @@
 #include "ObjAttack.h"
 #include "BuffEffect.h"
 #include "BuffEffectSlot.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "configread.h"
 
 // GS-N 0.99.60T 0x0051A5F0

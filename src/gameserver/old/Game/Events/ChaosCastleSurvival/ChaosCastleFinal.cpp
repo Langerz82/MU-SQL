@@ -2,7 +2,7 @@
 // ChaosCastleFinal.cpp
 #include "StdAfx.h"
 #include "ChaosCastleFinal.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "GameProtocol.h"
 #include "TNotice.h"
 #include "User/CUserData.h"

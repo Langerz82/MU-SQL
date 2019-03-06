@@ -5,7 +5,7 @@
 #include "StdAfx.h"
 #include "TMonsterAIGroup.h"
 #include "User/CUserData.h"
-#include "Gamemain.h"
+#include "Main.h"
 #include "Logging/Log.h"
 
 bool TMonsterAIGroup::s_bDataLoad = FALSE;

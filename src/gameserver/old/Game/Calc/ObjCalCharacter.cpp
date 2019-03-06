@@ -2,7 +2,7 @@
 // ObjCalCharacter.cpp
 #include "StdAfx.h"
 #include "ObjCalCharacter.h"
-#include "Gamemain.h"
+#include "Main.h"
 #include "DarkSpirit.h"
 #include "SetItemOption.h"
 #include "Logging/Log.h"

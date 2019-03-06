@@ -7,7 +7,7 @@
 #include "StdAfx.h"
 #include "CastleSiege.h"
 #include "CastleDeepEvent.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "TNotice.h"
 #include "TUnion.h"
 #include "LifeStone.h"

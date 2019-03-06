@@ -7,7 +7,7 @@
 #include "StdAfx.h"
 #include "QuestInfo.h"
 #include "Logging/Log.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "GameProtocol.h"
 #include "gObjMonster.h"
 

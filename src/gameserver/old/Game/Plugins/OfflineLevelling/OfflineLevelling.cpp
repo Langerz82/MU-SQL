@@ -7,7 +7,7 @@
 #include "Logging/Log.h"
 #include "configread.h"
 #include "GameProtocol.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "util.h"
 
 #include "ItemSocketOptionSystem.h"

@@ -5,7 +5,7 @@
 #include "Game/User/CUserData.h"
 #include "IOCP.h"
 #include "util.h"
-//#include "GameMain.h"
+//#include "Main.h"
 //#include "configread.h"
 
 // GS-N 0.99.60T 0x0048CD90 - Completed

@@ -4,7 +4,7 @@
 #include "MasterLevelSkillTreeSystem.h"
 #include "MasterSkillSystem.h"
 #include "Logging/Log.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "configread.h"
 #include "ObjCalCharacter.h"
 #include "BuffEffectSlot.h"

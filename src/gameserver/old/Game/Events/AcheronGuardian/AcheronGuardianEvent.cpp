@@ -4,7 +4,7 @@
 #include "AcheronGuardianEvent.h"
 #include "ArcaBattle.h"
 #include "Logging/Log.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "TNotice.h"
 #include "CUserData.h"
 #include "GameProtocol.h"

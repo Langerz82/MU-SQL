@@ -6,7 +6,7 @@
 // ------------------------------
 #include "StdAfx.h"
 #include "EledoradoEvent.h"
-#include "Gamemain.h"
+#include "Main.h"
 #include "Logging/Log.h"
 #include "User/CUserData.h"
 #include "TNotice.h"

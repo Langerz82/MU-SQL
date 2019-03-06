@@ -12,7 +12,7 @@
 
 // Extracted from GameMain.cpp
 #include "Lang.h"
-//#include "gamemain.h"
+//#include "Main.h"
 //#include "winutil.h"
 #include "GameServer.h"
 #include "DirPath.h"

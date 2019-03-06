@@ -13,7 +13,7 @@
 #include "ItemObject.h"
 #include "ProDef.h"
 #include "GameProtocol.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "NewPVP.h"
 #include "GensSystem.h"
 #include "ChaosCastle.h"

@@ -3,7 +3,7 @@
 #include "StdAfx.h"/*
 #include "MathAuthenticator.h"
 #include "User/CUserData.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "util.h"
 #include "configread.h"
 

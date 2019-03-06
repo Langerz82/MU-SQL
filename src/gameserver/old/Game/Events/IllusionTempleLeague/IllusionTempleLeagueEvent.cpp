@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "IllusionTempleLeagueEvent.h"
 #include "ReadScript.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "MapServerManager.h"
 #include "GameProtocol.h"
 #include "ItemOptionTypeMng.h"

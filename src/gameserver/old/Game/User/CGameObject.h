@@ -655,4 +655,6 @@ extern CGameObject* getGameObjectFromUser(int index)
 		return pGO->second;
 };
 
+extern int gObjGetIndex(char* szId);
+
 #endif

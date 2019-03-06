@@ -9,7 +9,7 @@
 #include "StdAfx.h"
 #include "gate.h"
 #include "Logging/Log.h"
-#include "GameMain.h"
+#include "Main.h"
 
 CGate gGateC;
 

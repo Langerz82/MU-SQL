@@ -6,7 +6,7 @@
 #include "Logging/Log.h"
 #include "TNotice.h"
 #include "configread.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "BagManager.h"
 
 /* MAP INFO

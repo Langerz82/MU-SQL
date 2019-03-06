@@ -11,6 +11,8 @@
 #include "GameProtocol.h"
 #include "BloodCastle.h"
 #include "IllusionTempleEvent_Renewal.h"
+#include "ReadScript.h"
+#include "configread.h"
 
 // GS-N 0.99.60T 0x00478170 - Completed
 //	GS-N	1.00.18	JPN	0x0048F140	-	Completed
@@ -29,8 +31,12 @@ void MapSettingsInit()
 
 void LoadMapSettings(LPSTR szFileName)
 {
-	if ((SMDFile = fopen(szFileName, "r")) == NULL)	//ok
+	fs::path p{ szFileName };
+	fs::ifstream SMDFile{ p };
+
+	if (!SMDFile.is_open())
 	{
+		sLog->outError("%s load fail", szFileName);
 		return;
 	}
 
@@ -39,7 +45,7 @@ void LoadMapSettings(LPSTR szFileName)
 
 	while (true)
 	{
-		Token = GetToken();
+		Token = GetToken(&SMDFile);
 
 		if (Token == END)
 		{
@@ -50,7 +56,7 @@ void LoadMapSettings(LPSTR szFileName)
 
 		while (true)
 		{
-			Token = GetToken();
+			Token = GetToken(&SMDFile);
 
 			if (Token == END)
 			{
@@ -80,7 +86,7 @@ void LoadMapSettings(LPSTR szFileName)
 				//Token = GetToken();
 				//DropExcIncrease = TokenNumber;
 
-				Token = GetToken();
+				Token = GetToken(&SMDFile);
 				g_MAP_SETTINGS[iType].drop_zen_increase = TokenNumber;
 
 				//g_MAP_SETTINGS[iType].exp_increase = ExpSingleInc;
@@ -90,8 +96,7 @@ void LoadMapSettings(LPSTR szFileName)
 			}
 		}
 	}
-
-	fclose(SMDFile);
+	SMDFile.close();
 }
 
 inline bool MaxItemTypeRange(int x)
@@ -125,6 +130,7 @@ MapClass::MapClass()
 	SetRect(&this->gRegenRect[51], 40, 214, 43, 224);
 	SetRect(&this->gRegenRect[79], 126, 142, 129, 148);
 	this->m_ItemCount = 0;
+
 }
 
 
@@ -320,13 +326,11 @@ void MapClass::SetWeather(BYTE a_weather, BYTE a_variation)
 	weather = this->m_Weather * 16;	// like << 4
 	weather |= this->m_WeatherVariation;
 
-	for (n = g_ConfigRead.server.GetObjectStartUserIndex(); n<g_ConfigRead.server.GetObjectMax(); n++)
+	for each (std::pair<int,CGameObject*> user in gGameObjects)
 	{
-		lpObj = getGameObject(n);
-
-		if (Obj.Connected > PLAYER_CONNECTED && Obj.Live != 0 && Obj.MapNumber == this->thisMapNumber)
+		if (user.second->Live != 0 && user.second->MapNumber == this->thisMapNumber)
 		{
-			GSProtocol.CGWeatherSend(n, weather);
+			GSProtocol.CGWeatherSend(user.second, weather);
 		}
 	}
 }
@@ -348,13 +352,11 @@ void MapClass::WeatherVariationProcess()
 		weather = this->m_Weather * 16;
 		weather |= this->m_WeatherVariation;
 
-		for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n<g_ConfigRead.server.GetObjectMax(); n++)
+		for each (std::pair<int, CGameObject*> user in gGameObjects)
 		{
-			lpObj = getGameObject(n);
-
-			if (Obj.Connected > PLAYER_CONNECTED && Obj.Live != 0 && Obj.MapNumber == this->thisMapNumber)
+			if (user.second->Live != 0 && user.second->MapNumber == this->thisMapNumber)
 			{
-				GSProtocol.CGWeatherSend(n, weather);
+				GSProtocol.CGWeatherSend(user.second, weather);
 			}
 		}
 	}
@@ -405,7 +407,7 @@ int MapClass::MonsterItemDrop(int type, int level, float dur, int x, int y, BYTE
 		if (this->m_CItemObject[count].IsItem() == FALSE)
 		{
 			this->m_CItemObject[count].CreateItem(type, level, x, y, dur, Option1, Option2, Option3, NOption, SOption, number, ItemEffectEx, SocketOption, SocketBonusOption);
-			this->m_CItemObject[count].m_UserIndex = Obj.m_Index;
+			this->m_CItemObject[count].m_UserIndex = number;
 			this->m_CItemObject[count].m_PeriodItemDuration = PeriodDuration;
 			this->m_ItemCount++;
 
@@ -442,7 +444,7 @@ int MapClass::MonsterItemDrop(int type, int level, float dur, int x, int y, BYTE
 
 
 
-BOOL MapClass::ItemDrop(int type, int level, float dur, int x, int y, BYTE Option1, BYTE Option2, BYTE Option3, BYTE NOption, BYTE SOption, UINT64 number, CGameObject &Obj, int PetLevel, UINT64 PetExp, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, DWORD PeriodDuration)
+BOOL MapClass::ItemDrop(int type, int level, float dur, int x, int y, BYTE Option1, BYTE Option2, BYTE Option3, BYTE NOption, BYTE SOption, UINT64 number, int lootIndex, int PetLevel, UINT64 PetExp, BYTE ItemEffectEx, BYTE *SocketOption, BYTE SocketBonusOption, DWORD PeriodDuration)
 {
 	int count;
 	int counttot = 0;
@@ -460,7 +462,7 @@ BOOL MapClass::ItemDrop(int type, int level, float dur, int x, int y, BYTE Optio
 		if (this->m_CItemObject[count].IsItem() == FALSE)
 		{
 			this->m_CItemObject[count].DropCreateItem(type, level, x, y, dur, Option1, Option2, Option3, NOption, SOption, number, PetLevel, PetExp, ItemEffectEx, SocketOption, SocketBonusOption);
-			this->m_CItemObject[count].m_UserIndex = Obj.m_Index;
+			this->m_CItemObject[count].m_UserIndex = number;
 			this->m_CItemObject[count].m_PeriodItemDuration = PeriodDuration;
 			this->m_ItemCount++;
 
@@ -623,7 +625,7 @@ BOOL MapClass::ItemGive(CGameObject &Obj, int item_num, bool bFailNotSend)
 					{
 						if (Obj.PartyNumber >= 0)
 						{
-							if (Obj.PartyNumber == getGameObject(this->m_CItemObject[item_num]->m_UserIndex)->PartyNumber)
+							if (Obj.PartyNumber == getGameObject(this->m_CItemObject[item_num].m_UserIndex)->PartyNumber)
 							{
 								if (BC_MAP_RANGE(Obj.MapNumber) != FALSE)
 								{
@@ -655,7 +657,7 @@ BOOL MapClass::ItemGive(CGameObject &Obj, int item_num, bool bFailNotSend)
 			char szTemp[256];
 
 			wsprintf(szTemp, Lang.GetText(0, 60), Obj.Name);
-			GSProtocol.GCServerMsgStringSend(szTemp, Obj.m_Index, 1);
+			GSProtocol.GCServerMsgStringSend(szTemp, &Obj, 1);
 
 		}
 

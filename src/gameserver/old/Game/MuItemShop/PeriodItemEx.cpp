@@ -11,7 +11,7 @@
 #include "ObjUseSkill.h"
 #include "ObjCalCharacter.h"
 
-#include "GameMain.h"
+#include "Main.h"
 #include "Logging/Log.h"
 #include "GameProtocol.h"
 #include "configread.h"

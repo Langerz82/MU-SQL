@@ -6,7 +6,7 @@
 #include "Readscript.h"
 //
 #include "gObjMonster.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "configread.h"
 // -------------------------------------------------------------------------
 

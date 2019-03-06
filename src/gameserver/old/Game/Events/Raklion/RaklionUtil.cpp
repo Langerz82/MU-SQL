@@ -9,7 +9,7 @@
 #include "User/CUserData.h"
 #include "TNotice.h"
 #include "RaklionBattleUserMng.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "configread.h"
 
 CRaklionUtil	g_RaklionUtil;

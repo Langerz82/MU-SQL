@@ -9,7 +9,7 @@
 #include "Prodef.H"
 #include "util.h"
 #include "GameProtocol.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "PeriodItemEx.h"
 #include "Logging/Log.h"
 #include "ArcaBattle.h"

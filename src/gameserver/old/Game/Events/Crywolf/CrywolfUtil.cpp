@@ -9,7 +9,7 @@
 #include "TNotice.h"
 #include "classdef.h"
 #include "Logging/Log.h"
-#include "Gamemain.h"
+#include "Main.h"
 #include "MasterLevelSkillTreeSystem.h"
 #include "configread.h"
 #include "CustomMaxStats.h"

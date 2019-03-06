@@ -2,7 +2,7 @@
 // ObjBaseAttack.cpp
 #include "stdafx.h"
 #include "ObjBaseAttack.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "Logging/Log.h"
 #include "DevilSquare.h"
 #include "BloodCastle.h"

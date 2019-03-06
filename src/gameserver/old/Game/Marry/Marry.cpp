@@ -2,7 +2,7 @@
 #include "GameProtocol.h"
 #include "User/CUserData.h"
 
-#include "GameMain.h"
+#include "Main.h"
 CMarry Marry;
 
 CMarry::CMarry()

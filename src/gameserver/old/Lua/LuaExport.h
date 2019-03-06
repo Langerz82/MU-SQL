@@ -6,7 +6,7 @@
 #include "BuffEffectSlot.h"
 #include "gObjMonster.h"
 
-#include "GameMain.h"
+#include "Main.h"
 #include "Bag.h"
 #include "BagManager.h"
 #include "SetItemOption.h"

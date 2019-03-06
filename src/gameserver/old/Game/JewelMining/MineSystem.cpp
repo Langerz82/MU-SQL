@@ -2,7 +2,7 @@
 // MineSystem.cpp
 #include "MineSystem.h"
 #include "LargeRand.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "MapServerManager.h"
 #include "GameProtocol.h"
 

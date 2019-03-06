@@ -7,7 +7,7 @@
 #include "StdAfx.h"
 #include "MonsterHerd.h"
 #include "MapClass.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "gObjMonster.h"
 #include "BuffEffectSlot.h"
 // GS-N 0.99.60T 0x004084D0

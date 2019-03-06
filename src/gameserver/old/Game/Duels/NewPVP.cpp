@@ -2,7 +2,7 @@
 // NewPVP.cpp
 #include "StdAfx.h"
 #include "NewPVP.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "TNotice.h"
 #include "util.h"
 #include "BuffEffect.h"

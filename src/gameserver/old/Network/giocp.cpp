@@ -1,6 +1,6 @@
 #include "IOCP.h"
 #include "PacketEngineServer.h" // Encryption/Decryption
-#include "GameMain.h"
+#include "Main.h"
 #include "GameServer.h"
 #include "PacketEncrypt.h"
 #include "FloodSystem.h"

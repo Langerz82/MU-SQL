@@ -3,7 +3,7 @@
 #include "DevilSquare.h"
 #include "BloodCastle.h"
 #include "ChaosCastle.h"
-#include "GameMain.h"
+#include "Main.h"
 
 CKalimaGate g_KalimaGate;
 

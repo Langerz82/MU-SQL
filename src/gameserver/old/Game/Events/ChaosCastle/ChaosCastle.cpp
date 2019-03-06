@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "ChaosCastle.h"
 #include "BloodCastle.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "IOCP.h"
 #include "GameProtocol.h"
 #include "Logging/Log.h"

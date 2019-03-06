@@ -12,7 +12,7 @@
 #include "util.h"
 #include "BuffEffectSlot.h"
 #include "GensSystem.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "configread.h"
 
 QuestExpUserMng g_QuestExpUserMng;

@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "DoppelGangerItemBag.h"
 #include "Logging/Log.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "LargeRand.h"
 #include "configread.h"
 

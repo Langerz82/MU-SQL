@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "MonsterSetBase.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "MapServerManager.h"
 #include "Logging/Log.h"
 #include "LargeRand.h"

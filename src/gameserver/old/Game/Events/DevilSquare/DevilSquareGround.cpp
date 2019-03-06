@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "DevilSquareGround.h"
 #include "DevilSquare.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "Logging/Log.h"
 #include "util.h"
 #include "CrywolfSync.h"

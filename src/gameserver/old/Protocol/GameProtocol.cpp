@@ -1189,7 +1189,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 			}
 		}
 		break;
-		/*
+
 		case 0xED: // Guild Matching
 		{
 			PMSG_DEFAULT2 * lpDef = (PMSG_DEFAULT2 *)aRecv;
@@ -1228,8 +1228,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 			}
 		}
 		break;
-		*/
-		/*
+
 		case 0xEF: // Party Matching
 		{
 			PMSG_DEFAULT2 * lpDef = (PMSG_DEFAULT2 *)aRecv;
@@ -1262,8 +1261,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 			}
 		}
 		break;
-		*/
-		/*
+
 		case 0xF6:
 		{
 			switch (aRecv[3])
@@ -1314,7 +1312,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 			}
 		}
 		break;
-		*/
+
 		case 0x70:
 		{
 			PMSG_DEFAULT2 * lpDef = (PMSG_DEFAULT2 *)aRecv;
@@ -1352,28 +1350,28 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 			switch (lpDef->subcode)
 			{
 			case 0x01:
-				//this->CGReqRegGensMember((PMSG_REQ_REG_GENS_MEMBER *)aRecv, lpObj);
+				this->CGReqRegGensMember((PMSG_REQ_REG_GENS_MEMBER *)aRecv, lpObj);
 				break;
 			case 0x03:
-				//this->CGReqSecedeGensMember((PMSG_REQ_SEGEDE_GENS_MEMBER *)aRecv, lpObj);
+				this->CGReqSecedeGensMember((PMSG_REQ_SEGEDE_GENS_MEMBER *)aRecv, lpObj);
 				break;
 			case 0x09:
-				//this->CGReqGensReward((PMSG_GENS_REWARD_CODE *)aRecv, lpObj);
+				this->CGReqGensReward((PMSG_GENS_REWARD_CODE *)aRecv, lpObj);
 				break;
 			case 0x0B:
-				//this->CGReqGensMemberInfo((PMSG_REQ_GENS_INFO *)aRecv, lpObj);
+				this->CGReqGensMemberInfo((PMSG_REQ_GENS_INFO *)aRecv, lpObj);
 				break;
 			case 0x20:
-				//this->CGReqAcheronEnter((PMSG_REQ_ACHERON_ENTER *)aRecv, lpObj);
+				this->CGReqAcheronEnter((PMSG_REQ_ACHERON_ENTER *)aRecv, lpObj);
 				break;
 			case 0x30:
-				//this->CGReqArcaBattleGuildMasterJoin((PMSG_REQ_ARCA_BATTLE_JOIN *)aRecv, lpObj);
+				this->CGReqArcaBattleGuildMasterJoin((PMSG_REQ_ARCA_BATTLE_JOIN *)aRecv, lpObj);
 				break;
 			case 0x32:
-				//this->CGReqArcaBattleGuildMemberJoin((PMSG_REQ_ARCA_BATTLE_JOIN *)aRecv, lpObj);
+				this->CGReqArcaBattleGuildMemberJoin((PMSG_REQ_ARCA_BATTLE_JOIN *)aRecv, lpObj);
 				break;
 			case 0x34:
-				//this->CGReqArcaBattleEnter((PMSG_REQ_ARCA_BATTLE_ENTER *)aRecv, lpObj);
+				this->CGReqArcaBattleEnter((PMSG_REQ_ARCA_BATTLE_ENTER *)aRecv, lpObj);
 				break;
 			case 0x36:
 				this->CGReqArcaBattleBootyExchange(lpObj);
@@ -1385,13 +1383,13 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 				this->CGReqRegisteredMemberCnt(lpObj);
 				break;
 			case 0x43:
-				//g_ArcaBattle.CGReqMarkReg(lpObj);
+				g_ArcaBattle.CGReqMarkReg(*lpObj);
 				break;
 			case 0x45:
-				//g_ArcaBattle.CGReqMarkRank(lpObj);
+				g_ArcaBattle.CGReqMarkRank(*lpObj);
 				break;
 			case 0x4B:
-				//g_AcheronGuardianEvent.CGReqAcheronEventEnter((PMSG_REQ_ACHERON_EVENT_ENTER *)aRecv, lpObj);
+				g_AcheronGuardianEvent.CGReqAcheronEventEnter((PMSG_REQ_ACHERON_EVENT_ENTER *)aRecv, *lpObj);
 				break;
 			default:
 				sLog->outBasic("UNKNOWN F8 PACKET: %x %x %x %x %x %x %x %x %x %x", aRecv[0], aRecv[1], aRecv[2], aRecv[3], aRecv[4], aRecv[5], aRecv[6], aRecv[7], aRecv[8], aRecv[9]);
@@ -1413,7 +1411,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 			case 0x09:
 			{
 				gObjUseSkill.SkillChangeUse(*lpObj);
-				//DGGuildMemberInfoRequest(*lpObj); // TODO
+				DGGuildMemberInfoRequest(*lpObj);
 			}
 			break;
 			case 0x0A:
@@ -1461,7 +1459,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 
 			switch (lpDef->subcode)
 			{
-			/*case 0x00:
+			case 0x00:
 				if (DataEncryptCheck(lpObj, protoNum, Encrypt))
 				{
 					this->CGEventItemGetRequest((PMSG_EVENTITEM_GETREQUEST *)aRecv, lpObj);
@@ -1472,7 +1470,7 @@ void GameProtocol::ProtocolCore(BYTE protoNum, unsigned char * aRecv, int aLen, 
 				break;
 			case 0x0F:
 				this->CGReqEventInvenOpen(aRecv, lpObj);
-				break;*/
+				break;
 			case 0x10:
 				g_CMuRummyMng.CGReqMuRummyStart((PMSG_REQ_MURUMMY_INFO *)aRecv, *lpObj);
 				break;
@@ -21676,7 +21674,7 @@ void GameProtocol::CGMuunItemSellRequestRecv(PMSG_MUUN_ITEM_SELLREQUEST *lpMsg, 
 
 
 
-/*
+
 void GameProtocol::CGReqEventInvenOpen(LPBYTE lpRecv, CGameObject* lpObj)
 {
 	if (g_CMuRummyMng.IsMuRummyEventOn() == true)
@@ -22320,7 +22318,7 @@ void GameProtocol::GCResSendExpEventInfo(CGameObject* lpObj)
 
 	GIOCP.DataSend(lpObj->m_PlayerData->ConnectUser->Index, (LPBYTE)&pMsg, pMsg.h.size);
 }
-*/
+
 
 void GameProtocol::CGReq_ITL_Relics(PMSG_REQ_ITL_RELATE_RELICS *lpMsg, CGameObject *lpObj)
 {

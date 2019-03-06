@@ -6,7 +6,7 @@
 // ------------------------------
 #include "StdAfx.h"
 //#include "MapItem.h"
-#include "GameMain.h"
+#include "Main.h"
 
 // GS-N 0.99.60T 0x0047BE60 - Completed
 //	GS-N	1.00.18	JPN	0x00493830	-	Completed

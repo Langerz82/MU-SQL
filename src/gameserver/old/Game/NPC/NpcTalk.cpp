@@ -6,7 +6,7 @@
 #include "gObjMonster.h"
 #include "util.h"
 #include "GameProtocol.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "Event/BloodCastle/BloodCastle.h"
 #include "DevilSquare.h"
 #include "QuestInfo.h"

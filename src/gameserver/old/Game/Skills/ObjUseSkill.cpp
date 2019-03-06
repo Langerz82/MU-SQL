@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "ObjUseSkill.h"
 #include "ObjCalCharacter.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "ChaosCastle.h"
 #include "User/CUserData.h"
 #include "zzzmathlib.h"

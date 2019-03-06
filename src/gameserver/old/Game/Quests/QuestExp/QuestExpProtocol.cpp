@@ -9,7 +9,7 @@
 #include "QuestExpProgMng.h"
 #include "NpcTalk.h"
 #include "util.h"
-#include "GameMain.h"
+#include "Main.h"
 
 void CGReqQuestSwitch(PMSG_REQ_QUESTEXP *pMsg, CGameObject &Obj)
 {

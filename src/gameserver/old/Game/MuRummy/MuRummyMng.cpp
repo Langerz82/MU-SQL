@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "MuRummyMng.h"
 #include "LargeRand.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "User/CUserData.h"
 #include "util.h"
 #include "BagManager.h"

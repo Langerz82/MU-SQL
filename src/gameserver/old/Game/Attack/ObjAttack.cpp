@@ -8,7 +8,7 @@
 #include "gObjMonster.h"
 //#include "Event/BloodCastle/BloodCastle.h"
 #include "ChaosCastle.h"
-#include "Gamemain.h"
+#include "Main.h"
 #include "BuffEffect.h"
 #include "BuffEffectSlot.h"
 #include "PentagramSystem.h"

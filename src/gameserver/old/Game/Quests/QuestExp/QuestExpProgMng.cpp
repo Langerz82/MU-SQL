@@ -8,7 +8,7 @@
 #include "QuestExpLuaBind.h"
 #include "User/CUserData.h"
 #include "Logging/Log.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "util.h"
 #include "gObjMonster.h"
 #include "BuffEffectSlot.h"

@@ -6,7 +6,7 @@
 #include "TMonsterAIUtil.h"
 #include "BuffEffectSlot.h"
 #include "Logging/Log.h"
-#include "Gamemain.h"
+#include "Main.h"
 #include "util.h"
 #include "configread.h"
 

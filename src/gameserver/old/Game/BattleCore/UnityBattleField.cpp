@@ -2,7 +2,7 @@
 // UnityBattleField.cpp
 #include "StdAfx.h"
 #include "UnityBattleField.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "GOFunctions.h"
 #include "util.h"
 #include "PersonalStore.h"

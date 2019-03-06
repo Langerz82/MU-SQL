@@ -6,7 +6,7 @@
 #include "LifeStone.h"
 #include "CastleSiege.h"
 #include "CastleSiegeSync.h"
-#include "Gamemain.h"
+#include "Main.h"
 #include "User/CUserData.h"
 #include "MapClass.h"
 #include "Logging/Log.h"

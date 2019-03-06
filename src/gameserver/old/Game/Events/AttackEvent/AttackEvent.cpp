@@ -8,7 +8,7 @@
 // GS-N 1.00.18	0x0046AA80 - Completed
 #include "stdafx.h"
 #include "AttackEvent.h"
-#include "Gamemain.h"
+#include "Main.h"
 #include "Logging/Log.h"
 #include "MapServerManager.h"
 

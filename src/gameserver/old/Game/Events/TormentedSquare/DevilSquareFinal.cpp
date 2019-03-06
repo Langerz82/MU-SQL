@@ -2,7 +2,7 @@
 // DevilSquareFinal.cpp
 #include "DevilSquareFinal.h"
 #include "util.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "GameProtocol.h"
 #include "MapServerManager.h"
 #include "TNotice.h"

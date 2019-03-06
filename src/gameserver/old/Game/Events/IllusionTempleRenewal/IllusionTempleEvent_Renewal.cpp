@@ -4,7 +4,7 @@
 #include "IllusionTempleEvent_Renewal.h"
 #include "configread.h"
 #include "Logging/Log.h"
-#include "GameMain.h"
+#include "Main.h"
 
 CIllusionTempleEvent_Renewal g_IT_Event;
 

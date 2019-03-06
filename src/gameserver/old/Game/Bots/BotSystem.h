@@ -3,7 +3,8 @@
 #ifndef BOTSYSTEM_H
 #define BOTSYSTEM_H
 
-#include "User/CUserData.h"
+
+#include "CGameObject.h"
 
 #define MAX_BUFFS_PER_BOT 10
 
@@ -75,7 +76,7 @@ struct sBOT_REWARD_STRUCT
 
 struct _sBOT_SETTINGS
 {
-	_sBOT_SETTINGS(CGameObject &Obj)
+	_sBOT_SETTINGS()
 	{
 		this->wID = -1;
 		this->btType = -1;
@@ -95,7 +96,7 @@ struct _sBOT_SETTINGS
 		this->btCoinType = 0;
 		this->iCoinValue = 0;
 		memset(this->m_Items,0,sizeof(m_Items));
-		this->lpObj = &Obj;
+		this->lpObj = nullptr;
 	}
 //-- General Settings
 	WORD wID;

@@ -6,7 +6,7 @@
 #include "GameProtocol.h"
 #include "util.h"
 #include "configread.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "IllusionTempleEvent_Renewal.h"
 // GS-N 0.99.60T 0x0048E650
 //	GS-N	1.00.18	JPN	0x004A9EB0	-	Completed

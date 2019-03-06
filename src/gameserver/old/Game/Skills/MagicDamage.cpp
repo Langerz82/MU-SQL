@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "MagicDamage.h"
 #include "Logging/Log.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "configread.h"
 #include "MasterLevelSkillTreeSystem.h"
 

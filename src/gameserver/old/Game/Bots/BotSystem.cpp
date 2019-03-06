@@ -2,10 +2,10 @@
 // BotSystem.cpp
 #include "StdAfx.h"
 #include "BotSystem.h"
-#include "User/CUserData.h"
+#include "generalStructs.h"
 //#include "Protocol/protocol.h"
 #include "Logging/Log.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "ObjCalCharacter.h"
 #include "configread.h"
 #include "BuffEffectSlot.h"
@@ -221,13 +221,8 @@ void CBotSystem::SetAllBots()
 
 		int iIndex = this->AddBot(*pBot);
 
-		if (!ObjectMaxRange(Obj.m_Index))
-		{
-			continue;
-		}
-
-		pBot->Obj.m_Index = iIndex;
-		this->LoadBotSpecializationData(pBot->Obj.m_Index,g_ConfigRead.GetPath((char*)pBot->sPathActionFile.c_str()),pBot->btType);
+		pBot->lpObj->m_Index = iIndex;
+		this->LoadBotSpecializationData(pBot->lpObj->m_Index,g_ConfigRead.GetPath((char*)pBot->sPathActionFile.c_str()),pBot->btType);
 	}
 
 	DWORD dwLoadTime = GetTickCount() - dwStartTime;

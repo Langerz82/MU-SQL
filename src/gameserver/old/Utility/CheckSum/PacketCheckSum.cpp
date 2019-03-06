@@ -4,7 +4,7 @@
 #include "PacketCheckSum.h"
 #include "Logging/Log.h"
 #include "configread.h"
-#include "GameMain.h"
+#include "Main.h"
 // GS-N 0.99.60T 0x00452B80
 // GS-N	1.00.18	JPN	0x00461F60	-	Completed
 

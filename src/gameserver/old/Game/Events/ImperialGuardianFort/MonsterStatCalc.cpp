@@ -4,7 +4,7 @@
 #include "MonsterStatCalc.h"
 #include "Logging/Log.h"
 #include "MonsterAttr.h"
-#include "GameMain.h"
+#include "Main.h"
 
 CMonsterStatCalc g_MonsterStatCalc;
 

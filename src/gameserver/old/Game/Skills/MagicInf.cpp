@@ -3,7 +3,7 @@
 #include "StdAfx.h"
 #include "MagicInf.h"
 #include "Logging/Log.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "MasterLevelSkillTreeSystem.h"
 // GS-N 0.99.60T 0x0046DE00
 //	GS-N	1.00.18	JPN	0x00484870	-	Completed

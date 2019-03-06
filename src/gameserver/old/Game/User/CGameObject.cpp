@@ -98,3 +98,21 @@ CGameObject::~CGameObject()
 	delete[] this->pntMuunEffectList;
 	delete[] this->pntBuffEffectList;
 }
+
+
+
+int gObjGetIndex(char* szId)
+{
+	for each (std::pair<int,CGameObject*> user in gGameObjects)
+	{
+		if (user.second->Name[0] == *szId)
+		{
+			if (strcmp(user.second->Name, szId) == 0)
+			{
+				return user.first;
+			}
+		}
+	}
+	return -1;
+}
+

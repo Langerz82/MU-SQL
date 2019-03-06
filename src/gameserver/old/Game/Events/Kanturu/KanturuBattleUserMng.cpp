@@ -5,7 +5,7 @@
 #include "StdAfx.h"
 #include "KanturuBattleUserMng.h"
 #include "KanturuUtil.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "Logging/Log.h"
 #include "configread.h"
 

@@ -2,7 +2,7 @@
 // CustomMaxStats.cpp
 #include "StdAfx.h"
 #include "CustomMaxStats.h"
-#include "GameMain.h"
+#include "Main.h"
 #include "Logging/Log.h"
 #include "configread.h"
 

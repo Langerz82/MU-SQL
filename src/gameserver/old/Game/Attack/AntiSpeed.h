@@ -91,7 +91,7 @@ public:
 	
 	bool m_LastFrameAttack;
 
-	CAttackQueue(CUserData* userData);
+	CAttackQueue(CGameObject* lpObj);
 	~CAttackQueue();
 //	void Push(CGameObject & lpTargetObj);
 //	void Push(BYTE* msg, int len);
@@ -102,7 +102,7 @@ public:
 	static VOID AttackQueueProc(std::vector<CGameObject*> gObj);
 	
 	CGameObject* m_Obj;
-	CRITICAL_SECTION m_CritQueue;
+	//CRITICAL_SECTION m_CritQueue;
 };
 
 class CAntiSpeed{

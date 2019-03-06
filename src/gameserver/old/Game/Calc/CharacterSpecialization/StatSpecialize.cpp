@@ -5,7 +5,7 @@
 #include "Logging/Log.h"
 #include "configread.h"
 #include "util.h"
-#include "GameMain.h"
+#include "Main.h"
 
 CStatSpecialize g_StatSpec;
 

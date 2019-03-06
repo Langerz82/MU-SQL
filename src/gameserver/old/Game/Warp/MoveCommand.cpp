@@ -13,7 +13,7 @@
 #include "Logging/Log.h"
 #include "GensSystem.h"
 #include "Gate.h"
-#include "Gamemain.h"
+#include "Main.h"
 #include "configread.h"
 #include "CustomMaxStats.h"
 
