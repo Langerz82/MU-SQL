@@ -29,7 +29,7 @@ class CViewportGuild;
 class TDurMagicKeyChecker;
 class TMonsterAIAgro;
 
-struct BOT_BUFF_LIST;
+//struct BOT_BUFF_LIST;
 struct HITDAMAGE_STRUCT;
 struct JEWELOFHARMONY_ITEM_EFFECT;
 struct MOVE_MAPSERVER_AUTHINFO;

@@ -30,7 +30,7 @@
 #include <stdio.h>
 #include <string.h>
 
-ITEM_ATTRIBUTE ItemAttribute[MAX_ITEMS];
+ITEM_ATTRIBUTE** ItemAttribute = new ITEM_ATTRIBUTE*[MAX_ITEMS];
 CPetItemExp gPetItemExp;
 int g_MaxItemIndexOfEachItemType[MAX_TYPE_ITEMS];
 RESETITEMLIST gObjResetItem[1000];
@@ -85,6 +85,7 @@ void CItemObject::Clear()	// Fine
 	this->m_wPShopBlessValue = 0;
 	this->m_wPShopSoulValue = 0;
 	this->m_wPShopChaosValue = 0;
+
 }
 
 BOOL CItemObject::IsItem() // Good
@@ -128,8 +129,8 @@ void CItemObject::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BY
 		sLog->outError("error-L1 : ItemIndex error %d", _type);
 	}
 
-	p = &ItemAttribute[_type];
-	this->m_serial = ItemAttribute[_type].Serial;
+	p = ItemAttribute[_type];
+	this->m_serial = ItemAttribute[_type]->Serial;
 	this->m_Type = type;
 
 	if ((DbVersion) <= 2)
@@ -1917,7 +1918,7 @@ void CItemObject::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3, BY
 
 int CItemObject::GetLevel()
 {
-	return ItemAttribute[this->m_Type].Level;
+	return ItemAttribute[this->m_Type]->Level;
 }
 
 UINT64 CItemObject::GetNumber()
@@ -1940,7 +1941,7 @@ void CItemObject::Value()
 		return;
 	}
 
-	LPITEM_ATTRIBUTE p = &ItemAttribute[this->m_Type];
+	LPITEM_ATTRIBUTE p = ItemAttribute[this->m_Type];
 
 	if (p->BuyMoney != 0)
 	{
@@ -3224,8 +3225,8 @@ void CItemObject::OldValue()
 
 BOOL CItemObject::GetSize(int & w, int & h)
 {
-	w = ItemAttribute[this->m_Type].Width;
-	h = ItemAttribute[this->m_Type].Height;
+	w = ItemAttribute[this->m_Type]->Width;
+	h = ItemAttribute[this->m_Type]->Height;
 
 	return 1;
 }
@@ -3299,7 +3300,7 @@ BOOL CItemObject::IsClass(char aClass, int ChangeUP)
 
 LPSTR CItemObject::GetName()
 {
-	return &ItemAttribute[this->m_Type].Name[0];
+	return &ItemAttribute[this->m_Type]->Name[0];
 }
 
 
@@ -3325,7 +3326,7 @@ void CItemObject::PlusSpecialSetRing(BYTE * Value)
 		return;
 	}
 
-	LPITEM_ATTRIBUTE p = &ItemAttribute[this->m_Type];
+	LPITEM_ATTRIBUTE p = ItemAttribute[this->m_Type];
 
 	if (p->ResistanceType == -1)
 	{
@@ -3515,7 +3516,7 @@ void CItemObject::SetItemPlusSpecialStat(int * Value, int Special)
 int CItemObject::GetAddStatType()
 {
 	LPITEM_ATTRIBUTE p;
-	p = &ItemAttribute[this->m_Type];
+	p = ItemAttribute[this->m_Type];
 	return p->SetAttr;
 }
 
@@ -4986,7 +4987,7 @@ int ItemGetNumberMake(int type, int index)
 
 	make = type*MAX_SUBTYPE_ITEMS + index;
 
-	if (ItemAttribute[make].Width < 1 || ItemAttribute[make].Height < 1)
+	if (ItemAttribute[make]->Width < 1 || ItemAttribute[make]->Height < 1)
 	{
 		return -1;
 	}
@@ -5002,13 +5003,13 @@ void ItemGetSize(int index, int & width, int & height)
 		return;
 	}
 
-	width = ItemAttribute[index].Width;
-	height = ItemAttribute[index].Height;
+	width = ItemAttribute[index]->Width;
+	height = ItemAttribute[index]->Height;
 }
 
 BOOL HasItemDurability(int index)
 {
-	if (ItemAttribute[index].Durability == 0 && ItemAttribute[index].MagicDurability == 0)
+	if (ItemAttribute[index]->Durability == 0 && ItemAttribute[index]->MagicDurability == 0)
 	{
 		return FALSE;
 	}
@@ -5035,7 +5036,7 @@ int ItemGetDurability(int index, int itemLevel, int ExcellentItem, int SetItem)
 
 	if (g_PentagramSystem.IsPentagramItem(index) == true)
 	{
-		return ItemAttribute[index].Durability;
+		return ItemAttribute[index]->Durability;
 	}
 
 	if (index == ITEMGET(12, 144) || index == ITEMGET(12, 146))
@@ -5047,38 +5048,38 @@ int ItemGetDurability(int index, int itemLevel, int ExcellentItem, int SetItem)
 
 	if (itemLevel < 5)
 	{
-		dur = ItemAttribute[index].Durability + itemLevel;
+		dur = ItemAttribute[index]->Durability + itemLevel;
 	}
 
 	else if (itemLevel >= 5)
 	{
 		if (itemLevel == 10)
 		{
-			dur = ItemAttribute[index].Durability + itemLevel * 2 - 3;
+			dur = ItemAttribute[index]->Durability + itemLevel * 2 - 3;
 		}
 		else if (itemLevel == 11)
 		{
-			dur = ItemAttribute[index].Durability + itemLevel * 2 - 1;
+			dur = ItemAttribute[index]->Durability + itemLevel * 2 - 1;
 		}
 		else if (itemLevel == 12)
 		{
-			dur = ItemAttribute[index].Durability + itemLevel * 2 + 2;
+			dur = ItemAttribute[index]->Durability + itemLevel * 2 + 2;
 		}
 		else if (itemLevel == 13)
 		{
-			dur = ItemAttribute[index].Durability + itemLevel * 2 + 6;
+			dur = ItemAttribute[index]->Durability + itemLevel * 2 + 6;
 		}
 		else if (itemLevel == 14)
 		{
-			dur = ItemAttribute[index].Durability + 39;
+			dur = ItemAttribute[index]->Durability + 39;
 		}
 		else if (itemLevel == 15)
 		{
-			dur = ItemAttribute[index].Durability + 47;
+			dur = ItemAttribute[index]->Durability + 47;
 		}
 		else
 		{
-			dur = ItemAttribute[index].Durability + itemLevel * 2 - 4;
+			dur = ItemAttribute[index]->Durability + itemLevel * 2 - 4;
 		}
 	}
 
@@ -5128,23 +5129,23 @@ int ItemGetDurability(int index, int itemLevel, int ExcellentItem, int SetItem)
 
 int ItemGetAttackDurability(int index)
 {
-	return ItemAttribute[index].AttackDur;
+	return ItemAttribute[index]->AttackDur;
 }
 
 int ItemGetDefenseDurability(int index)
 {
-	return ItemAttribute[index].DefenceDur;
+	return ItemAttribute[index]->DefenceDur;
 }
 
 float GetRepairItemRate(int index)
 {
-	return ItemAttribute[index].RepaireMoneyRate;
+	return ItemAttribute[index]->RepaireMoneyRate;
 }
 // ItemAttribute Begin:9439368 END 9446B68 Array[512]
 
 float GetAllRepairItemRate(int index)
 {
-	return ItemAttribute[index].AllRepaireMoneyRate;
+	return ItemAttribute[index]->AllRepaireMoneyRate;
 }
 
 void CalRepairRate(int itemtype, int itemsubtype, LPITEM_ATTRIBUTE p)
@@ -5168,9 +5169,9 @@ BOOL OpenItemScript(char* FileName)
 
 	for (int n = 0; n < MAX_ITEMS; n++)
 	{
-		ItemAttribute[n].Level = -1;
-		ItemAttribute[n].RepaireMoneyRate = 0;
-		ItemAttribute[n].AllRepaireMoneyRate = 0;
+		ItemAttribute[n]->Level = -1;
+		ItemAttribute[n]->RepaireMoneyRate = 0;
+		ItemAttribute[n]->AllRepaireMoneyRate = 0;
 	}
 
 	int iItemCount = 0;
@@ -5198,7 +5199,7 @@ BOOL OpenItemScript(char* FileName)
 				}
 			}
 
-			LPITEM_ATTRIBUTE p = &ItemAttribute[ItemType*MAX_SUBTYPE_ITEMS + ItemIndex];
+			LPITEM_ATTRIBUTE p = ItemAttribute[ItemType*MAX_SUBTYPE_ITEMS + ItemIndex];
 
 			p->ItemSlot = item.attribute("Slot").as_int();
 
@@ -5460,17 +5461,17 @@ int zzzItemLevel(int type, int index, int level)
 		level = 0;
 	}
 
-	if (ItemAttribute[item_num].Level == (BYTE)-1)
+	if (ItemAttribute[item_num]->Level == (BYTE)-1)
 	{
 		return 0;
 	}
 
-	if (ItemAttribute[item_num].Level == 0)
+	if (ItemAttribute[item_num]->Level == 0)
 	{
 		return 0;
 	}
 
-	if (ItemAttribute[item_num].Level < level)
+	if (ItemAttribute[item_num]->Level < level)
 	{
 		return 1;
 	}
@@ -5492,24 +5493,24 @@ int GetLevelItem(int type, int index, int level)
 
 	item_num = (type * MAX_SUBTYPE_ITEMS) + index;
 
-	if (ItemAttribute[item_num].MondownFlag == 0)
+	if (ItemAttribute[item_num]->MondownFlag == 0)
 	{
 		return -1;
 	}
 
-	if (ItemAttribute[item_num].Level == 0xFF)
+	if (ItemAttribute[item_num]->Level == 0xFF)
 	{
 		return -1;
 	}
 
-	if (ItemAttribute[item_num].Level == 0)
+	if (ItemAttribute[item_num]->Level == 0)
 	{
 		return -1;
 	}
 
 	if (type == 14)
 	{
-		itemlevel = ItemAttribute[item_num].Level;
+		itemlevel = ItemAttribute[item_num]->Level;
 
 		if (index == 15)
 		{
@@ -5589,7 +5590,7 @@ int GetLevelItem(int type, int index, int level)
 		return -1;
 	}
 
-	itemlevel = ItemAttribute[item_num].Level;
+	itemlevel = ItemAttribute[item_num]->Level;
 
 	if (itemlevel >= level - 18 && itemlevel <= level)
 	{
@@ -5621,11 +5622,11 @@ int GetSerialItem(int type)
 {
 	int item_num = type;
 
-	if (ItemAttribute[item_num].Level == 0xFF)
+	if (ItemAttribute[item_num]->Level == 0xFF)
 	{
 		return -1;
 	}
-	if (ItemAttribute[item_num].Serial == 0)
+	if (ItemAttribute[item_num]->Serial == 0)
 	{
 		return 0;
 	}
@@ -5641,7 +5642,7 @@ int IsItem(int item_num)
 		return 0;
 	}
 
-	return ItemAttribute[item_num].HaveItemInfo;
+	return ItemAttribute[item_num]->HaveItemInfo;
 }
 
 
@@ -5653,7 +5654,7 @@ LPITEM_ATTRIBUTE GetItemAttr(int item_num)
 		return NULL;
 	}
 
-	return &ItemAttribute[item_num];
+	return ItemAttribute[item_num];
 }
 
 int GetItemGroup(int item_num)
@@ -5754,7 +5755,7 @@ int IsOverlapItem(int item_num)
 
 int CItemObject::GetDetailItemType()
 {
-	LPITEM_ATTRIBUTE p = &ItemAttribute[this->m_Type];
+	LPITEM_ATTRIBUTE p = ItemAttribute[this->m_Type];
 
 	if (this->m_Type < 0)
 	{

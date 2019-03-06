@@ -1573,7 +1573,7 @@ struct PENTAGRAM_OPTION
 	bool m_isAddResistByPentaAttack;
 };
 
-struct _BOT_BUFF_LIST
+struct BOT_BUFF_LIST
 {
 	WORD wBuffId;
 	WORD wDuration;

@@ -21,8 +21,8 @@
 #define AUTO_REG 0
 #define DATASERVER_VERSION "1.0.0.0"
 
-struct STR_DEFAULTCLASSTYPE;
 struct PMSG_ANS_CLASSDEF;
+
 
 enum DBClassNumber
 {
@@ -48,6 +48,54 @@ enum ClassNumber
 	CLASS_GROWLANCER = 0x7
 };
 
+struct DEFAULTCLASSTYPE
+{
+	int Experience;	// 0
+	WORD Strength;	// 4
+	WORD Dexterity;	// 6
+	WORD Vitality;	// 8
+	WORD Energy;	// A
+	float LevelLife;	// C
+	float Life;	// 10
+	float MaxLife;	// 14
+	float LevelMana;	// 18
+	float Mana;	// 1C
+	float MaxMana;	// 20
+	float VitalityToLife;	// 24
+	float EnergyToMana;	// 28
+	CItem Equipment[MAX_PLAYER_EQUIPMENT + 2];	// 2C
+	WORD Leadership;	// 9CC
+};
+
+struct PMSG_REQ_CLASSDEF
+{
+	PBMSG_HEAD h;
+};
+
+struct CLASSDEF_DATA
+{
+	int Class;
+	int Str;
+	int Dex;
+	int Vit;
+	int Energy;
+	float Life;
+	float Mana;
+	float LevelLife;
+	float LevelMana;
+	float VitalityToLife;
+	float EnergyToMana;
+	int Leadership;
+};
+
+struct PMSG_ANS_CLASSDEF
+{
+	PWMSG_HEAD h;
+	int iCount;
+	CLASSDEF_DATA m_ClassData[MAX_TYPE_PLAYER];
+};
+
+
 class classdef
 {
 public:
@@ -64,8 +112,7 @@ public:
 
 public:
 
-	STR_DEFAULTCLASSTYPE* DefClass;	// 4
-	
+	DEFAULTCLASSTYPE DefClass[MAX_TYPE_PLAYER];	// 4
 };
 
 #endif

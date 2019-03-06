@@ -3,8 +3,12 @@
 #ifndef BOTSYSTEM_H
 #define BOTSYSTEM_H
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
 
 #include "CGameObject.h"
+#include "classdef.h"
 
 #define MAX_BUFFS_PER_BOT 10
 
