@@ -40,9 +40,9 @@ enum ARCA_BATTLE_STATE
 
 // Data arrays
 
-struct _tagARCA_USER_INFO
+struct ARCA_USER_INFO
 {
-	_tagARCA_USER_INFO()
+	ARCA_USER_INFO()
 	{
 		this->Clear();
 	}
@@ -59,9 +59,9 @@ struct _tagARCA_USER_INFO
 	char szUserName[MAX_ACCOUNT_LEN + 1];
 };
 
-struct _tagAURA_INFO
+struct AURA_INFO
 {
-	_tagAURA_INFO()
+	AURA_INFO()
 	{
 		this->m_iGroupNumber = -1;
 		this->m_iMapIndex = -1;
@@ -75,9 +75,9 @@ struct _tagAURA_INFO
 	int m_iAuraPosY;
 };
 
-struct _tagOBELISK_INFO
+struct OBELISK_INFO
 {
-	_tagOBELISK_INFO()
+	OBELISK_INFO()
 	{
 		this->Clear();
 	}
@@ -107,12 +107,12 @@ struct _tagOBELISK_INFO
 	int m_iMonsterNum;
 	ULONGLONG m_i64Tick;
 	ULONGLONG m_i64RegenTime;
-	_tagAURA_INFO m_stAuraInfo[3];
+	AURA_INFO m_stAuraInfo[3];
 };
 
-struct _tagARCA_BATTLE_BOOTY_REWARD
+struct ARCA_BATTLE_BOOTY_REWARD
 {
-	_tagARCA_BATTLE_BOOTY_REWARD() {
+	ARCA_BATTLE_BOOTY_REWARD() {
 		this->iItemLink = 0;
 		this->iItemType = 0;
 		this->iItemIndex = 0;
@@ -128,9 +128,9 @@ struct _tagARCA_BATTLE_BOOTY_REWARD
 	int iDurab;
 	int iRate;
 };
-struct _tagARCA_BATTLE_BOOTY_MIX
+struct ARCA_BATTLE_BOOTY_MIX
 {
-	_tagARCA_BATTLE_BOOTY_MIX() {
+	ARCA_BATTLE_BOOTY_MIX() {
 		this->iItemLink = 0;
 		this->iMinCnt = 0;
 		this->iMaxCnt = 0;
@@ -146,7 +146,7 @@ struct _tagARCA_BATTLE_BOOTY_MIX
 	int iBaseRate;
 	int iAddRate;
 	int iBootyRewardCnt;
-	_tagARCA_BATTLE_BOOTY_REWARD stBootyReward[20];
+	ARCA_BATTLE_BOOTY_REWARD stBootyReward[20];
 };
 
 struct _stABAcquiredPoints
@@ -167,7 +167,7 @@ struct _stABAcquiredPoints
 	unsigned int dwContributePoints;
 	unsigned int dwKillPoints;
 };
-struct _tagArcaBattleUserInfo
+struct ArcaBattleUserInfo
 {
 	void Clear()
 	{
@@ -183,9 +183,9 @@ struct _tagArcaBattleUserInfo
 	_stABAcquiredPoints m_stAcquiredPoints;
 };
 
-struct _tagAURA_STATE
+struct AURA_STATE
 {
-	_tagAURA_STATE()
+	AURA_STATE()
 	{
 		this->m_iGroupNumber = -1;
 		this->m_btAuraState = 0;
@@ -199,9 +199,9 @@ struct _tagAURA_STATE
 	int m_iIndex;
 };
 
-struct _tagOBELISK_STATE
+struct OBELISK_STATE
 {
-	_tagOBELISK_STATE()
+	OBELISK_STATE()
 	{
 		this->Clear();
 	}
@@ -225,16 +225,16 @@ struct _tagOBELISK_STATE
 	int m_iObeliskState;
 	int m_iOccupyGuildNum;
 	char m_szOccupyGuildName[9];
-	_tagAURA_STATE m_stAuraState[3];
+	AURA_STATE m_stAuraState[3];
 };
 
-struct _tagARCA_BATTLE_RESULT_INFO
+struct ARCA_BATTLE_RESULT_INFO
 {
 	int iGuildNum;
 	int iObeliskAttrKind;
 };
 
-struct _tagOccupyGuildInfo
+struct OccupyGuildInfo
 {
 	int iObeliskGroupNum;
 	int iGuildNum;
@@ -258,9 +258,9 @@ struct _stABWinGuildInfo
 	WORD wObeliskGroup;
 };
 
-struct _tagARCA_BATTLE_START_TIME
+struct ARCA_BATTLE_START_TIME
 {
-	_tagARCA_BATTLE_START_TIME()
+	ARCA_BATTLE_START_TIME()
 	{
 		this->m_iHour = 0;
 		this->m_iMinute = 0;
@@ -355,9 +355,9 @@ struct _stABMonGroupInfo
 	_stABMonAccountNumInfo m_stMonsterAccountNumInfo[255];
 };
 
-struct _tagAB_USER_AREA
+struct AB_USER_AREA
 {
-	_tagAB_USER_AREA()
+	AB_USER_AREA()
 	{
 		this->map_number = -1;
 		this->beginX = -1;
@@ -384,12 +384,12 @@ struct _stAB_USER_POSITION
 
 	int group_number;
 	int area_cnt;
-	_tagAB_USER_AREA stUserPos[10];
+	AB_USER_AREA stUserPos[10];
 };
 
-struct _tagAB_GUILD_MEMBER_INFO_LOG
+struct AB_GUILD_MEMBER_INFO_LOG
 {
-	_tagAB_GUILD_MEMBER_INFO_LOG()
+	AB_GUILD_MEMBER_INFO_LOG()
 	{
 		this->Clear();
 	}
@@ -900,11 +900,11 @@ public:
 	bool LoadScriptArcaBattle(char *lpszFileName);
 	void BootyExchange(CGameObject &Obj);
 	int LoadScriptBootyMix(char *lpszFileName);
-	int GetBootyRewardItem(int iBootyCnt,_tagARCA_BATTLE_BOOTY_REWARD *pBootyRewardItem);
+	int GetBootyRewardItem(int iBootyCnt, ARCA_BATTLE_BOOTY_REWARD *pBootyRewardItem);
 
 	WORD GetObeliskAttrToRewardBuffIndex(int iObeliskAttr);
-	void SendArcaBattlePlayInfo(CGameObject &obj, WORD wGuildGroupNum);
-	void WinGuildMemberAddBuff(CGameObject lpObj, unsigned __int16 wObeliskAttr);
+	void SendArcaBattlePlayInfo(CGameObject &Obj, WORD wGuildGroupNum);
+	void WinGuildMemberAddBuff(CGameObject &Obj, unsigned __int16 wObeliskAttr);
 	void GiveRewardBuffWinningGuild();
 	void ReqRemoveRewardGuildBuff(char *szGuildName);
 	void ReqRemoveRewardBuffWinningGuild();
@@ -912,13 +912,13 @@ public:
 	void RemoveGuildBuff(char *szGuildName, WORD wBuffIndex);
 	void RemoveRewardBuff(char *szGuildName);
 	void DGAnsRemoveAllRewardBuff();
-	void ReqGuildMemberDelBuffDel(CGameObject lpObj, char *szGuildName);
+	void ReqGuildMemberDelBuffDel(CGameObject &lpObj, char *szGuildName);
 	void ReqGuildMemberDelBuffDel(char *szName, char *szGuildName);
 	void AddArcaBattleWinGuildInfo(_stABWinGuildInfoDS *pABWinGuildInfoDS, int iGuildCnt);
 	void SetDataLoadWinGuild(int bReqABWinGuildInfo);
-	int IsArcaBattleWinGuild(CGameObject &obj);
-	int IsArcaBattleOccupyZone(CGameObject &obj, int gt);
-	void SendArcaBattleOccupyZone(CGameObject &obj, int gt);
+	int IsArcaBattleWinGuild(CGameObject &Obj);
+	int IsArcaBattleOccupyZone(CGameObject &Obj, int gt);
+	void SendArcaBattleOccupyZone(CGameObject &Obj, int gt);
 
 	void Init();
 	int CheckSync();
@@ -955,7 +955,7 @@ public:
 	int GetJoinMemberCnt();
 
 	int EnterArcaBattleEvent(CGameObject &Obj);
-	_tagArcaBattleUserInfo * GetUserInfo(char *szName);
+	ArcaBattleUserInfo * GetUserInfo(char *szName);
 
 	void SendObeliskLife();
 	void SendObeliskState();
@@ -966,13 +966,13 @@ public:
 	int GetChkAura();
 	int GetMaxObeliskCnt();
 
-	int IsEnableAttackObelisk(CGameObject &obj, int iMonNumber);
-	int IsPkEnable(CGameObject &obj, CGameObject Tarobj);
+	int IsEnableAttackObelisk(CGameObject &Obj, int iMonNumber);
+	int IsPkEnable(CGameObject &Obj, CGameObject Tarobj);
 
 	void SendArcaBattleStateAll(int iState);
-	void SendArcaBattleCurrentState(CGameObject &obj);
+	void SendArcaBattleCurrentState(CGameObject &Obj);
 
-	int IsOccupyObelisk(CGameObject &obj, int iMonIndex);
+	int IsOccupyObelisk(CGameObject &Obj, int iMonIndex);
 
 	void NotifyArcaBattle(int iNotifyNum);
 
@@ -988,13 +988,13 @@ public:
 	int SetPosMonster(CGameObject &Obj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY);
 	int GetBoxPosition(int mapnumber, int ax, int ay, int aw, int ah, short &mx, short &my);
 
-	void AddContributePoint(CGameObject &obj, CGameObject Tarobj);
-	void AddKillPoint(CGameObject &obj, CGameObject Tarobj);
+	void AddContributePoint(CGameObject &Obj, CGameObject Tarobj);
+	void AddKillPoint(CGameObject &Obj, CGameObject Tarobj);
 
 	void BootyItemGetCnt(CGameObject &Obj);
-	void CalcRewardExp(CGameObject lpObj, UINT64 & iRewardExp);
+	void CalcRewardExp(CGameObject &Obj, UINT64 & iRewardExp);
 
-	int DropItem(CGameObject lpObj, CGameObject lpMonsterObj);
+	int DropItem(CGameObject &Obj, CGameObject lpMonsterObj);
 
 	void GDReqDeleteArcaBattleInfo();
 	void GDReqJoinMemberUnder();
@@ -1002,7 +1002,7 @@ public:
 	void DGAnsArcaBattleJoinMemberUnderReq(PMSG_ANS_AB_JOIN_CANCEL_DS *lpMsg);
 	void DGAnsRegisteredMemberCnt(PMSG_ANS_AB_REG_MEMBER_CNT_DS *lpMsg);
 
-	int GetGuildMasterPos(CGameObject &obj, int nGateNum, short & x, short & y);
+	int GetGuildMasterPos(CGameObject &Obj, int nGateNum, short & x, short & y);
 	void SetGuildMasterGateNum(int nGateNum, int nGuildNum);
 	int GetGuildMasterGateNum(int nGuildNum);
 
@@ -1039,7 +1039,7 @@ public:
 	void SetCheatABNextProc();
 
 	void CheatGDReqArcaBattleGuildJoin(CGameObject &Obj);
-	void CheatGDReqArcaBattleGuildMemberJoin(CGameObject lpObj, const char *lpszName);
+	void CheatGDReqArcaBattleGuildMemberJoin(CGameObject &Obj, const char *lpszName);
 
 	void CheatABOccupyObelisk(CGameObject lpObj, int iObeliskGroup);
 
@@ -1048,7 +1048,7 @@ public:
 	void CheatGDReqMarkReg(CGameObject &Obj, char *szGuildName, DWORD dwGuildNum, DWORD dwMarkCnt);
 	void CheatGDReqMarkRegSet(CGameObject &Obj, DWORD dwMarkCnt);
 
-	void GuildMemberAssignStatus(CGameObject lpObj, int iGuildStatus);
+	void GuildMemberAssignStatus(CGameObject &Obj, int iGuildStatus);
 
 	void GDReqGuildRegInit();
 
@@ -1072,13 +1072,13 @@ public:
 
 private: // variables
 	bool m_bDoEvent;
-	_tagARCA_BATTLE_BOOTY_MIX m_stBootyMix[10];
+	ARCA_BATTLE_BOOTY_MIX m_stBootyMix[10];
 	int m_iBootyMixCnt;
-	_tagArcaBattleUserInfo m_UserData[300];
-	_tagOBELISK_INFO m_stObeliskInfo[5];
-	_tagOBELISK_STATE m_stObeliskState[5];
-	_tagARCA_BATTLE_RESULT_INFO m_stArcaBattleResultInfo[5];
-	_tagOccupyGuildInfo m_stOccupyGuildInfo[5];
+	ArcaBattleUserInfo m_UserData[300];
+	OBELISK_INFO m_stObeliskInfo[5];
+	OBELISK_STATE m_stObeliskState[5];
+	ARCA_BATTLE_RESULT_INFO m_stArcaBattleResultInfo[5];
+	OccupyGuildInfo m_stOccupyGuildInfo[5];
 	_stABWinGuildInfo m_stABWinGuildInfo[5];
 	int m_iWinGuildCnt;
 	bool m_bReqABWinGuildInfo;
@@ -1101,7 +1101,7 @@ private: // variables
 	int m_iAB_PlayNotifyTimeMin;
 	int m_iAB_PlayTimeMin;
 	int m_iAB_ChannelTimeMin;
-	std::vector<_tagARCA_BATTLE_START_TIME> m_vtArcaBattleOpenTime;
+	std::vector<ARCA_BATTLE_START_TIME> m_vtArcaBattleOpenTime;
 	int m_iCurUserCount;
 	int m_iObeliskCnt;
 	_stABMonPosition m_stMonsterPosition[50];
@@ -1114,7 +1114,7 @@ private: // variables
 	bool m_bABInitState;
 	bool m_bWindowClose;
 	int m_iAuraChk;
-	_tagAB_GUILD_MEMBER_INFO_LOG m_stGuildMemberInfoLog[10];
+	AB_GUILD_MEMBER_INFO_LOG m_stGuildMemberInfoLog[10];
 };
 
 extern CArcaBattle g_ArcaBattle;
