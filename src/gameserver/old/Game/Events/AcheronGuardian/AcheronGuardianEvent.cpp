@@ -12,6 +12,8 @@
 #include "LargeRand.h"
 //#include "winutil.h"
 #include "MapServerManager.h"
+#include "GOFunctions.h"
+
 //
 #include "configread.h"
 
@@ -63,11 +65,11 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 	}
 
 	pugi::xml_node mainXML_section = file.child("AcheronGuardianEvent");
-	this->m_bAEEnable = g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_ACHERON) == true ? main_section.attribute("Enable").as_bool() : false;
-	this->m_iAB_PlayTimeMin = main_section.attribute("Duration").as_int();
-	this->m_iAB_ChCloseMin = main_section.attribute("ChannelClose").as_int();
+	this->m_bAEEnable = g_ConfigRead.server.GetStateFromEventTable(g_ConfigRead.server.GetServerType(), EV_TABLE_ACHERON) == true ? mainXML_section.attribute("Enable").as_bool() : false;
+	this->m_iAB_PlayTimeMin = mainXML_section.attribute("Duration").as_int();
+	this->m_iAB_ChCloseMin = mainXML_section.attribute("ChannelClose").as_int();
 
-	pugi::xml_node activeday = main_section.child("ActiveDay");
+	pugi::xml_node activeday = mainXML_section.child("ActiveDay");
 
 	int iDay = 0;
 	for (pugi::xml_attribute day = activeday.first_attribute(); day; day = day.next_attribute())
@@ -76,7 +78,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 		iDay++;
 	}
 
-	pugi::xml_node schedule = main_section.child("Schedule");
+	pugi::xml_node schedule = mainXML_section.child("Schedule");
 
 	for (pugi::xml_node start = schedule.child("Start"); start; start = start.next_sibling())
 	{
@@ -88,7 +90,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 		this->m_vtAcheronEventTime.push_back(pRET);
 	}
 
-	pugi::xml_node obeliskinfo = main_section.child("ObeliskInformation");
+	pugi::xml_node obeliskinfo = mainXML_section.child("ObeliskInformation");
 
 	for (pugi::xml_node obelisk = obeliskinfo.child("Obelisk"); obelisk; obelisk = obelisk.next_sibling())
 	{
@@ -107,7 +109,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 		this->m_stObeliskInfo[nGroupNumber].m_iPosY = obelisk.attribute("PosY").as_int();
 	}
 
-	pugi::xml_node monstergroupinfo = main_section.child("MonsterGroupInformation");
+	pugi::xml_node monstergroupinfo = mainXML_section.child("MonsterGroupInformation");
 
 	for (pugi::xml_node monster = monstergroupinfo.child("Monster"); monster; monster = monster.next_sibling())
 	{
@@ -127,7 +129,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 
 	int nAreaCnt = 0;
 	int nTempGroupNumber = 0;
-	pugi::xml_node monstergroupspawn = main_section.child("MonsterGroupSpawn");
+	pugi::xml_node monstergroupspawn = mainXML_section.child("MonsterGroupSpawn");
 
 	for (pugi::xml_node spawn = monstergroupspawn.child("Spawn"); spawn; spawn = spawn.next_sibling())
 	{
@@ -157,7 +159,7 @@ bool CAcheronGuardianEvent::LoadScriptAcheronEvent(char *lpszFileName)
 	
 	nTempGroupNumber = 0;
 	int nArrayIndex = 0;
-	pugi::xml_node monstergroupmember = main_section.child("MonsterGroupMember");
+	pugi::xml_node monstergroupmember = mainXML_section.child("MonsterGroupMember");
 
 	for (pugi::xml_node monster = monstergroupmember.child("Monster"); monster; monster = monster.next_sibling())
 	{
@@ -363,11 +365,11 @@ void CAcheronGuardianEvent::ProcStateChannelClose()
 			pMsg.h.headcode = 0xF8;
 			pMsg.h.subcode = 0x4D;
 
-			for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
+			for each (std::pair<int, CGameObject*> user in gGameObjects)
 			{
-				if (getGameObject(n)->Connected == PLAYER_PLAYING && getGameObject(n)->Type == OBJ_USER)
+				if (user.second->m_PlayerData->ConnectUser->Connected == PLAYER_PLAYING && user.second->Type == OBJ_USER)
 				{
-					IOCP.DataSend(n, (BYTE*)&pMsg, pMsg.h.size);
+					GIOCP.DataSend(user.first, (BYTE*)&pMsg, pMsg.h.size);
 				}
 			}
 
@@ -376,11 +378,11 @@ void CAcheronGuardianEvent::ProcStateChannelClose()
 
 		if (this->m_i64_REMAIN_MSEC <= 0)
 		{
-			for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
+			for each (std::pair<int, CGameObject*> user in gGameObjects)
 			{
-				if (getGameObject(n)->Connected == PLAYER_PLAYING && getGameObject(n)->Type == OBJ_USER)
+				if (user.second->m_PlayerData->ConnectUser->Connected == PLAYER_PLAYING && user.second->Type == OBJ_USER)
 				{
-					gObjMoveGate(n, 27);
+					gObjMoveGate(*user.second, 27);
 				}
 			}
 
@@ -478,27 +480,28 @@ void CAcheronGuardianEvent::ProcStatePlayEnd()
 void CAcheronGuardianEvent::GenObelisk(int iGroupNum)
 {
 	int result = gObjAddMonster(this->m_stObeliskInfo[iGroupNum].m_iMapIndex);
+	CGameObject* lpObjMonster = lpObjMonster;
 
 	if (result >= 0)
 	{
-		gObjSetMonster(result, this->m_stObeliskInfo[iGroupNum].m_iMonsterNum);
+		gObjSetMonster(*lpObjMonster, this->m_stObeliskInfo[iGroupNum].m_iMonsterNum);
 
 		this->m_stObeliskInfo[iGroupNum].m_iMonIndex = result;
-		getGameObject(result)->Class = this->m_stObeliskInfo[iGroupNum)->m_iMonsterNum;
-		getGameObject(result)->MapNumber = this->m_stObeliskInfo[iGroupNum)->m_iMapIndex;
-		getGameObject(result)->X = this->m_stObeliskInfo[iGroupNum)->m_iPosX;
-		getGameObject(result)->Y = this->m_stObeliskInfo[iGroupNum)->m_iPosY;
-		getGameObject(result)->TX = this->m_stObeliskInfo[iGroupNum)->m_iPosX;
-		getGameObject(result)->TY = this->m_stObeliskInfo[iGroupNum)->m_iPosY;
-		getGameObject(result)->m_OldX = this->m_stObeliskInfo[iGroupNum)->m_iPosX;
-		getGameObject(result)->m_OldY = this->m_stObeliskInfo[iGroupNum)->m_iPosY;
-		getGameObject(result)->StartX = this->m_stObeliskInfo[iGroupNum)->m_iPosX;
-		getGameObject(result)->StartY = this->m_stObeliskInfo[iGroupNum)->m_iPosY;
-		getGameObject(result)->Dir = 1;
-		getGameObject(result)->Live = TRUE;
-		getGameObject(result)->DieRegen = 0;
-		getGameObject(result)->m_State = 1;
-		getGameObject(result)->MaxRegenTime = 0;
+		lpObjMonster->Class = this->m_stObeliskInfo[iGroupNum].m_iMonsterNum;
+		lpObjMonster->MapNumber = this->m_stObeliskInfo[iGroupNum].m_iMapIndex;
+		lpObjMonster->X = this->m_stObeliskInfo[iGroupNum].m_iPosX;
+		lpObjMonster->Y = this->m_stObeliskInfo[iGroupNum].m_iPosY;
+		lpObjMonster->TX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
+		lpObjMonster->TY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
+		lpObjMonster->m_OldX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
+		lpObjMonster->m_OldY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
+		lpObjMonster->StartX = this->m_stObeliskInfo[iGroupNum].m_iPosX;
+		lpObjMonster->StartY = this->m_stObeliskInfo[iGroupNum].m_iPosY;
+		lpObjMonster->Dir = 1;
+		lpObjMonster->Live = TRUE;
+		lpObjMonster->DieRegen = 0;
+		lpObjMonster->m_State = 1;
+		lpObjMonster->MaxRegenTime = 0;
 		sLog->outBasic("[AcheronGuardianEvent] (%d) Obelisk be created.", result);
 	}
 }
@@ -508,11 +511,11 @@ void CAcheronGuardianEvent::DelObelisk()
 	for (int iCnt = 0; iCnt < 5; iCnt++)
 	{
 		int iIndex = this->m_stObeliskInfo[iCnt].m_iMonIndex;
-
+		CGameObject* lpObj = getGameObject(iIndex);
 		if (iIndex >= 0)
 		{
 			sLog->outBasic("[AcheronGuardianEvent][Obelisk] Delete Monster - %d ", iIndex);
-			gObjDel(Obj.m_Index);
+			gObjDel(*lpObj);
 		}
 	}
 }
@@ -623,6 +626,7 @@ void CAcheronGuardianEvent::RegenMonster(int nGroupNumber, int iGenSeq, int iGen
 		}
 
 		int nResult = gObjAddMonster(nMapNumber);
+		CGameObject* lpObjMonster = getGameObject(nResult);
 		int nMonsterIndex = 0;
 
 		for (int i = 0; i < nMonsterKindCnt; i++)
@@ -643,16 +647,16 @@ void CAcheronGuardianEvent::RegenMonster(int nGroupNumber, int iGenSeq, int iGen
 			return;
 		}
 
-		if (this->SetPosMonster(nResult, nMapNumber, nBeginX, nBeginY, nEndX, nEndY) == FALSE)
+		if (this->SetPosMonster(*lpObjMonster, nMapNumber, nBeginX, nBeginY, nEndX, nEndY) == FALSE)
 		{
-			gObjDel(nResult);
+			gObjDel(*lpObjMonster);
 			sLog->outBasic("[AcheronGuardianEvent] error : %s %d", __FILE__, __LINE__);
 			return;
 		}
 
-		if (gObjSetMonster(nResult, nMonsterIndex) == FALSE)
+		if (gObjSetMonster(*lpObjMonster, nMonsterIndex) == FALSE)
 		{
-			gObjDel(nResult);
+			gObjDel(*lpObjMonster);
 			sLog->outBasic("[AcheronGuardianEvent] error : %s %d", __FILE__, __LINE__);
 			return;
 		}
@@ -669,13 +673,6 @@ void CAcheronGuardianEvent::RegenMonster(int nGroupNumber, int iGenSeq, int iGen
 
 int CAcheronGuardianEvent::SetPosMonster(CGameObject &Obj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY)
 {
-	if (!ObjectMaxRange(Obj.m_Index))
-	{
-		sLog->outBasic("error : %s %d", __FILE__, __LINE__);
-		return false;
-	}
-
-	
 
 	Obj.m_PosNum = -1;
 	Obj.MapNumber = nMapNumber;
@@ -747,10 +744,11 @@ void CAcheronGuardianEvent::DeleteMonster(int nGroupNumber)
 		if (this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex > -1)
 		{
 			int nIndex = this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex;
+			CGameObject* lpObj = getGameObject(nIndex);
 
 			if (getGameObject(nIndex)->Live == FALSE)
 			{
-				gObjDel(nIndex);
+				gObjDel(*lpObj);
 				sLog->outBasic("[AcheronGuardianEvent][MonsterGroupRegen] Delete Monster - %d ",
 					this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex);
 
@@ -775,7 +773,7 @@ void CAcheronGuardianEvent::DeleteAcheronEventAllMonster()
 			{
 				if (this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex > -1)
 				{
-					gObjDel(this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex);
+					gObjDel(*getGameObject(this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex));
 					sLog->outBasic("[AcheronGuardianEvent][MonsterGroupRegen] Delete Monster - %d ", this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex);
 					this->m_stMonsterGroupInfo[nGroupNumber].m_stMonsterAccountNumInfo[i].m_nIndex = -1;
 				}
@@ -786,11 +784,11 @@ void CAcheronGuardianEvent::DeleteAcheronEventAllMonster()
 	}
 }
 
-void CAcheronGuardianEvent::DestroyObelisk(CGameObject lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, int nMaxHitUser)
+void CAcheronGuardianEvent::DestroyObelisk(CGameObject &Obj, BYTE btMapNumber, BYTE cX, BYTE cY, int nMaxHitUser)
 {
-	sLog->outBasic("[AcheronGuardianEvent] Destroyed an Obelisk. [%s][%s]", Obj.AccountID, Obj.Name);
+	sLog->outBasic("[AcheronGuardianEvent] Destroyed an Obelisk. [%s][%s]", Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name);
 
-	g_BagManager.SearchAndUseBag(Obj.m_Index, BAG_EVENT, EVENTBAG_ACHERONGUARDIAN, Obj.m_Index);
+	g_BagManager.SearchAndUseBag(Obj, BAG_EVENT, EVENTBAG_ACHERONGUARDIAN, Obj.m_Index);
 
 	char szTemp[256];
 	sprintf(szTemp, Lang.GetText(0,584), Obj.Name);
@@ -802,19 +800,8 @@ void CAcheronGuardianEvent::DestroyObelisk(CGameObject lpObj, BYTE btMapNumber, 
 
 void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER *lpMsg, CGameObject &Obj)
 {
-	if (!ObjectMaxRange(Obj.m_Index))
-	{
-		return;
-	}
-
-	CGameObject* lpObj = getGameObject(iIndex);
 
 	if (Obj.Type != OBJ_USER)
-	{
-		return;
-	}
-
-	if (gObjIsConnected(Obj.m_Index) == FALSE)
 	{
 		return;
 	}
@@ -824,20 +811,20 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 		return;
 	}
 
-	BYTE btAttr = MapC[lpObj->MapNumber].GetAttr(lpObj->X, lpObj->Y);
+	BYTE btAttr = MapC[Obj.MapNumber].GetAttr(Obj.X, Obj.Y);
 
 	if ((btAttr & 1) != 1)
 	{
 		return;
 	}
 
-	if (lpObj->m_PlayerData->m_bUsePartyMatching == true)
+	if (Obj.m_PlayerData->m_bUsePartyMatching == true)
 	{
 		PMSG_ANS_PARTYMATCHING_ERROR pMsg;
 		PHeadSubSetB((BYTE*)&pMsg, 0xEF, 0x09, sizeof(pMsg));
 		pMsg.iResult = -1;
 
-		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
+		GIOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 		return;
 	}
 
@@ -852,14 +839,14 @@ void CAcheronGuardianEvent::CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER 
 	if (this->IsPlayStart() == TRUE)
 	{
 		sLog->outBasic("[AcheronGuardianEvent] [%s][%s] Acheron Event Enter",
-			Obj.AccountID, Obj.Name);
+			Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name);
 
-		gObjMoveGate(*getGameObject(iIndex), 426);
+		gObjMoveGate(Obj, 426);
 	}
 
 	else
 	{
-		IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
+		GIOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 	}
 }
 
@@ -874,7 +861,7 @@ void CAcheronGuardianEvent::GDReqAcheronEventProcMultiCast(BYTE btPlay)
 	pMsg.btPlay = btPlay;
 	pMsg.wMapSvrNum = g_MapServerManager.GetMapSvrGroup();
 
-	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void CAcheronGuardianEvent::DGAnsAcheronEventProcMultiCast(PMSG_ANS_AE_PLAY_DS *lpMsg)

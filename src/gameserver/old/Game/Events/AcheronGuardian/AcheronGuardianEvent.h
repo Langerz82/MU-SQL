@@ -160,7 +160,7 @@ public:
 	void DeleteMonster(int nGroupNumber);
 	void DeleteAcheronEventAllMonster();
 
-	void DestroyObelisk(CGameObject lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, int nMaxHitUser);
+	void DestroyObelisk(CGameObject &Obj, BYTE btMapNumber, BYTE cX, BYTE cY, int nMaxHitUser);
 
 	void CGReqAcheronEventEnter(PMSG_REQ_ACHERON_EVENT_ENTER *lpMsg, CGameObject &Obj);
 
@@ -201,8 +201,4 @@ private:
 extern CAcheronGuardianEvent g_AcheronGuardianEvent;
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
 

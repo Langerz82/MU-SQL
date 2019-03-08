@@ -353,9 +353,9 @@ private:
 	};
 
 	void Leave(CGameObject &requester, CGameObject &responsor);
-	void ReFill(CGameObject &obj);
-	BOOL MoveGate(int nIndex,int nGateNum);
-	BOOL CheckLimitLevel(int nIndex, int nGateNum);
+	void ReFill(CGameObject &Obj);
+	BOOL MoveGate(CGameObject &Obj,int nGateNum);
+	BOOL CheckLimitLevel(CGameObject &Obj, int nGateNum);
 	int GetChannelIdByObserver(CGameObject &Obj);
 	int CheckUsersOnConnect(int nId);
 	void GetObserverList(int nId,PMSG_DUEL_OBSERVERLIST_BROADCAST& res);
