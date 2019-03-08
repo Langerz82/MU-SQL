@@ -1224,11 +1224,11 @@ BOOL CArcaBattle::EnterArcaBattleEvent(CGameObject &Obj)
 		{
 			this->m_UserData[this->m_iCurUserCount].iIndex = Obj.m_Index;
 			sLog->outBasic("[ArcaBattle] Entered ArcaBattle [%s] [%s] UserCnt [%d]", Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name, this->m_iCurUserCount);
-			this->GCArcaBattleUserInfo(Obj.m_Index);
+			this->GCArcaBattleUserInfo(Obj);
 
 			if (this->GetState() == 7)
 			{
-				this->GCArcaBattleCurrentStatusForReConnectUser(Obj.m_Index);
+				this->GCArcaBattleCurrentStatusForReConnectUser(Obj);
 			}
 
 			return FALSE;
@@ -1320,8 +1320,8 @@ void CArcaBattle::SendObeliskState()
 
 		if (this->m_stObeliskState[i].m_iMonIndex >= 0)
 		{
-			//CGameObject* lpObj = getGameObject(iObeliskIndex);
-			pMsg.btObeliskState = Obj.Life > 0.0;
+			CGameObject* lpObj = getGameObject(iObeliskIndex);
+			pMsg.btObeliskState = lpObj->Life > 0.0;
 			pMsg.btObeliskAttribute = (BYTE)this->m_stObeliskInfo[i].m_iAttrKind;
 			pMsg.btAuraState = 2;
 
@@ -1336,11 +1336,11 @@ void CArcaBattle::SendObeliskState()
 
 			for ( int n = 0; n < MAX_VIEWPORT; n++ )
 			{
-				if (Obj.VpPlayer2[n].type == OBJ_USER )
+				if (lpObj->VpPlayer2[n]->type == OBJ_USER )
 				{
-					if ( Obj.VpPlayer2[n].state )
+					if ( lpObj->VpPlayer2[n]->state )
 					{
-						GIOCP.DataSend(Obj.VpPlayer2[n].number, (BYTE*)&pMsg, sizeof(pMsg));
+						GIOCP.DataSend(lpObj->VpPlayer2[n]->number, (BYTE*)&pMsg, sizeof(pMsg));
 					}
 				}
 			}
@@ -2336,7 +2336,8 @@ void CArcaBattle::AddContributePoint(CGameObject &Obj, CGameObject &TargetObj)
 		return;
 	}
 
-	if (TargetObj.Type == OBJ_USER && (TargetObj.Class == 592 || TargetObj.Class == 593 || TargetObj.Class == 594 || TargetObj.Class == 595 || TargetObj.Class == 596 || lpTargetObj.Class == 611 || lpTargetObj.Class == 612 || lpTargetObj.Class == 613 || lpTargetObj.Class == 614 || lpTargetObj.Class == 615))
+	if (TargetObj.Type == OBJ_USER && (TargetObj.Class == 592 || TargetObj.Class == 593 || TargetObj.Class == 594 || TargetObj.Class == 595 ||
+		TargetObj.Class == 596 || TargetObj.Class == 611 || TargetObj.Class == 612 || TargetObj.Class == 613 || TargetObj.Class == 614 || TargetObj.Class == 615))
 	{
 		pUserInfo->m_stAcquiredPoints.dwContributePoints += 30;
 		sLog->outBasic("[ArcaBattle] Boss Monster Kill [%s] ContributePoints %d",
@@ -2754,7 +2755,7 @@ int CArcaBattle::GetGuildMasterPos(CGameObject &Obj, int nGateNum, short & x, sh
 		return FALSE;
 	}
 
-	if (gObjCheckUsedBuffEffect(lpObj, 184) == TRUE)
+	if (gObjCheckUsedBuffEffect(Obj, 184) == TRUE)
 	{
 		return FALSE;
 	}
@@ -2770,7 +2771,7 @@ int CArcaBattle::GetGuildMasterPos(CGameObject &Obj, int nGateNum, short & x, sh
 	{
 		if (Obj.m_PlayerData->lpGuild->GuildStatus[n] == GUILD_MASTER)
 		{
-			if (gObjIsConnected(Obj.m_PlayerData->lpGuild->Index[n]) == TRUE)
+			if (gObjIsConnected(*getGameObject(Obj.m_PlayerData->lpGuild->Index[n])) == TRUE)
 			{
 				iMasterIndex = Obj.m_PlayerData->lpGuild->Index[n];
 				break;
@@ -3163,16 +3164,16 @@ void CArcaBattle::DGAnsMarkCnt(PMSG_ANS_ARCA_BATTLE_MARK_CNT_DS *lpMsg)
 		if (lpObj->m_bPShopOpen == true)
 		{
 			sLog->outBasic("[%s][%s] is Already Opening PShop, ChaosBox Failed",
-				lpObj->m_PlayerData->ConnectUser->AccountID, Obj.Name);
-			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,112), Obj.m_Index, 1);
+				lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
+			GSProtocol.GCServerMsgStringSend(Lang.GetText(0,112), lpObj, 1);
 
 			return;
 		}
 
 		lpObj->m_IfState.type = 7;
 		lpObj->m_IfState.state = 0;
-		gObjInventoryTrans(Obj.m_Index);
-		sLog->outBasic("[ArcaBattle][MarkReg] [%s][%s]  Mark Item Reg Start", Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name);
+		gObjInventoryTrans(*lpObj);
+		sLog->outBasic("[ArcaBattle][MarkReg] [%s][%s]  Mark Item Reg Start", lpObj->m_PlayerData->ConnectUser->AccountID, lpObj->Name);
 		gObjItemTextSave(*lpObj);
 		gObjWarehouseTextSave(*lpObj);
 	}
@@ -3317,7 +3318,7 @@ void CArcaBattle::SetRegenObelisk(int iGroupNum, int iAttribute)
 	if ( result >= 0)
 	{
 		gObjSetMonster(*lpObjMonster, iArrMonsterIndex[iAttribute]);
-		lpObjMonster->Class = iArrMonsterIndex[iAttribute);
+		lpObjMonster->Class = iArrMonsterIndex[iAttribute];
 		lpObjMonster->MapNumber = this->m_stObeliskInfo[iGroupNum].m_iMapIndex;
 		lpObjMonster->X = this->m_stObeliskInfo[iGroupNum].m_iPosX;
 		lpObjMonster->Y = this->m_stObeliskInfo[iGroupNum].m_iPosY;
@@ -3589,7 +3590,7 @@ void CArcaBattle::PrintGuildMemberLog(GUILD_INFO_STRUCT *lpGuild)
 	for ( int n = 0; n < 80; ++n )
 	{
 		if ( lpGuild->Use[n] )
-			sLog->outBasic("[ArcaBattle] [%s] Guild Member (%d)[%s]", lpGuild->Name, n + 1, lpGuild->Names[n]);
+			sLog->outBasic("[ArcaBattle] [%s] Guild Member (%d)[%s]", lpGuild->Name, n + 1, lpGuild->Users[n]->Name);
 	}
 
 	sLog->outBasic("************************************************************************");
@@ -3673,7 +3674,7 @@ void CArcaBattle::BootyExchange(CGameObject &Obj)
 	if (iValidItemCount < 1 || iInvalidItemCount != 0 || iItemPos == -1)
 	{
 		sLog->outBasic("[ArcaBattle][BootyExchange] - Can Not be Exchanged [%s][%s] CharClass[%d] ItemNum[%d] ItemName[%s]",
-			Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name, Obj.Class, Obj.pntChaosBox[iItemPos]->m_Type, ItemAttribute[Obj.pntChaosBox[iItemPos]->m_Type]->Name);
+			Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name, Obj.Class, Obj.pntChaosBox[iItemPos]->m_Type, ItemAttribute[Obj.pntChaosBox[iItemPos]->m_Type].Name);
 		pMsg.Result = CB_ERROR;
 		GIOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 
@@ -3721,7 +3722,7 @@ void CArcaBattle::BootyExchange(CGameObject &Obj)
 	}
 
 	int itype = ITEMGET(stRewardItemInfo.iItemType, stRewardItemInfo.iItemIndex);
-	ItemCreate(Obj.m_Index, -1, 0, 0, itype, stRewardItemInfo.iItemLevel, stRewardItemInfo.iDurab, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
+	ItemCreate(Obj, -1, 0, 0, itype, stRewardItemInfo.iItemLevel, stRewardItemInfo.iDurab, 0, 0, 0, Obj.m_Index, 0, 0, 0, 0, 0);
 
 	sLog->outBasic("[ArcaBattle][BootyExchange] - Exchange End [%s][%s] ItemName[%s] ItemNum[%d] Level[%d] Dur[%d] skill[%d] luck[%d] option[%d] ExOpt[%d] SetOption[%d] BootyCnt[%d]",
 		Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name, ItemAttribute[itype].Name, itype, stRewardItemInfo.iItemLevel, stRewardItemInfo.iDurab, 0, 0, 0, 0, 0, iItemCnt);
@@ -4292,8 +4293,4 @@ int CArcaBattle::LoadScriptBootyMix(char *lpszFileName)
 
 	return TRUE;
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
 

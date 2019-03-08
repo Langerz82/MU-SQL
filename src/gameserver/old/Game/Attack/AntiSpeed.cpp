@@ -66,7 +66,7 @@ void CAttackQueue::Push( BYTE* msg, int len, int type )
 {
 	try
 	{
-		m_Queue.push(new CAttackMsg(this->m_Obj, msg, len, type));
+		m_Queue.push(new CAttackMsg(*this->m_Obj, msg, len, type));
 	}
 
 	catch ( char * szMsg )

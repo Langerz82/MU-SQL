@@ -11,31 +11,33 @@
 #include "Main.h"
 #include "Logging/Log.h"
 #include "MapServerManager.h"
+#include "GOFunctions.h"
+
 
 CAttackEvent::CAttackEvent()
 {
-	InitializeCriticalSection(&this->m_MonCriti);
+	//InitializeCriticalSection(&this->m_MonCriti);
 	this->Init();
 }
 
 CAttackEvent::~CAttackEvent()
 {
-	DeleteCriticalSection(&this->m_MonCriti);
+	//DeleteCriticalSection(&this->m_MonCriti);
 	return;
 }
 
 void CAttackEvent::ClearMonster()
 {
-	EnterCriticalSection(&this->m_MonCriti);
+	//EnterCriticalSection(&this->m_MonCriti);
 
 	for (std::map<int, ATTACKEVENT_MONSTER_INFO>::iterator It = this->m_mapMonsterInfo.begin(); It != this->m_mapMonsterInfo.end(); It++)
 	{
-		gObjDel(It->second.m_nIndex);
+		gObjDel(*getGameObject(It->second.m_nIndex));
 	}
 
 	this->m_mapMonsterInfo.clear();
 
-	LeaveCriticalSection(&this->m_MonCriti);
+	//LeaveCriticalSection(&this->m_MonCriti);
 }
 
 void CAttackEvent::LoadScript(char *szFile)
@@ -128,6 +130,7 @@ void CAttackEvent::Active()
 		}
 
 		int result = gObjAddMonster(MapNumber);
+		CGameObject* lpObj = getGameObject(result);
 
 		if (result == -1)
 		{
@@ -135,47 +138,47 @@ void CAttackEvent::Active()
 			return;
 		}
 
-		getGameObject(result)->MapNumber = MapNumber;
+		lpObj->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result)->X, getGameObject(result)->Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, lpObj->X, lpObj->Y) == 0)
 		{
 
 		}
 
-		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result)->TX = getGameObject(result)->X;
-		getGameObject(result)->TY = getGameObject(result)->Y;
-		getGameObject(result)->MTX = getGameObject(result)->X;
-		getGameObject(result)->MTY = getGameObject(result)->Y;
-		getGameObject(result)->m_OldX = getGameObject(result)->X;
-		getGameObject(result)->m_OldY = getGameObject(result)->Y;
-		getGameObject(result)->StartX = getGameObject(result)->X;
-		getGameObject(result)->StartY = getGameObject(result)->Y;
+		lpObj->m_PosNum = -1;
+		lpObj->TX = lpObj->X;
+		lpObj->TY = lpObj->Y;
+		lpObj->MTX = lpObj->X;
+		lpObj->MTY = lpObj->Y;
+		lpObj->m_OldX = lpObj->X;
+		lpObj->m_OldY = lpObj->Y;
+		lpObj->StartX = lpObj->X;
+		lpObj->StartY = lpObj->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			getGameObject(result)->Dir = rand() % 8;
+			lpObj->Dir = rand() % 8;
 		}
 
 		else
 		{
-			getGameObject(result)->Dir = It->second.m_Dir;
+			lpObj->Dir = It->second.m_Dir;
 		}
 
-		this->m_BossMap53 = getGameObject(result)->MapNumber;
-		this->m_BossMapX53 = getGameObject(result)->X;
-		this->m_BossMapY53 = getGameObject(result)->Y;
+		this->m_BossMap53 = lpObj->MapNumber;
+		this->m_BossMapX53 = lpObj->X;
+		this->m_BossMapY53 = lpObj->Y;
 
-		gObjSetMonster(result, It->second.m_Type);
+		gObjSetMonster(*lpObj, It->second.m_Type);
 
-		EnterCriticalSection(&this->m_MonCriti);
+		//EnterCriticalSection(&this->m_MonCriti);
 
 		ATTACKEVENT_MONSTER_INFO m_MonsterInfo;
 		m_MonsterInfo.m_nIndex = result;
 
 		this->m_mapMonsterInfo.insert(std::pair<int, ATTACKEVENT_MONSTER_INFO>(result, m_MonsterInfo));
 
-		LeaveCriticalSection(&this->m_MonCriti);
+		//LeaveCriticalSection(&this->m_MonCriti);
 
 		sLog->outBasic("[AttackEvent] Create Boss %d: %d %d %d create ", It->second.m_Type, this->m_BossMap53, this->m_BossMapX53, this->m_BossMapY53);
 	}
@@ -191,6 +194,7 @@ void CAttackEvent::Active()
 	{
 		MapNumber = this->m_BossMap53;
 		int result = gObjAddMonster(MapNumber);
+		CGameObject* lpObj = getGameObject(result);
 
 		if (result == -1)
 		{
@@ -198,40 +202,40 @@ void CAttackEvent::Active()
 			return;
 		}
 
-		getGameObject(result)->MapNumber = MapNumber;
+		lpObj->MapNumber = MapNumber;
 
-		this->GetBoxPosition(MapNumber, this->m_BossMapX53 - 4, this->m_BossMapY53 - 4, this->m_BossMapX53 + 4, this->m_BossMapY53 + 4, getGameObject(result)->X, getGameObject(result)->Y);
+		this->GetBoxPosition(MapNumber, this->m_BossMapX53 - 4, this->m_BossMapY53 - 4, this->m_BossMapX53 + 4, this->m_BossMapY53 + 4, lpObj->X, lpObj->Y);
 
-		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result)->TX = getGameObject(result)->X;
-		getGameObject(result)->TY = getGameObject(result)->Y;
-		getGameObject(result)->MTX = getGameObject(result)->X;
-		getGameObject(result)->MTY = getGameObject(result)->Y;
-		getGameObject(result)->m_OldX = getGameObject(result)->X;
-		getGameObject(result)->m_OldY = getGameObject(result)->Y;
-		getGameObject(result)->StartX = getGameObject(result)->X;
-		getGameObject(result)->StartY = getGameObject(result)->Y;
+		lpObj->m_PosNum = -1;
+		lpObj->TX = lpObj->X;
+		lpObj->TY = lpObj->Y;
+		lpObj->MTX = lpObj->X;
+		lpObj->MTY = lpObj->Y;
+		lpObj->m_OldX = lpObj->X;
+		lpObj->m_OldY = lpObj->Y;
+		lpObj->StartX = lpObj->X;
+		lpObj->StartY = lpObj->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			getGameObject(result)->Dir = rand() % 8;
+			lpObj->Dir = rand() % 8;
 		}
 
 		else
 		{
-			getGameObject(result)->Dir = It->second.m_Dir;
+			lpObj->Dir = It->second.m_Dir;
 		}
 
-		gObjSetMonster(result, It->second.m_Type);
+		gObjSetMonster(*lpObj, It->second.m_Type);
 
-		EnterCriticalSection(&this->m_MonCriti);
+		//EnterCriticalSection(&this->m_MonCriti);
 
 		ATTACKEVENT_MONSTER_INFO m_MonsterInfo;
 		m_MonsterInfo.m_nIndex = result;
 
 		this->m_mapMonsterInfo.insert(std::pair<int, ATTACKEVENT_MONSTER_INFO>(result, m_MonsterInfo));
 
-		LeaveCriticalSection(&this->m_MonCriti);
+		//LeaveCriticalSection(&this->m_MonCriti);
 	}
 
 	It = this->m_mapMonsterPos.find(55);
@@ -252,6 +256,7 @@ void CAttackEvent::Active()
 		}
 
 		int result = gObjAddMonster(MapNumber);
+		CGameObject* lpObj = getGameObject(result);
 
 		if (result == -1)
 		{
@@ -259,47 +264,47 @@ void CAttackEvent::Active()
 			return;
 		}
 
-		getGameObject(result)->MapNumber = MapNumber;
+		lpObj->MapNumber = MapNumber;
 
-		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, getGameObject(result)->X, getGameObject(result)->Y) == 0)
+		while (this->GetBoxPosition(MapNumber, It->second.m_X, It->second.m_Y, It->second.m_W, It->second.m_H, lpObj->X, lpObj->Y) == 0)
 		{
 
 		}
 
-		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result)->TX = getGameObject(result)->X;
-		getGameObject(result)->TY = getGameObject(result)->Y;
-		getGameObject(result)->MTX = getGameObject(result)->X;
-		getGameObject(result)->MTY = getGameObject(result)->Y;
-		getGameObject(result)->m_OldX = getGameObject(result)->X;
-		getGameObject(result)->m_OldY = getGameObject(result)->Y;
-		getGameObject(result)->StartX = getGameObject(result)->X;
-		getGameObject(result)->StartY = getGameObject(result)->Y;
+		lpObj->m_PosNum = -1;
+		lpObj->TX = lpObj->X;
+		lpObj->TY = lpObj->Y;
+		lpObj->MTX = lpObj->X;
+		lpObj->MTY = lpObj->Y;
+		lpObj->m_OldX = lpObj->X;
+		lpObj->m_OldY = lpObj->Y;
+		lpObj->StartX = lpObj->X;
+		lpObj->StartY = lpObj->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			getGameObject(result)->Dir = rand() % 8;
+			lpObj->Dir = rand() % 8;
 		}
 
 		else
 		{
-			getGameObject(result)->Dir = It->second.m_Dir;
+			lpObj->Dir = It->second.m_Dir;
 		}
 
-		this->m_BossMap55 = getGameObject(result)->MapNumber;
-		this->m_BossMapX55 = getGameObject(result)->X;
-		this->m_BossMapY55 = getGameObject(result)->Y;
+		this->m_BossMap55 = lpObj->MapNumber;
+		this->m_BossMapX55 = lpObj->X;
+		this->m_BossMapY55 = lpObj->Y;
 
-		gObjSetMonster(result, It->second.m_Type);
+		gObjSetMonster(*lpObj, It->second.m_Type);
 
-		EnterCriticalSection(&this->m_MonCriti);
+		//EnterCriticalSection(&this->m_MonCriti);
 
 		ATTACKEVENT_MONSTER_INFO m_MonsterInfo;
 		m_MonsterInfo.m_nIndex = result;
 
 		this->m_mapMonsterInfo.insert(std::pair<int, ATTACKEVENT_MONSTER_INFO>(result, m_MonsterInfo));
 
-		LeaveCriticalSection(&this->m_MonCriti);
+		//LeaveCriticalSection(&this->m_MonCriti);
 
 		sLog->outBasic("[AttackEvent] Create Boss %d: %d %d %d create ", It->second.m_Type, this->m_BossMap55, this->m_BossMapX55, this->m_BossMapY55);
 	}
@@ -315,47 +320,47 @@ void CAttackEvent::Active()
 	{
 		MapNumber = this->m_BossMap55;
 		int result = gObjAddMonster(MapNumber);
-
+		CGameObject* lpObj = getGameObject(result);
 		if (result == -1)
 		{
 			sLog->outError("%s result == -1", __FUNCTION__);
 			return;
 		}
 
-		getGameObject(result)->MapNumber = MapNumber;
+		lpObj->MapNumber = MapNumber;
 
-		this->GetBoxPosition(MapNumber, this->m_BossMapX55 - 4, this->m_BossMapY55 - 4, this->m_BossMapX55 + 4, this->m_BossMapY55 + 4, getGameObject(result)->X, getGameObject(result)->Y);
+		this->GetBoxPosition(MapNumber, this->m_BossMapX55 - 4, this->m_BossMapY55 - 4, this->m_BossMapX55 + 4, this->m_BossMapY55 + 4, lpObj->X, lpObj->Y);
 
-		getGameObject(result)->m_PosNum = -1;
-		getGameObject(result)->TX = getGameObject(result)->X;
-		getGameObject(result)->TY = getGameObject(result)->Y;
-		getGameObject(result)->MTX = getGameObject(result)->X;
-		getGameObject(result)->MTY = getGameObject(result)->Y;
-		getGameObject(result)->m_OldX = getGameObject(result)->X;
-		getGameObject(result)->m_OldY = getGameObject(result)->Y;
-		getGameObject(result)->StartX = getGameObject(result)->X;
-		getGameObject(result)->StartY = getGameObject(result)->Y;
+		lpObj->m_PosNum = -1;
+		lpObj->TX = lpObj->X;
+		lpObj->TY = lpObj->Y;
+		lpObj->MTX = lpObj->X;
+		lpObj->MTY = lpObj->Y;
+		lpObj->m_OldX = lpObj->X;
+		lpObj->m_OldY = lpObj->Y;
+		lpObj->StartX = lpObj->X;
+		lpObj->StartY = lpObj->Y;
 
 		if (It->second.m_Dir == (BYTE)-1)
 		{
-			getGameObject(result)->Dir = rand() % 8;
+			lpObj->Dir = rand() % 8;
 		}
 
 		else
 		{
-			getGameObject(result)->Dir = It->second.m_Dir;
+			lpObj->Dir = It->second.m_Dir;
 		}
 
-		gObjSetMonster(result, It->second.m_Type);
+		gObjSetMonster(*lpObj, It->second.m_Type);
 
-		EnterCriticalSection(&this->m_MonCriti);
+		//EnterCriticalSection(&this->m_MonCriti);
 
 		ATTACKEVENT_MONSTER_INFO m_MonsterInfo;
 		m_MonsterInfo.m_nIndex = result;
 
 		this->m_mapMonsterInfo.insert(std::pair<int, ATTACKEVENT_MONSTER_INFO>(result, m_MonsterInfo));
 
-		LeaveCriticalSection(&this->m_MonCriti);
+		//LeaveCriticalSection(&this->m_MonCriti);
 	}
 }
 

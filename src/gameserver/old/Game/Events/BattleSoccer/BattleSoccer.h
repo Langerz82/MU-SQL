@@ -21,7 +21,7 @@ class CBattleSoccer : public CBattleGround
 
 public:
 
-	CBattleSoccer();
+	CBattleSoccer(GUILD_INFO_STRUCT &red, GUILD_INFO_STRUCT &blue);
 	virtual ~CBattleSoccer();
 
 	void SetGoalMove(int set_code);

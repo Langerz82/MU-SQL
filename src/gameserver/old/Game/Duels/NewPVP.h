@@ -385,8 +385,8 @@ public:
 
 	//CProbabilityItemBag* m_pVulcanuProbability;
 
-	CRITICAL_SECTION m_csWaiting;
-	CRITICAL_SECTION m_csObserver;
+	//CRITICAL_SECTION m_csWaiting;
+	//CRITICAL_SECTION m_csObserver;
 };
 
 extern CNewPVP g_NewPVP;

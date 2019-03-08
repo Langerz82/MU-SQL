@@ -63,10 +63,10 @@ void CBuffEffect::SetBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectVal
 		Obj.AddStrength += EffectValue;
 		break;
 	case EFFECTTYPE_DEXTERITY:
-		EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+		//EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 		Obj.m_PlayerData->AgilityCheckDelay = GetTickCount();
 		Obj.AddDexterity += EffectValue;
-		LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+		//LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 		break;
 	case EFFECTTYPE_VITALITY:
 		Obj.AddVitality += EffectValue;
@@ -215,10 +215,10 @@ void CBuffEffect::ClearBuffEffect(CGameObject &Obj, BYTE EffectType, int EffectV
 		Obj.AddStrength -= EffectValue;
 		break;
 	case EFFECTTYPE_DEXTERITY:
-		EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+		//EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 		Obj.m_PlayerData->AgilityCheckDelay = GetTickCount();
 		Obj.AddDexterity -= EffectValue;
-		LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+		//LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 		break;
 	case EFFECTTYPE_VITALITY:
 		Obj.AddVitality -= EffectValue;

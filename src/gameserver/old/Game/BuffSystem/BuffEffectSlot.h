@@ -324,7 +324,7 @@ extern void gObjCheckBuffEffectList(CGameObject &Obj);
 extern bool gObjAddBuffEffect(CGameObject &Obj, int iBuffIndex);
 extern bool gObjAddBuffEffect(CGameObject &Obj, int iBuffIndex, BYTE EffectType1, int EffectValue1, BYTE EffectType2, int EffectValue2, int Duration);
 extern bool gObjAddBuffEffect(CGameObject &Obj, int iBuffIndex, int Duration);
-extern bool gObjAddPeriodBuffEffect(CGameObject lpObj,PeriodBuffEffectInfo *lpPeriBuff, unsigned int dwDuration);
+extern bool gObjAddPeriodBuffEffect(CGameObject &Obj,PeriodBuffEffectInfo *lpPeriBuff, unsigned int dwDuration);
 
 extern bool gObjAddBuffEffectForInGameShop(CGameObject &Obj, WORD wItemCode, int Duration);
 extern bool gObjRemoveBuffEffect(CGameObject &Obj, int iBuffIndex);

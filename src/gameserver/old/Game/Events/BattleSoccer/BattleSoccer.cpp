@@ -7,7 +7,7 @@
 
 CBattleSoccer * gBSGround[MAX_BATTLESOCCER_GROUND];
 
-CBattleSoccer::CBattleSoccer()
+CBattleSoccer::CBattleSoccer(GUILD_INFO_STRUCT &red, GUILD_INFO_STRUCT &blue): m_RedTeam(red), m_BlueTeam(blue)
 {
 	this->m_goalmove = 0;
 	this->m_BallIndex = 0;

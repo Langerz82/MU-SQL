@@ -4,14 +4,15 @@
 // Decompiled by Deathway
 // Date : 2007-05-09
 // ------------------------------
-#ifndef BLOODCASTLE_H
-#define BLOODCASTLE_H
+#ifndef MU_BLOODCASTLE_H
+#define MU_BLOODCASTLE_H
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
 #include "CUserData.h"
+#include "MapItem.h"
 #include <list>
 
 #define MAX_BLOOD_CASTLE_LEVEL 8

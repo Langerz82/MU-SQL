@@ -77,7 +77,7 @@ private:
 	std::map<int, ATTACKEVENT_MONSTER_POS> m_mapMonsterPos;
 	std::map<int, ATTACKEVENT_MONSTER_INFO> m_mapMonsterInfo;
 
-	CRITICAL_SECTION m_MonCriti;
+	//CRITICAL_SECTION m_MonCriti;
 };
 
 #endif
