@@ -967,7 +967,7 @@ public:
 	int GetMaxObeliskCnt();
 
 	int IsEnableAttackObelisk(CGameObject &Obj, int iMonNumber);
-	int IsPkEnable(CGameObject &Obj, CGameObject Tarobj);
+	int IsPkEnable(CGameObject &Obj, CGameObject &TargetObj);
 
 	void SendArcaBattleStateAll(int iState);
 	void SendArcaBattleCurrentState(CGameObject &Obj);
@@ -988,13 +988,13 @@ public:
 	int SetPosMonster(CGameObject &Obj, int nMapNumber, int nBeginX, int nBeginY, int nEndX, int nEndY);
 	int GetBoxPosition(int mapnumber, int ax, int ay, int aw, int ah, short &mx, short &my);
 
-	void AddContributePoint(CGameObject &Obj, CGameObject Tarobj);
-	void AddKillPoint(CGameObject &Obj, CGameObject Tarobj);
+	void AddContributePoint(CGameObject &Obj, CGameObject &TargetObj);
+	void AddKillPoint(CGameObject &Obj, CGameObject &TargetObj);
 
 	void BootyItemGetCnt(CGameObject &Obj);
 	void CalcRewardExp(CGameObject &Obj, UINT64 & iRewardExp);
 
-	int DropItem(CGameObject &Obj, CGameObject lpMonsterObj);
+	int DropItem(CGameObject &Obj, CGameObject &MonsterObj);
 
 	void GDReqDeleteArcaBattleInfo();
 	void GDReqJoinMemberUnder();
@@ -1007,7 +1007,7 @@ public:
 	int GetGuildMasterGateNum(int nGuildNum);
 
 	int GetUserPos(int nGateNum, short  & nOutX, short  & nOutY);
-	void SetUserMapInfo(CGameObject lpObj, int nGateNum);
+	void SetUserMapInfo(CGameObject &Obj, int nGateNum);
 
 	void SetArcaBattleProcMultiCast(int bABInitState);
 
@@ -1041,7 +1041,7 @@ public:
 	void CheatGDReqArcaBattleGuildJoin(CGameObject &Obj);
 	void CheatGDReqArcaBattleGuildMemberJoin(CGameObject &Obj, const char *lpszName);
 
-	void CheatABOccupyObelisk(CGameObject lpObj, int iObeliskGroup);
+	void CheatABOccupyObelisk(CGameObject &Obj, int iObeliskGroup);
 
 	void SetJoinMemberCnt(int iJoinGuildMemberCnt);
 
