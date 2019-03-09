@@ -13,6 +13,7 @@
 #include "ItemSystemFor380.h"
 #include "PentagramSystem.h"
 #include "ComboAttack.h"
+#include "JewelOfHarmonySystem.h"
 
 struct CharacterNameOfUBF;
 struct STR_USER_CHARACTERS;

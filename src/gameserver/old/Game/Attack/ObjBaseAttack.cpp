@@ -63,7 +63,7 @@ BOOL CObjBaseAttack::DecreaseArrow(CGameObject &Obj)
 				}
 
 				Left->m_Durability -= 1.0f;
-				GSProtocol.GCItemObjectDurSend(Obj.m_Index, 1, Left->m_Durability, 0);
+				GSProtocol.GCItemDurSend(Obj.m_Index, 1, Left->m_Durability, 0);
 
 				if ( Left->m_Durability < 1.0f )
 				{
@@ -85,7 +85,7 @@ BOOL CObjBaseAttack::DecreaseArrow(CGameObject &Obj)
 					return FALSE;
 				}
 				Right->m_Durability -= 1.0f;
-				GCItemObjectDurSend(Obj.m_Index, 1, Right->m_Durability, 0);
+				GCItemDurSend(Obj.m_Index, 1, Right->m_Durability, 0);
 
 				if ( Right->m_Durability < 1.0f )
 				{
@@ -102,7 +102,7 @@ BOOL CObjBaseAttack::DecreaseArrow(CGameObject &Obj)
 
 				Right->m_Durability -= 0.0f;
 
-				GCItemObjectDurSend(Obj.m_Index, 1, Right->m_Durability, 0);
+				GCItemDurSend(Obj.m_Index, 1, Right->m_Durability, 0);
 			}
 			else
 			{

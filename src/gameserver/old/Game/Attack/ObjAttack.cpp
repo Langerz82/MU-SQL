@@ -433,7 +433,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 	{
 		if (skill != 76)
 		{
-			if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_INFINITY_ARROW) == FALSE && gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_INFINITY_ARROW_STR) == FALSE)
+			if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_INFINITY_ARROW) == FALSE && gObjCheckUsedBuffEffect(Obj, BUFFTYPE_INFINITY_ARROW_STR) == FALSE)
 			{
 				if (!this->DecreaseArrow(lpObj))
 				{
@@ -580,7 +580,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			{
 				if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 				{
-					if (!this->MissCheckPvP(lpObj, TargetObj, skill, skillSuccess, magicsend, bAllMiss, 0))
+					if (!this->MissCheckPvP(Obj, TargetObj, skill, skillSuccess, magicsend, bAllMiss, 0))
 					{
 						return FALSE;
 					}
@@ -588,7 +588,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 				else
 				{
-					if (!this->MissCheck(lpObj, TargetObj, skill, skillSuccess, magicsend, bAllMiss, 0))
+					if (!this->MissCheck(Obj, TargetObj, skill, skillSuccess, magicsend, bAllMiss, 0))
 					{
 						return FALSE;
 					}
@@ -597,7 +597,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 			else
 			{
-				if (!this->MissCheck(lpObj, TargetObj, skill, skillSuccess, magicsend, bAllMiss, 0))
+				if (!this->MissCheck(Obj, TargetObj, skill, skillSuccess, magicsend, bAllMiss, 0))
 				{
 					return FALSE;
 				}
@@ -645,7 +645,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 				else
 				{
-					iTempShieldDamage = this->GetShieldDamage(lpObj, TargetObj, AttackDamage);
+					iTempShieldDamage = this->GetShieldDamage(Obj, TargetObj, AttackDamage);
 					TargetObj.iShield -= iTempShieldDamage;
 					TargetObj.Life -= AttackDamage - iTempShieldDamage;
 					iTotalShieldDamage += iTempShieldDamage;
@@ -654,7 +654,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 			else
 			{
-				iTempShieldDamage = this->GetShieldDamage(lpObj, TargetObj, AttackDamage);
+				iTempShieldDamage = this->GetShieldDamage(Obj, TargetObj, AttackDamage);
 				TargetObj.iShield -= iTempShieldDamage;
 				TargetObj.Life -= AttackDamage - iTempShieldDamage;
 				iTotalShieldDamage += iTempShieldDamage;
@@ -671,11 +671,11 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 		{
 			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
-				if (!this->MissCheckPvP(lpObj, TargetObj, skill, skillSuccess, magicsend, bAllMiss, RFAttack))
+				if (!this->MissCheckPvP(Obj, TargetObj, skill, skillSuccess, magicsend, bAllMiss, RFAttack))
 				{
 					if (Obj.m_iPentagramMainAttribute > 0 && byPentagramAttack == TRUE)
 					{
-						this->PentagramAttack(lpObj, TargetObj, lpMagic, 0, MsgDamage, 0, 0);
+						this->PentagramAttack(Obj, TargetObj, lpMagic, 0, MsgDamage, 0, 0);
 					}
 
 					return FALSE;
@@ -683,11 +683,11 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			}
 			else
 			{
-				if ((Obj.Type != OBJ_MONSTER || !Obj.m_iPentagramMainAttribute) && !this->MissCheck(lpObj, TargetObj, skill, skillSuccess, magicsend, bAllMiss, RFAttack)) // ?
+				if ((Obj.Type != OBJ_MONSTER || !Obj.m_iPentagramMainAttribute) && !this->MissCheck(Obj, TargetObj, skill, skillSuccess, magicsend, bAllMiss, RFAttack)) // ?
 				{
 					if (Obj.m_iPentagramMainAttribute > 0 && byPentagramAttack == TRUE)
 					{
-						this->PentagramAttack(lpObj, TargetObj, lpMagic, 0, MsgDamage, 0, 0);
+						this->PentagramAttack(Obj, TargetObj, lpMagic, 0, MsgDamage, 0, 0);
 					}
 
 					return FALSE;
@@ -696,11 +696,11 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 		}
 		else
 		{
-			if (!this->MissCheck(lpObj, TargetObj, skill, skillSuccess, magicsend, bAllMiss, RFAttack))
+			if (!this->MissCheck(Obj, TargetObj, skill, skillSuccess, magicsend, bAllMiss, RFAttack))
 			{
 				if (Obj.m_iPentagramMainAttribute > 0 && byPentagramAttack == TRUE)
 				{
-					this->PentagramAttack(lpObj, TargetObj, lpMagic, 0, MsgDamage, 0, 0);
+					this->PentagramAttack(Obj, TargetObj, lpMagic, 0, MsgDamage, 0, 0);
 				}
 
 				return FALSE;
@@ -710,7 +710,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 		if ((skill == 51 || skill == 424) && skillIceArrowSuccess == TRUE)
 		{
 			gObjAddBuffEffect(TargetObj, BUFFTYPE_STONE, 0, 0, 0, 0, 7);
-			TargetObj.lpAttackObj = lpObj;
+			TargetObj.lpAttackObj = &Obj;
 			TargetObj.PathCount = 0;
 			TargetObj.PathStartEnd = 0;
 			skillSuccess = TRUE;
@@ -719,7 +719,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 		}
 
 		int iOriginTargetDefense = 0;
-		int targetdefense = this->GetTargetDefense(lpObj, TargetObj, MsgDamage, iOriginTargetDefense);
+		int targetdefense = this->GetTargetDefense(Obj, TargetObj, MsgDamage, iOriginTargetDefense);
 
 		if (TargetObj.Type == OBJ_USER && gObjCheckUsedBuffEffect(TargetObj, BUFFTYPE_BERSERKER))
 		{
@@ -807,11 +807,11 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			|| skill == 493
 			|| skill == 740)
 		{
-			AttackDamage = this->GetAttackDamage(lpObj, TargetObj, targetdefense, MsgDamage, lpMagic);
+			AttackDamage = this->GetAttackDamage(Obj, TargetObj, targetdefense, MsgDamage, lpMagic);
 			//sLog->outBasic("[K2] RunningSkill3");
 			if (AttackDamage > 0)
 			{
-				gObjWeaponDurDown(lpObj, TargetObj, 0);
+				gObjWeaponDurDown(Obj, TargetObj, 0);
 			}
 		}
 		else if (skill == 76 && Obj.Type == OBJ_USER)	// pluzzmanton
@@ -873,13 +873,13 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 				AttackDamage = iFenrirAttackDmg + lpMagic->m_DamageMax;
 				AttackDamage += Obj.m_PlayerData->SetOpAddCriticalDamage;
 				iOption = 0;
-				gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_CRITICAL_DMG_INC, &iOption, 0);
+				gObjGetValueOfBuffIndex(Obj, BUFFTYPE_CRITICAL_DMG_INC, &iOption, 0);
 				AttackDamage += iOption;
 				iOption = 0;
-				gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_CRITICAL_DMG_INC_STR, &iOption, 0);
+				gObjGetValueOfBuffIndex(Obj, BUFFTYPE_CRITICAL_DMG_INC_STR, &iOption, 0);
 				AttackDamage += iOption;
 				iOption = 0;
-				gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_CRITICAL_DMG_INC_MAS, &iOption, 0);
+				gObjGetValueOfBuffIndex(Obj, BUFFTYPE_CRITICAL_DMG_INC_MAS, &iOption, 0);
 				AttackDamage += iOption;
 				AttackDamage += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddCriticalDamage;
 				AttackDamage -= targetdefense;
@@ -901,31 +901,31 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 		{
 			if ((Obj.Class == CLASS_WIZARD || Obj.Class == CLASS_MAGUMSA) && skill)
 			{
-				AttackDamage = this->GetAttackDamageWizard(lpObj, TargetObj, targetdefense, lpMagic, MsgDamage);
+				AttackDamage = this->GetAttackDamageWizard(Obj, TargetObj, targetdefense, lpMagic, MsgDamage);
 
 				if (AttackDamage > 0)
 				{
-					gObjWeaponDurDown(lpObj, TargetObj, 1);
+					gObjWeaponDurDown(Obj, TargetObj, 1);
 				}
 			}
 
 			else if (Obj.Class == CLASS_SUMMONER && skill)
 			{
-				AttackDamage = this->GetAttackDamageSummoner(lpObj, TargetObj, targetdefense, lpMagic, MsgDamage);
+				AttackDamage = this->GetAttackDamageSummoner(Obj, TargetObj, targetdefense, lpMagic, MsgDamage);
 
 				if (AttackDamage > 0)
 				{
-					gObjWeaponDurDown(lpObj, TargetObj, 1);
+					gObjWeaponDurDown(Obj, TargetObj, 1);
 				}
 			}
 
 			else
 			{
-				AttackDamage = this->GetAttackDamage(lpObj, TargetObj, targetdefense, MsgDamage, lpMagic);
+				AttackDamage = this->GetAttackDamage(Obj, TargetObj, targetdefense, MsgDamage, lpMagic);
 
 				if (AttackDamage > 0)
 				{
-					gObjWeaponDurDown(lpObj, TargetObj, 0);
+					gObjWeaponDurDown(Obj, TargetObj, 0);
 				}
 			}
 		}
@@ -934,25 +934,25 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 		{
 			int iOption = 0;
 
-			if (gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_PCS_SCROLL_CRITICAL, &iOption, 0))
+			if (gObjGetValueOfBuffIndex(Obj, BUFFTYPE_PCS_SCROLL_CRITICAL, &iOption, 0))
 				AttackDamage += iOption * AttackDamage / 100;
 
 			iOption = 0;
-			if (gObjGetValueOfBuffIndex(lpObj, 122, &iOption, 0))
+			if (gObjGetValueOfBuffIndex(Obj, 122, &iOption, 0))
 				AttackDamage += iOption * AttackDamage / 100;
 
 			iOption = 0;
-			if (gObjGetValueOfBuffIndex(lpObj, 202, &iOption, 0))
+			if (gObjGetValueOfBuffIndex(Obj, 202, &iOption, 0))
 				AttackDamage += iOption * AttackDamage / 100;
 
 			int iMuunEffectValue = 0;
 
-			if (g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_CRITICAL_DAMAGE, &iMuunEffectValue, 0) == TRUE)
+			if (g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_CRITICAL_DAMAGE, &iMuunEffectValue, 0) == TRUE)
 			{
 				AttackDamage += iMuunEffectValue;
 			}
 
-			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER && g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_CRITICAL_DAMAGE_NONPVP, &iMuunEffectValue, 0) == TRUE)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER && g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_CRITICAL_DAMAGE_NONPVP, &iMuunEffectValue, 0) == TRUE)
 			{
 				AttackDamage += iMuunEffectValue;
 			}
@@ -962,25 +962,25 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 		{
 			int iOption = 0;
 
-			if (gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_PCS_SCROLL_EXCELLENT, &iOption, 0))
+			if (gObjGetValueOfBuffIndex(Obj, BUFFTYPE_PCS_SCROLL_EXCELLENT, &iOption, 0))
 				AttackDamage += iOption * AttackDamage / 100;
 
 			iOption = 0;
-			if (gObjGetValueOfBuffIndex(lpObj, 123, &iOption, 0))
+			if (gObjGetValueOfBuffIndex(Obj, 123, &iOption, 0))
 				AttackDamage += iOption * AttackDamage / 100;
 
 			iOption = 0;
-			if (gObjGetValueOfBuffIndex(lpObj, 203, &iOption, 0))
+			if (gObjGetValueOfBuffIndex(Obj, 203, &iOption, 0))
 				AttackDamage += iOption * AttackDamage / 100;
 
 			int iMuunEffectValue = 0;
 
-			if (g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_EXCELLENT_DAMAGE, &iMuunEffectValue, 0) == TRUE)
+			if (g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_EXCELLENT_DAMAGE, &iMuunEffectValue, 0) == TRUE)
 			{
 				AttackDamage += iMuunEffectValue;
 			}
 
-			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER && g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_EXCELLENT_DAMAGE_NONPVP, &iMuunEffectValue, 0) == TRUE)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER && g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_EXCELLENT_DAMAGE_NONPVP, &iMuunEffectValue, 0) == TRUE)
 			{
 				AttackDamage += iMuunEffectValue;
 			}
@@ -1048,7 +1048,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 		g_CMuunSystem.MuunItemDamage(TargetObj, AttackDamage);
 
-		if (gObjSatanSprite(lpObj) == TRUE)
+		if (gObjSatanSprite(Obj) == TRUE)
 		{
 			if (Obj.Class != CLASS_RAGEFIGHTER)
 			{
@@ -1237,7 +1237,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			{
 				if (rand() % 100 < Obj.m_PlayerData->m_MPSkillOpt->iMpsRecoverSDRate)
 				{
-					gObjAddMsgSendDelay(lpObj, 15, TargetObj, 100, 0);
+					gObjAddMsgSendDelay(Obj, 15, TargetObj, 100, 0);
 				}
 			}
 		}
@@ -1378,7 +1378,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			}
 			break;
 			case 216:
-				gObjUseSkill.SplashDamage(lpObj, TargetObj, 216, AttackDamage, 1, 50);
+				gObjUseSkill.SplashDamage(Obj, TargetObj, 216, AttackDamage, 1, 50);
 				break;
 			case 219:
 			{
@@ -1403,7 +1403,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 						{
 							if (gObjCheckPowerfulEffect(TargetObj, BUFFTYPE_SLEEP, Time, 0) == TRUE)
 							{
-								GSProtocol.GCMagicAttackNumberSend(lpObj, AT_SKILL_SLEEP, TargetObj.m_Index, 0);
+								GSProtocol.GCMagicAttackNumberSend(&Obj, AT_SKILL_SLEEP, TargetObj.m_Index, 0);
 							}
 							else
 							{
@@ -1450,7 +1450,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 					{
 						if (gObjCheckPowerfulEffect(TargetObj, BUFFTYPE_CURSED_ATTACK_DOWN, Value, 0) == TRUE)
 						{
-							GSProtocol.GCMagicAttackNumberSend(lpObj, skill, TargetObj.m_Index, 0);
+							GSProtocol.GCMagicAttackNumberSend(&Obj, skill, TargetObj.m_Index, 0);
 							return 0;
 						}
 						else
@@ -1495,7 +1495,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 					{
 						if (gObjCheckPowerfulEffect(TargetObj, BUFFTYPE_CURSED_DEFENSE_DOWN, Value, 0) == TRUE)
 						{
-							GSProtocol.GCMagicAttackNumberSend(lpObj, skill, TargetObj.m_Index, 0);
+							GSProtocol.GCMagicAttackNumberSend(&Obj, skill, TargetObj.m_Index, 0);
 							return 0;
 						}
 						else
@@ -2070,7 +2070,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 						break;
 					case 566:
 					{
-						fPrevBase = g_MasterLevelSkillTreeSystem.GetBrandOfMasterSkillValue(lpObj, skill, 1);
+						fPrevBase = g_MasterLevelSkillTreeSystem.GetBrandOfMasterSkillValue(Obj, skill, 1);
 						g_MasterLevelSkillTreeSystem.m_Lua.Generic_Call("DragonSlasher_Level2", "idii>i", AttackDamage, fPrevBase, Energy, TargetObj.Type, &AttackDamage);
 
 						if (gObjCheckUsedBuffEffect(TargetObj, BUFFTYPE_IRON_DEFENSE) == false && gObjCheckUsedBuffEffect(TargetObj, BUFFTYPE_IRON_DEFENSE_STR) == false)
@@ -2198,7 +2198,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 						if (gObjCheckPowerfulEffect(TargetObj, BUFFTYPE_WEAKEN, iEffectValue, 0) == TRUE)
 						{
-							GSProtocol.GCMagicAttackNumberSend(lpObj, 459, TargetObj.m_Index, FALSE);
+							GSProtocol.GCMagicAttackNumberSend(&Obj, 459, TargetObj.m_Index, FALSE);
 							return FALSE;
 						}
 
@@ -2242,7 +2242,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 						if (gObjCheckPowerfulEffect(TargetObj, BUFFTYPE_INNOVATE, iEffectValue, 0) == TRUE)
 						{
-							GSProtocol.GCMagicAttackNumberSend(lpObj, 460, TargetObj.m_Index, FALSE);
+							GSProtocol.GCMagicAttackNumberSend(&Obj, 460, TargetObj.m_Index, FALSE);
 							return FALSE;
 						}
 
@@ -2304,7 +2304,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 						break;
 					case 462:
 					{
-						fPrevBase = g_MasterLevelSkillTreeSystem.GetBrandOfMasterSkillValue(lpObj, skill, 1);
+						fPrevBase = g_MasterLevelSkillTreeSystem.GetBrandOfMasterSkillValue(Obj, skill, 1);
 
 						int nAddHP2 = 0;
 
@@ -2374,7 +2374,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 						if (gObjCheckPowerfulEffect(TargetObj, BUFFTYPE_SLEEP, iEffectTime, 0) == TRUE)
 						{
-							GSProtocol.GCMagicAttackNumberSend(lpObj, 219, TargetObj.m_Index, FALSE);
+							GSProtocol.GCMagicAttackNumberSend(&Obj, 219, TargetObj.m_Index, FALSE);
 							return FALSE;
 						}
 
@@ -2625,11 +2625,11 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			{
 				if (TargetObj.Class == 283)
 				{
-					if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BLESS_POTION) != NULL)
+					if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BLESS_POTION) != NULL)
 					{
 						AttackDamage += (AttackDamage * 20) / 100;
 					}
-					else if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SOUL_POTION) != NULL)
+					else if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_SOUL_POTION) != NULL)
 					{
 						AttackDamage = AttackDamage;
 					}
@@ -2637,7 +2637,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 					{
 						if (Obj.m_iAccumulatedDamage > 100)
 						{
-							gObjWeaponDurDownInCastle(lpObj, TargetObj, 1);
+							gObjWeaponDurDownInCastle(Obj, TargetObj, 1);
 							Obj.m_iAccumulatedDamage = 0;
 						}
 						else
@@ -2651,11 +2651,11 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 				if (TargetObj.Class == 277)
 				{
-					if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BLESS_POTION) != NULL)
+					if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BLESS_POTION) != NULL)
 					{
 						AttackDamage += (AttackDamage * 20) / 100;
 					}
-					else if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_SOUL_POTION) != NULL)
+					else if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_SOUL_POTION) != NULL)
 					{
 						AttackDamage = AttackDamage;
 					}
@@ -2663,7 +2663,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 					{
 						if (Obj.m_iAccumulatedDamage > 100)
 						{
-							gObjWeaponDurDownInCastle(lpObj, TargetObj, 1);
+							gObjWeaponDurDownInCastle(Obj, TargetObj, 1);
 							Obj.m_iAccumulatedDamage = 0;
 						}
 						else
@@ -2728,7 +2728,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			{
 				if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 				{
-					if (g_GensSystem.IsPkEnable(lpObj, TargetObj) == true)
+					if (g_GensSystem.IsPkEnable(Obj, TargetObj) == true)
 					{
 						AttackDamage = AttackDamage * g_GensSystem.GetDamageReduction() / 100;
 					}
@@ -2794,7 +2794,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 									lpEquipment->m_Durability = 0.0f;
 								}
 
-								GSProtocol.GCItemObjectDurSend(&TargetObj, iEquipmentPos, lpEquipment->m_Durability, 0);
+								GSProtocol.GCItemDurSend(&TargetObj, iEquipmentPos, lpEquipment->m_Durability, 0);
 							}
 						}
 					}
@@ -2850,7 +2850,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 					else
 					{
-						iTempShieldDamage = this->GetShieldDamage(lpObj, TargetObj, AttackDamage);
+						iTempShieldDamage = this->GetShieldDamage(Obj, TargetObj, AttackDamage);
 						TargetObj.iShield -= iTempShieldDamage;
 						TargetObj.Life -= AttackDamage - iTempShieldDamage;
 						iTotalShieldDamage += iTempShieldDamage;
@@ -2859,7 +2859,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 				else
 				{
-					iTempShieldDamage = this->GetShieldDamage(lpObj, TargetObj, AttackDamage);
+					iTempShieldDamage = this->GetShieldDamage(Obj, TargetObj, AttackDamage);
 					TargetObj.iShield -= iTempShieldDamage;
 					TargetObj.Life -= AttackDamage - iTempShieldDamage;
 					iTotalShieldDamage += iTempShieldDamage;
@@ -3043,7 +3043,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 								lpEquipment->m_Durability = 0.0f;
 							}
 
-							GSProtocol.GCItemObjectDurSend(&TargetObj, item_num[iEquipmentPos], (BYTE)lpEquipment->m_Durability, 0);
+							GSProtocol.GCItemDurSend(&TargetObj, item_num[iEquipmentPos], (BYTE)lpEquipment->m_Durability, 0);
 						}
 					}
 				}
@@ -3084,10 +3084,10 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			}
 			else
 			{
-				gObjCheckSelfDefense(Obj, lpCallObj.m_Index);
+				gObjCheckSelfDefense(Obj, lpCallObj->m_Index);
 			}
 
-			gObjCheckSelfDefense(Obj, lpCallObj.m_Index);
+			gObjCheckSelfDefense(Obj, lpCallObj->m_Index);
 		}
 
 	}
@@ -3157,24 +3157,24 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 	if (ManaChange)
 	{
-		GSProtocol.GCManaSend(TargetObj, TargetObj.Mana, 0xFF, 0, TargetObj.BP);
+		GSProtocol.GCManaSend(&TargetObj, TargetObj.Mana, 0xFF, 0, TargetObj.BP);
 	}
 
 	if (magicsend)
 	{
-		GSProtocol.GCMagicAttackNumberSend(Obj, skill, TargetObj.m_Index, skillSuccess);
+		GSProtocol.GCMagicAttackNumberSend(&Obj, skill, TargetObj.m_Index, skillSuccess);
 	}
 
 	if (bCombo)
 	{
-		GSProtocol.GCMagicAttackNumberSend(Obj, AT_SKILL_COMBO, TargetObj.m_Index, skillSuccess);
+		GSProtocol.GCMagicAttackNumberSend(&Obj, AT_SKILL_COMBO, TargetObj.m_Index, skillSuccess);
 	}
 
 	if (Obj.Type == OBJ_USER)
 	{
 		if (Obj.m_Change == 9)
 		{
-			GSProtocol.GCMagicAttackNumberSend(Obj, 3, TargetObj.m_Index, 1);
+			GSProtocol.GCMagicAttackNumberSend(&Obj, 3, TargetObj.m_Index, 1);
 		}
 	}
 
@@ -3264,7 +3264,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
-				iTempShieldDamage = this->GetShieldDamage(lpObj, TargetObj, iComboDamage);
+				iTempShieldDamage = this->GetShieldDamage(Obj, TargetObj, iComboDamage);
 				TargetObj.iShield -= iTempShieldDamage;
 				TargetObj.Life -= iComboDamage - iTempShieldDamage;
 				iTotalShieldDamage += iTempShieldDamage;
@@ -3288,7 +3288,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			skill = 59;
 		}
 
-		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BLOOD_HOWL) == true)
+		if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BLOOD_HOWL) == true)
 		{
 			int SkillEffect = 0;
 			int SkillSuccessRate = 0;
@@ -3302,7 +3302,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			}
 		}
 
-		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BLOOD_HOWL_STR) == true)
+		if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BLOOD_HOWL_STR) == true)
 		{
 			int SkillEffect = 0;
 			int SkillSuccessRate = 0;
@@ -3319,11 +3319,11 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			}
 		}
 
-		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_CIRCLE_SHIELD) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_CIRCLE_SHIELD_STR) || gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_CIRCLE_SHIELD_MAS))
+		if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_CIRCLE_SHIELD) || gObjCheckUsedBuffEffect(Obj, BUFFTYPE_CIRCLE_SHIELD_STR) || gObjCheckUsedBuffEffect(Obj, BUFFTYPE_CIRCLE_SHIELD_MAS))
 		{
 			if (rand() % 100 < Obj.m_SkillInfo->fCircleShieldRate)
 			{
-				int iDecreaseBP = gObjGetTotalValueOfEffect(lpObj, EFFECTTYPE_AG_OPPONENT_DECREASE);
+				int iDecreaseBP = gObjGetTotalValueOfEffect(Obj, EFFECTTYPE_AG_OPPONENT_DECREASE);
 				TargetObj.BP -= iDecreaseBP;
 
 				if (TargetObj.BP < 0)
@@ -3339,7 +3339,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 			fRate = Obj.m_PlayerData->SetOpDoubleDamage + Obj.m_PlayerData->m_MPSkillOpt->iMpsAddDoubleDamage + Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDoubleDamageRate;
 			
-			if (gObjWingSprite(lpObj) == TRUE)
+			if (gObjWingSprite(Obj) == TRUE)
 			{
 				if (Obj.pntInventory[7]->m_Type == ITEMGET(12, 267))
 				{
@@ -3363,7 +3363,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 						iAddDamage = g_MasterLevelSkillTreeSystem.GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 					}
 
-					gObjUseSkill.FireScreamExplosionAttack(lpObj, TargetObj, AttackDamage, iAddDamage);
+					gObjUseSkill.FireScreamExplosionAttack(Obj, TargetObj, AttackDamage, iAddDamage);
 				}
 
 				if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
@@ -3384,7 +3384,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 						else
 						{
-							iTempShieldDamage = this->GetShieldDamage(lpObj, TargetObj, AttackDamage);
+							iTempShieldDamage = this->GetShieldDamage(Obj, TargetObj, AttackDamage);
 							TargetObj.iShield -= iTempShieldDamage;
 							TargetObj.Life -= AttackDamage - iTempShieldDamage;
 							iTotalShieldDamage += iTempShieldDamage;
@@ -3393,7 +3393,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 					else
 					{
-						iTempShieldDamage = this->GetShieldDamage(lpObj, TargetObj, AttackDamage);
+						iTempShieldDamage = this->GetShieldDamage(Obj, TargetObj, AttackDamage);
 						TargetObj.iShield -= iTempShieldDamage;
 						TargetObj.Life -= AttackDamage - iTempShieldDamage;
 						iTotalShieldDamage += iTempShieldDamage;
@@ -3437,7 +3437,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 						iAddDamage = g_MasterLevelSkillTreeSystem.GetMasterSkillValue(MagicDamageC.SkillGet(lpMagic->m_Skill), lpMagic->m_Level);
 					}
 
-					gObjUseSkill.FireScreamExplosionAttack(lpObj, TargetObj, AttackDamage, iAddDamage);
+					gObjUseSkill.FireScreamExplosionAttack(Obj, TargetObj, AttackDamage, iAddDamage);
 
 					if (skill == 265 || skill == 564 || skill == 566)
 					{
@@ -3455,7 +3455,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 						else
 						{
-							iTempShieldDamage = this->GetShieldDamage(lpObj, TargetObj, nDoubleDamage);
+							iTempShieldDamage = this->GetShieldDamage(Obj, TargetObj, nDoubleDamage);
 							TargetObj.iShield -= iTempShieldDamage;
 							TargetObj.Life -= nDoubleDamage - iTempShieldDamage;
 							iTotalShieldDamage += iTempShieldDamage;
@@ -3464,7 +3464,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 					else
 					{
-						iTempShieldDamage = this->GetShieldDamage(lpObj, TargetObj, nDoubleDamage);
+						iTempShieldDamage = this->GetShieldDamage(Obj, TargetObj, nDoubleDamage);
 						TargetObj.iShield -= iTempShieldDamage;
 						TargetObj.Life -= nDoubleDamage - iTempShieldDamage;
 						iTotalShieldDamage += iTempShieldDamage;
@@ -3556,7 +3556,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			}
 		}
 
-		gObjLifeCheck(TargetObj, lpObj, AttackDamage, 0, MSBFlag, MsgDamage, skill, iTotalShieldDamage, 0);
+		gObjLifeCheck(TargetObj, Obj, AttackDamage, 0, MSBFlag, MsgDamage, skill, iTotalShieldDamage, 0);
 
 		/*if ( iTotalShieldDamage > 0 )
 		{
@@ -3570,7 +3570,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 	{
 		if (Obj.Type != OBJ_MONSTER || Obj.m_iPentagramMainAttribute <= 0)
 		{
-			GSProtocol.GCDamageSend(Obj, TargetObj, 0, 0, MsgDamage, 0);
+			GSProtocol.GCDamageSend(&Obj, &TargetObj, 0, 0, MsgDamage, 0);
 		}
 	}
 
@@ -3677,7 +3677,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 	return TRUE;
 }
 
-BOOL CObjAttack::PentagramAttack(CGameObject &Obj, CGameObject lpTargetObj, CMagicInf* lpMagic, BYTE MSBFlag, int MsgDamage, int AttackDamage, int iTargetDefense)
+BOOL CObjAttack::PentagramAttack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpMagic, BYTE MSBFlag, int MsgDamage, int AttackDamage, int iTargetDefense)
 {
 	bool bPentagramEquip = false;
 	int PentagramAttackDamage = 0;
@@ -3689,13 +3689,13 @@ BOOL CObjAttack::PentagramAttack(CGameObject &Obj, CGameObject lpTargetObj, CMag
 		if (Obj.Type == OBJ_USER && g_PentagramSystem.IsPentagramItem(Obj.pntInventory[236]->m_Type) && Obj.pntInventory[236]->m_IsValidItem)
 		{
 			bPentagramEquip = true;
-			PentagramAttackDamage = this->GetElementalDamage(lpObj, lpTargetObj, &PentagramDamageType1, &PentagramDamageType2, AttackDamage, iTargetDefense);
+			PentagramAttackDamage = this->GetElementalDamage(Obj, TargetObj, &PentagramDamageType1, &PentagramDamageType2, AttackDamage, iTargetDefense);
 		}
 
 		else if (Obj.Type == OBJ_MONSTER && Obj.m_iPentagramMainAttribute > 0)
 		{
 			bPentagramEquip = TRUE;
-			PentagramAttackDamage = this->GetElementalDamage(lpObj, lpTargetObj, &PentagramDamageType1, &PentagramDamageType2, AttackDamage, iTargetDefense);
+			PentagramAttackDamage = this->GetElementalDamage(Obj, TargetObj, &PentagramDamageType1, &PentagramDamageType2, AttackDamage, iTargetDefense);
 		}
 	}
 
@@ -3703,11 +3703,11 @@ BOOL CObjAttack::PentagramAttack(CGameObject &Obj, CGameObject lpTargetObj, CMag
 	{
 		if (g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 		{
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
-				if (Obj.MapNumber == MAP_INDEX_CASTLESIEGE && lpTargetObj.MapNumber == MAP_INDEX_CASTLESIEGE)
+				if (Obj.MapNumber == MAP_INDEX_CASTLESIEGE && TargetObj.MapNumber == MAP_INDEX_CASTLESIEGE)
 				{
-					if (Obj.m_btCsJoinSide == lpTargetObj.m_btCsJoinSide)
+					if (Obj.m_btCsJoinSide == TargetObj.m_btCsJoinSide)
 					{
 						if (g_CastleSiege.m_bCastleSiegeFriendlyFire == false)
 						{
@@ -3727,7 +3727,7 @@ BOOL CObjAttack::PentagramAttack(CGameObject &Obj, CGameObject lpTargetObj, CMag
 			{
 				if (rand() % 100 < Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_1RankSlowMoveSkillRate)
 				{
-					gObjAddBuffEffect(lpTargetObj, BUFFTYPE_CONFUSION, EFFECTTYPE_REDUCE_MOVE_SPEED, 0, 0, 0, 20);
+					gObjAddBuffEffect(TargetObj, BUFFTYPE_CONFUSION, EFFECTTYPE_REDUCE_MOVE_SPEED, 0, 0, 0, 20);
 				}
 			}
 
@@ -3741,28 +3741,28 @@ BOOL CObjAttack::PentagramAttack(CGameObject &Obj, CGameObject lpTargetObj, CMag
 					{
 					case EL_FIRE:
 						gObjUseSkill.m_Lua.Generic_Call("ElementalDebuffGetDuration", "ii>i", BUFFTYPE_ACHERON_FIRE, (Obj.Level + Obj.m_PlayerData->MasterLevel), &iDuration);
-						gObjAddBuffEffect(lpTargetObj, BUFFTYPE_ACHERON_FIRE, 83, 0, 0, 0, iDuration);
-						gObjCalCharacter.CalcCharacter(lpTargetObj);
+						gObjAddBuffEffect(TargetObj, BUFFTYPE_ACHERON_FIRE, 83, 0, 0, 0, iDuration);
+						gObjCalCharacter.CalcCharacter(TargetObj);
 						break;
 					case EL_WATER:
 						gObjUseSkill.m_Lua.Generic_Call("ElementalDebuffGetDuration", "ii>i", BUFFTYPE_ACHERON_FROST, (Obj.Level + Obj.m_PlayerData->MasterLevel), &iDuration);
-						gObjAddBuffEffect(lpTargetObj, BUFFTYPE_ACHERON_FROST, 82, 0, 0, 0, iDuration);
-						gObjCalCharacter.CalcCharacter(lpTargetObj);
+						gObjAddBuffEffect(TargetObj, BUFFTYPE_ACHERON_FROST, 82, 0, 0, 0, iDuration);
+						gObjCalCharacter.CalcCharacter(TargetObj);
 						break;
 					case EL_EARTH:
 						gObjUseSkill.m_Lua.Generic_Call("ElementalDebuffGetDuration", "ii>i", BUFFTYPE_ACHERON_TORNADO, (Obj.Level + Obj.m_PlayerData->MasterLevel), &iDuration);
-						gObjAddBuffEffect(lpTargetObj, BUFFTYPE_ACHERON_TORNADO, 84, 0, 0, 0, iDuration);
-						gObjCalCharacter.CalcCharacter(lpTargetObj);
+						gObjAddBuffEffect(TargetObj, BUFFTYPE_ACHERON_TORNADO, 84, 0, 0, 0, iDuration);
+						gObjCalCharacter.CalcCharacter(TargetObj);
 						break;
 					case EL_WIND:
 						gObjUseSkill.m_Lua.Generic_Call("ElementalDebuffGetDuration", "ii>i", BUFFTYPE_ACHERON_BIND, (Obj.Level + Obj.m_PlayerData->MasterLevel), &iDuration);
-						gObjAddBuffEffect(lpTargetObj, BUFFTYPE_ACHERON_BIND, 81, 0, 0, 0, iDuration);
-						gObjCalCharacter.CalcCharacter(lpTargetObj);
+						gObjAddBuffEffect(TargetObj, BUFFTYPE_ACHERON_BIND, 81, 0, 0, 0, iDuration);
+						gObjCalCharacter.CalcCharacter(TargetObj);
 						break;
 					case EL_DARKNESS:
 						gObjUseSkill.m_Lua.Generic_Call("ElementalDebuffGetDuration", "ii>i", BUFFTYPE_ACHERON_DARKNESS, (Obj.Level + Obj.m_PlayerData->MasterLevel), &iDuration);
-						gObjAddBuffEffect(lpTargetObj, BUFFTYPE_ACHERON_DARKNESS, 0, 0, 0, 0, iDuration);
-						gObjCalCharacter.CalcCharacter(lpTargetObj);
+						gObjAddBuffEffect(TargetObj, BUFFTYPE_ACHERON_DARKNESS, 0, 0, 0, 0, iDuration);
+						gObjCalCharacter.CalcCharacter(TargetObj);
 						break;
 					}
 				}
@@ -3776,12 +3776,12 @@ BOOL CObjAttack::PentagramAttack(CGameObject &Obj, CGameObject lpTargetObj, CMag
 		{
 			if (PentagramDamageType2)
 			{
-				GSProtocol.GCElementalDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, PentagramDamageType2);
+				GSProtocol.GCElementalDamageSend(&Obj, TargetObj.m_Index, 0, PentagramDamageType2);
 			}
 
 			else
 			{
-				GSProtocol.GCElementalDamageSend(Obj.m_Index, lpTargetObj.m_Index, 0, PentagramDamageType1);
+				GSProtocol.GCElementalDamageSend(&Obj, TargetObj.m_Index, 0, PentagramDamageType1);
 			}
 		}
 
@@ -3789,7 +3789,7 @@ BOOL CObjAttack::PentagramAttack(CGameObject &Obj, CGameObject lpTargetObj, CMag
 		{
 			int PentagramSDDamage = 0;
 
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				PentagramSDDamage = 90 * PentagramAttackDamage / 100;
 				PentagramAttackDamage -= PentagramSDDamage;
@@ -3797,29 +3797,29 @@ BOOL CObjAttack::PentagramAttack(CGameObject &Obj, CGameObject lpTargetObj, CMag
 
 			if (PentagramSDDamage <= 0)
 			{
-				lpTargetObj.Life -= PentagramAttackDamage;
+				TargetObj.Life -= PentagramAttackDamage;
 			}
 
 			else
 			{
-				if (lpTargetObj.iShield > 0)
+				if (TargetObj.iShield > 0)
 				{
-					if (lpTargetObj.iShield < PentagramSDDamage)
+					if (TargetObj.iShield < PentagramSDDamage)
 					{
-						PentagramSDDamage -= lpTargetObj.iShield;
-						lpTargetObj.iShield = 0;
-						lpTargetObj.Life -= PentagramSDDamage - PentagramAttackDamage;
+						PentagramSDDamage -= TargetObj.iShield;
+						TargetObj.iShield = 0;
+						TargetObj.Life -= PentagramSDDamage - PentagramAttackDamage;
 					}
 
 					else
 					{
-						lpTargetObj.iShield -= PentagramSDDamage;
+						TargetObj.iShield -= PentagramSDDamage;
 					}
 				}
 
 				else if (g_ConfigRead.calc.ElementalDamageAffectSDOnly == false)
 				{
-					lpTargetObj.Life -= (PentagramAttackDamage + PentagramSDDamage);
+					TargetObj.Life -= (PentagramAttackDamage + PentagramSDDamage);
 				}
 			}
 
@@ -3828,24 +3828,24 @@ BOOL CObjAttack::PentagramAttack(CGameObject &Obj, CGameObject lpTargetObj, CMag
 				PentagramAttackDamage += PentagramSDDamage;
 			}
 
-			if (lpTargetObj.Life < 0.0)
+			if (TargetObj.Life < 0.0)
 			{
-				lpTargetObj.Life = 0.0;
+				TargetObj.Life = 0.0;
 			}
 
-			if (lpTargetObj.Type == OBJ_USER)
+			if (TargetObj.Type == OBJ_USER)
 			{
-				GSProtocol.GCReFillSend(lpTargetObj.m_Index, lpTargetObj.Life, 0xFF, 0, lpTargetObj.iShield);
+				GSProtocol.GCReFillSend(&TargetObj, TargetObj.Life, 0xFF, 0, TargetObj.iShield);
 			}
 
 			if (PentagramDamageType2)
 			{
-				gObjLifeCheck(lpTargetObj, lpObj, PentagramAttackDamage, 0, MSBFlag, PentagramDamageType2, 0, 0, TRUE);
+				gObjLifeCheck(TargetObj, Obj, PentagramAttackDamage, 0, MSBFlag, PentagramDamageType2, 0, 0, TRUE);
 			}
 
 			else
 			{
-				gObjLifeCheck(lpTargetObj, lpObj, PentagramAttackDamage, 0, MSBFlag, PentagramDamageType1, 0, 0, TRUE);
+				gObjLifeCheck(TargetObj, Obj, PentagramAttackDamage, 0, MSBFlag, PentagramDamageType1, 0, 0, TRUE);
 			}
 		}
 	}
@@ -3858,7 +3858,7 @@ BOOL CObjAttack::GetBuffTypePhysicalIncrease(CGameObject &Obj, int *iAttackBerse
 	gObjUseSkill.m_Lua.Generic_Call("SummonerBerserkerAttackDamage", "ii>ii", (Obj.m_PlayerData->Strength + Obj.AddStrength), (Obj.m_PlayerData->Dexterity + Obj.AddDexterity), iAttackBerserkerMin, iAttackBerserkerMax);
 
 	int iValue = 0;
-	gObjGetValueOfBuffIndex(lpObj, nBuffType, &iValue, 0);
+	gObjGetValueOfBuffIndex(Obj, nBuffType, &iValue, 0);
 
 	*iAttackBerserkerMin = iValue * *iAttackBerserkerMin / 100;
 	*iAttackBerserkerMax = iValue * *iAttackBerserkerMax / 100;
@@ -3881,8 +3881,8 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject &TargetObj, int t
 	int SkillRightMinDamage = 0;
 	int SkillLeftMaxDamage = 0;
 	int SkillLeftMinDamage = 0;
-	CItemObject * Right = &Obj.pntInventory[0];
-	CItemObject * Left = &Obj.pntInventory[1];
+	CItemObject * Right = Obj.pntInventory[0];
+	CItemObject * Left = Obj.pntInventory[1];
 	BOOL bTwoHandWeapon = FALSE;
 
 	if (Obj.Type == OBJ_MONSTER || Obj.Type == OBJ_NPC)
@@ -3937,7 +3937,7 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject &TargetObj, int t
 
 			if (g_MasterLevelSkillTreeSystem.CheckMasterLevelSkill(lpMagic->m_Skill) == true)
 			{
-				float fDamage = g_MasterLevelSkillTreeSystem.GetSkillAttackDamage(lpObj, lpMagic->m_Skill);
+				float fDamage = g_MasterLevelSkillTreeSystem.GetSkillAttackDamage(Obj, lpMagic->m_Skill);
 				SkillRightMaxDamage += fDamage;
 				SkillRightMinDamage += fDamage;
 			}
@@ -3953,10 +3953,10 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject &TargetObj, int t
 			SkillLeftMaxDamage += Obj.m_PlayerData->SetOpAddSkillAttack;
 			SkillLeftMinDamage += Obj.m_PlayerData->SetOpAddSkillAttack;
 
-			if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_ARCA_FIRETOWER) == TRUE)
+			if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_ARCA_FIRETOWER) == TRUE)
 			{
 				int nEffectValue = 0;
-				gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_ARCA_FIRETOWER, &nEffectValue, NULL);
+				gObjGetValueOfBuffIndex(Obj, BUFFTYPE_ARCA_FIRETOWER, &nEffectValue, NULL);
 
 				SkillRightMaxDamage += nEffectValue;
 				SkillRightMinDamage += nEffectValue;
@@ -3964,10 +3964,10 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject &TargetObj, int t
 				SkillLeftMinDamage += nEffectValue;
 			}
 
-			if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_OBSIDIAN) == TRUE)
+			if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_OBSIDIAN) == TRUE)
 			{
 				int nEffectValue = 0;
-				gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_OBSIDIAN, &nEffectValue, NULL);
+				gObjGetValueOfBuffIndex(Obj, BUFFTYPE_OBSIDIAN, &nEffectValue, NULL);
 
 				SkillRightMaxDamage += nEffectValue;
 				SkillRightMinDamage += nEffectValue;
@@ -3975,10 +3975,10 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject &TargetObj, int t
 				SkillLeftMinDamage += nEffectValue;
 			}
 
-			if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_OBSIDIAN_STR) == TRUE)
+			if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_OBSIDIAN_STR) == TRUE)
 			{
 				int nEffectValue = 0;
-				gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_OBSIDIAN_STR, &nEffectValue, NULL);
+				gObjGetValueOfBuffIndex(Obj, BUFFTYPE_OBSIDIAN_STR, &nEffectValue, NULL);
 
 				SkillRightMaxDamage += nEffectValue;
 				SkillRightMinDamage += nEffectValue;
@@ -3988,7 +3988,7 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject &TargetObj, int t
 
 			int nMuunItemEffectValue = 0;
 
-			if (g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_SKILL_POWER, &nMuunItemEffectValue, 0) == TRUE)
+			if (g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_SKILL_POWER, &nMuunItemEffectValue, 0) == TRUE)
 			{
 				SkillRightMaxDamage += nMuunItemEffectValue;
 				SkillRightMinDamage += nMuunItemEffectValue;
@@ -3999,7 +3999,7 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject &TargetObj, int t
 			if (Obj.Type == OBJ_USER && TargetObj.Type != OBJ_USER)
 			{
 				nMuunItemEffectValue = 0;
-				g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_ATTACK_POWER_NONPVP, &nMuunItemEffectValue, 0);
+				g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_ATTACK_POWER_NONPVP, &nMuunItemEffectValue, 0);
 
 				SkillRightMaxDamage += nMuunItemEffectValue;
 				SkillRightMinDamage += nMuunItemEffectValue;
@@ -4007,13 +4007,13 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject &TargetObj, int t
 				SkillLeftMinDamage += nMuunItemEffectValue;
 
 				nMuunItemEffectValue = 0;
-				g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_MAX_ATTACK_POWER_NONPVP, &nMuunItemEffectValue, 0);
+				g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_MAX_ATTACK_POWER_NONPVP, &nMuunItemEffectValue, 0);
 
 				SkillRightMaxDamage += nMuunItemEffectValue;
 				SkillLeftMaxDamage += nMuunItemEffectValue;
 
 				nMuunItemEffectValue = 0;
-				g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_SKILL_POWER_NONPVP, &nMuunItemEffectValue, 0);
+				g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_SKILL_POWER_NONPVP, &nMuunItemEffectValue, 0);
 
 				SkillRightMaxDamage += nMuunItemEffectValue;
 				SkillRightMinDamage += nMuunItemEffectValue;
@@ -4038,7 +4038,7 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject &TargetObj, int t
 
 			if (lpMagic->m_Skill == 65 || lpMagic->m_Skill == 519)
 			{
-				int iPartyCount = this->GetPartyMemberCount(lpObj);
+				int iPartyCount = this->GetPartyMemberCount(Obj);
 				int addskilldamage = (Obj.Leadership + Obj.AddLeadership) / 10 + (iPartyCount * 50);	// #formula
 
 				SkillRightMaxDamage += addskilldamage;
@@ -4111,8 +4111,8 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject &TargetObj, int t
 
 		if (TargetObj.Type == OBJ_USER)
 		{
-			nCritical -= lpTargetObj.m_PlayerData->m_Resistance_Critical;
-			nExcellent -= lpTargetObj.m_PlayerData->m_Resistance_Excellent;
+			nCritical -= TargetObj.m_PlayerData->m_Resistance_Critical;
+			nExcellent -= TargetObj.m_PlayerData->m_Resistance_Excellent;
 		}
 
 		if (nCritical > 0)
@@ -4138,19 +4138,19 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject &TargetObj, int t
 		int iMuunOptDamage = 0;
 		int iMuunOptDamageMax = 0;
 
-		if (Obj.Type == OBJ_USER && gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BERSERKER))
-			this->GetBuffTypePhysicalIncrease(lpObj, &iAttackBerserkerMin, &iAttackBerserkerMax, BUFFTYPE_BERSERKER);
-		else if (Obj.Type == OBJ_USER && gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BERSERKER_STR))
-			this->GetBuffTypePhysicalIncrease(lpObj, &iAttackBerserkerMin, &iAttackBerserkerMax, BUFFTYPE_BERSERKER_STR);
-		else if (Obj.Type == OBJ_USER && gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BERSERKER_MAS))
-			this->GetBuffTypePhysicalIncrease(lpObj, &iAttackBerserkerMin, &iAttackBerserkerMax, BUFFTYPE_BERSERKER_MAS);
-		else if (Obj.Type == OBJ_USER && gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BERSERKER_PRO))
-			this->GetBuffTypePhysicalIncrease(lpObj, &iAttackBerserkerMin, &iAttackBerserkerMax, BUFFTYPE_BERSERKER_PRO);
+		if (Obj.Type == OBJ_USER && gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BERSERKER))
+			this->GetBuffTypePhysicalIncrease(Obj, &iAttackBerserkerMin, &iAttackBerserkerMax, BUFFTYPE_BERSERKER);
+		else if (Obj.Type == OBJ_USER && gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BERSERKER_STR))
+			this->GetBuffTypePhysicalIncrease(Obj, &iAttackBerserkerMin, &iAttackBerserkerMax, BUFFTYPE_BERSERKER_STR);
+		else if (Obj.Type == OBJ_USER && gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BERSERKER_MAS))
+			this->GetBuffTypePhysicalIncrease(Obj, &iAttackBerserkerMin, &iAttackBerserkerMax, BUFFTYPE_BERSERKER_MAS);
+		else if (Obj.Type == OBJ_USER && gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BERSERKER_PRO))
+			this->GetBuffTypePhysicalIncrease(Obj, &iAttackBerserkerMin, &iAttackBerserkerMax, BUFFTYPE_BERSERKER_PRO);
 
-		if (Obj.Type == OBJ_USER && lpTargetObj.Type != OBJ_USER) // Non PvP
+		if (Obj.Type == OBJ_USER && TargetObj.Type != OBJ_USER) // Non PvP
 		{
-			g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_ATTACK_POWER_NONPVP, &iMuunOptDamage, 0);
-			g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_MAX_ATTACK_POWER_NONPVP, &iMuunOptDamageMax, 0);
+			g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_ATTACK_POWER_NONPVP, &iMuunOptDamage, 0);
+			g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_MAX_ATTACK_POWER_NONPVP, &iMuunOptDamageMax, 0);
 		}
 
 		__try
@@ -4185,19 +4185,19 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject &TargetObj, int t
 			Obj.m_AttackDamageLeft += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddCriticalDamage;
 
 			int iOption = 0;
-			gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_CRITICAL_DMG_INC, &iOption, 0);
+			gObjGetValueOfBuffIndex(Obj, BUFFTYPE_CRITICAL_DMG_INC, &iOption, 0);
 
 			Obj.m_AttackDamageRight += iOption;
 			Obj.m_AttackDamageLeft += iOption;
 
 			iOption = 0;
-			gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_CRITICAL_DMG_INC_STR, &iOption, 0);
+			gObjGetValueOfBuffIndex(Obj, BUFFTYPE_CRITICAL_DMG_INC_STR, &iOption, 0);
 
 			Obj.m_AttackDamageRight += iOption;
 			Obj.m_AttackDamageLeft += iOption;
 
 			iOption = 0;
-			gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_CRITICAL_DMG_INC_MAS, &iOption, 0);
+			gObjGetValueOfBuffIndex(Obj, BUFFTYPE_CRITICAL_DMG_INC_MAS, &iOption, 0);
 
 			Obj.m_AttackDamageRight += iOption;
 			Obj.m_AttackDamageLeft += iOption;
@@ -4288,23 +4288,23 @@ int  CObjAttack::GetAttackDamage(CGameObject &Obj, CGameObject &TargetObj, int t
 	ad += BuffAtk;
 	ad += BuffForce;
 
-	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_ARCA_WINDTOWER))
+	if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_ARCA_WINDTOWER))
 	{
 		int iArcaEffect = 0;
-		gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_ARCA_WINDTOWER, &iArcaEffect, NULL);
+		gObjGetValueOfBuffIndex(Obj, BUFFTYPE_ARCA_WINDTOWER, &iArcaEffect, NULL);
 
 		ad += iArcaEffect;
 	}
 
 	int iValue = 0;
-	gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_CURSED_ATTACK_DOWN, &iValue, 0);
+	gObjGetValueOfBuffIndex(Obj, BUFFTYPE_CURSED_ATTACK_DOWN, &iValue, 0);
 	ad -= iValue * ad / 100;
 
 	iValue = 0;
 
-	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_WEAKEN) == true)
+	if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_WEAKEN) == true)
 	{
-		gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_WEAKEN, &iValue, 0);
+		gObjGetValueOfBuffIndex(Obj, BUFFTYPE_WEAKEN, &iValue, 0);
 		ad -= iValue * ad / 100;
 	}
 
@@ -4485,17 +4485,17 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject &TargetObj
 	case 459:
 	case 460:
 	{
-		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BERSERKER) == true)
+		if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BERSERKER) == true)
 		{
-			int iValue = gObjGetTotalValueOfEffect(lpObj, EFFECTTYPE_BERSERKER_UP);
+			int iValue = gObjGetTotalValueOfEffect(Obj, EFFECTTYPE_BERSERKER_UP);
 			gObjUseSkill.m_Lua.Generic_Call("SummonerBerserkerCurseDamage", "ii>dd", (Obj.m_PlayerData->Energy + Obj.AddEnergy), iValue, &fCurseDamageMin, &fCurseDamageMax);
 		}
 
-		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BERSERKER_STR) == true
-			|| gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BERSERKER_MAS) == true
-			|| gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BERSERKER_PRO) == true)
+		if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BERSERKER_STR) == true
+			|| gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BERSERKER_MAS) == true
+			|| gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BERSERKER_PRO) == true)
 		{
-			int iValue = gObjGetTotalValueOfEffect(lpObj, 31);
+			int iValue = gObjGetTotalValueOfEffect(Obj, 31);
 
 			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncPercentBerserker1 > 0.0)
 			{
@@ -4510,12 +4510,12 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject &TargetObj
 			gObjUseSkill.m_Lua.Generic_Call("SummonerBerserkerCurseDamage", "ii>dd", (Obj.m_PlayerData->Energy + Obj.AddEnergy), iValue, &fCurseDamageMin, &fCurseDamageMax);
 		}
 
-		damagemin = Obj.m_CurseDamageMin + fCurseDamageMin + lpMagic->m_DamageMin + g_SkillSpec.CalcStatBonus(lpObj, lpMagic->m_Skill);
-		damagemax = Obj.m_CurseDamageMax + fCurseDamageMax + lpMagic->m_DamageMax + g_SkillSpec.CalcStatBonus(lpObj, lpMagic->m_Skill);
+		damagemin = Obj.m_CurseDamageMin + fCurseDamageMin + lpMagic->m_DamageMin + g_SkillSpec.CalcStatBonus(Obj, lpMagic->m_Skill);
+		damagemax = Obj.m_CurseDamageMax + fCurseDamageMax + lpMagic->m_DamageMax + g_SkillSpec.CalcStatBonus(Obj, lpMagic->m_Skill);
 
 		if (g_MasterLevelSkillTreeSystem.CheckMasterLevelSkill(lpMagic->m_Skill) == true)
 		{
-			float fDamage = g_MasterLevelSkillTreeSystem.GetSkillAttackDamage(lpObj, lpMagic->m_Skill);
+			float fDamage = g_MasterLevelSkillTreeSystem.GetSkillAttackDamage(Obj, lpMagic->m_Skill);
 			damagemin += fDamage;
 			damagemax += fDamage;
 		}
@@ -4545,22 +4545,22 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject &TargetObj
 			damagemax += damagemax * damage / 100;	// #formula
 		}
 
-		iIncreaseDamage += gObjGetTotalValueOfEffect(lpObj, EFFECTTYPE_CURSED_DAMAGE);
+		iIncreaseDamage += gObjGetTotalValueOfEffect(Obj, EFFECTTYPE_CURSED_DAMAGE);
 		break;
 	}
 	default:
 	{
-		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BERSERKER) == true)
+		if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BERSERKER) == true)
 		{
-			int iValue = gObjGetTotalValueOfEffect(lpObj, 31);
+			int iValue = gObjGetTotalValueOfEffect(Obj, 31);
 			gObjUseSkill.m_Lua.Generic_Call("SummonerBerserkerMagicDamage", "ii>dd", (Obj.m_PlayerData->Energy + Obj.AddEnergy), iValue, &fMagicDamageMin, &fMagicDamageMax);
 		}
 
-		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BERSERKER_STR) == true
-			|| gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BERSERKER_MAS) == true
-			|| gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_BERSERKER_PRO) == true)
+		if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BERSERKER_STR) == true
+			|| gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BERSERKER_MAS) == true
+			|| gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BERSERKER_PRO) == true)
 		{
-			int iValue = gObjGetTotalValueOfEffect(lpObj, 31);
+			int iValue = gObjGetTotalValueOfEffect(Obj, 31);
 
 			if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncPercentBerserker2 > 0.0)
 			{
@@ -4586,12 +4586,12 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject &TargetObj
 			fMagicDamageMax += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMaxMagicDamage;
 		}
 
-		damagemin = (int)((float)(lpMagic->m_DamageMin + Obj.m_MagicDamageMin) + fMagicDamageMin + g_SkillSpec.CalcStatBonus(lpObj, lpMagic->m_Skill));
-		damagemax = (int)((float)(lpMagic->m_DamageMax + Obj.m_MagicDamageMax) + fMagicDamageMax + g_SkillSpec.CalcStatBonus(lpObj, lpMagic->m_Skill));
+		damagemin = (int)((float)(lpMagic->m_DamageMin + Obj.m_MagicDamageMin) + fMagicDamageMin + g_SkillSpec.CalcStatBonus(Obj, lpMagic->m_Skill));
+		damagemax = (int)((float)(lpMagic->m_DamageMax + Obj.m_MagicDamageMax) + fMagicDamageMax + g_SkillSpec.CalcStatBonus(Obj, lpMagic->m_Skill));
 
 		if (g_MasterLevelSkillTreeSystem.CheckMasterLevelSkill(lpMagic->m_Skill) == true)
 		{
-			float fDamage = g_MasterLevelSkillTreeSystem.GetSkillAttackDamage(lpObj, lpMagic->m_Skill);
+			float fDamage = g_MasterLevelSkillTreeSystem.GetSkillAttackDamage(Obj, lpMagic->m_Skill);
 			damagemin += fDamage;
 			damagemax += fDamage;
 		}
@@ -4605,7 +4605,7 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject &TargetObj
 			damagemax += damagemax * damage / 100;	// #formula
 		}
 
-		iIncreaseDamage += gObjGetTotalValueOfEffect(lpObj, EFFECTTYPE_MAGICDAMAGE);
+		iIncreaseDamage += gObjGetTotalValueOfEffect(Obj, EFFECTTYPE_MAGICDAMAGE);
 	}
 	break;
 	}
@@ -4632,28 +4632,28 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject &TargetObj
 	damagemin += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSkillAttack;
 	damagemax += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSkillAttack;
 
-	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_ARCA_FIRETOWER))
+	if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_ARCA_FIRETOWER))
 	{
 		int nEffectValue = 0;
-		gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_ARCA_FIRETOWER, &nEffectValue, 0);
+		gObjGetValueOfBuffIndex(Obj, BUFFTYPE_ARCA_FIRETOWER, &nEffectValue, 0);
 
 		damagemin += nEffectValue;
 		damagemax += nEffectValue;
 	}
 
-	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_OBSIDIAN) == TRUE)
+	if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_OBSIDIAN) == TRUE)
 	{
 		int nEffectValue = 0;
-		gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_OBSIDIAN, &nEffectValue, NULL);
+		gObjGetValueOfBuffIndex(Obj, BUFFTYPE_OBSIDIAN, &nEffectValue, NULL);
 
 		damagemin += nEffectValue;
 		damagemax += nEffectValue;
 	}
 
-	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_OBSIDIAN_STR) == TRUE)
+	if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_OBSIDIAN_STR) == TRUE)
 	{
 		int nEffectValue = 0;
-		gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_OBSIDIAN_STR, &nEffectValue, NULL);
+		gObjGetValueOfBuffIndex(Obj, BUFFTYPE_OBSIDIAN_STR, &nEffectValue, NULL);
 
 		damagemin += nEffectValue;
 		damagemax += nEffectValue;
@@ -4661,26 +4661,26 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject &TargetObj
 
 	int nMuunItemEffectValue = 0;
 
-	if (g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_SKILL_POWER, &nMuunItemEffectValue, 0) == TRUE)
+	if (g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_SKILL_POWER, &nMuunItemEffectValue, 0) == TRUE)
 	{
 		damagemin += nMuunItemEffectValue;
 		damagemax += nMuunItemEffectValue;
 	}
 
-	if (Obj.Type == OBJ_USER && lpTargetObj.Type != OBJ_USER)
+	if (Obj.Type == OBJ_USER && TargetObj.Type != OBJ_USER)
 	{
 		nMuunItemEffectValue = 0;
-		g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_ATTACK_POWER_NONPVP, &nMuunItemEffectValue, 0);
+		g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_ATTACK_POWER_NONPVP, &nMuunItemEffectValue, 0);
 
 		damagemin += nMuunItemEffectValue;
 		damagemax += nMuunItemEffectValue;
 
-		g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_MAX_ATTACK_POWER_NONPVP, &nMuunItemEffectValue, 0);
+		g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_MAX_ATTACK_POWER_NONPVP, &nMuunItemEffectValue, 0);
 
 		damagemax += nMuunItemEffectValue;
 
 		nMuunItemEffectValue = 0;
-		g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_SKILL_POWER_NONPVP, &nMuunItemEffectValue, 0);
+		g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_SKILL_POWER_NONPVP, &nMuunItemEffectValue, 0);
 
 		damagemin += nMuunItemEffectValue;
 		damagemax += nMuunItemEffectValue;
@@ -4719,10 +4719,10 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject &TargetObj
 		}
 	}
 
-	if (lpTargetObj.Type == OBJ_USER)
+	if (TargetObj.Type == OBJ_USER)
 	{
-		nCritical -= lpTargetObj.m_PlayerData->m_Resistance_Critical;
-		nExcellent -= lpTargetObj.m_PlayerData->m_Resistance_Excellent;
+		nCritical -= TargetObj.m_PlayerData->m_Resistance_Critical;
+		nExcellent -= TargetObj.m_PlayerData->m_Resistance_Excellent;
 	}
 
 	int cDamage = FALSE;
@@ -4751,13 +4751,13 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject &TargetObj
 		ad += Obj.m_PlayerData->SetOpAddCriticalDamage;
 		ad += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddCriticalDamage;
 		int iOption = 0;
-		gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_CRITICAL_DMG_INC, &iOption, 0);
+		gObjGetValueOfBuffIndex(Obj, BUFFTYPE_CRITICAL_DMG_INC, &iOption, 0);
 		ad += iOption;
 		iOption = 0;
-		gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_CRITICAL_DMG_INC_STR, &iOption, 0);
+		gObjGetValueOfBuffIndex(Obj, BUFFTYPE_CRITICAL_DMG_INC_STR, &iOption, 0);
 		ad += iOption;
 		iOption = 0;
-		gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_CRITICAL_DMG_INC_MAS, &iOption, 0);
+		gObjGetValueOfBuffIndex(Obj, BUFFTYPE_CRITICAL_DMG_INC_MAS, &iOption, 0);
 		ad += iOption;
 
 		if (effect == 2)
@@ -4767,17 +4767,17 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject &TargetObj
 		}
 	}
 
-	if (Obj.m_SkillInfo.RemedyOfLoveEffect)
+	if (Obj.m_SkillInfo->RemedyOfLoveEffect)
 	{
 		ad += 10;
 	}
 
-	iIncreaseDamage += gObjGetTotalValueOfEffect(lpObj, EFFECTTYPE_IMPROVE_DAMAGE);
+	iIncreaseDamage += gObjGetTotalValueOfEffect(Obj, EFFECTTYPE_IMPROVE_DAMAGE);
 
-	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_ARCA_WINDTOWER))
+	if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_ARCA_WINDTOWER))
 	{
 		int iArcaEffect = 0;
-		gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_ARCA_WINDTOWER, &iArcaEffect, NULL);
+		gObjGetValueOfBuffIndex(Obj, BUFFTYPE_ARCA_WINDTOWER, &iArcaEffect, NULL);
 
 		iIncreaseDamage += iArcaEffect;
 	}
@@ -4787,7 +4787,7 @@ int CObjAttack::GetAttackDamageSummoner(CGameObject &Obj, CGameObject &TargetObj
 	return ad;
 }
 
-int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj, int targetDefense, CMagicInf* lpMagic, int& effect)
+int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject &TargetObj, int targetDefense, CMagicInf* lpMagic, int& effect)
 {
 	if (Obj.Type != OBJ_USER)
 	{
@@ -4827,28 +4827,28 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 			damagemin += Obj.m_PlayerData->SetOpAddSkillAttack;
 			damagemax += Obj.m_PlayerData->SetOpAddSkillAttack;
 
-			if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_ARCA_FIRETOWER))
+			if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_ARCA_FIRETOWER))
 			{
 				int nEffectValue = 0;
-				gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_ARCA_FIRETOWER, &nEffectValue, 0);
+				gObjGetValueOfBuffIndex(Obj, BUFFTYPE_ARCA_FIRETOWER, &nEffectValue, 0);
 
 				damagemin += nEffectValue;
 				damagemax += nEffectValue;
 			}
 
-			if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_OBSIDIAN) == TRUE)
+			if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_OBSIDIAN) == TRUE)
 			{
 				int nEffectValue = 0;
-				gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_OBSIDIAN, &nEffectValue, NULL);
+				gObjGetValueOfBuffIndex(Obj, BUFFTYPE_OBSIDIAN, &nEffectValue, NULL);
 
 				damagemin += nEffectValue;
 				damagemax += nEffectValue;
 			}
 
-			if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_OBSIDIAN_STR) == TRUE)
+			if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_OBSIDIAN_STR) == TRUE)
 			{
 				int nEffectValue = 0;
-				gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_OBSIDIAN_STR, &nEffectValue, NULL);
+				gObjGetValueOfBuffIndex(Obj, BUFFTYPE_OBSIDIAN_STR, &nEffectValue, NULL);
 
 				damagemin += nEffectValue;
 				damagemax += nEffectValue;
@@ -4856,27 +4856,27 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 
 			int nMuunItemValue = 0;
 
-			if (g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_SKILL_POWER, &nMuunItemValue, 0) == 1)
+			if (g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_SKILL_POWER, &nMuunItemValue, 0) == 1)
 			{
 				damagemin += nMuunItemValue;
 				damagemax += nMuunItemValue;
 			}
 
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type != OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type != OBJ_USER)
 			{
 				nMuunItemValue = 0;
-				g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_ATTACK_POWER_NONPVP, &nMuunItemValue, 0);
+				g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_ATTACK_POWER_NONPVP, &nMuunItemValue, 0);
 
 				damagemin += nMuunItemValue;
 				damagemax += nMuunItemValue;
 
 				nMuunItemValue = 0;
-				g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_MAX_ATTACK_POWER_NONPVP, &nMuunItemValue, 0);
+				g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_MAX_ATTACK_POWER_NONPVP, &nMuunItemValue, 0);
 
 				damagemax += nMuunItemValue;
 
 				nMuunItemValue = 0;
-				g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_SKILL_POWER_NONPVP, &nMuunItemValue, 0);
+				g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_SKILL_POWER_NONPVP, &nMuunItemValue, 0);
 
 				damagemin += nMuunItemValue;
 				damagemax += nMuunItemValue;
@@ -4949,28 +4949,28 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 				}
 			}
 
-			if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_ARCA_FIRETOWER))
+			if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_ARCA_FIRETOWER))
 			{
 				int nEffectValue = 0;
-				gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_ARCA_FIRETOWER, &nEffectValue, 0);
+				gObjGetValueOfBuffIndex(Obj, BUFFTYPE_ARCA_FIRETOWER, &nEffectValue, 0);
 
 				damagemin += nEffectValue;
 				damagemax += nEffectValue;
 			}
 
-			if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_OBSIDIAN) == TRUE)
+			if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_OBSIDIAN) == TRUE)
 			{
 				int nEffectValue = 0;
-				gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_OBSIDIAN, &nEffectValue, NULL);
+				gObjGetValueOfBuffIndex(Obj, BUFFTYPE_OBSIDIAN, &nEffectValue, NULL);
 
 				damagemin += nEffectValue;
 				damagemax += nEffectValue;
 			}
 
-			if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_OBSIDIAN_STR) == TRUE)
+			if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_OBSIDIAN_STR) == TRUE)
 			{
 				int nEffectValue = 0;
-				gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_OBSIDIAN_STR, &nEffectValue, NULL);
+				gObjGetValueOfBuffIndex(Obj, BUFFTYPE_OBSIDIAN_STR, &nEffectValue, NULL);
 
 				damagemin += nEffectValue;
 				damagemax += nEffectValue;
@@ -4978,27 +4978,27 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 
 			int nMuunItemValue = 0;
 
-			if (g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_SKILL_POWER, &nMuunItemValue, 0) == 1)
+			if (g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_SKILL_POWER, &nMuunItemValue, 0) == 1)
 			{
 				damagemin += nMuunItemValue;
 				damagemax += nMuunItemValue;
 			}
 
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type != OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type != OBJ_USER)
 			{
 				nMuunItemValue = 0;
-				g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_ATTACK_POWER_NONPVP, &nMuunItemValue, 0);
+				g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_ATTACK_POWER_NONPVP, &nMuunItemValue, 0);
 
 				damagemin += nMuunItemValue;
 				damagemax += nMuunItemValue;
 
 				nMuunItemValue = 0;
-				g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_MAX_ATTACK_POWER_NONPVP, &nMuunItemValue, 0);
+				g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_MAX_ATTACK_POWER_NONPVP, &nMuunItemValue, 0);
 
 				damagemax += nMuunItemValue;
 
 				nMuunItemValue = 0;
-				g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_SKILL_POWER_NONPVP, &nMuunItemValue, 0);
+				g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_SKILL_POWER_NONPVP, &nMuunItemValue, 0);
 
 				damagemin += nMuunItemValue;
 				damagemax += nMuunItemValue;
@@ -5013,38 +5013,38 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 	{
 		ad = lpMagic->GetDamage();
 
-		damagemin = lpMagic->m_DamageMin + Obj.m_MagicDamageMin + g_SkillSpec.CalcStatBonus(lpObj, lpMagic->m_Skill);
-		damagemax = lpMagic->m_DamageMax + Obj.m_MagicDamageMax + g_SkillSpec.CalcStatBonus(lpObj, lpMagic->m_Skill);
+		damagemin = lpMagic->m_DamageMin + Obj.m_MagicDamageMin + g_SkillSpec.CalcStatBonus(Obj, lpMagic->m_Skill);
+		damagemax = lpMagic->m_DamageMax + Obj.m_MagicDamageMax + g_SkillSpec.CalcStatBonus(Obj, lpMagic->m_Skill);
 
 		if (g_MasterLevelSkillTreeSystem.CheckMasterLevelSkill(lpMagic->m_Skill) == true)
 		{
-			float fDamage = g_MasterLevelSkillTreeSystem.GetSkillAttackDamage(lpObj, lpMagic->m_Skill);
+			float fDamage = g_MasterLevelSkillTreeSystem.GetSkillAttackDamage(Obj, lpMagic->m_Skill);
 			damagemin += fDamage;
 			damagemax += fDamage;
 		}
 
-		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_ARCA_FIRETOWER))
+		if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_ARCA_FIRETOWER))
 		{
 			int nEffectValue = 0;
-			gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_ARCA_FIRETOWER, &nEffectValue, 0);
+			gObjGetValueOfBuffIndex(Obj, BUFFTYPE_ARCA_FIRETOWER, &nEffectValue, 0);
 
 			damagemin += nEffectValue;
 			damagemax += nEffectValue;
 		}
 
-		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_OBSIDIAN) == TRUE)
+		if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_OBSIDIAN) == TRUE)
 		{
 			int nEffectValue = 0;
-			gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_OBSIDIAN, &nEffectValue, NULL);
+			gObjGetValueOfBuffIndex(Obj, BUFFTYPE_OBSIDIAN, &nEffectValue, NULL);
 
 			damagemin += nEffectValue;
 			damagemax += nEffectValue;
 		}
 
-		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_OBSIDIAN_STR) == TRUE)
+		if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_OBSIDIAN_STR) == TRUE)
 		{
 			int nEffectValue = 0;
-			gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_OBSIDIAN_STR, &nEffectValue, NULL);
+			gObjGetValueOfBuffIndex(Obj, BUFFTYPE_OBSIDIAN_STR, &nEffectValue, NULL);
 
 			damagemin += nEffectValue;
 			damagemax += nEffectValue;
@@ -5052,27 +5052,27 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 
 		int nMuunOptValue = 0;
 
-		if (g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_SKILL_POWER, &nMuunOptValue, 0) == 1)
+		if (g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_SKILL_POWER, &nMuunOptValue, 0) == 1)
 		{
 			damagemin += nMuunOptValue;
 			damagemax += nMuunOptValue;
 		}
 
-		if (Obj.Type == OBJ_USER && lpTargetObj.Type != OBJ_USER)
+		if (Obj.Type == OBJ_USER && TargetObj.Type != OBJ_USER)
 		{
 			nMuunOptValue = 0;
-			g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_ATTACK_POWER_NONPVP, &nMuunOptValue, 0);
+			g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_ATTACK_POWER_NONPVP, &nMuunOptValue, 0);
 
 			damagemin += nMuunOptValue;
 			damagemax += nMuunOptValue;
 
 			nMuunOptValue = 0;
-			g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_MAX_ATTACK_POWER_NONPVP, &nMuunOptValue, 0);
+			g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_MAX_ATTACK_POWER_NONPVP, &nMuunOptValue, 0);
 
 			damagemax += nMuunOptValue;
 
 			nMuunOptValue = 0;
-			g_CMuunSystem.GetMuunItemValueOfOptType(lpObj, MUUN_INC_SKILL_POWER_NONPVP, &nMuunOptValue, 0);
+			g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_SKILL_POWER_NONPVP, &nMuunOptValue, 0);
 
 			damagemin += nMuunOptValue;
 			damagemax += nMuunOptValue;
@@ -5101,7 +5101,7 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 		damagemax += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSkillAttack;
 	}
 
-	CItemObject * Right = &Obj.pntInventory[0];
+	CItemObject * Right = Obj.pntInventory[0];
 
 	if (Right->IsItem())
 	{
@@ -5141,7 +5141,7 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 
 	if (Obj.Type == OBJ_USER)
 	{
-		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_MAGIC_POWER_INC_MAS) == true)
+		if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_MAGIC_POWER_INC_MAS) == true)
 		{
 			nCritical += Obj.m_PlayerData->m_MPSkillOpt->iMpsCriticalRateInc;
 		}
@@ -5157,10 +5157,10 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 		}
 	}
 
-	if (lpTargetObj.Type == OBJ_USER)
+	if (TargetObj.Type == OBJ_USER)
 	{
-		nCritical -= lpTargetObj.m_PlayerData->m_Resistance_Critical;
-		nExcellent -= lpTargetObj.m_PlayerData->m_Resistance_Excellent;
+		nCritical -= TargetObj.m_PlayerData->m_Resistance_Critical;
+		nExcellent -= TargetObj.m_PlayerData->m_Resistance_Excellent;
 	}
 
 	int cDamage = FALSE;
@@ -5189,13 +5189,13 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 		ad += Obj.m_PlayerData->SetOpAddCriticalDamage;
 		ad += Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddCriticalDamage;
 		int iOption = 0;
-		gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_CRITICAL_DMG_INC, &iOption, 0);
+		gObjGetValueOfBuffIndex(Obj, BUFFTYPE_CRITICAL_DMG_INC, &iOption, 0);
 		ad += iOption;
 		iOption = 0;
-		gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_CRITICAL_DMG_INC_STR, &iOption, 0);
+		gObjGetValueOfBuffIndex(Obj, BUFFTYPE_CRITICAL_DMG_INC_STR, &iOption, 0);
 		ad += iOption;
 		iOption = 0;
-		gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_CRITICAL_DMG_INC_MAS, &iOption, 0);
+		gObjGetValueOfBuffIndex(Obj, BUFFTYPE_CRITICAL_DMG_INC_MAS, &iOption, 0);
 		ad += iOption;
 
 		if (effect == 2)
@@ -5205,16 +5205,16 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject lpTargetObj
 		}
 	}
 
-	int BuffAtk = gObjGetTotalValueOfEffect(lpObj, EFFECTTYPE_IMPROVE_DAMAGE);
-	int BuffForce = gObjGetTotalValueOfEffect(lpObj, EFFECTTYPE_MELEEDAMAGE);
+	int BuffAtk = gObjGetTotalValueOfEffect(Obj, EFFECTTYPE_IMPROVE_DAMAGE);
+	int BuffForce = gObjGetTotalValueOfEffect(Obj, EFFECTTYPE_MELEEDAMAGE);
 
 	ad += BuffAtk;
 	ad += BuffForce;
 
-	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_ARCA_WINDTOWER))
+	if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_ARCA_WINDTOWER))
 	{
 		int iArcaEffect = 0;
-		gObjGetValueOfBuffIndex(lpObj, BUFFTYPE_ARCA_WINDTOWER, &iArcaEffect, NULL);
+		gObjGetValueOfBuffIndex(Obj, BUFFTYPE_ARCA_WINDTOWER, &iArcaEffect, NULL);
 
 		ad += iArcaEffect;
 	}
@@ -5239,7 +5239,7 @@ BOOL gObjDenorantSprite(CGameObject &Obj)
 		return FALSE;
 	}
 
-	CItemObject * Denorant = &Obj.pntInventory[Obj.m_btInvenPetPos];
+	CItemObject * Denorant = Obj.pntInventory[Obj.m_btInvenPetPos];
 
 	if (Denorant->m_Type == ITEMGET(13, 3))
 	{
@@ -5266,7 +5266,7 @@ BOOL gObjDarkHorse(CGameObject &Obj)
 		return FALSE;
 	}
 
-	CItemObject * Denorant = &Obj.pntInventory[Obj.m_btInvenPetPos];
+	CItemObject * Denorant = Obj.pntInventory[Obj.m_btInvenPetPos];
 
 	if (Denorant->m_Type == ITEMGET(13, 4))
 	{
@@ -5292,7 +5292,7 @@ BOOL gObjFenrir(CGameObject &Obj)
 		return FALSE;
 	}
 
-	CItemObject * lpFenrir = &Obj.pntInventory[Obj.m_btInvenPetPos];
+	CItemObject * lpFenrir = Obj.pntInventory[Obj.m_btInvenPetPos];
 
 	if (lpFenrir->m_Type == ITEMGET(13, 37))	// Fenrir
 	{
@@ -5305,7 +5305,7 @@ BOOL gObjFenrir(CGameObject &Obj)
 	return FALSE;
 }
 
-int CObjAttack::GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int iAttackDamage)
+int CObjAttack::GetShieldDamage(CGameObject &Obj, CGameObject &TargetObj, int iAttackDamage)
 {
 	int iShieldDamage = 0;
 
@@ -5318,7 +5318,7 @@ int CObjAttack::GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int i
 	if (Obj.Type != OBJ_USER)
 		return 0;
 
-	if (lpTargetObj.Type != OBJ_USER)
+	if (TargetObj.Type != OBJ_USER)
 		return 0;
 
 	int iReduceLife = 0;
@@ -5327,7 +5327,7 @@ int CObjAttack::GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int i
 	bool bReduceShieldGage = 0;
 	int iDamageDevideToSDRate = g_ConfigRead.g_iDamageDevideToSDRate;
 	iDamageDevideToSDRate -= Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpDecreaseSDRate;
-	iDamageDevideToSDRate += lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSDRate;
+	iDamageDevideToSDRate += TargetObj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSDRate;
 
 	if (iDamageDevideToSDRate < 0)
 		iDamageDevideToSDRate = 0;
@@ -5338,7 +5338,7 @@ int CObjAttack::GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int i
 	if (Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddIgnoreSDRate > 0)
 	{
 		int iRand = rand() % 100;
-		int iIgnoreSDRate = Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddIgnoreSDRate - lpTargetObj.m_PlayerData->m_Resistance_SD;
+		int iIgnoreSDRate = Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddIgnoreSDRate - TargetObj.m_PlayerData->m_Resistance_SD;
 
 		if (iRand < iIgnoreSDRate)
 		{
@@ -5346,8 +5346,8 @@ int CObjAttack::GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int i
 		}
 	}
 
-	if ((Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER) && (Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpDecreaseSDRate ||
-		lpTargetObj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSDRate ||
+	if ((Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER) && (Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpDecreaseSDRate ||
+		TargetObj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddSDRate ||
 		Obj.m_PlayerData->m_JewelOfHarmonyEffect->HJOpAddIgnoreSDRate))
 	{
 	
@@ -5357,31 +5357,31 @@ int CObjAttack::GetShieldDamage(CGameObject &Obj, CGameObject lpTargetObj, int i
 
 	iReduceLife = iAttackDamage - iReduceShield;
 
-	if ((lpTargetObj.iShield - iReduceShield) <0)
+	if ((TargetObj.iShield - iReduceShield) <0)
 	{
-		iReduceLife += iReduceShield - lpTargetObj.iShield;
-		iReduceShield = lpTargetObj.iShield;
+		iReduceLife += iReduceShield - TargetObj.iShield;
+		iReduceShield = TargetObj.iShield;
 
-		if (lpTargetObj.iShield > 0)
+		if (TargetObj.iShield > 0)
 		{
 			bReduceShieldGage = true;
 		}
 	}
 
-	iReduceLifeForEffect = (lpTargetObj.MaxLife + lpTargetObj.AddLife) * 20.0f / 100.0f;
+	iReduceLifeForEffect = (TargetObj.MaxLife + TargetObj.AddLife) * 20.0f / 100.0f;
 
 	if (bReduceShieldGage == true && iReduceLife > iReduceLifeForEffect)
 	{
-		if (!CC_MAP_RANGE(lpTargetObj.MapNumber) && lpTargetObj.MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL)
+		if (!CC_MAP_RANGE(TargetObj.MapNumber) && TargetObj.MapNumber != MAP_INDEX_CHAOSCASTLE_SURVIVAL)
 		{
-			GSProtocol.GCSendEffectInfo(lpTargetObj.m_Index, 17);
+			GSProtocol.GCSendEffectInfo(&TargetObj, 17);
 		}
 	}
 
 	return iReduceShield;
 }
 
-int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, char* DamageType1, char* DamageType2, int iAttackDamage, int iTargetDefense) // 1.1.0.4 decompilation
+int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject &TargetObj, char* DamageType1, char* DamageType2, int iAttackDamage, int iTargetDefense) // 1.1.0.4 decompilation
 {
 	int Strength = 0;
 	int Dexterity = 0;
@@ -5405,7 +5405,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 	int AttackSuccessRate = 0;
 	int DefenseSuccessRate = 0;
 	int AttackerAttribute = Obj.m_iPentagramMainAttribute;
-	int DefenserAttribute = lpTargetObj.m_iPentagramMainAttribute;
+	int DefenserAttribute = TargetObj.m_iPentagramMainAttribute;
 	bool bExcellentDamageOption = false;
 	bool bCriticalDamageOption = false;
 
@@ -5441,7 +5441,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 	if (Obj.Type == 1)
 	{
-		if (g_PentagramSystem.IsPentagramItem(&Obj.pntInventory[236]) == true)
+		if (g_PentagramSystem.IsPentagramItem(Obj.pntInventory[236]) == true)
 		{
 			PentagramMinDamage = Obj.pntInventory[236]->m_DamageMin;
 			PentagramMaxDamage = Obj.pntInventory[236]->m_DamageMax;
@@ -5451,7 +5451,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 		if (Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_4RankOptionNum == 1)
 		{
-			if (lpTargetObj.Type == OBJ_USER)
+			if (TargetObj.Type == OBJ_USER)
 			{
 				iExcelDamageRate = Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_4RankAddExllentDamageRate;
 			}
@@ -5459,7 +5459,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 		else if (Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_4RankOptionNum == 2)
 		{
-			if (lpTargetObj.Type == OBJ_MONSTER)
+			if (TargetObj.Type == OBJ_MONSTER)
 			{
 				iExcelDamageRate = Obj.m_PlayerData->m_PentagramOptions->m_iOnyx_4RankAddExllentDamageRate;
 			}
@@ -5476,7 +5476,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 			if (Obj.m_PlayerData->m_PentagramOptions->m_iRuby_5RankOptionNum == 1)
 			{
-				if (lpTargetObj.Type == OBJ_USER)
+				if (TargetObj.Type == OBJ_USER)
 				{
 					iCriDamageRate = Obj.m_PlayerData->m_PentagramOptions->m_iRuby_5RankCriticalDamageRate;
 				}
@@ -5484,7 +5484,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 			else if (Obj.m_PlayerData->m_PentagramOptions->m_iRuby_5RankOptionNum == 2)
 			{
-				if (lpTargetObj.Type == OBJ_MONSTER)
+				if (TargetObj.Type == OBJ_MONSTER)
 				{
 					iCriDamageRate = Obj.m_PlayerData->m_PentagramOptions->m_iRuby_5RankCriticalDamageRate;
 				}
@@ -5577,24 +5577,24 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 	{
 		AddDamage = Obj.m_PlayerData->m_PentagramOptions->m_iRuby_1RankAddDamage;
 
-		if (Obj.m_PlayerData->m_PentagramOptions->m_iRuby_3RankOptionNum == 1 && lpTargetObj.Type == OBJ_USER)
+		if (Obj.m_PlayerData->m_PentagramOptions->m_iRuby_3RankOptionNum == 1 && TargetObj.Type == OBJ_USER)
 		{
 			AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iRuby_3RankAddDamage;
 		}
 
-		else if (Obj.m_PlayerData->m_PentagramOptions->m_iRuby_3RankOptionNum == 2 && lpTargetObj.Type == OBJ_MONSTER)
+		else if (Obj.m_PlayerData->m_PentagramOptions->m_iRuby_3RankOptionNum == 2 && TargetObj.Type == OBJ_MONSTER)
 		{
 			AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iRuby_3RankAddDamage;
 		}
 
 		if (Obj.m_PlayerData->m_PentagramOptions->m_iRuby_4RankOptionNum == 1)
 		{
-			if (lpTargetObj.Type == OBJ_MONSTER)
+			if (TargetObj.Type == OBJ_MONSTER)
 			{
 				AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iRuby_4RankAddDamage;
 			}
 
-			else if (lpTargetObj.Class == CLASS_WIZARD || lpTargetObj.Class == CLASS_ELF || lpTargetObj.Class == CLASS_MAGUMSA || lpTargetObj.Class == CLASS_SUMMONER)
+			else if (TargetObj.Class == CLASS_WIZARD || TargetObj.Class == CLASS_ELF || TargetObj.Class == CLASS_MAGUMSA || TargetObj.Class == CLASS_SUMMONER)
 			{
 				AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iRuby_4RankAddDamage;
 			}
@@ -5602,35 +5602,35 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 		else if (Obj.m_PlayerData->m_PentagramOptions->m_iRuby_4RankOptionNum == 2)
 		{
-			if (lpTargetObj.Type == OBJ_MONSTER)
+			if (TargetObj.Type == OBJ_MONSTER)
 			{
 				AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iRuby_4RankAddDamage;
 			}
 
-			else if (lpTargetObj.Class == CLASS_KNIGHT || lpTargetObj.Class == CLASS_DARKLORD || lpTargetObj.Class == CLASS_RAGEFIGHTER)
+			else if (TargetObj.Class == CLASS_KNIGHT || TargetObj.Class == CLASS_DARKLORD || TargetObj.Class == CLASS_RAGEFIGHTER)
 			{
 				AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iRuby_4RankAddDamage;
 			}
 		}
 
-		if (Obj.m_PlayerData->m_PentagramOptions->m_iEme_3RankOptionNum == 1 && lpTargetObj.Type == OBJ_USER)
+		if (Obj.m_PlayerData->m_PentagramOptions->m_iEme_3RankOptionNum == 1 && TargetObj.Type == OBJ_USER)
 		{
 			AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iEme_3RankAddDamage;
 		}
 
-		else if (Obj.m_PlayerData->m_PentagramOptions->m_iEme_3RankOptionNum == 2 && lpTargetObj.Type == OBJ_MONSTER)
+		else if (Obj.m_PlayerData->m_PentagramOptions->m_iEme_3RankOptionNum == 2 && TargetObj.Type == OBJ_MONSTER)
 		{
 			AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iEme_3RankAddDamage;
 		}
 
 		if (Obj.m_PlayerData->m_PentagramOptions->m_iEme_4RankOptionNum == 1)
 		{
-			if (lpTargetObj.Type == OBJ_MONSTER)
+			if (TargetObj.Type == OBJ_MONSTER)
 			{
 				AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iEme_4RankAddDamage;
 			}
 
-			else if (lpTargetObj.Class == CLASS_WIZARD || lpTargetObj.Class == CLASS_ELF || lpTargetObj.Class == CLASS_MAGUMSA || lpTargetObj.Class == CLASS_SUMMONER)
+			else if (TargetObj.Class == CLASS_WIZARD || TargetObj.Class == CLASS_ELF || TargetObj.Class == CLASS_MAGUMSA || TargetObj.Class == CLASS_SUMMONER)
 			{
 				AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iEme_4RankAddDamage;
 			}
@@ -5638,12 +5638,12 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 		else if (Obj.m_PlayerData->m_PentagramOptions->m_iEme_4RankOptionNum == 2)
 		{
-			if (lpTargetObj.Type == OBJ_MONSTER)
+			if (TargetObj.Type == OBJ_MONSTER)
 			{
 				AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iEme_4RankAddDamage;
 			}
 
-			else if (lpTargetObj.Class == CLASS_KNIGHT || lpTargetObj.Class == CLASS_DARKLORD || lpTargetObj.Class == CLASS_RAGEFIGHTER)
+			else if (TargetObj.Class == CLASS_KNIGHT || TargetObj.Class == CLASS_DARKLORD || TargetObj.Class == CLASS_RAGEFIGHTER)
 			{
 				AddDamage += Obj.m_PlayerData->m_PentagramOptions->m_iEme_4RankAddDamage;
 			}
@@ -5659,12 +5659,12 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 	if (Obj.Type == OBJ_USER)
 	{
-		if (Obj.m_PlayerData->m_PentagramOptions->m_iEme_5RankOptionNum == 1 && lpTargetObj.Type == OBJ_USER)
+		if (Obj.m_PlayerData->m_PentagramOptions->m_iEme_5RankOptionNum == 1 && TargetObj.Type == OBJ_USER)
 		{
 			TotalDamage += TotalDamage * Obj.m_PlayerData->m_PentagramOptions->m_iEme_5RankAddDamageRate / 100;
 		}
 
-		else if (Obj.m_PlayerData->m_PentagramOptions->m_iEme_5RankOptionNum == 2 && lpTargetObj.Type == OBJ_MONSTER)
+		else if (Obj.m_PlayerData->m_PentagramOptions->m_iEme_5RankOptionNum == 2 && TargetObj.Type == OBJ_MONSTER)
 		{
 			TotalDamage += TotalDamage * Obj.m_PlayerData->m_PentagramOptions->m_iEme_5RankAddDamageRate / 100;
 		}
@@ -5672,53 +5672,53 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 	if (TotalDamage > 0 && Obj.Type == OBJ_USER)
 	{
-		if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_ARCA_FIRETOWER) == TRUE && AttackerAttribute == EL_FIRE)
+		if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_ARCA_FIRETOWER) == TRUE && AttackerAttribute == EL_FIRE)
 		{
 			TotalDamage += 5 * TotalDamage / 100;
 		}
 
-		else if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_ARCA_WATERTOWER) == TRUE && AttackerAttribute == EL_WATER)
+		else if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_ARCA_WATERTOWER) == TRUE && AttackerAttribute == EL_WATER)
 		{
 			TotalDamage += 5 * TotalDamage / 100;
 		}
 
-		else if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_ARCA_EARTHTOWER) == TRUE && AttackerAttribute == EL_EARTH)
+		else if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_ARCA_EARTHTOWER) == TRUE && AttackerAttribute == EL_EARTH)
 		{
 			TotalDamage += 5 * TotalDamage / 100;
 		}
 
-		else if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_ARCA_WINDTOWER) == TRUE && AttackerAttribute == EL_WIND)
+		else if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_ARCA_WINDTOWER) == TRUE && AttackerAttribute == EL_WIND)
 		{
 			TotalDamage += 5 * TotalDamage / 100;
 		}
 
-		else if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_ARCA_DARKNESSTOWER) == TRUE && AttackerAttribute == EL_DARKNESS)
+		else if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_ARCA_DARKNESSTOWER) == TRUE && AttackerAttribute == EL_DARKNESS)
 		{
 			TotalDamage += 5 * TotalDamage / 100;
 		}
 	}
 
-	if (lpTargetObj.Type == OBJ_USER)
+	if (TargetObj.Type == OBJ_USER)
 	{
-		if (g_PentagramSystem.IsPentagramItem(&lpTargetObj.pntInventory[236]) == true)
+		if (g_PentagramSystem.IsPentagramItem(*TargetObj.pntInventory[236]) == true)
 		{
-			PentagramDefense = lpTargetObj.pntInventory[236]->m_Defense;
+			PentagramDefense = TargetObj.pntInventory[236]->m_Defense;
 		}
 
-		if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_isAddPentaDefense == true)
+		if (TargetObj.m_PlayerData->m_PentagramOptions->m_isAddPentaDefense == true)
 		{
 			PentagramDefense += PentagramDefense * 0.1;
 		}
 	}
 
-	else if (lpTargetObj.Type == OBJ_MONSTER)
+	else if (TargetObj.Type == OBJ_MONSTER)
 	{
-		PentagramDefense = lpTargetObj.m_iPentagramDefense;
+		PentagramDefense = TargetObj.m_iPentagramDefense;
 	}
 
-	if (lpTargetObj.Type == OBJ_USER)
+	if (TargetObj.Type == OBJ_USER)
 	{
-		this->m_Lua.Generic_Call("ElementalDefenseCalc", "ii>i", lpTargetObj.Class, lpTargetObj.m_PlayerData->Dexterity, &BaseDefense);
+		this->m_Lua.Generic_Call("ElementalDefenseCalc", "ii>i", TargetObj.Class, TargetObj.m_PlayerData->Dexterity, &BaseDefense);
 		BaseDefense += PentagramDefense;
 	}
 
@@ -5727,83 +5727,83 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 		BaseDefense = PentagramDefense;
 	}
 
-	if (lpTargetObj.Type == OBJ_USER && g_PentagramSystem.IsPentagramItem(&lpTargetObj.pntInventory[236]) == true)
+	if (TargetObj.Type == OBJ_USER && g_PentagramSystem.IsPentagramItem(*TargetObj.pntInventory[236]) == true)
 	{
-		AddDefense = lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_1RankAddDefense;
+		AddDefense = TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_1RankAddDefense;
 
-		if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_3RankOptionNum == 1 && Obj.Type == OBJ_USER)
+		if (TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_3RankOptionNum == 1 && Obj.Type == OBJ_USER)
 		{
-			AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_3RankAddDefense;
+			AddDefense += TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_3RankAddDefense;
 		}
 
-		else if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_3RankOptionNum == 2 && Obj.Type == OBJ_MONSTER)
+		else if (TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_3RankOptionNum == 2 && Obj.Type == OBJ_MONSTER)
 		{
-			AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_3RankAddDefense;
+			AddDefense += TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_3RankAddDefense;
 		}
 
-		if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankOptionNum == 1)
+		if (TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankOptionNum == 1)
 		{
 			if (Obj.Type == OBJ_MONSTER)
 			{
-				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankAddDefense;
+				AddDefense += TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankAddDefense;
 			}
 
 			else if (Obj.Class == CLASS_WIZARD || Obj.Class == CLASS_ELF || Obj.Class == CLASS_MAGUMSA || Obj.Class == CLASS_SUMMONER)
 			{
-				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankAddDefense;
+				AddDefense += TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankAddDefense;
 			}
 		}
 
-		else if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankOptionNum == 2)
+		else if (TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankOptionNum == 2)
 		{
 			if (Obj.Type == OBJ_MONSTER)
 			{
-				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankAddDefense;
+				AddDefense += TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankAddDefense;
 			}
 
 			else if (Obj.Class == CLASS_KNIGHT || Obj.Class == CLASS_DARKLORD || Obj.Class == CLASS_RAGEFIGHTER)
 			{
-				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankAddDefense;
+				AddDefense += TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_4RankAddDefense;
 			}
 		}
 
-		if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_3RankOptionNum == 1 && Obj.Type == OBJ_USER)
+		if (TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_3RankOptionNum == 1 && Obj.Type == OBJ_USER)
 		{
-			AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_3RankAddDefense;
+			AddDefense += TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_3RankAddDefense;
 		}
 
-		else if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_3RankOptionNum == 2 && Obj.Type == OBJ_MONSTER)
+		else if (TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_3RankOptionNum == 2 && Obj.Type == OBJ_MONSTER)
 		{
-			AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_3RankAddDefense;
+			AddDefense += TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_3RankAddDefense;
 		}
 
-		if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankOptionNum == 1)
+		if (TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankOptionNum == 1)
 		{
 			if (Obj.Type == OBJ_MONSTER)
 			{
-				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankAddDefense;
+				AddDefense += TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankAddDefense;
 			}
 
-			else if (Obj.Class == CLASS_WIZARD || Obj.Class == CLASS_ELF || lpTargetObj.Class == CLASS_MAGUMSA || Obj.Class == CLASS_SUMMONER)
+			else if (Obj.Class == CLASS_WIZARD || Obj.Class == CLASS_ELF || TargetObj.Class == CLASS_MAGUMSA || Obj.Class == CLASS_SUMMONER)
 			{
-				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankAddDefense;
+				AddDefense += TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankAddDefense;
 			}
 		}
 
-		else if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankOptionNum == 2)
+		else if (TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankOptionNum == 2)
 		{
 			if (Obj.Type == OBJ_MONSTER)
 			{
-				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankAddDefense;
+				AddDefense += TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankAddDefense;
 			}
 
 			else if (Obj.Class == CLASS_KNIGHT || Obj.Class == CLASS_DARKLORD || Obj.Class == CLASS_RAGEFIGHTER)
 			{
-				AddDefense += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankAddDefense;
+				AddDefense += TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_4RankAddDefense;
 			}
 		}
 
-		if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_isChangePentaDefense == true)
+		if (TargetObj.m_PlayerData->m_PentagramOptions->m_isChangePentaDefense == true)
 		{
 			AddDefense += (2 * iTargetDefense) * 0.05;
 		}
@@ -5811,44 +5811,44 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 	TotalDefense = BaseDefense + AddDefense;
 
-	if (TotalDefense > 0 && lpTargetObj.Type == OBJ_USER)
+	if (TotalDefense > 0 && TargetObj.Type == OBJ_USER)
 	{
-		if (gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_ARCA_FIRETOWER) == TRUE && DefenserAttribute == EL_FIRE)
+		if (gObjCheckUsedBuffEffect(TargetObj, BUFFTYPE_ARCA_FIRETOWER) == TRUE && DefenserAttribute == EL_FIRE)
 		{
 			TotalDefense += 5 * TotalDefense / 100;
 		}
 
-		else if (gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_ARCA_WATERTOWER) == TRUE && DefenserAttribute == EL_WATER)
+		else if (gObjCheckUsedBuffEffect(TargetObj, BUFFTYPE_ARCA_WATERTOWER) == TRUE && DefenserAttribute == EL_WATER)
 		{
 			TotalDefense += 5 * TotalDefense / 100;
 		}
 
-		else if (gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_ARCA_EARTHTOWER) == TRUE && DefenserAttribute == EL_EARTH)
+		else if (gObjCheckUsedBuffEffect(TargetObj, BUFFTYPE_ARCA_EARTHTOWER) == TRUE && DefenserAttribute == EL_EARTH)
 		{
 			TotalDefense += 5 * TotalDefense / 100;
 		}
 
-		else if (gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_ARCA_WINDTOWER) == TRUE && DefenserAttribute == EL_WIND)
+		else if (gObjCheckUsedBuffEffect(TargetObj, BUFFTYPE_ARCA_WINDTOWER) == TRUE && DefenserAttribute == EL_WIND)
 		{
 			TotalDefense += 5 * TotalDefense / 100;
 		}
 
-		else if (gObjCheckUsedBuffEffect(lpTargetObj, BUFFTYPE_ARCA_DARKNESSTOWER) == TRUE && DefenserAttribute == EL_DARKNESS)
+		else if (gObjCheckUsedBuffEffect(TargetObj, BUFFTYPE_ARCA_DARKNESSTOWER) == TRUE && DefenserAttribute == EL_DARKNESS)
 		{
 			TotalDefense += 5 * TotalDefense / 100;
 		}
 	}
 
-	if (lpTargetObj.Type == OBJ_USER)
+	if (TargetObj.Type == OBJ_USER)
 	{
-		if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_5RankOptionNum == 1 && Obj.Type == OBJ_USER)
+		if (TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_5RankOptionNum == 1 && Obj.Type == OBJ_USER)
 		{
-			TotalDamage -= lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_5RankDamageAbsorbRate * TotalDamage / 100;
+			TotalDamage -= TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_5RankDamageAbsorbRate * TotalDamage / 100;
 		}
 
-		else if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_5RankOptionNum == 2 && Obj.Type == OBJ_MONSTER)
+		else if (TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_5RankOptionNum == 2 && Obj.Type == OBJ_MONSTER)
 		{
-			TotalDamage -= lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_5RankDamageAbsorbRate * TotalDamage / 100;
+			TotalDamage -= TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_5RankDamageAbsorbRate * TotalDamage / 100;
 		}
 	}
 
@@ -5858,7 +5858,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 		switch (DefenserAttribute)
 		{
 		case EL_FIRE:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 130;
 			}
@@ -5868,7 +5868,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_WATER:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 116;
 			}
@@ -5878,7 +5878,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_EARTH:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 123;
 			}
@@ -5888,7 +5888,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_WIND:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 136;
 			}
@@ -5898,7 +5898,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_DARKNESS:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 143;
 			}
@@ -5908,18 +5908,18 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		default:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 143;
 			}
 			else
 			{
-				if (lpTargetObj.Type == OBJ_USER)
+				if (TargetObj.Type == OBJ_USER)
 				{
 					AttackRelationShip = 110;
 				}
 
-				else if (lpTargetObj.Type == OBJ_MONSTER)
+				else if (TargetObj.Type == OBJ_MONSTER)
 				{
 					AttackRelationShip = 100;
 				}
@@ -5932,7 +5932,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 		switch (DefenserAttribute)
 		{
 		case EL_FIRE:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 143;
 			}
@@ -5942,7 +5942,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_WATER:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 130;
 			}
@@ -5952,7 +5952,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_EARTH:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 116;
 			}
@@ -5962,7 +5962,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_WIND:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 123;
 			}
@@ -5972,7 +5972,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_DARKNESS:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 136;
 			}
@@ -5982,18 +5982,18 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		default:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 143;
 			}
 			else
 			{
-				if (lpTargetObj.Type == OBJ_USER)
+				if (TargetObj.Type == OBJ_USER)
 				{
 					AttackRelationShip = 110;
 				}
 
-				else if (lpTargetObj.Type == OBJ_MONSTER)
+				else if (TargetObj.Type == OBJ_MONSTER)
 				{
 					AttackRelationShip = 100;
 				}
@@ -6005,7 +6005,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 		switch (DefenserAttribute)
 		{
 		case EL_FIRE:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 136;
 			}
@@ -6015,7 +6015,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_WATER:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 143;
 			}
@@ -6025,7 +6025,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_EARTH:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 130;
 			}
@@ -6035,7 +6035,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_WIND:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 116;
 			}
@@ -6045,7 +6045,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_DARKNESS:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 123;
 			}
@@ -6055,18 +6055,18 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		default:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 143;
 			}
 			else
 			{
-				if (lpTargetObj.Type == OBJ_USER)
+				if (TargetObj.Type == OBJ_USER)
 				{
 					AttackRelationShip = 110;
 				}
 
-				else if (lpTargetObj.Type == OBJ_MONSTER)
+				else if (TargetObj.Type == OBJ_MONSTER)
 				{
 					AttackRelationShip = 100;
 				}
@@ -6078,7 +6078,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 		switch (DefenserAttribute)
 		{
 		case EL_FIRE:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 123;
 			}
@@ -6088,7 +6088,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_WATER:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 136;
 			}
@@ -6098,7 +6098,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_EARTH:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 143;
 			}
@@ -6108,7 +6108,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_WIND:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 130;
 			}
@@ -6118,7 +6118,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_DARKNESS:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 116;
 			}
@@ -6128,18 +6128,18 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		default:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 143;
 			}
 			else
 			{
-				if (lpTargetObj.Type == OBJ_USER)
+				if (TargetObj.Type == OBJ_USER)
 				{
 					AttackRelationShip = 110;
 				}
 
-				else if (lpTargetObj.Type == OBJ_MONSTER)
+				else if (TargetObj.Type == OBJ_MONSTER)
 				{
 					AttackRelationShip = 100;
 				}
@@ -6151,7 +6151,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 		switch (DefenserAttribute)
 		{
 		case EL_FIRE:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 116;
 			}
@@ -6161,7 +6161,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_WATER:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 123;
 			}
@@ -6171,7 +6171,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_EARTH:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 136;
 			}
@@ -6181,7 +6181,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_WIND:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 143;
 			}
@@ -6191,7 +6191,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		case EL_DARKNESS:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 130;
 			}
@@ -6201,18 +6201,18 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 			break;
 		default:
-			if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+			if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			{
 				AttackRelationShip = 143;
 			}
 			else
 			{
-				if (lpTargetObj.Type == OBJ_USER)
+				if (TargetObj.Type == OBJ_USER)
 				{
 					AttackRelationShip = 110;
 				}
 
-				else if (lpTargetObj.Type == OBJ_MONSTER)
+				else if (TargetObj.Type == OBJ_MONSTER)
 				{
 					AttackRelationShip = 100;
 				}
@@ -6275,7 +6275,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 		}
 	}
 
-	if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+	if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 	{
 		AttackRelationShip *= 2;
 	}
@@ -6421,10 +6421,10 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 		if (AttackerAttribute < 0 || AttackerAttribute > 5)
 			return 0;
 
-		if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+		if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 			DefenseRelationShip = 80;
 
-		if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_MONSTER)
+		if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_MONSTER)
 			DefenseRelationShip = 100;
 		else
 			DefenseRelationShip = 90;
@@ -6432,53 +6432,53 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 	break;
 	}
 
-	if (lpTargetObj.Type == OBJ_USER && Obj.Type == OBJ_USER)
+	if (TargetObj.Type == OBJ_USER && Obj.Type == OBJ_USER)
 	{
-		switch (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankOptionNum)
+		switch (TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankOptionNum)
 		{
 		case 1:
 			if (AttackerAttribute == EL_FIRE)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankAddDefenseRelationshipRate;
 			break;
 		case 2:
 			if (AttackerAttribute == EL_WATER)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankAddDefenseRelationshipRate;
 			break;
 		case 3:
 			if (AttackerAttribute == EL_EARTH)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankAddDefenseRelationshipRate;
 			break;
 		case 4:
 			if (AttackerAttribute == EL_WIND)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankAddDefenseRelationshipRate;
 			break;
 		case 5:
 			if (AttackerAttribute == EL_DARKNESS)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_2RankAddDefenseRelationshipRate;
 			break;
 		}
 
-		switch (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankOptionNum)
+		switch (TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankOptionNum)
 		{
 		case 1:
 			if (AttackerAttribute == EL_FIRE)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankAddDefenseRelationshipRate;
 			break;
 		case 2:
 			if (AttackerAttribute == EL_WATER)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankAddDefenseRelationshipRate;
 			break;
 		case 3:
 			if (AttackerAttribute == EL_EARTH)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankAddDefenseRelationshipRate;
 			break;
 		case 4:
 			if (AttackerAttribute == EL_WIND)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankAddDefenseRelationshipRate;
 			break;
 		case 5:
 			if (AttackerAttribute == EL_DARKNESS)
-				DefenseRelationShip += lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankAddDefenseRelationshipRate;
+				DefenseRelationShip += TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_2RankAddDefenseRelationshipRate;
 			break;
 		}
 	}
@@ -6489,12 +6489,12 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 	if (TotalDamageWithRelationShip - TotalDefenseWithRelationShip > 0 && TotalDamageWithRelationShip > 10)
 	{
-		if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+		if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 		{
-			TotalDamageWithRelationShip = TotalDamageWithRelationShip * g_ConfigRead.calc.ElementalPvPDamageRate[Obj.Class][lpTargetObj.Class] / 100;
+			TotalDamageWithRelationShip = TotalDamageWithRelationShip * g_ConfigRead.calc.ElementalPvPDamageRate[Obj.Class][TargetObj.Class] / 100;
 		}
 
-		else if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_MONSTER)
+		else if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_MONSTER)
 		{
 			TotalDamageWithRelationShip = TotalDamageWithRelationShip * g_ConfigRead.calc.ElementalPvMDamageRate[Obj.Class] / 100;
 		}
@@ -6512,32 +6512,32 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			*DamageType2 = 7;
 		}
 
-		if (lpTargetObj.Type == OBJ_USER)
+		if (TargetObj.Type == OBJ_USER)
 		{
-			if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_5RankOptionNum == 1 && Obj.Type == OBJ_USER)
+			if (TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_5RankOptionNum == 1 && Obj.Type == OBJ_USER)
 			{
-				TotalDamageWithRelationShip -= lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_5RankMinusTargetDamageRate * TotalDamageWithRelationShip / 100;
+				TotalDamageWithRelationShip -= TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_5RankMinusTargetDamageRate * TotalDamageWithRelationShip / 100;
 			}
 
-			else if (lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_5RankOptionNum == 2 && Obj.Type == OBJ_MONSTER)
+			else if (TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_5RankOptionNum == 2 && Obj.Type == OBJ_MONSTER)
 			{
-				TotalDamageWithRelationShip -= lpTargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_5RankMinusTargetDamageRate * TotalDamageWithRelationShip / 100;
+				TotalDamageWithRelationShip -= TargetObj.m_PlayerData->m_PentagramOptions->m_iSapph_5RankMinusTargetDamageRate * TotalDamageWithRelationShip / 100;
 			}
 		}
 	}
 
 	else
 	{
-		if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_USER)
+		if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_USER)
 		{
 			TotalDamageWithRelationShip = (Obj.Level + Obj.m_PlayerData->MasterLevel) / ((rand() % 31) + 70);
 		}
 
-		else if (Obj.Type == OBJ_USER && lpTargetObj.Type == OBJ_MONSTER)
+		else if (Obj.Type == OBJ_USER && TargetObj.Type == OBJ_MONSTER)
 		{
-			if (Obj.Level - lpTargetObj.Level > 10)
+			if (Obj.Level - TargetObj.Level > 10)
 			{
-				TotalDamageWithRelationShip = (Obj.Level + Obj.m_PlayerData->MasterLevel - lpTargetObj.Level) / ((rand() % 31) + 70);
+				TotalDamageWithRelationShip = (Obj.Level + Obj.m_PlayerData->MasterLevel - TargetObj.Level) / ((rand() % 31) + 70);
 			}
 
 			else
@@ -6546,13 +6546,13 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 			}
 		}
 
-		else if (Obj.Type == OBJ_MONSTER && lpTargetObj.Type == OBJ_USER)
+		else if (Obj.Type == OBJ_MONSTER && TargetObj.Type == OBJ_USER)
 		{
 			TotalDamageWithRelationShip = 0;
 		}
 	}
 
-	if (lpTargetObj.Type == OBJ_USER && lpTargetObj.m_PlayerData->m_PentagramOptions->m_isAddResistByStrongRelationShip == true && (rand() % 100) < 5)
+	if (TargetObj.Type == OBJ_USER && TargetObj.m_PlayerData->m_PentagramOptions->m_isAddResistByStrongRelationShip == true && (rand() % 100) < 5)
 	{
 		switch (AttackerAttribute)
 		{
@@ -6579,7 +6579,7 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 		}
 	}
 
-	if (lpTargetObj.Type == OBJ_USER && lpTargetObj.m_PlayerData->m_PentagramOptions->m_isAddResistByPentaAttack == true && (rand() % 100) < 5)
+	if (TargetObj.Type == OBJ_USER && TargetObj.m_PlayerData->m_PentagramOptions->m_isAddResistByPentaAttack == true && (rand() % 100) < 5)
 		return 0;
 
 	if (Obj.Type == OBJ_USER)
@@ -6593,38 +6593,38 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 		AttackSuccessRate = Obj.m_iPentagramAttackRating;
 	}
 
-	if (lpTargetObj.Type == OBJ_USER)
+	if (TargetObj.Type == OBJ_USER)
 	{
-		switch (lpTargetObj.Class)
+		switch (TargetObj.Class)
 		{
 		case CLASS_ELF:
-			DefenseSuccessRate = lpTargetObj.m_PlayerData->Dexterity / 4;
+			DefenseSuccessRate = TargetObj.m_PlayerData->Dexterity / 4;
 			break;
 		case CLASS_DARKLORD:
-			DefenseSuccessRate = lpTargetObj.m_PlayerData->Dexterity / 7;
+			DefenseSuccessRate = TargetObj.m_PlayerData->Dexterity / 7;
 			break;
 		case CLASS_SUMMONER:
-			DefenseSuccessRate = lpTargetObj.m_PlayerData->Dexterity / 4;
+			DefenseSuccessRate = TargetObj.m_PlayerData->Dexterity / 4;
 			break;
 		case CLASS_RAGEFIGHTER:
-			DefenseSuccessRate = lpTargetObj.m_PlayerData->Dexterity / 10;
+			DefenseSuccessRate = TargetObj.m_PlayerData->Dexterity / 10;
 			break;
 		default:
-			DefenseSuccessRate = lpTargetObj.m_PlayerData->Dexterity / 3;
+			DefenseSuccessRate = TargetObj.m_PlayerData->Dexterity / 3;
 			break;
 		}
 
-		DefenseSuccessRate += DefenseSuccessRate * lpTargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_1RankAddDefenseSuccessRate / 100;
+		DefenseSuccessRate += DefenseSuccessRate * TargetObj.m_PlayerData->m_PentagramOptions->m_iTopa_1RankAddDefenseSuccessRate / 100;
 	}
 
 	else
 	{
-		DefenseSuccessRate = lpTargetObj.m_iPentagramDefenseRating;
+		DefenseSuccessRate = TargetObj.m_iPentagramDefenseRating;
 	}
 
 	BOOL bAllMiss = FALSE;
 
-	if (Obj.PartyNumber < 0 || lpTargetObj.PartyNumber < 0 || Obj.PartyNumber != lpTargetObj.PartyNumber)
+	if (Obj.PartyNumber < 0 || TargetObj.PartyNumber < 0 || Obj.PartyNumber != TargetObj.PartyNumber)
 	{
 		if (AttackSuccessRate < DefenseSuccessRate || AttackSuccessRate == 0)
 			bAllMiss = TRUE;
@@ -6650,10 +6650,4 @@ int CObjAttack::GetElementalDamage(CGameObject &Obj, CGameObject lpTargetObj, ch
 
 	return 0;
 }
-
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
 

@@ -7380,7 +7380,7 @@ void gObjSpriteDamage(CGameObject &Obj, int damage)
 
 	if (send_dur != FALSE)
 	{
-		GSProtocol.GCItemObjectDurSend(Obj, 8, sprite->m_Durability, 0);
+		GSProtocol.GCItemDurSend(Obj, 8, sprite->m_Durability, 0);
 
 		if (sprite->m_Durability < 1.0f)
 		{
@@ -7502,7 +7502,7 @@ void gObjSecondDurDown(CGameObject &Obj)
 			// ----
 			if (ret != 0)
 			{
-				GSProtocol.GCItemObjectDurSend2(Obj, (BYTE)item_num[i], (int)DurItem->m_Durability, 0);
+				GSProtocol.GCItemDurSend2(Obj, (BYTE)item_num[i], (int)DurItem->m_Durability, 0);
 			}
 			// ----
 			if (ret == 2)
@@ -7523,7 +7523,7 @@ void gObjSecondDurDown(CGameObject &Obj)
 
 		if (ret != 0)
 		{
-			GSProtocol.GCItemObjectDurSend2(Obj, 7, Obj.pntInventory[7]->m_Durability, 0);
+			GSProtocol.GCItemDurSend2(Obj, 7, Obj.pntInventory[7]->m_Durability, 0);
 		}
 
 		if (ret == 2)
@@ -7542,7 +7542,7 @@ void gObjSecondDurDown(CGameObject &Obj)
 				ret = Obj.pntInventory[10]->DurabilityDown(70, Obj);
 				if (ret != 0)
 				{
-					GSProtocol.GCItemObjectDurSend2(Obj, 10, Obj.pntInventory[10]->m_Durability, 0);
+					GSProtocol.GCItemDurSend2(Obj, 10, Obj.pntInventory[10]->m_Durability, 0);
 				}
 
 				if (ret == 2)
@@ -7556,7 +7556,7 @@ void gObjSecondDurDown(CGameObject &Obj)
 				ret = Obj.pntInventory[10]->DurabilityDown(63, Obj);
 				if (ret != 0)
 				{
-					GSProtocol.GCItemObjectDurSend2(Obj, 10, Obj.pntInventory[10]->m_Durability, 0);
+					GSProtocol.GCItemDurSend2(Obj, 10, Obj.pntInventory[10]->m_Durability, 0);
 				}
 			}
 
@@ -7565,7 +7565,7 @@ void gObjSecondDurDown(CGameObject &Obj)
 				ret = Obj.pntInventory[10]->DurabilityDown(70, Obj);
 				if (ret != 0)
 				{
-					GSProtocol.GCItemObjectDurSend2(Obj, 10, Obj.pntInventory[10]->m_Durability, 0);
+					GSProtocol.GCItemDurSend2(Obj, 10, Obj.pntInventory[10]->m_Durability, 0);
 				}
 
 				if (ret == 2)
@@ -7579,7 +7579,7 @@ void gObjSecondDurDown(CGameObject &Obj)
 				ret = Obj.pntInventory[10]->DurabilityDown(70, Obj);
 				if (ret != 0)
 				{
-					GSProtocol.GCItemObjectDurSend2(Obj, 10, Obj.pntInventory[10]->m_Durability, 0);
+					GSProtocol.GCItemDurSend2(Obj, 10, Obj.pntInventory[10]->m_Durability, 0);
 				}
 
 				if (ret == 2)
@@ -7593,7 +7593,7 @@ void gObjSecondDurDown(CGameObject &Obj)
 				ret = Obj.pntInventory[10]->DurabilityDown(70, Obj);
 				if (ret != 0)
 				{
-					GSProtocol.GCItemObjectDurSend2(Obj, 10, Obj.pntInventory[10]->m_Durability, 0);
+					GSProtocol.GCItemDurSend2(Obj, 10, Obj.pntInventory[10]->m_Durability, 0);
 				}
 
 				if (ret == 2)
@@ -7607,7 +7607,7 @@ void gObjSecondDurDown(CGameObject &Obj)
 				ret = Obj.pntInventory[10]->DurabilityDown(1, Obj);
 				if (ret != 0)
 				{
-					GSProtocol.GCItemObjectDurSend2(Obj, 10, Obj.pntInventory[10]->m_Durability, 0);
+					GSProtocol.GCItemDurSend2(Obj, 10, Obj.pntInventory[10]->m_Durability, 0);
 				}
 
 				if (ret == 2)
@@ -7625,7 +7625,7 @@ void gObjSecondDurDown(CGameObject &Obj)
 				ret = Obj.pntInventory[11]->DurabilityDown(70, Obj);
 				if (ret != 0)
 				{
-					GSProtocol.GCItemObjectDurSend2(Obj, 11, Obj.pntInventory[11]->m_Durability, 0);
+					GSProtocol.GCItemDurSend2(Obj, 11, Obj.pntInventory[11]->m_Durability, 0);
 				}
 
 				if (ret == 2)
@@ -7638,7 +7638,7 @@ void gObjSecondDurDown(CGameObject &Obj)
 				ret = Obj.pntInventory[11]->DurabilityDown(63, Obj);
 				if (ret != 0)
 				{
-					GSProtocol.GCItemObjectDurSend2(Obj, 11, Obj.pntInventory[11]->m_Durability, 0);
+					GSProtocol.GCItemDurSend2(Obj, 11, Obj.pntInventory[11]->m_Durability, 0);
 				}
 			}
 
@@ -7647,7 +7647,7 @@ void gObjSecondDurDown(CGameObject &Obj)
 				ret = Obj.pntInventory[11]->DurabilityDown(70, Obj);
 				if (ret != 0)
 				{
-					GSProtocol.GCItemObjectDurSend2(Obj, 11, Obj.pntInventory[11]->m_Durability, 0);
+					GSProtocol.GCItemDurSend2(Obj, 11, Obj.pntInventory[11]->m_Durability, 0);
 				}
 
 				if (ret == 2)
@@ -7661,7 +7661,7 @@ void gObjSecondDurDown(CGameObject &Obj)
 				ret = Obj.pntInventory[11]->DurabilityDown(70, Obj);
 				if (ret != 0)
 				{
-					GSProtocol.GCItemObjectDurSend2(Obj, 11, Obj.pntInventory[11]->m_Durability, 0);
+					GSProtocol.GCItemDurSend2(Obj, 11, Obj.pntInventory[11]->m_Durability, 0);
 				}
 
 				if (ret == 2)
@@ -7675,7 +7675,7 @@ void gObjSecondDurDown(CGameObject &Obj)
 				ret = Obj.pntInventory[11]->DurabilityDown(70, Obj);
 				if (ret != 0)
 				{
-					GSProtocol.GCItemObjectDurSend2(Obj, 11, Obj.pntInventory[11]->m_Durability, 0);
+					GSProtocol.GCItemDurSend2(Obj, 11, Obj.pntInventory[11]->m_Durability, 0);
 				}
 
 				if (ret == 2)
@@ -7689,7 +7689,7 @@ void gObjSecondDurDown(CGameObject &Obj)
 				ret = Obj.pntInventory[11]->DurabilityDown(1, Obj);
 				if (ret != 0)
 				{
-					GSProtocol.GCItemObjectDurSend2(Obj, 11, Obj.pntInventory[11]->m_Durability, 0);
+					GSProtocol.GCItemDurSend2(Obj, 11, Obj.pntInventory[11]->m_Durability, 0);
 				}
 
 				if (ret == 2)
@@ -7707,7 +7707,7 @@ void gObjSecondDurDown(CGameObject &Obj)
 
 				if (ret != 0)
 				{
-					GSProtocol.GCItemObjectDurSend2(Obj, 9, Obj.pntInventory[9]->m_Durability, 0);
+					GSProtocol.GCItemDurSend2(Obj, 9, Obj.pntInventory[9]->m_Durability, 0);
 				}
 
 				if (ret == 2)
@@ -7743,7 +7743,7 @@ void gObjChangeDurProc(CGameObject &Obj) //season 4.5 add-on
 
 				BYTE dur = Obj.pntInventory[10]->m_Durability;
 
-				GSProtocol.GCItemObjectDurSend(Obj, 10, dur, 0);
+				GSProtocol.GCItemDurSend(Obj, 10, dur, 0);
 
 				if (dur == 0)
 				{
@@ -7769,7 +7769,7 @@ void gObjChangeDurProc(CGameObject &Obj) //season 4.5 add-on
 
 				BYTE dur = Obj.pntInventory[10]->m_Durability;
 
-				GSProtocol.GCItemObjectDurSend(Obj, 10, dur, 0);
+				GSProtocol.GCItemDurSend(Obj, 10, dur, 0);
 
 				if (dur == 0)
 				{
@@ -7796,7 +7796,7 @@ void gObjChangeDurProc(CGameObject &Obj) //season 4.5 add-on
 
 				BYTE dur = Obj.pntInventory[10]->m_Durability;
 
-				GSProtocol.GCItemObjectDurSend(Obj, 10, dur, 0);
+				GSProtocol.GCItemDurSend(Obj, 10, dur, 0);
 
 				if (dur == 0)
 				{
@@ -7823,7 +7823,7 @@ void gObjChangeDurProc(CGameObject &Obj) //season 4.5 add-on
 
 				BYTE dur = Obj.pntInventory[10]->m_Durability;
 
-				GSProtocol.GCItemObjectDurSend(Obj, 10, dur, 0);
+				GSProtocol.GCItemDurSend(Obj, 10, dur, 0);
 
 				if (dur == 0)
 				{
@@ -7849,7 +7849,7 @@ void gObjChangeDurProc(CGameObject &Obj) //season 4.5 add-on
 
 				BYTE dur = Obj.pntInventory[10]->m_Durability;
 
-				GSProtocol.GCItemObjectDurSend(Obj, 10, dur, 0);
+				GSProtocol.GCItemDurSend(Obj, 10, dur, 0);
 
 				if (dur == 0)
 				{
@@ -7876,7 +7876,7 @@ void gObjChangeDurProc(CGameObject &Obj) //season 4.5 add-on
 
 				BYTE dur = Obj.pntInventory[10]->m_Durability;
 
-				GSProtocol.GCItemObjectDurSend(Obj, 10, dur, 0);
+				GSProtocol.GCItemDurSend(Obj, 10, dur, 0);
 
 				if (dur == 0)
 				{
@@ -7902,7 +7902,7 @@ void gObjChangeDurProc(CGameObject &Obj) //season 4.5 add-on
 
 				BYTE dur = Obj.pntInventory[10]->m_Durability;
 
-				GSProtocol.GCItemObjectDurSend(Obj, 10, dur, 0);
+				GSProtocol.GCItemDurSend(Obj, 10, dur, 0);
 
 				if (dur == 0)
 				{
@@ -7932,7 +7932,7 @@ void gObjChangeDurProc(CGameObject &Obj) //season 4.5 add-on
 
 				BYTE dur = Obj.pntInventory[11]->m_Durability;
 
-				GSProtocol.GCItemObjectDurSend(Obj, 11, dur, 0);
+				GSProtocol.GCItemDurSend(Obj, 11, dur, 0);
 
 				if (dur == 0)
 				{
@@ -7958,7 +7958,7 @@ void gObjChangeDurProc(CGameObject &Obj) //season 4.5 add-on
 
 				BYTE dur = Obj.pntInventory[11]->m_Durability;
 
-				GSProtocol.GCItemObjectDurSend(Obj, 11, dur, 0);
+				GSProtocol.GCItemDurSend(Obj, 11, dur, 0);
 
 				if (dur == 0)
 				{
@@ -7985,7 +7985,7 @@ void gObjChangeDurProc(CGameObject &Obj) //season 4.5 add-on
 
 				BYTE dur = Obj.pntInventory[11]->m_Durability;
 
-				GSProtocol.GCItemObjectDurSend(Obj, 11, dur, 0);
+				GSProtocol.GCItemDurSend(Obj, 11, dur, 0);
 
 				if (dur == 0)
 				{
@@ -8012,7 +8012,7 @@ void gObjChangeDurProc(CGameObject &Obj) //season 4.5 add-on
 
 				BYTE dur = Obj.pntInventory[11]->m_Durability;
 
-				GSProtocol.GCItemObjectDurSend(Obj, 11, dur, 0);
+				GSProtocol.GCItemDurSend(Obj, 11, dur, 0);
 
 				if (dur == 0)
 				{
@@ -8039,7 +8039,7 @@ void gObjChangeDurProc(CGameObject &Obj) //season 4.5 add-on
 
 				BYTE dur = Obj.pntInventory[11]->m_Durability;
 
-				GSProtocol.GCItemObjectDurSend(Obj, 11, dur, 0);
+				GSProtocol.GCItemDurSend(Obj, 11, dur, 0);
 
 				if (dur == 0)
 				{
@@ -8067,7 +8067,7 @@ void gObjChangeDurProc(CGameObject &Obj) //season 4.5 add-on
 
 				BYTE dur = Obj.pntInventory[11]->m_Durability;
 
-				GSProtocol.GCItemObjectDurSend(Obj, 11, dur, 0);
+				GSProtocol.GCItemDurSend(Obj, 11, dur, 0);
 
 				if (dur == 0)
 				{
@@ -8094,7 +8094,7 @@ void gObjChangeDurProc(CGameObject &Obj) //season 4.5 add-on
 
 				BYTE dur = Obj.pntInventory[11]->m_Durability;
 
-				GSProtocol.GCItemObjectDurSend(Obj, 11, dur, 0);
+				GSProtocol.GCItemDurSend(Obj, 11, dur, 0);
 
 				if (dur == 0)
 				{
@@ -8126,7 +8126,7 @@ void gObjWingDurProc(CGameObject &Obj)
 				Obj.pntInventory[7]->m_Durability = 0;
 
 			send_dur = (BYTE)Obj.pntInventory[7]->m_Durability;
-			GSProtocol.GCItemObjectDurSend(Obj, 7, send_dur, 0);
+			GSProtocol.GCItemDurSend(Obj, 7, send_dur, 0);
 			if (send_dur == 0)
 			{
 				sLog->outBasic("[%s][%s] %s+%d %d Item broken because durability exhausted", Obj.AccountID, Obj.Name, Obj.pntInventory[7]->GetName(), Obj.pntInventory[7]->m_Level, send_dur);
@@ -8192,7 +8192,7 @@ void gObjPenaltyDurDown(CGameObject &Obj, CGameObject &TargetObj)	// Functio n N
 
 	if (ret != 0)
 	{
-		GSProtocol.GCItemObjectDurSend2(Obj, irand, Obj.pntInventory[irand]->m_Durability, 0);
+		GSProtocol.GCItemDurSend2(Obj, irand, Obj.pntInventory[irand]->m_Durability, 0);
 	}
 
 	if (ret == 2)
@@ -8215,7 +8215,7 @@ void gObjPenaltyDurDown(CGameObject &Obj, CGameObject &TargetObj)	// Functio n N
 
 				if (ret != 0)
 				{
-					GSProtocol.GCItemObjectDurSend2(Obj, item_num[item_pos], DurItem->m_Durability, 0);
+					GSProtocol.GCItemDurSend2(Obj, item_num[item_pos], DurItem->m_Durability, 0);
 
 					if (ret == 2)
 					{
@@ -8230,7 +8230,7 @@ void gObjPenaltyDurDown(CGameObject &Obj, CGameObject &TargetObj)	// Functio n N
 
 			if (ret != 0)
 			{
-				GSProtocol.GCItemObjectDurSend2(Obj, item_num[item_pos], DurItem->m_Durability, 0);
+				GSProtocol.GCItemDurSend2(Obj, item_num[item_pos], DurItem->m_Durability, 0);
 
 				if (ret == 2)
 				{
@@ -8248,7 +8248,7 @@ void gObjPenaltyDurDown(CGameObject &Obj, CGameObject &TargetObj)	// Functio n N
 
 		if (ret != 0)
 		{
-			GSProtocol.GCItemObjectDurSend2(Obj, item_num[item_pos], DurItem->m_Durability, 0);
+			GSProtocol.GCItemDurSend2(Obj, item_num[item_pos], DurItem->m_Durability, 0);
 			if (ret == 2)
 			{
 				reCalCharacter = 1;
@@ -8301,7 +8301,7 @@ void gObjWeaponDurDown(CGameObject &Obj, CGameObject &TargetObj, int type)
 
 				if (ret != 0)
 				{
-					GSProtocol.GCItemObjectDurSend(Obj, 1, Left->m_Durability, 0);
+					GSProtocol.GCItemDurSend(Obj, 1, Left->m_Durability, 0);
 					if (ret == 2)
 					{
 						gObjCalCharacter.CalcCharacter(Obj);
@@ -8313,7 +8313,7 @@ void gObjWeaponDurDown(CGameObject &Obj, CGameObject &TargetObj, int type)
 				ret = Right->NormalWeaponDurabilityDown(itargetdefence, Obj);
 				if (ret != 0)
 				{
-					GSProtocol.GCItemObjectDurSend(Obj, 0, Right->m_Durability, 0);
+					GSProtocol.GCItemDurSend(Obj, 0, Right->m_Durability, 0);
 					if (ret == 2)
 					{
 						gObjCalCharacter.CalcCharacter(Obj);
@@ -8329,7 +8329,7 @@ void gObjWeaponDurDown(CGameObject &Obj, CGameObject &TargetObj, int type)
 
 			if (ret != 0)
 			{
-				GSProtocol.GCItemObjectDurSend(Obj, 0, Right->m_Durability, 0);
+				GSProtocol.GCItemDurSend(Obj, 0, Right->m_Durability, 0);
 				if (ret == 2)
 				{
 					gObjCalCharacter.CalcCharacter(Obj);
@@ -8342,7 +8342,7 @@ void gObjWeaponDurDown(CGameObject &Obj, CGameObject &TargetObj, int type)
 
 			if (ret != 0)
 			{
-				GSProtocol.GCItemObjectDurSend(Obj, 0, Right->m_Durability, 0);
+				GSProtocol.GCItemDurSend(Obj, 0, Right->m_Durability, 0);
 				if (ret == 2)
 				{
 					gObjCalCharacter.CalcCharacter(Obj);
@@ -8355,7 +8355,7 @@ void gObjWeaponDurDown(CGameObject &Obj, CGameObject &TargetObj, int type)
 
 			if (ret != 0)
 			{
-				GSProtocol.GCItemObjectDurSend(Obj, 0, Right->m_Durability, 0);
+				GSProtocol.GCItemDurSend(Obj, 0, Right->m_Durability, 0);
 				if (ret == 2)
 				{
 					gObjCalCharacter.CalcCharacter(Obj);
@@ -8379,7 +8379,7 @@ void gObjWeaponDurDown(CGameObject &Obj, CGameObject &TargetObj, int type)
 		ret = Right->StaffWeaponDurabilityDown(itargetdefence, Obj);
 		if (ret != 0)
 		{
-			GSProtocol.GCItemObjectDurSend(Obj, 0, Right->m_Durability, 0);
+			GSProtocol.GCItemDurSend(Obj, 0, Right->m_Durability, 0);
 			if (ret == 2)
 			{
 				gObjCalCharacter.CalcCharacter(Obj);
@@ -8418,7 +8418,7 @@ void gObjArmorRandomDurDown(CGameObject &Obj, CGameObject &AttackObj)
 
 			if (ret != 0)
 			{
-				GSProtocol.GCItemObjectDurSend(Obj, item_num[item_pos], DurItem->m_Durability, 0);
+				GSProtocol.GCItemDurSend(Obj, item_num[item_pos], DurItem->m_Durability, 0);
 				if (ret == 2)
 				{
 					gObjCalCharacter.CalcCharacter(Obj);
@@ -8435,7 +8435,7 @@ void gObjArmorRandomDurDown(CGameObject &Obj, CGameObject &AttackObj)
 
 			if (ret != 0)
 			{
-				GSProtocol.GCItemObjectDurSend(Obj, item_num[item_pos], DurItem->m_Durability, 0);
+				GSProtocol.GCItemDurSend(Obj, item_num[item_pos], DurItem->m_Durability, 0);
 				if (ret == 2)
 				{
 					gObjCalCharacter.CalcCharacter(Obj);
@@ -10766,7 +10766,7 @@ BOOL gObjSearchItem(CGameObject &Obj, int item_type, int add_dur, int nLevel)
 					if ((int)Obj.pntInventory[n]->m_Durability + add_dur <= 3)
 					{
 						Obj.pntInventory[n]->m_Durability += add_dur;
-						GSProtocol.GCItemObjectDurSend(Obj, n, Obj.pntInventory[n]->m_Durability, 0);
+						GSProtocol.GCItemDurSend(Obj, n, Obj.pntInventory[n]->m_Durability, 0);
 						return true;
 					}
 				}
@@ -10796,7 +10796,7 @@ BOOL gObjSearchItemMinus(CGameObject &Obj, int pos, int m_dur)
 				Obj.m_PlayerData->PotionTime = GetTickCount();
 			}
 			Obj.pntInventory[n]->m_Durability -= m_dur;
-			GSProtocol.GCItemObjectDurSend(Obj, n, Obj.pntInventory[n]->m_Durability, 1);
+			GSProtocol.GCItemDurSend(Obj, n, Obj.pntInventory[n]->m_Durability, 1);
 			return 1;
 		}
 	}
@@ -25031,7 +25031,7 @@ void gObjWeaponDurDownInCastle(CGameObject &Obj, CGameObject lpTargetObj, int iD
 
 		if (iRet != 0)
 		{
-			GSProtocol.GCItemObjectDurSend(Obj, 0, Right->m_Durability, 0);
+			GSProtocol.GCItemDurSend(Obj, 0, Right->m_Durability, 0);
 
 			if (iRet == 2)
 			{
@@ -25047,7 +25047,7 @@ void gObjWeaponDurDownInCastle(CGameObject &Obj, CGameObject lpTargetObj, int iD
 
 		if (iRet != 0)
 		{
-			GSProtocol.GCItemObjectDurSend(Obj, 1, Left->m_Durability, 0);
+			GSProtocol.GCItemDurSend(Obj, 1, Left->m_Durability, 0);
 
 			if (iRet == 2)
 			{
@@ -25335,7 +25335,7 @@ int gObjOverlapItemUsingDur(CItemObject &Item, int iMapNumber, int iItemNumber, 
 				Item.m_Durability = iItemDur - iMaxOverlapped;
 				Obj.pntInventory[iInventoryIndex]->m_Durability = iMaxOverlapped;
 
-				GSProtocol.GCItemObjectDurSend(Obj, iInventoryIndex, Obj.pntInventory[iInventoryIndex]->m_Durability, 0);
+				GSProtocol.GCItemDurSend(Obj, iInventoryIndex, Obj.pntInventory[iInventoryIndex]->m_Durability, 0);
 			}
 		}
 
@@ -28187,7 +28187,7 @@ void gObjInvenPetDamage(CGameObject &Obj, int damage)
 					Obj.AccountID, Obj.Name, Obj.pntInventory[Obj.m_btInvenPetPos]->m_Number);
 			}
 
-			GSProtocol.GCItemObjectDurSend(Obj, Obj.m_btInvenPetPos, sprite->m_Durability, 0);
+			GSProtocol.GCItemDurSend(Obj, Obj.m_btInvenPetPos, sprite->m_Durability, 0);
 		}
 
 		return;
@@ -28256,7 +28256,7 @@ void gObjInvenPetDamage(CGameObject &Obj, int damage)
 
 	if (send_dur == TRUE)
 	{
-		GSProtocol.GCItemObjectDurSend(Obj, Obj.m_btInvenPetPos, sprite->m_Durability, 0);
+		GSProtocol.GCItemDurSend(Obj, Obj.m_btInvenPetPos, sprite->m_Durability, 0);
 
 		if (sprite->m_Durability < 1.0)
 		{
@@ -28915,7 +28915,7 @@ void gObjUseRecoveryPotion(CGameObject &Obj, int pos, double value) //00518400
 
 	if (Obj.pntInventory[pos]->m_Durability > 0.0f)
 	{
-		GSProtocol.GCItemObjectDurSend(Obj, pos, Obj.pntInventory[pos]->m_Durability, 1);
+		GSProtocol.GCItemDurSend(Obj, pos, Obj.pntInventory[pos]->m_Durability, 1);
 	}
 	else
 	{

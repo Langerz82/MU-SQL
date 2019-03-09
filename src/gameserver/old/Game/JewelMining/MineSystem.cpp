@@ -274,7 +274,7 @@ void CMineSystem::MineTwinkle(PMSG_REQ_MINETWINKLE *lpMsg, CGameObject &Obj)
 		if (Obj.pntInventory[0]->m_Durability >= itMineSuccessInfo->second.iDurabilityDecrement)
 		{
 			Obj.pntInventory[0]->m_Durability -= itMineSuccessInfo->second.iDurabilityDecrement;
-			GSProtocol.GCItemObjectDurSend(Obj.m_Index, 0, Obj.pntInventory[0]->m_Durability, 0);
+			GSProtocol.GCItemDurSend(Obj.m_Index, 0, Obj.pntInventory[0]->m_Durability, 0);
 
 			if (this->SuccessOrFailure(it->second.wTwinkleType, it->second.iCurrentStage))
 			{

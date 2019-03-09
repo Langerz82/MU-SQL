@@ -1260,7 +1260,7 @@ void EGAnsRegLuckyCoin(PMSG_ANS_REG_LUCKYCOIN * lpMsg)
 			if(Obj.pntInventory[lpMsg->Pos]->m_Durability > 1.0)
 			{
 				Obj.pntInventory[lpMsg->Pos]->m_Durability -= 1.0f;
-				GSProtocol.GCItemObjectDurSend2(Obj.m_Index, lpMsg->Pos, Obj.pntInventory[lpMsg->Pos]->m_Durability, 0);
+				GSProtocol.GCItemDurSend2(Obj.m_Index, lpMsg->Pos, Obj.pntInventory[lpMsg->Pos]->m_Durability, 0);
 			}
 			else
 			{

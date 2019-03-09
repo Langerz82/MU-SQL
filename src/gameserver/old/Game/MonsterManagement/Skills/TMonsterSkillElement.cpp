@@ -544,7 +544,7 @@ BOOL TMonsterSkillElement::ApplyElementDurability(CGameObject &Obj, int iTargetI
 		if ( lpEquipment->m_Durability < 0.0f )
 			lpEquipment->m_Durability = 0;
 
-		GSProtocol.GCItemObjectDurSend(lpTargetObj.m_Index, iEquipmentPos, lpEquipment->m_Durability, 0);
+		GSProtocol.GCItemDurSend(lpTargetObj.m_Index, iEquipmentPos, lpEquipment->m_Durability, 0);
 	}
 
 	return FALSE;

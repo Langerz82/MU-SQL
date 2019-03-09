@@ -1186,7 +1186,7 @@ BOOL CDarkSpirit::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf * l
 				}
 			}
 
-			GSProtocol.GCItemObjectDurSend(Obj.m_Index, Obj.m_btInvenPetPos, Obj.pntInventory[Obj.m_btInvenPetPos]->m_Durability, 0);
+			GSProtocol.GCItemDurSend(Obj.m_Index, Obj.m_btInvenPetPos, Obj.pntInventory[Obj.m_btInvenPetPos]->m_Durability, 0);
 		}
 	}
 
