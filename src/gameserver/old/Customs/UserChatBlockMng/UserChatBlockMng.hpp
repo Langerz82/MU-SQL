@@ -8,6 +8,8 @@
 #include "StdAfx.h"
 #include "User/CUserData.h"
 #include "GOFunctions.h"
+#include "IOCP.h"
+
 // defines
 #define USERCHATBLOCK_LIST_LIMIT	50
 #define USERCHATBLOCK_DB_CONNECTED	FALSE
@@ -264,7 +266,7 @@ public:
 		tmpAnswer.ActionType = (BYTE)Action;
 		tmpAnswer.Result = Result;
 		std::memcpy(&tmpBuffer[0], &tmpAnswer, sizeof(GCAnswerUserChatBlockListHead));
-		IOCP.DataSend(UserIndex, tmpBuffer, tmpPosition);
+		GIOCP.DataSend(UserIndex, tmpBuffer, tmpPosition);
 	}
 
 	/* network handlers for dataserver */

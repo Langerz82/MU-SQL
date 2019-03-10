@@ -6,6 +6,8 @@
 #include "LargeRand.h"
 #include "configread.h"
 #include "Logging/Log.h"
+#include "GameProtocol.h"
+
 // -------------------------------------------------------------------------------
 
 using namespace pugi;
@@ -96,7 +98,7 @@ void UserDieItemDrop::Read(LPSTR File)
 
 void UserDieItemDrop::Drop(CGameObject &User, CGameObject &Killer)
 {
-	if (lpUser.Type != OBJ_USER)
+	if (User.Type != OBJ_USER)
 	{
 		return;
 	}
@@ -108,14 +110,14 @@ void UserDieItemDrop::Drop(CGameObject &User, CGameObject &Killer)
 	// ----
 	DWORD Rate = 0;
 	// ----
-	if (lpKiller.Type == OBJ_USER)
+	if (Killer.Type == OBJ_USER)
 	{
 		if (!this->m_PvPEnabled)
 		{
 			return;
 		}
 		// ----
-		if (lpUser.m_PK_Level < this->m_PvPMinPK)
+		if (User.m_PK_Level < this->m_PvPMinPK)
 		{
 			return;
 		}
@@ -123,14 +125,14 @@ void UserDieItemDrop::Drop(CGameObject &User, CGameObject &Killer)
 		Rate = this->m_PvPRate;
 	}
 	// ----
-	if (lpKiller.Type == OBJ_MONSTER)
+	if (Killer.Type == OBJ_MONSTER)
 	{
 		if (!this->m_PvMEnabled)
 		{
 			return;
 		}
 		// ----
-		if (lpUser.m_PK_Level < this->m_PvMMinPK)
+		if (User.m_PK_Level < this->m_PvMMinPK)
 		{
 			return;
 		}
@@ -144,7 +146,7 @@ void UserDieItemDrop::Drop(CGameObject &User, CGameObject &Killer)
 		// ----
 		for (int i = 0; i < this->m_MapList.size(); i++)
 		{
-			if (this->m_MapList[i] == lpUser.MapNumber)
+			if (this->m_MapList[i] == User.MapNumber)
 			{
 				IsCorrectMap = true;
 			}
@@ -216,17 +218,17 @@ void UserDieItemDrop::Drop(CGameObject &User, CGameObject &Killer)
 				}
 			}
 			// ----
-			if (lpUser.pntInventory[Slot]->IsItem()
-				&& !g_kJewelOfHarmonySystem.IsStrengthenByJewelOfHarmony(&lpUser.pntInventory[Slot]))
+			if (User.pntInventory[Slot]->IsItem()
+				&& !g_kJewelOfHarmonySystem.IsStrengthenByJewelOfHarmony(User.pntInventory[Slot]))
 			{
 				PMSG_ITEMTHROW lpMsg;
 				lpMsg.Ipos = Slot;
-				lpMsg.px = lpUser.X;
-				lpMsg.py = lpUser.Y;
+				lpMsg.px = User.X;
+				lpMsg.py = User.Y;
 				// ----
-				if (GSProtocol.CGItemDropRequest(&lpMsg, lpUser.m_Index, 1))
+				if (GSProtocol.CGItemDropRequest(&lpMsg, &User, 1))
 				{
-					sLog->outBasic("[UserDieItemDrop] [%s][%s] Item has been droped (Slot: %d)",	lpUser.AccountID, lpUser.Name);
+					sLog->outBasic("[UserDieItemDrop] [%s][%s] Item has been droped (Slot: %d)", User.m_PlayerData->ConnectUser->AccountID, User.Name);
 					break;
 				}
 			}
@@ -234,9 +236,3 @@ void UserDieItemDrop::Drop(CGameObject &User, CGameObject &Killer)
 	}
 
 }
-// -------------------------------------------------------------------------------
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

@@ -188,7 +188,7 @@ public:
 	char  Password[20];	// 7E
 	bool  PlusStatQuestClear; // 8C
 	bool  ComboSkillquestClear;	// 8D
-	struct ComboSkillData* comboSkill; // 90
+	ComboSkillData* comboSkill; // 90
 	int m_GensRanking;
 	int m_GensClass;
 	int m_ContributePoint;

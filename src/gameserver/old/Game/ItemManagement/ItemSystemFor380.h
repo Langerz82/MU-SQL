@@ -26,8 +26,31 @@
 class CGameObject;
 class CItemObject;
 
-struct ITEMOPTION_FOR380ITEM_EFFECT;
-struct ITEMOPTION_FOR380ITEM;
+struct ITEMOPTION_FOR380ITEM
+{
+	BOOL IsLoad;	// 0
+	BYTE m_Type;	// 4
+	BYTE m_Index;	// 5
+	BYTE m_Option1;	// 6
+	WORD m_Value1;	// 8
+	BYTE m_Option2;	// A
+	WORD m_Value2;	// C
+};
+
+
+
+struct ITEMOPTION_FOR380ITEM_EFFECT
+{
+	short OpAddAttackSuccessRatePVP;	// 0
+	short OpAddDamage;	// 2
+	short OpAddDefenseSuccessRatePvP;	// 4
+	short OpAddDefense;	// 6
+	short OpAddMaxHP;	// 8
+	short OpAddMaxSD;	// A
+	short OpRefillOn;	// C
+	short OpAddRefillSD;	// E
+};
+
 
 class CItemSystemFor380
 {
