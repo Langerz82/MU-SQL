@@ -377,7 +377,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			magicsend = 1;
 		}
 
-		gDarkSpirit[Obj.m_Index - g_ConfigRead.server.GetObjectStartUserIndex()]->SetTarget(TargetObj.m_Index);
+		gDarkSpirit[Obj.m_Index - g_ConfigRead.server.GetObjectStartUserIndex()].SetTarget(TargetObj);
 		g_CMuunSystem.SetTarget(Obj, TargetObj);
 	}
 
@@ -435,7 +435,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 		{
 			if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_INFINITY_ARROW) == FALSE && gObjCheckUsedBuffEffect(Obj, BUFFTYPE_INFINITY_ARROW_STR) == FALSE)
 			{
-				if (!this->DecreaseArrow(lpObj))
+				if (!this->DecreaseArrow(Obj))
 				{
 					return FALSE;
 				}
@@ -1118,7 +1118,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			}
 		}
 
-		if (gObjWingSprite(lpObj) == TRUE)
+		if (gObjWingSprite(Obj) == TRUE)
 		{
 			CItemObject * Wing = &Obj.pntInventory[7];
 
@@ -2889,7 +2889,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 		if (TargetObj.m_iCurrentAI)
 		{
-			TargetObj.m_Agro.IncAgro(&Obj, AttackDamage / 50);
+			TargetObj.m_Agro.IncAgro(Obj, AttackDamage / 50);
 		}
 	}
 
@@ -3004,7 +3004,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 						item_num[3] = 5;
 						item_num[4] = 6;
 						int iEquipmentPos = rand() % 5;	// Select and Armor
-						CItemObject * lpEquipment = &TargetObj.pntInventory[item_num[iEquipmentPos]];
+						CItemObject * lpEquipment = TargetObj.pntInventory[item_num[iEquipmentPos]];
 
 						if (lpEquipment && lpEquipment->IsItem())
 						{
@@ -3598,8 +3598,8 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 		}
 	}
 
-	CItemObject* Right = &Obj.pntInventory[0];
-	CItemObject* Left = &Obj.pntInventory[1];
+	CItemObject* Right = Obj.pntInventory[0];
+	CItemObject* Left = Obj.pntInventory[1];
 
 	if (Right->GetDetailItemType() == ITEM_MACE || Left->GetDetailItemType() == ITEM_MACE)
 	{
@@ -5219,7 +5219,7 @@ int  CObjAttack::GetAttackDamageWizard(CGameObject &Obj, CGameObject &TargetObj,
 		ad += iArcaEffect;
 	}
 
-	if (Obj.m_SkillInfo.RemedyOfLoveEffect)
+	if (Obj.m_SkillInfo->RemedyOfLoveEffect)
 	{
 		ad += 10;
 	}

@@ -268,16 +268,6 @@ enum eMasterSkillType
 	AT_MSKILL_GL_722 = 722, //Berserker I
 };
 
-enum ELEMENT_TYPE
-{
-	ELEMENT_NONE = 0,
-	ELEMENT_FIRE = 1,
-	ELEMENT_WATER = 2,
-	ELEMENT_EARTH = 3,
-	ELEMENT_WIND = 4,
-	ELEMENT_DARK = 5,
-};
-
 
 enum COMMON_EXC_OPTIONS
 {

@@ -19,13 +19,8 @@ void CSkillSpecialize::LoadScript()
 	this->m_Lua.DoFile(g_ConfigRead.GetPath("\\Scripts\\Specialization\\SkillSpec.lua"));
 }
 
-int CSkillSpecialize::CalcStatBonus(CGameObject lpObj, int iSkill)
+int CSkillSpecialize::CalcStatBonus(CGameObject &Obj, int iSkill)
 {
-	if (!&lpObj)
-	{
-		return 0;
-	}
-
 	if (Obj.Type != OBJ_USER)
 	{
 		return 0;

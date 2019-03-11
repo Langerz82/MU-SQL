@@ -19,6 +19,7 @@
 #include "ItemOption.h"
 #include "PeriodItemEx.h"
 #include "BuffEffectSlot.h"
+#include "GOFunctions.h"
 
 // GS-N 0.99.60T 0x004A4740
 //	GS-N	1.00.18	JPN	0x004C2650	-	Completed
@@ -163,22 +164,22 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		g_BuffEffect.SetPrevEffect(Obj);
 		this->CalcSetItemStat(Obj);
 		this->CalcSetItemOption(Obj);
-		g_MasterLevelSkillTreeSystem.SetItemMLPassiveSkill(Obj. Right->GetDetailItemType());
-		g_MasterLevelSkillTreeSystem.SetItemMLPassiveSkill(Obj. Left->GetDetailItemType());
-		g_MasterLevelSkillTreeSystem.SetWingMLPassiveSkill(Obj. Wing->m_Type);
-		g_MasterLevelSkillTreeSystem.SetPetItemMLPassiveSkill(Obj. Helper->m_Type);
+		g_MasterLevelSkillTreeSystem.SetItemMLPassiveSkill(Obj, Right->GetDetailItemType());
+		g_MasterLevelSkillTreeSystem.SetItemMLPassiveSkill(Obj, Left->GetDetailItemType());
+		g_MasterLevelSkillTreeSystem.SetWingMLPassiveSkill(Obj, Wing->m_Type);
+		g_MasterLevelSkillTreeSystem.SetPetItemMLPassiveSkill(Obj, Helper->m_Type);
 
-		if (gObjCheckUsedBuffEffect(Obj. BUFFTYPE_MONK_INCREASE_HEALTH) == TRUE)
+		if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_MONK_INCREASE_HEALTH) == TRUE)
 		{
 			int iOption;
-			gObjGetValueOfBuffIndex(Obj. BUFFTYPE_MONK_INCREASE_HEALTH, &iOption, 0);
+			gObjGetValueOfBuffIndex(Obj, BUFFTYPE_MONK_INCREASE_HEALTH, &iOption, 0);
 			Obj.AddVitality += iOption;
 		}
 
-		if (gObjCheckUsedBuffEffect(Obj. BUFFTYPE_MONK_INCREASE_HEALTH_STR) == TRUE)
+		if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_MONK_INCREASE_HEALTH_STR) == TRUE)
 		{
 			int iOption;
-			gObjGetValueOfBuffIndex(Obj. BUFFTYPE_MONK_INCREASE_HEALTH_STR, &iOption, 0);
+			gObjGetValueOfBuffIndex(Obj, BUFFTYPE_MONK_INCREASE_HEALTH_STR, &iOption, 0);
 			Obj.AddVitality += iOption;
 		}
 
@@ -194,10 +195,10 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 
 		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDexStat > 0.0)
 		{
-			EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+			//EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 			Obj.m_PlayerData->AgilityCheckDelay = GetTickCount();
 			Obj.AddDexterity += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDexStat;
-			LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+			//LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 		}
 
 		if (Obj.m_PlayerData->m_MPSkillOpt->iMpsIncPowerStat > 0.0)
@@ -220,7 +221,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 			int iOption;
 			gObjGetValueOfBuffIndex(Obj, BUFFTYPE_BLESS, &iOption, 0);
 
-			EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+			//EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 			Obj.m_PlayerData->AgilityCheckDelay = GetTickCount();
 			Obj.AddVitality += iOption;
 			Obj.AddStrength += iOption;
@@ -230,21 +231,21 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 			if (Obj.Class == CLASS_DARKLORD)
 				Obj.AddLeadership += iOption;
 
-			LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+			//LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 		}
 
 		for (iItemIndex = 0; iItemIndex < MAX_PLAYER_EQUIPMENT; iItemIndex++)
 		{
 			if (Obj.pntInventory[iItemIndex]->IsItem() != FALSE && Obj.pntInventory[iItemIndex]->m_IsValidItem != false)
 			{
-				if (this->ValidItem(Obj. &Obj.pntInventory[iItemIndex], iItemIndex) != FALSE)
+				if (this->ValidItem(Obj, Obj.pntInventory[iItemIndex], iItemIndex) != FALSE)
 				{
 					Obj.pntInventory[iItemIndex]->m_IsValidItem = true;
 				}
 				else
 				{
 					Obj.pntInventory[iItemIndex]->m_IsValidItem = false;
-					g_BuffEffect.ClearPrevEffect(Obj.;
+					g_BuffEffect.ClearPrevEffect(Obj);
 					bIsChangeItem = TRUE;
 				}
 			}
@@ -275,7 +276,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 
 	else
 	{
-		g_PentagramSystem.ClearPentagramItem(Obj.m_Index);
+		g_PentagramSystem.ClearPentagramItem(Obj);
 	}
 
 	Strength = Obj.m_PlayerData->Strength + Obj.AddStrength;
@@ -443,7 +444,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 
 	}
 
-	g_StatSpec.CalcStatOption(Obj. STAT_OPTION_INC_ATTACK_POWER);
+	g_StatSpec.CalcStatOption(Obj, STAT_OPTION_INC_ATTACK_POWER);
 
 	if (Obj.Class == CLASS_ELF)
 	{
@@ -531,8 +532,8 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 	Obj.pntInventory[6]->PlusSpecial(&Obj.m_CriticalDamage, 84);
 	Obj.pntInventory[7]->PlusSpecial(&Obj.m_CriticalDamage, 84);
 
-	Obj.m_CriticalDamage += gObjGetTotalValueOfEffect(Obj. EFFECTTYPE_CRITICALDAMAGE);
-	Obj.m_ExcelentDamage += gObjGetTotalValueOfEffect(Obj. EFFECTTYPE_EXCELLENTDAMAGE);
+	Obj.m_CriticalDamage += gObjGetTotalValueOfEffect(Obj, EFFECTTYPE_CRITICALDAMAGE);
+	Obj.m_ExcelentDamage += gObjGetTotalValueOfEffect(Obj, EFFECTTYPE_EXCELLENTDAMAGE);
 
 	if (g_ConfigRead.UseMagicDamageCalc == TRUE)
 	{
@@ -585,8 +586,8 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		}
 	}
 
-	g_StatSpec.CalcStatOption(Obj. STAT_OPTION_INC_MAGIC_DAMAGE);
-	g_StatSpec.CalcStatOption(Obj. STAT_OPTION_INC_CURSE_DAMAGE);
+	g_StatSpec.CalcStatOption(Obj, STAT_OPTION_INC_MAGIC_DAMAGE);
+	g_StatSpec.CalcStatOption(Obj, STAT_OPTION_INC_CURSE_DAMAGE);
 
 	if (Obj.Class == CLASS_SUMMONER)
 	{
@@ -690,7 +691,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 	}
 
 	
-	g_StatSpec.CalcStatOption(Obj. STAT_OPTION_INC_ATTACK_SPEED);
+	g_StatSpec.CalcStatOption(Obj, STAT_OPTION_INC_ATTACK_SPEED);
 
 	bool RightItem = 0;
 
@@ -884,10 +885,10 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		}
 	}
 
-	g_StatSpec.CalcStatOption(Obj. STAT_OPTION_INC_ATTACK_RATE);
-	g_StatSpec.CalcStatOption(Obj. STAT_OPTION_INC_ATTACK_RATE_PVP);
-	g_StatSpec.CalcStatOption(Obj. STAT_OPTION_INC_DEFENSE_RATE);
-	g_StatSpec.CalcStatOption(Obj. STAT_OPTION_INC_DEFENSE_RATE_PVP);
+	g_StatSpec.CalcStatOption(Obj, STAT_OPTION_INC_ATTACK_RATE);
+	g_StatSpec.CalcStatOption(Obj, STAT_OPTION_INC_ATTACK_RATE_PVP);
+	g_StatSpec.CalcStatOption(Obj, STAT_OPTION_INC_DEFENSE_RATE);
+	g_StatSpec.CalcStatOption(Obj, STAT_OPTION_INC_DEFENSE_RATE_PVP);
 
 	if (Left->m_Type != -1)
 	{
@@ -1109,7 +1110,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		}
 	}
 	
-	g_StatSpec.CalcStatOption(Obj. STAT_OPTION_INC_DEFENSE);
+	g_StatSpec.CalcStatOption(Obj, STAT_OPTION_INC_DEFENSE);
 
 	Obj.m_Defense += Obj.pntInventory[2]->ItemDefense();
 	Obj.m_Defense += Obj.pntInventory[3]->ItemDefense();
@@ -1407,7 +1408,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 
 	if (Obj.Type == OBJ_USER && Obj.m_PlayerData->ISBOT == false)
 	{
-		gDarkSpirit[Obj.m_Index - g_ConfigRead.server.GetObjectStartUserIndex()].Set(Obj.m_Index, &Obj.pntInventory[Obj.m_btInvenPetPos]);
+		gDarkSpirit[Obj.m_Index - g_ConfigRead.server.GetObjectStartUserIndex()].Set(Obj, Obj.pntInventory[Obj.m_btInvenPetPos]);
 	}
 	/*if ( Obj.Type == OBJ_USER && Obj.m_PlayerData->ISBOT == false )
 	{
@@ -1421,7 +1422,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 
 	int nMuunItemEffectValue = 0;
 
-	if (g_CMuunSystem.GetMuunItemValueOfOptType(Obj. MUUN_INC_ATTACK_POWER, &nMuunItemEffectValue, 0) == 1)
+	if (g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_ATTACK_POWER, &nMuunItemEffectValue, 0) == 1)
 	{
 		Obj.m_AttackDamageMaxLeft += nMuunItemEffectValue;
 		Obj.m_AttackDamageMinLeft += nMuunItemEffectValue;
@@ -1433,7 +1434,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		Obj.m_CurseDamageMax += nMuunItemEffectValue;
 	}
 
-	if (g_CMuunSystem.GetMuunItemValueOfOptType(Obj. MUUN_INC_MAX_ATTACK_POWER, &nMuunItemEffectValue, 0) == 1)
+	if (g_CMuunSystem.GetMuunItemValueOfOptType(Obj, MUUN_INC_MAX_ATTACK_POWER, &nMuunItemEffectValue, 0) == 1)
 	{
 		Obj.m_AttackDamageMaxLeft += nMuunItemEffectValue;
 		Obj.m_AttackDamageMaxRight += nMuunItemEffectValue;
@@ -1448,9 +1449,9 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 	CItemObject * rItem[3];
 	int comparecount = 0;
 
-	rItem[0] = &Obj.pntInventory[10];
-	rItem[1] = &Obj.pntInventory[11];
-	rItem[2] = &Obj.pntInventory[9];
+	rItem[0] = Obj.pntInventory[10];
+	rItem[1] = Obj.pntInventory[11];
+	rItem[2] = Obj.pntInventory[9];
 
 #define GET_MAX_RESISTANCE(x,y,z) ( ( ( ( (x) > (y) ) ? (x) : (y) ) > (z) ) ? ( ( (x) > (y) ) ? (x) : (y) ) : (z) )	
 
@@ -1571,10 +1572,10 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		}
 	}
 
-	g_kItemSystemFor380.ApplyFor380Option(Obj.;
-	g_kJewelOfHarmonySystem.SetApplyStrengthenItem(Obj.;
-	g_SocketOptionSystem.SetApplySocketEffect(Obj.;
-	gObjInventoryEquipment(Obj.;
+	g_kItemSystemFor380.ApplyFor380Option(Obj);
+	g_kJewelOfHarmonySystem.SetApplyStrengthenItem(Obj);
+	g_SocketOptionSystem.SetApplySocketEffect(Obj);
+	gObjInventoryEquipment(Obj);
 
 	Obj.AddLife += Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxHP;
 	Obj.AddBP += Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxBP;
@@ -1583,23 +1584,23 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 	
 	Obj.AddMana += Obj.MaxMana * Obj.m_PlayerData->m_MPSkillOpt->iMpsMaxManaRate / 100.0;
 
-	if (gObjCheckUsedBuffEffect(Obj. BUFFTYPE_HP_INC_MAS) == true)
+	if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_HP_INC_MAS) == true)
 	{
 		Obj.AddBP += Obj.MaxBP * Obj.m_PlayerData->m_MPSkillOpt->iMpsIncMaxBP / 100.0;
 	}
 
-	if (gObjCheckUsedBuffEffect(Obj. BUFFTYPE_MELEE_DEFENSE_INC_STR) == true)
+	if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_MELEE_DEFENSE_INC_STR) == true)
 	{
 		Obj.AddMana += Obj.MaxMana * Obj.m_PlayerData->m_MPSkillOpt->iMpsMasManaRate_Wizard / 100.0;
 	}
 
-	g_ItemOptionTypeMng.CalcExcOptionEffect(Obj.;
-	g_ItemOptionTypeMng.CalcWingOptionEffect(Obj.;
-	this->SetItemApply(Obj.;
-	this->PremiumItemApply(Obj.;
-	gObjNextExpCal(Obj.;
+	g_ItemOptionTypeMng.CalcExcOptionEffect(Obj);
+	g_ItemOptionTypeMng.CalcWingOptionEffect(Obj);
+	this->SetItemApply(Obj);
+	this->PremiumItemApply(Obj);
+	gObjNextExpCal(Obj);
 
-	if (gObjCheckUsedBuffEffect(Obj. BUFFTYPE_BERSERKER_PRO) == TRUE)
+	if (gObjCheckUsedBuffEffect(Obj, BUFFTYPE_BERSERKER_PRO) == TRUE)
 	{
 
 		Obj.m_AttackDamageMinLeft += Obj.m_PlayerData->m_MPSkillOpt->iMpsIncValueBerserker3;
@@ -1668,7 +1669,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		}
 	}
 
-	if (gObjDemonSprite(Obj. == TRUE)
+	if (gObjDemonSprite(Obj) == TRUE)
 	{
 		Obj.m_AttackDamageMinRight += Obj.m_AttackDamageMinRight * g_ConfigRead.pet.DemonAddDamage / 100;
 		Obj.m_AttackDamageMaxRight += Obj.m_AttackDamageMaxRight * g_ConfigRead.pet.DemonAddDamage / 100;
@@ -1682,7 +1683,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		Obj.m_MagicSpeed += g_ConfigRead.pet.DemonAddAttackSpeed;
 	}
 
-	else if (gObjSafeGuardSprite(Obj. == TRUE)
+	else if (gObjSafeGuardSprite(Obj) == TRUE)
 	{
 		Obj.AddLife += g_ConfigRead.pet.SafeGuardAddHP;
 	}
@@ -1694,15 +1695,15 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		Obj.m_MagicDefense += g_ConfigRead.pet.PandaPetAddDefense;
 	}
 
-	g_BuffEffect.SetNextEffect(Obj.;
+	g_BuffEffect.SetNextEffect(Obj);
 
-	this->CalcMLSkillItemOption(Obj.;
-	this->CalcShieldPoint(Obj.;
+	this->CalcMLSkillItemOption(Obj);
+	this->CalcShieldPoint(Obj);
 
 	if (Obj.iShield > (Obj.iMaxShield + Obj.iAddShield))
 	{
 		Obj.iShield = Obj.iMaxShield + Obj.iAddShield;
-		GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+		GSProtocol.GCReFillSend(&Obj, Obj.Life, 0xFF, 0, Obj.iShield);
 	}
 
 	int nEffectValue = 0;
@@ -1710,7 +1711,7 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 	int iTotalMaxMana = Obj.MaxMana + Obj.AddMana;
 	int iTotalMaxLife = Obj.MaxLife + Obj.AddLife;
 
-	if (gObjGetValueOfBuffIndex(Obj. BUFFTYPE_ACHERON_FIRE, &nEffectValue, 0))
+	if (gObjGetValueOfBuffIndex(Obj, BUFFTYPE_ACHERON_FIRE, &nEffectValue, 0))
 	{
 		iTotalMaxShield /= 2.0;
 		Obj.iAddShield -= iTotalMaxShield;
@@ -1718,11 +1719,11 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		if (Obj.iShield > (Obj.iMaxShield + Obj.iAddShield))
 		{
 			Obj.iShield = Obj.iMaxShield + Obj.iAddShield;
-			GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+			GSProtocol.GCReFillSend(&Obj, Obj.Life, 0xFF, 0, Obj.iShield);
 		}
 	}
 
-	if (gObjGetValueOfBuffIndex(Obj. BUFFTYPE_ACHERON_FROST, &nEffectValue, 0))
+	if (gObjGetValueOfBuffIndex(Obj, BUFFTYPE_ACHERON_FROST, &nEffectValue, 0))
 	{
 		iTotalMaxMana /= 2.0;
 		Obj.AddMana -= iTotalMaxMana;
@@ -1730,11 +1731,11 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		if ((Obj.MaxMana + Obj.AddMana) < Obj.Mana)
 		{
 			Obj.Mana = Obj.MaxMana + Obj.AddMana;
-			GSProtocol.GCManaSend(Obj.m_Index, Obj.Mana, 0xFF, 0, Obj.BP);
+			GSProtocol.GCManaSend(&Obj, Obj.Mana, 0xFF, 0, Obj.BP);
 		}
 	}
 
-	if (gObjGetValueOfBuffIndex(Obj. BUFFTYPE_ACHERON_BIND, &nEffectValue, 0))
+	if (gObjGetValueOfBuffIndex(Obj, BUFFTYPE_ACHERON_BIND, &nEffectValue, 0))
 	{
 		iTotalMaxLife /= 2.0;
 		Obj.AddLife -= iTotalMaxLife;
@@ -1742,14 +1743,14 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 		if ((Obj.MaxLife + Obj.AddLife) < Obj.Life)
 		{
 			Obj.Life = Obj.MaxLife + Obj.AddLife;
-			GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+			GSProtocol.GCReFillSend(&Obj, Obj.Life, 0xFF, 0, Obj.iShield);
 		}
 	}
 
-	GSProtocol.GCReFillSend(Obj.m_Index, iTotalMaxLife, 0xFE, 0, iTotalMaxShield);
-	GSProtocol.GCManaSend(Obj.m_Index, iTotalMaxMana, 0xFE, 0, Obj.MaxBP + Obj.AddBP);
-	g_StatSpec.SendOptionList(Obj.;
-	GSProtocol.GCSendAttackSpeed(Obj.m_Index);
+	GSProtocol.GCReFillSend(&Obj, iTotalMaxLife, 0xFE, 0, iTotalMaxShield);
+	GSProtocol.GCManaSend(&Obj, iTotalMaxMana, 0xFE, 0, Obj.MaxBP + Obj.AddBP);
+	g_StatSpec.SendOptionList(Obj);
+	GSProtocol.GCSendAttackSpeed(&Obj);
 
 #ifdef ENABLE_CUSTOM_ITEMOPTION
 	gItemOption.CalCItemObjectCommonOption(Obj. 0);
@@ -1769,15 +1770,15 @@ void CObjCalCharacter::CalcCharacter(CGameObject &Obj)
 	pAddStats.cmdadd = Obj.AddLeadership;
 	IOCP.DataSend(Obj.m_Index, (BYTE*)&pAddStats, pAddStats.h.size); */
 
-	GSProtocol.GCPlayerStatsPanelNew(Obj.m_Index);
-	GSProtocol.GCPlayerStatsPanelRates(Obj.m_Index);
+	GSProtocol.GCPlayerStatsPanelNew(&Obj);
+	GSProtocol.GCPlayerStatsPanelRates(&Obj);
 
 	for (int n = 0; n < INVENTORY_SIZE; n++)
 	{
 		if (Obj.pntInventory[n]->IsPeriodItemExpire() == 1)
 		{
 			Obj.pntInventory[n]->SetPeriodItemExpire();
-			g_PeriodItemEx.RemovePeriodItemDataByForce(Obj. Obj.pntInventory[n]->m_Type, Obj.pntInventory[n]->m_Number);
+			g_PeriodItemEx.RemovePeriodItemDataByForce(Obj, Obj.pntInventory[n]->m_Type, Obj.pntInventory[n]->m_Number);
 			Obj.pntInventory[n]->Clear();
 		}
 	}
@@ -1807,10 +1808,10 @@ void CObjCalCharacter::CalcSetItemStat(CGameObject &Obj)
 				Obj.pntInventory[i]->SetItemPlusSpecialStat(&Obj.AddStrength, 196);
 				break;
 			case 2:
-				EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+				//EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 				Obj.m_PlayerData->AgilityCheckDelay = GetTickCount();
 				Obj.pntInventory[i]->SetItemPlusSpecialStat(&Obj.AddDexterity, 197);
-				LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+				//LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 				break;
 			case 3:
 				Obj.pntInventory[i]->SetItemPlusSpecialStat(&Obj.AddEnergy, 198);
@@ -1824,10 +1825,10 @@ void CObjCalCharacter::CalcSetItemStat(CGameObject &Obj)
 			case 6:
 				Obj.pntInventory[i]->SetItemPlusSpecialStat(&Obj.AddStrength, 201);
 
-				EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+				//EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 				Obj.m_PlayerData->AgilityCheckDelay = GetTickCount();
 				Obj.pntInventory[i]->SetItemPlusSpecialStat(&Obj.AddDexterity, 201);
-				LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+				//LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 
 				Obj.pntInventory[i]->SetItemPlusSpecialStat(&Obj.AddEnergy, 201);
 				Obj.pntInventory[i]->SetItemPlusSpecialStat(&Obj.AddVitality, 201);
@@ -1939,7 +1940,7 @@ void CObjCalCharacter::CalcSetItemOption(CGameObject &Obj)
 
 	memset(SetOptionTable, 0, sizeof(SetOptionTable));
 	memset(SetOptionCountTable, 0, sizeof(SetOptionCountTable));
-	this->GetSetItemOption(lpObj, SetOptionTable, SetOptionCountTable, &SetOptionCount);
+	this->GetSetItemOption(Obj, SetOptionTable, SetOptionCountTable, &SetOptionCount);
 
 	for (int optioncount = 0; optioncount < SetOptionCount; optioncount++)
 	{
@@ -1955,8 +1956,8 @@ void CObjCalCharacter::CalcSetItemOption(CGameObject &Obj)
 				if (gSetItemOption.GetSetOption(OptionTableIndex, tablecnt,
 					op1, op2, opvalue1, opvalue2, Obj.Class, Obj.m_PlayerData->ChangeUP))
 				{
-					this->SetItemStatPlusSpecial(lpObj, op1, opvalue1);
-					this->SetItemStatPlusSpecial(lpObj, op2, opvalue2);
+					this->SetItemStatPlusSpecial(Obj, op1, opvalue1);
+					this->SetItemStatPlusSpecial(Obj, op2, opvalue2);
 				}
 			}
 
@@ -1969,11 +1970,11 @@ void CObjCalCharacter::CalcSetItemOption(CGameObject &Obj)
 					opvalue1, opvalue2, opvalue3, opvalue4, opvalue5,
 					Obj.Class, Obj.m_PlayerData->ChangeUP);
 
-				this->SetItemStatPlusSpecial(lpObj, op1, opvalue1);
-				this->SetItemStatPlusSpecial(lpObj, op2, opvalue2);
-				this->SetItemStatPlusSpecial(lpObj, op3, opvalue3);
-				this->SetItemStatPlusSpecial(lpObj, op4, opvalue4);
-				this->SetItemStatPlusSpecial(lpObj, op5, opvalue5);
+				this->SetItemStatPlusSpecial(Obj, op1, opvalue1);
+				this->SetItemStatPlusSpecial(Obj, op2, opvalue2);
+				this->SetItemStatPlusSpecial(Obj, op3, opvalue3);
+				this->SetItemStatPlusSpecial(Obj, op4, opvalue4);
+				this->SetItemStatPlusSpecial(Obj, op5, opvalue5);
 			}
 		}
 	}
@@ -1990,8 +1991,8 @@ void CObjCalCharacter::CalcSetItemOption(CGameObject &Obj)
 				if (gSetItemOption.GetSetOption(OptionTableIndex, tablecnt,
 					op1, op2, opvalue1, opvalue2, Obj.Class, Obj.m_PlayerData->ChangeUP))
 				{
-					this->SetItemPlusSpecial(lpObj, op1, opvalue1);
-					this->SetItemPlusSpecial(lpObj, op2, opvalue2);
+					this->SetItemPlusSpecial(Obj, op1, opvalue1);
+					this->SetItemPlusSpecial(Obj, op2, opvalue2);
 				}
 			}
 
@@ -2004,11 +2005,11 @@ void CObjCalCharacter::CalcSetItemOption(CGameObject &Obj)
 					opvalue1, opvalue2, opvalue3, opvalue4, opvalue5,
 					Obj.Class, Obj.m_PlayerData->ChangeUP);
 
-				this->SetItemPlusSpecial(lpObj, op1, opvalue1);
-				this->SetItemPlusSpecial(lpObj, op2, opvalue2);
-				this->SetItemPlusSpecial(lpObj, op3, opvalue3);
-				this->SetItemPlusSpecial(lpObj, op4, opvalue4);
-				this->SetItemPlusSpecial(lpObj, op5, opvalue5);
+				this->SetItemPlusSpecial(Obj, op1, opvalue1);
+				this->SetItemPlusSpecial(Obj, op2, opvalue2);
+				this->SetItemPlusSpecial(Obj, op3, opvalue3);
+				this->SetItemPlusSpecial(Obj, op4, opvalue4);
+				this->SetItemPlusSpecial(Obj, op5, opvalue5);
 			}
 		}
 	}
@@ -2030,10 +2031,10 @@ void CObjCalCharacter::SetItemStatPlusSpecial(CGameObject &Obj, int option, int 
 		Obj.AddStrength += ivalue;
 		break;
 	case AT_SET_OPTION_IMPROVE_DEXTERITY:
-		EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+		//EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 		Obj.m_PlayerData->AgilityCheckDelay = GetTickCount();
 		Obj.AddDexterity += ivalue;
-		LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+		//LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 		break;
 	case AT_SET_OPTION_IMPROVE_ENERGY:
 		Obj.AddEnergy += ivalue;
@@ -2046,10 +2047,10 @@ void CObjCalCharacter::SetItemStatPlusSpecial(CGameObject &Obj, int option, int 
 		break;
 	case AT_SET_OPTION_IMPROVE_ALL_STATS:
 		Obj.AddStrength += ivalue;
-		EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+		//EnterCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 		Obj.m_PlayerData->AgilityCheckDelay = GetTickCount();
 		Obj.AddDexterity += ivalue;
-		LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
+		//LeaveCriticalSection(&Obj.m_PlayerData->AgiCheckCriti);
 		Obj.AddEnergy += ivalue;
 		Obj.AddVitality += ivalue;
 
@@ -2230,15 +2231,15 @@ void CObjCalCharacter::SetItemApply(CGameObject &Obj)
 	if ((Obj.MaxLife + Obj.AddLife) < Obj.Life)
 	{
 		Obj.Life = Obj.MaxLife + Obj.AddLife;
-		GSProtocol.GCReFillSend(Obj.m_Index, Obj.Life, 0xFF, 0, Obj.iShield);
+		GSProtocol.GCReFillSend(&Obj, Obj.Life, 0xFF, 0, Obj.iShield);
 	}
 
-	gObjSetBP(lpObj);
+	gObjSetBP(Obj);
 
 	if ((Obj.MaxMana + Obj.AddMana) < Obj.Mana)
 	{
 		Obj.Mana = Obj.MaxMana + Obj.AddMana;
-		GSProtocol.GCManaSend(Obj.m_Index, Obj.Mana, 0xFF, 0, Obj.BP);
+		GSProtocol.GCManaSend(&Obj, Obj.Mana, 0xFF, 0, Obj.BP);
 	}
 
 	Obj.m_Defense += Obj.m_PlayerData->SetOpAddDefence * 10 / 20;
