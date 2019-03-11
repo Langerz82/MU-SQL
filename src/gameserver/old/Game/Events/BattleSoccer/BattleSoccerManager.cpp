@@ -4,6 +4,8 @@
 #include "BattleSoccer.h"
 #include "BattleSoccerManager.h"
 #include "GMMng.h"
+#include "GameProtocol.h"
+#include "GOFunctions.h"
 
 // GS-N 0.99.60T 0x00459CD0 - Completed
 // GS-N 1.00.18  0x004693E0 - Completed
@@ -69,10 +71,11 @@ int gCheckBattleGroundTimer()
 	for (i;i<MAX_USER_GUILD;i++)
 	{
 		int UserIndex = gBSGround[n]->m_BlueTeam->Index[i];
+		CGameObject* lpObj = getGameObject(UserIndex);
 
 		if ( UserIndex != -1 )
 		{
-			GSProtocol.GCTimeViewSend(UserIndex, time);
+			GSProtocol.GCTimeViewSend(lpObj, time);
 		}
 	}
 
@@ -81,10 +84,11 @@ int gCheckBattleGroundTimer()
 		for (i=0;i<MAX_USER_GUILD;i++)
 		{
 			int UserIndex = gBSGround[n]->m_RedTeam->Index[i];
+			CGameObject* lpObj = getGameObject(UserIndex);
 
 			if ( UserIndex != -1 )
 			{
-				GSProtocol.GCTimeViewSend(UserIndex, time);
+				GSProtocol.GCTimeViewSend(lpObj, time);
 			}
 		}
 	}
@@ -234,13 +238,13 @@ BOOL gBattleSoccerScoreUpdate(int ground, int team)
 		return FALSE;
 	}
 
-	if (gObjGuildWarProc(lpGuild, lpTargetGuild, score) == TRUE )
+	if (gObjGuildWarProc(*lpGuild, *lpTargetGuild, score) == TRUE )
 	{
 		if ( lpGuild->WarType == 1 )
 		{
-			gObjGuildWarEndSend(lpGuild, lpTargetGuild, 1, 0);
+			gObjGuildWarEndSend(*lpGuild, *lpTargetGuild, 1, 0);
 			gBattleGroundEnable(lpGuild->BattleGroundIndex, FALSE);
-			gObjGuildWarEnd(lpGuild, lpTargetGuild);
+			gObjGuildWarEnd(*lpGuild, *lpTargetGuild);
 			cManager.BattleInfoSend(GetBattleTeamName(0, 0), -1, GetBattleTeamName(0, 1), -1);
 		}
 	}
@@ -299,8 +303,4 @@ int gCheckBattleGround(CGameObject &Obj)	// R:[-1:FAIL else OBJGround]
 	}
 	return -1;
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
 

@@ -84,12 +84,12 @@ void CStatSpecialize::CalcStatOption(CGameObject &Obj, int StatOptionID)
 		return;
 	}
 
-	this->SetStatOption(lpObj, StatOptionID, Percent);
+	this->SetStatOption(Obj, StatOptionID, Percent);
 }
 
 void CStatSpecialize::SetStatOption(CGameObject &Obj, int StatOptionID, double StatOptionPercent)
 {
-	int ArrayIndex = this->GetUserArrayIndex(lpObj);
+	int ArrayIndex = this->GetUserArrayIndex(Obj);
 
 	if (ArrayIndex == -1)
 	{
@@ -218,10 +218,6 @@ void CStatSpecialize::SendOptionList(CGameObject &Obj)
 		 }
 	 }
 
-	 IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+	 GIOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
 

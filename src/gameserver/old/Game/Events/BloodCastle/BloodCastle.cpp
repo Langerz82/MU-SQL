@@ -35,6 +35,8 @@
 #include "ItemSocketOptionSystem.h"
 #include "gObjMonster.h"
 #include "CustomMaxStats.h"
+#include "GOFunctions.h"
+
 
 CBloodCastle g_BloodCastle;
 
@@ -703,21 +705,21 @@ void CBloodCastle::ProcState_Closed(int iBridgeIndex)
 					PHeadSetB((BYTE*)&pMsg, 0x92, sizeof(pMsg));
 					pMsg.Type = 3;
 
-					for (int i= g_ConfigRead.server.GetObjectStartUserIndex();i<g_ConfigRead.server.GetObjectMax();i++)
+					for each(std::pair<int,CGameObject*> user in gGameObjects)
 					{
-						if ( getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_USER)
+						if (user.second->Type == OBJ_USER)
 						{
-							if ( BC_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE )
+							if ( BC_MAP_RANGE(user.second->MapNumber) == FALSE )
 							{
-								if ( CC_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE )
+								if ( CC_MAP_RANGE(user.second->MapNumber) == FALSE )
 								{
-									if ( IT_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE )
+									if ( IT_MAP_RANGE(user.second->MapNumber) == FALSE )
 									{
-										if ( DG_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE )
+										if ( DG_MAP_RANGE(user.second->MapNumber) == FALSE )
 										{
-											if ( IMPERIAL_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE )
+											if ( IMPERIAL_MAP_RANGE(user.second->MapNumber) == FALSE )
 											{
-												IOCP.DataSend(i, (UCHAR*)&pMsg, pMsg.h.size);
+												GIOCP.DataSend(user.first, (UCHAR*)&pMsg, pMsg.h.size);
 											}
 										}
 									}
@@ -929,13 +931,13 @@ void CBloodCastle::SetState_None(int iBridgeIndex)
 	this->ClearBridgeData(iBridgeIndex);
 	this->ClearMonster(iBridgeIndex, 1);
 
-	for (int n = 0; n < gGameObjects.size(); n++)
+	for each(std::pair<int, CGameObject*> user in gGameObjects)
 	{
 		int iMapNumber = this->GetBridgeMapNumber(iBridgeIndex); //season3 add-on
 
-		if (getGameObject(n)->MapNumber == iMapNumber && getGameObject(n)->Connected == PLAYER_PLAYING) //season3 changed
+		if (user.second->MapNumber == iMapNumber) //season3 changed
 		{
-			gObjMoveGate(*getGameObject(n), 22);
+			gObjMoveGate(*user.second, 22);
 		}
 	}
 
@@ -957,14 +959,14 @@ void CBloodCastle::SetState_Closed(int iBridgeIndex)
 	this->ClearMonster(iBridgeIndex, 1);
 	this->CheckAngelKingExist(iBridgeIndex);
 
-	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n<g_ConfigRead.server.GetObjectMax(); n++)
+	for each(std::pair<int, CGameObject*> user in gGameObjects)
 	{
 		int iMapNumber = this->GetBridgeMapNumber(iBridgeIndex); //season3 add-on
 
-		if (getGameObject(n)->MapNumber == iMapNumber && getGameObject(n)->Connected > PLAYER_LOGGED) //season3 changed
+		if (user.second->MapNumber == iMapNumber) //season3 changed
 		{
-			this->SearchUserDeleteQuestItem(*getGameObject(n));
-			gObjMoveGate(*getGameObject(n), 22);
+			this->SearchUserDeleteQuestItem(*user.second);
+			gObjMoveGate(*user.second, 22);
 		}
 	}
 
@@ -1020,11 +1022,11 @@ void CBloodCastle::SetState_Playing(int iBridgeIndex)
 
 	this->SendBridgeAnyMsg((BYTE *)&ServerCmd, ServerCmd.h.size, iBridgeIndex);
 
-	for (int n = 0; n < gGameObjects.size(); n++)
+	for each(std::pair<int, CGameObject*> user in gGameObjects)
 	{
-		if (getGameObject(n)->MapNumber == this->GetBridgeMapNumber(iBridgeIndex) && getGameObject(n)->Connected > PLAYER_LOGGED) //season3 changed
+		if (user.second->MapNumber == this->GetBridgeMapNumber(iBridgeIndex)) //season3 changed
 		{
-			this->SearchUserDeleteQuestItem(*getGameObject(n));
+			this->SearchUserDeleteQuestItem(*user.second);
 		}
 	}
 
@@ -1080,7 +1082,7 @@ LONGLONG  CBloodCastle::GetCurrentRemainSec(int iBridgeIndex)
 
 int  CBloodCastle::CheckEnterLevel(CGameObject &Obj, int iLevel)	// RET : [2:Error][1:OverLevel][0:InLevel - Success][-1:UnderLevel]
 {
-	if (Obj.Type != OBJ_USER || Obj.Connected <= PLAYER_LOGGED)
+	if (Obj.Type != OBJ_USER)
 	{
 		return 2;
 	}
@@ -1108,7 +1110,7 @@ int  CBloodCastle::CheckEnterLevel(CGameObject &Obj, int iLevel)	// RET : [2:Err
 
 bool CBloodCastle::CheckEnterFreeTicket(CGameObject &Obj)
 {
-	if ( Obj.Type != OBJ_USER || Obj.Connected <= PLAYER_LOGGED )
+	if ( Obj.Type != OBJ_USER)
 		return false;
 
 	for (int x=0;x<MAIN_INVENTORY_SIZE;x++)
@@ -1152,7 +1154,7 @@ bool CBloodCastle::BloodCastleChaosMix(CGameObject &Obj, int iLEVEL)
 
 	if ( iMIX_SUCCESS_RATE < 0 || iMIX_SUCCESS_RATE > 100 )
 	{
-		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		GIOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		return false;
 	}
 
@@ -1171,7 +1173,7 @@ bool CBloodCastle::BloodCastleChaosMix(CGameObject &Obj, int iLEVEL)
 		pMsg.Result = 0xF0;
 		Obj.ChaosLock = FALSE;
 
-		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		GIOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 	}
 
 	iMIX_SUCCESS_RATE += Obj.ChaosSuccessRate;
@@ -1187,20 +1189,20 @@ bool CBloodCastle::BloodCastleChaosMix(CGameObject &Obj, int iLEVEL)
 
 	if ( iMIX_NEED_MONEY <  0 )
 	{
-		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		GIOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		return false;
 	}
 
 	if ( (Obj.m_PlayerData->Money - iMIX_NEED_MONEY) < 0 )
 	{
 		pMsg.Result = CB_BC_NOT_ENOUGH_ZEN;
-		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		GIOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		return false;
 	}
 
 	Obj.m_PlayerData->Money -= iMIX_NEED_MONEY;
 	g_CastleSiegeSync.AddTributeMoney(iChaosTaxMoney);
-	GSProtocol.GCMoneySend(Obj, Obj.m_PlayerData->Money);
+	GSProtocol.GCMoneySend(&Obj, Obj.m_PlayerData->Money);
 
 	if ( (rand()%100) < iMIX_SUCCESS_RATE )
 	{
@@ -1210,8 +1212,8 @@ bool CBloodCastle::BloodCastleChaosMix(CGameObject &Obj, int iLEVEL)
 	else
 	{
 		g_MixSystem.ChaosBoxInit(Obj);
-		GSProtocol.GCUserChaosBoxSend(Obj, 0);
-		IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
+		GSProtocol.GCUserChaosBoxSend(&Obj, 0);
+		GIOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (BYTE*)&pMsg, pMsg.h.size);
 		return false;
 	}
 
@@ -1402,7 +1404,7 @@ int  CBloodCastle::CheckEnterItem(CGameObject &Obj)
 {
 	int iITEM_LEVEL = 0;
 
-	if ( Obj.Type != OBJ_USER || Obj.Connected <= PLAYER_LOGGED )
+	if ( Obj.Type != OBJ_USER)
 	{
 		return 0;
 	}
@@ -1459,7 +1461,7 @@ int  CBloodCastle::CheckQuestItem(CGameObject &Obj)
 		return -1;
 	}
 
-	if ( Obj.Type != OBJ_USER || Obj.Connected <= PLAYER_LOGGED )
+	if ( Obj.Type != OBJ_USER)
 	{
 		return -1;
 	}
@@ -1470,7 +1472,7 @@ int  CBloodCastle::CheckQuestItem(CGameObject &Obj)
 		{
 			if ( Obj.pntInventory[x]->m_Type == ITEMGET(13,19) ) // Absolute Weapon of Archangel QUEST ITEM
 			{
-				if ( Obj.pntInventory[x]->m_Number	== this->m_BridgeData[iBridgeIndex]->m_nBC_QUESTITEM_SERIAL )
+				if ( Obj.pntInventory[x]->m_Number	== this->m_BridgeData[iBridgeIndex].m_nBC_QUESTITEM_SERIAL )
 				{
 					iITEM_LEVEL = Obj.pntInventory[x]->m_Level;
 
@@ -1506,7 +1508,7 @@ bool CBloodCastle::CheckWalk(CGameObject &Obj, int iMoveX, int iMoveY)
 		return false;
 	}
 
-	if ( Obj.Type != OBJ_USER || Obj.Connected <= PLAYER_LOGGED )
+	if ( Obj.Type != OBJ_USER)
 	{
 		return false;
 	}
@@ -2029,7 +2031,7 @@ int  CBloodCastle::LevelUp(CGameObject &Obj, int iAddExp)
 
 	if ( Obj.Level >= g_ConfigRead.data.common.UserMaxLevel )
 	{
-		::GSProtocol.GCServerMsgStringSend(Lang.GetText(0,45), Obj, 1);
+		::GSProtocol.GCServerMsgStringSend(Lang.GetText(0,45), &Obj, 1);
 		return 0;
 	}
 
@@ -2077,7 +2079,7 @@ int  CBloodCastle::LevelUp(CGameObject &Obj, int iAddExp)
 		gObjGetStatPointState(Obj, AddPoint, MaxAddPoint, MinusPoint, MaxMinusPoint);*/
 
 
-		GSProtocol.GCLevelUpMsgSend(Obj, 1);//Obj.Level, Obj.LevelUpPoint, 
+		GSProtocol.GCLevelUpMsgSend(&Obj, 1);//Obj.Level, Obj.LevelUpPoint, 
 		//	(int)((float)Obj.AddLife + Obj.MaxLife), (int)((float)Obj.AddMana + Obj.MaxMana),
 		//	Obj.MaxBP + Obj.AddBP, AddPoint, MaxAddPoint);
 		gObjCalcMaxLifePower(Obj);
@@ -2343,16 +2345,13 @@ void CBloodCastle::SendCastleEntranceBlockInfo(int iBridgeIndex, bool bLive)
 	lpMsgBody[1].btX   = ::g_btCastleEntranceMapXY[iBridgeIndex].btEndX;
 	lpMsgBody[1].btY   = ::g_btCastleEntranceMapXY[iBridgeIndex].btEndY;
 
-	for (int i= g_ConfigRead.server.GetObjectMaxMonster();i<g_ConfigRead.server.GetObjectMax();i++)
+	for each (std::pair<int, CGameObject*> user in gGameObjects)
 	{
 		int iMapNumber = this->GetBridgeMapNumber(iBridgeIndex); //season3 add-on
 
-		if ( getGameObject(i)->MapNumber == iMapNumber ) //season3 changed
+		if ( user.second->MapNumber == iMapNumber ) //season3 changed
 		{
-			if ( getGameObject(i)->Connected > PLAYER_LOGGED )
-			{
-				IOCP.DataSend(i,(BYTE*)lpMsg, lpMsg->h.size);
-			}
+			GIOCP.DataSend(user.first, (BYTE*)lpMsg, lpMsg->h.size);
 		}
 	}
 
@@ -2385,22 +2384,16 @@ void CBloodCastle::SendCastleBridgeBlockInfo(int iBridgeIndex, bool bLive)
 	lpMsgBody[1].btX   = ::g_btCastleEntranceMapXY[iBridgeIndex].btEndX;
 	lpMsgBody[1].btY   = ::g_btCastleEntranceMapXY[iBridgeIndex].btEndY;
 
-	for (int i= g_ConfigRead.server.GetObjectMaxMonster();i<g_ConfigRead.server.GetObjectMax();i++)
+	for each (std::pair<int, CGameObject*> user in gGameObjects)
 	{
 		int iMapNumber = this->GetBridgeMapNumber(iBridgeIndex); //season3 add-on
 
-		if ( getGameObject(i)->MapNumber == iMapNumber ) //season3 changed
+		if ( user.second->MapNumber == iMapNumber ) //season3 changed
 		{
-			if ( getGameObject(i)->Connected > PLAYER_LOGGED )
-			{
-				IOCP.DataSend(getGameObject(i)->m_PlayerData->ConnectUser->Index, (BYTE*)lpMsg, lpMsg->h.size);
-
-			}
+			GIOCP.DataSend(user.second->m_PlayerData->ConnectUser->Index, (BYTE*)lpMsg, lpMsg->h.size);
 		}
 	}
 }
-
-
 
 
 
@@ -2436,16 +2429,13 @@ void CBloodCastle::SendCastleDoorBlockInfo(int iBridgeIndex, bool bLive)
 	lpMsgBody[5].btX   = ::g_btCastleDoorMapXY[iBridgeIndex][2].btEndX;
 	lpMsgBody[5].btY   = ::g_btCastleDoorMapXY[iBridgeIndex][2].btEndY;
 
-	for (int i= g_ConfigRead.server.GetObjectMaxMonster();i<g_ConfigRead.server.GetObjectMax();i++)
+	for each (std::pair<int, CGameObject*> user in gGameObjects)
 	{
 		int iMapNumber = this->GetBridgeMapNumber(iBridgeIndex); //season3 add-on
 
-		if ( getGameObject(i)->MapNumber == iMapNumber ) //season3 changed
+		if ( user.second->MapNumber == iMapNumber ) //season3 changed
 		{
-			if ( getGameObject(i)->Connected > PLAYER_LOGGED )
-			{
-				IOCP.DataSend(getGameObject(i)->m_PlayerData->ConnectUser->Index, (BYTE*)lpMsg, lpMsg->h.size);
-			}
+			GIOCP.DataSend(user.first, (BYTE*)lpMsg, lpMsg->h.size);
 		}
 	}
 }
@@ -2467,14 +2457,11 @@ void CBloodCastle::SendNoticeMessage(int iBridgeIndex, char * lpszMSG)
 
 	for ( int i=0;i<this->m_BridgeData->m_UserData.size();i++)
 	{
-		if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->Connected > PLAYER_LOGGED )
+		if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleIndex != -1 )
 		{
-			if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleIndex != -1 )
+			if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleSubIndex != -1 )
 			{
-				if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleSubIndex != -1 )
-				{
-					IOCP.DataSend(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->ConnectUser->Index, (UCHAR*)&pNotice, pNotice.h.size);
-				}
+				GIOCP.DataSend(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->ConnectUser->Index, (UCHAR*)&pNotice, pNotice.h.size);
 			}
 		}
 	}
@@ -2496,15 +2483,12 @@ void CBloodCastle::SendNoticeScore(int iBridgeIndex)
 
 	for ( int i=0;i<this->m_BridgeData[iBridgeIndex].m_UserData.size();i++)
 	{
-		if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->Connected > PLAYER_LOGGED )
+		if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleIndex != -1 )
 		{
-			if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleIndex != -1 )
+			if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleSubIndex != -1 )
 			{
-				if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleSubIndex != -1 )
-				{
-					TNotice::MakeNoticeMsgEx(&pNotice, 0, Lang.GetText(0,69), iBridgeIndex+1, this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iEXP);
-					IOCP.DataSend(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->ConnectUser->Index, (UCHAR*)&pNotice, pNotice.h.size);
-				}
+				TNotice::MakeNoticeMsgEx(&pNotice, 0, Lang.GetText(0,69), iBridgeIndex+1, this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iEXP);
+				GIOCP.DataSend(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->ConnectUser->Index, (UCHAR*)&pNotice, pNotice.h.size);
 			}
 		}
 	}
@@ -2543,14 +2527,11 @@ void CBloodCastle::SendNoticeState(int iBridgeIndex, int iPlayState)
 
 	for ( int i=0;i<this->m_BridgeData[iBridgeIndex].m_UserData.size();i++)
 	{
-		if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->Connected > PLAYER_LOGGED )
+		if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleIndex != -1 )
 		{
-			if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleIndex != -1 )
+			if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleSubIndex != -1 )
 			{
-				if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleSubIndex != -1 )
-				{
-					IOCP.DataSend(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->ConnectUser->Index, (UCHAR *)&pMsg, pMsg.h.size);
-				}
+				GIOCP.DataSend(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->ConnectUser->Index, (UCHAR *)&pMsg, pMsg.h.size);
 			}
 		}
 	}
@@ -2596,12 +2577,9 @@ int  CBloodCastle::GetAliveUserTotalEXP(int iBridgeIndex)
 
 	for ( int i=0;i<this->m_BridgeData[iBridgeIndex].m_UserData.size();i++)
 	{
-		if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->Connected > PLAYER_LOGGED )
+		if ( BC_MAP_RANGE(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->MapNumber) != FALSE )
 		{
-			if ( BC_MAP_RANGE(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->MapNumber) != FALSE )
-			{
-				iRET_EXP += this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iEXP;
-			}
+			iRET_EXP += this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iEXP;
 		}
 	}
 	return iRET_EXP;
@@ -2628,7 +2606,7 @@ void CBloodCastle::SearchUserDeleteQuestItem(CGameObject &Obj)
 				{
 					::gObjInventoryItemSet(Obj, x, -1);
 					::gObjInventoryDeleteItem(Obj, x);
-					::GSProtocol.GCInventoryItemDeleteSend(Obj, x, TRUE);
+					::GSProtocol.GCInventoryItemDeleteSend(&Obj, x, TRUE);
 
 				}
 			}
@@ -2641,7 +2619,7 @@ void CBloodCastle::SearchUserDeleteQuestItem(CGameObject &Obj)
 
 void CBloodCastle::SearchUserDropQuestItem(CGameObject &Obj)
 {
-	if ( Obj.Type != OBJ_USER || Obj.Connected <= PLAYER_LOGGED )
+	if ( Obj.Type != OBJ_USER)
 	{
 		return;
 	}
@@ -2807,7 +2785,7 @@ void CBloodCastle::GiveReward_Win(CGameObject &Obj, int iBridgeIndex)
 		return;
 	}
 
-	if ( Obj.Connected > PLAYER_LOGGED )
+	if ( Obj.m_PlayerData->ConnectUser->Connected > PLAYER_LOGGED )
 	{
 		Obj.Name[MAX_ACCOUNT_LEN] = 0;
 		wsprintf(szNOTIFY_MSG, Lang.GetText(0,70), Obj.Name);
@@ -2823,7 +2801,7 @@ void CBloodCastle::GiveReward_Win(CGameObject &Obj, int iBridgeIndex)
 		
 		for ( int i=0;i<this->m_BridgeData[iBridgeIndex].m_UserData.size();i++)
 		{
-			if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->Connected < PLAYER_PLAYING )
+			if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->ConnectUser->Connected < PLAYER_PLAYING )
 			{
 				continue;
 			}
@@ -2946,7 +2924,7 @@ void CBloodCastle::GiveReward_Win(CGameObject &Obj, int iBridgeIndex)
 			pMsg.m_stBCCharScore[0].iSCORE = iREWARD_SCR;
 			PHeadSetB((BYTE*)&pMsg.PHeader, 0x93, sizeof(GCS_BC_GIVE_REWARD) - (sizeof(ST_BC_SCORE) * (this->m_BridgeData[iBridgeIndex].m_UserData.size() -1)) );
 
-			IOCP.DataSend(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->ConnectUser->Index, (UCHAR*)&pMsg, pMsg.PHeader.uSize);
+			GIOCP.DataSend(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->ConnectUser->Index, (UCHAR*)&pMsg, pMsg.PHeader.uSize);
 			g_QuestExpProgMng.ChkUserQuestTypeEventMap(QUESTEXP_ASK_BLOODCASTLE_CLEAR,
 				*this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user, this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleIndex, 0);
 		}
@@ -2970,17 +2948,9 @@ void CBloodCastle::GiveReward_Fail(int iBridgeIndex)
 	int iUserWhoGotUltimateWeapon = -1;
 	iUserWhoGotUltimateWeapon = this->GetWhoGotUltimateWeapon(iBridgeIndex);
 
-	if ( iUserWhoGotUltimateWeapon != -1 )
-	{
-		if ( ObjectMaxRange(iUserWhoGotUltimateWeapon) != FALSE )
-		{
-		
-		}
-	}
-
 	for ( int i=0;i<this->m_BridgeData[iBridgeIndex].m_UserData.size();i++)
 	{
-		if (this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->Connected < PLAYER_PLAYING )
+		if (this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->ConnectUser->Connected < PLAYER_PLAYING )
 		{
 			continue;
 		}
@@ -3031,7 +3001,7 @@ void CBloodCastle::GiveReward_Fail(int iBridgeIndex)
 
 		if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleIndex != -1 && this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleSubIndex != -1 )
 		{
-			IOCP.DataSend(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->ConnectUser->Index, (UCHAR*)&pMsg, pMsg.PHeader.uSize);			
+			GIOCP.DataSend(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->ConnectUser->Index, (UCHAR*)&pMsg, pMsg.PHeader.uSize);			
 
 		}	
 	}
@@ -3055,11 +3025,6 @@ int  CBloodCastle::CalcSendRewardEXP(CGameObject &Obj, int iEXP)
 		iCAL_EXP = iCAL_EXP * g_CrywolfSync.GetGettingExpPenaltyRate() / 100; //season 2.5 changed
 	}
 
-	if ( Obj.Connected != PLAYER_PLAYING )
-	{
-		return 0;
-	}
-
 	iRET_EXP = iCAL_EXP;
 
 	if ( Obj.Type == OBJ_USER )
@@ -3079,7 +3044,7 @@ int  CBloodCastle::CalcSendRewardEXP(CGameObject &Obj, int iEXP)
 
 		if(g_MasterLevelSkillTreeSystem.IsMasterLevelUser(Obj) == false) //season3 add-on
 		{
-			GSProtocol.GCKillPlayerMasterExpSend(Obj, (WORD)-1, iRET_EXP, 0, 0);
+			GSProtocol.GCKillPlayerMasterExpSend(&Obj, nullptr, iRET_EXP, 0, 0);
 		}
 	}
 
@@ -3097,11 +3062,6 @@ int  CBloodCastle::CalcSendRewardZEN(CGameObject &Obj, int iZEN)
 
 	int iRET_ZEN = 0;
 
-	if ( Obj.Connected != PLAYER_PLAYING )
-	{
-		return 0;
-	}
-
 	if ( gObjCheckMaxZen(Obj, iZEN) == FALSE )
 	{
 		iRET_ZEN = MAX_ZEN - Obj.m_PlayerData->Money;
@@ -3112,7 +3072,7 @@ int  CBloodCastle::CalcSendRewardZEN(CGameObject &Obj, int iZEN)
 
 	Obj.m_PlayerData->Money += iZEN;
 	iRET_ZEN = iZEN;
-	GSProtocol.GCMoneySend(Obj, Obj.m_PlayerData->Money);
+	GSProtocol.GCMoneySend(&Obj, Obj.m_PlayerData->Money);
 
 
 	return iRET_ZEN;
@@ -3180,11 +3140,11 @@ void CBloodCastle::SendRewardScore(CGameObject &Obj, int iSCORE, int iLeftTime, 
 	pMsg.Class = Obj.Class;
 	pMsg.ServerCode = g_ConfigRead.server.GetGameServerCode();
 	pMsg.iLeftTime = iLeftTime;
-	std::memcpy(pMsg.AccountID, Obj.AccountID, MAX_ACCOUNT_LEN);
+	std::memcpy(pMsg.AccountID, Obj.m_PlayerData->ConnectUser->AccountID, MAX_ACCOUNT_LEN);
 	std::memcpy(pMsg.GameID, Obj.Name, MAX_ACCOUNT_LEN);
 	pMsg.iAlivePartyCount = iAlivePartyCount;
 
-	wsDataCli.DataSend(reinterpret_cast<char *>(&pMsg), pMsg.h.size);
+	//wsDataCli.DataSend(reinterpret_cast<char *>(&pMsg), pMsg.h.size);
 }
 
 
@@ -3205,7 +3165,7 @@ void CBloodCastle::SendBridgeAnyMsg(BYTE * lpMsg, int iSize, int iBridgeIndex)
 		{
 			if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleIndex != -1 && this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_cBloodCastleSubIndex != -1 )
 			{
-				IOCP.DataSend(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->ConnectUser->Index, lpMsg, iSize);
+				GIOCP.DataSend(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->ConnectUser->Index, lpMsg, iSize);
 			}
 		}
 	}
@@ -3217,16 +3177,13 @@ void CBloodCastle::SendBridgeAnyMsg(BYTE * lpMsg, int iSize, int iBridgeIndex)
 
 void CBloodCastle::SendAllUserAnyMsg(BYTE * lpMsg, int iSize)
 {
-	for ( int i=g_ConfigRead.server.GetObjectStartUserIndex();i<g_ConfigRead.server.GetObjectMax();i++)
+	for each (std::pair<int, CGameObject*> user in gGameObjects)
 	{
-		if ( getGameObject(i)->Connected == PLAYER_PLAYING )
+		if ( user.second->Type == OBJ_USER )
 		{
-			if ( getGameObject(i)->Type == OBJ_USER )
+			if ( DG_MAP_RANGE(user.second->MapNumber) == FALSE )
 			{
-				if ( DG_MAP_RANGE(getGameObject(i)->MapNumber) == FALSE )
-				{
-					IOCP.DataSend(getGameObject(i)->m_PlayerData->ConnectUser->Index, lpMsg, iSize);
-				}
+				GIOCP.DataSend(user.first, lpMsg, iSize);
 			}
 		}
 	}
@@ -3253,7 +3210,7 @@ void CBloodCastle::SetMonsterKillCount(int iBridgeIndex)
 			iTOT_USER_COUNT++;
 			if ( BC_MAP_RANGE(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->MapNumber) != FALSE )
 			{
-				if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->Connected > PLAYER_LOGGED )
+				if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->ConnectUser->Connected > PLAYER_LOGGED )
 				{
 					iLIVE_USER_COUNT++;
 				}
@@ -3357,10 +3314,7 @@ bool CBloodCastle::CheckEveryUserDie(int iBridgeIndex)
 	{
 		if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->MapNumber == this->GetBridgeMapNumber(iBridgeIndex) ) //season3 changed
 		{
-			if ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->Connected > PLAYER_LOGGED )
-			{
-				bRET_VAL = false;
-			}
+			bRET_VAL = false;
 		}
 		else
 		{
@@ -3378,7 +3332,7 @@ bool CBloodCastle::CheckEveryUserDie(int iBridgeIndex)
 				pMsg.wUserHaveWeapon = 0;
 				pMsg.btWeaponNum = -1;
 
-				IOCP.DataSend(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->ConnectUser->Index, (UCHAR*)&pMsg, pMsg.h.size);
+				GIOCP.DataSend(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user->m_PlayerData->ConnectUser->Index, (UCHAR*)&pMsg, pMsg.h.size);
 			}
 		}
 	}
@@ -3402,13 +3356,13 @@ bool CBloodCastle::CheckAngelKingExist(int iBridgeIndex)
 		return false;
 	}
 
-	for ( int i=0;i<g_ConfigRead.server.GetObjectStartUserIndex();i++)
+	for each(std::pair<int, CGameObject*> user in gGameObjects)
 	{
-		if ( getGameObject(i)->Connected == PLAYER_PLAYING && getGameObject(i)->Type == OBJ_NPC )
+		if (user.second->Type == OBJ_NPC )
 		{
-			if ( getGameObject(i)->Class == 232 )
+			if (user.second->Class == 232 )
 			{
-				if (getGameObject(i)->MapNumber == this->GetBridgeMapNumber(iBridgeIndex) ) //season3 changed
+				if (user.second->MapNumber == this->GetBridgeMapNumber(iBridgeIndex) ) //season3 changed
 				{
 					bRET_VAL = true;
 					break;
@@ -3464,7 +3418,7 @@ int  CBloodCastle::GetWhoGotUltimateWeapon(int iBridgeIndex)
 	{
 		CGameObject* lpObj = this->m_BridgeData[iBridgeIndex].m_UserData[i].m_user;
 
-		if( lpObj->Type != OBJ_USER || lpObj->Connected <= PLAYER_LOGGED )
+		if( lpObj->Type != OBJ_USER )
 		{
 			continue;
 		}
@@ -3530,10 +3484,7 @@ int  CBloodCastle::GetCurrentLiveUserCount(int iBridgeIndex)
 			continue;
 		}
 
-		if (lpObj->Connected > PLAYER_LOGGED )
-		{
-			iRetLiveUserCount++;
-		}
+		iRetLiveUserCount++;
 	}
 
 	return iRetLiveUserCount;
@@ -3561,8 +3512,8 @@ BOOL CBloodCastle::DropItemDirectly(int iBridgeIndex, CGameObject &Obj, int iIte
 	BYTE Option3 = Obj.pntInventory[iItemPos]->m_Option3;
 	BYTE NOption = Obj.pntInventory[iItemPos]->m_NewOption;
 	UINT64 s_num = Obj.pntInventory[iItemPos]->m_Number;
-	BYTE ItemExOption = g_kJewelOfHarmonySystem.GetItemStrengthenOption(&Obj.pntInventory[iItemPos]);
-	BYTE ItemExLevel = g_kJewelOfHarmonySystem.GetItemOptionLevel(&Obj.pntInventory[iItemPos]);
+	BYTE ItemExOption = g_kJewelOfHarmonySystem.GetItemStrengthenOption(Obj.pntInventory[iItemPos]);
+	BYTE ItemExLevel = g_kJewelOfHarmonySystem.GetItemOptionLevel(Obj.pntInventory[iItemPos]);
 
 	BYTE NewOption[MAX_EXOPTION_SIZE];
 	::ItemIsBufExOption(NewOption, &Obj.pntInventory[iItemPos]);
@@ -3584,9 +3535,9 @@ BOOL CBloodCastle::DropItemDirectly(int iBridgeIndex, CGameObject &Obj, int iIte
 
 	BYTE SocketIndex = 0; //
 
-	g_SocketOptionSystem.GetSocketOption(&Obj.pntInventory[iItemPos], SocketOption, SocketIndex);
+	g_SocketOptionSystem.GetSocketOption(Obj.pntInventory[iItemPos], SocketOption, SocketIndex);
 
-	if ( MapC[map_num].ItemDrop(type, level, dur, Obj.X, Obj.Y,Option1, Option2, Option3, NOption, SOption, item_number, Obj, PetLevel, PetExp, ItemEffectEx, SocketOption, SocketIndex, 0) == TRUE )
+	if ( MapC[map_num].ItemDrop(type, level, dur, Obj.X, Obj.Y,Option1, Option2, Option3, NOption, SOption, item_number, Obj.m_Index, PetLevel, PetExp, ItemEffectEx, SocketOption, SocketIndex, 0) == TRUE )
 	{
 		::gObjInventoryDeleteItem(Obj, iItemPos);
 		pResult.Result = TRUE;
@@ -3597,7 +3548,7 @@ BOOL CBloodCastle::DropItemDirectly(int iBridgeIndex, CGameObject &Obj, int iIte
 		pResult.Result = FALSE;
 	}
 
-	IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (UCHAR*)&pResult, pResult.h.size);
+	GIOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (UCHAR*)&pResult, pResult.h.size);
 
 	if ( pResult.Result == TRUE )
 	{
@@ -3615,13 +3566,13 @@ BOOL CBloodCastle::DropItemDirectly(int iBridgeIndex, CGameObject &Obj, int iIte
 			PHeadSetB((BYTE*)&pMsg, 0x25, sizeof(PMSG_USEREQUIPMENTCHANGED));
 			pMsg.NumberH = SET_NUMBERH(Obj.m_Index);
 			pMsg.NumberL = SET_NUMBERL(Obj.m_Index);
-			ItemByteConvert(pMsg.ItemInfo, Obj.pntInventory[iItemPos]);
+			ItemByteConvert(pMsg.ItemInfo, *Obj.pntInventory[iItemPos]);
 			pMsg.ItemInfo[I_OPTION] = iItemPos * 16; // iItemPos << 16;
 			pMsg.ItemInfo[I_OPTION] |= LevelSmallConvert(Obj, iItemPos) & 0x0F;
 			pMsg.Element = Obj.m_iPentagramMainAttribute;
 
-			IOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (UCHAR*)&pMsg, pMsg.h.size);
-			GSProtocol.MsgSendV2(Obj, (UCHAR*)&pMsg, pMsg.h.size);
+			GIOCP.DataSend(Obj.m_PlayerData->ConnectUser->Index, (UCHAR*)&pMsg, pMsg.h.size);
+			GSProtocol.MsgSendV2(&Obj, (UCHAR*)&pMsg, pMsg.h.size);
 		}
 	}
 
@@ -3634,7 +3585,7 @@ BOOL CBloodCastle::DropItemDirectly(int iBridgeIndex, CGameObject &Obj, int iIte
 
 bool CBloodCastle::CheckUserHaveUlimateWeapon(CGameObject &Obj)
 {
-	if ( Obj.Type != OBJ_USER || Obj.Connected <= PLAYER_LOGGED )
+	if ( Obj.Type != OBJ_USER )
 	{
 		return false;
 	}
@@ -3685,12 +3636,10 @@ bool CBloodCastle::CheckWinnerValid(int iBridgeIndex)
 		return false;
 	}
 
-	if ( !gObjIsConnected(this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX) )
-	{
-		return false;
-	}
-
 	CGameObject* Obj = getGameObject(this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX);
+	if (Obj == nullptr)
+		return false;
+
 	if ( Obj->m_cBloodCastleIndex == -1
 	  || Obj->m_cBloodCastleSubIndex == -1
 	  || Obj->m_cBloodCastleIndex != iBridgeIndex )
@@ -3714,16 +3663,16 @@ bool CBloodCastle::CheckUserWinnerParty(int iBridgeIndex, CGameObject &Obj)
 	if ( !BC_BRIDGE_RANGE(iBridgeIndex))
 		return false;
 
-	if ( gObjIsConnected(this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX) == FALSE )
+	if ( gObjIsConnected(*getGameObject(this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX)) == FALSE )
 		return false;
 
-	if ( gObjIsConnected(Obj.m_Index) == FALSE )
+	if ( gObjIsConnected(Obj) == FALSE )
 		return false;
 
 	int iPartyIndex1 = Obj.PartyNumber;
 	int iPartyIndex2 = getGameObject(this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX)->PartyNumber;
 
-	if ( ObjectMaxRange(iPartyIndex1) != FALSE && iPartyIndex1 == iPartyIndex2 )
+	if ( iPartyIndex1 == iPartyIndex2 )
 		return true;
 
 	return false;
@@ -3733,32 +3682,25 @@ bool CBloodCastle::CheckUserWinnerParty(int iBridgeIndex, CGameObject &Obj)
 
 bool CBloodCastle::CheckPartyExist(CGameObject &Obj)
 {
-	if ( !gObjIsConnected(Obj.m_Index))
-		return false;
-
 	int iPartyIndex = Obj.PartyNumber;
-	CGameObject &Obj;
-
-	if ( !ObjectMaxRange(iPartyIndex))
-		return false;
+	int iUserIndex;
 
 	for ( int iPartyUserIndex =0;iPartyUserIndex<MAX_USER_IN_PARTY;iPartyUserIndex++)
 	{
 		iUserIndex = gParty.m_PartyS[iPartyIndex].Number[iPartyUserIndex];
+		CGameObject* lpObj = getGameObject(iUserIndex);
 
-		if ( gObjIsConnected(iUserIndex))
+		if ( BC_MAP_RANGE(lpObj->MapNumber) && BC_BRIDGE_RANGE(lpObj->m_cBloodCastleIndex) )
 		{
-			if ( BC_MAP_RANGE(getGameObject(iUserIndex)->MapNumber) && BC_BRIDGE_RANGE(getGameObject(iUserIndex)->m_cBloodCastleIndex) )
+			if (lpObj->Live == 1 )
 			{
-				if ( getGameObject(iUserIndex)->Live == 1 )
+				if (lpObj->m_bBloodCastleComplete == false )
 				{
-					if ( getGameObject(iUserIndex)->m_bBloodCastleComplete == false )
-					{
-						return true;
-					}
+					return true;
 				}
 			}
 		}
+
 	}
 
 	return false;
@@ -3770,32 +3712,28 @@ bool CBloodCastle::CheckWinnerPartyComplete(int iBridgeIndex)
 	if ( !BC_BRIDGE_RANGE(iBridgeIndex) )
 		return false;
 
-	if ( !gObjIsConnected(this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX))
+	if ( !gObjIsConnected(*getGameObject(this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX)))
 		return false;
 
 	int iPartyIndex = getGameObject(this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX)->PartyNumber;
-	CGameObject &Obj;
-
-	if ( !ObjectMaxRange(iPartyIndex))
-		return true;	// #error why true??
+	int iUserIndex;
 
 	for ( int iPartyUserIndex =0;iPartyUserIndex<MAX_USER_IN_PARTY;iPartyUserIndex++)
 	{
 		iUserIndex = gParty.m_PartyS[iPartyIndex].Number[iPartyUserIndex];
+		CGameObject* lpObj = getGameObject(iUserIndex);
 
-		if ( gObjIsConnected(iUserIndex))
+		if ( BC_MAP_RANGE(lpObj->MapNumber) && BC_BRIDGE_RANGE(lpObj->m_cBloodCastleIndex) )
 		{
-			if ( BC_MAP_RANGE(getGameObject(iUserIndex)->MapNumber) && BC_BRIDGE_RANGE(getGameObject(iUserIndex)->m_cBloodCastleIndex) )
+			if (lpObj->Live == 1 )
 			{
-				if ( getGameObject(iUserIndex)->Live == 1 )
+				if (lpObj->m_bBloodCastleComplete == false )
 				{
-					if ( getGameObject(iUserIndex)->m_bBloodCastleComplete == false )
-					{
-						return false;
-					}
+					return false;
 				}
 			}
 		}
+
 	}
 
 	return true;
@@ -3808,12 +3746,6 @@ bool CBloodCastle::SetBridgeWinner(int iBridgeIndex, CGameObject &Obj)
 	if ( !BC_BRIDGE_RANGE(iBridgeIndex) )
 		return false;
 
-	if ( gObjIsConnected(this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX) != 0 )
-		return false;
-
-	if ( !gObjIsConnected(Obj.m_Index))
-		return false;
-
 	if ( !BC_MAP_RANGE(Obj.MapNumber))
 		return false;
 
@@ -3823,6 +3755,7 @@ bool CBloodCastle::SetBridgeWinner(int iBridgeIndex, CGameObject &Obj)
 }
 
 
+// UPTO
 
 int CBloodCastle::GetWinnerPartyCompleteCount(int iBridgeIndex)
 {
@@ -3834,9 +3767,6 @@ int CBloodCastle::GetWinnerPartyCompleteCount(int iBridgeIndex)
 
 	int iPartyIndex = getGameObject(this->m_BridgeData[iBridgeIndex].m_iBC_COMPLETE_USER_INDEX)->PartyNumber;
 	
-	if ( !ObjectMaxRange(iPartyIndex))
-		return false;
-
 	int iPartyComplete=0;
 	CGameObject &Obj;
 

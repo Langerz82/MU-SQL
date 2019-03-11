@@ -21,9 +21,10 @@ class CBattleSoccer : public CBattleGround
 
 public:
 
-	CBattleSoccer(GUILD_INFO_STRUCT &red, GUILD_INFO_STRUCT &blue);
+	CBattleSoccer();
 	virtual ~CBattleSoccer();
 
+	void SetTeams(GUILD_INFO_STRUCT &red, GUILD_INFO_STRUCT &blue);
 	void SetGoalMove(int set_code);
 	int GetGoalMove();
 	void SetGoalLeftRect(int x, int y, int xl, int yl);
@@ -35,8 +36,8 @@ public:
 	int m_BallIndex;	// 64 - D
 	RECT m_GoalLeft;	// 68 - D
 	RECT m_GoalRight;	// 78 - D
-	GUILD_INFO_STRUCT &m_RedTeam;	// 88 - D
-	GUILD_INFO_STRUCT &m_BlueTeam;	// 8C - D
+	GUILD_INFO_STRUCT* m_RedTeam;	// 88 - D
+	GUILD_INFO_STRUCT* m_BlueTeam;	// 8C - D
 };
 
 extern CBattleSoccer * gBSGround[MAX_BATTLESOCCER_GROUND];

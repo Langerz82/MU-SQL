@@ -174,10 +174,9 @@ void CUnityBattleField::GDReqCopyCharacterInfo(CGameObject &Obj, BYTE CharacterS
 	sLog->outBasic("[UBF][GDReqCopyCharcterInfo][%s][%s] Move(Copy On) the Character Into UnityBattleField ",
 		Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name);
 
-	GDReqCopyPetItemInfo(Obj);
+	//GDReqCopyPetItemInfo(Obj); // TODO
 }
 
-// UPTO
 
 void CUnityBattleField::DGAnsCopyCharacterInfo(CGameObject &Obj, BYTE result, BYTE subResult)
 {
@@ -189,33 +188,27 @@ void CUnityBattleField::DGAnsCopyCharacterInfo(CGameObject &Obj, BYTE result, BY
 
 	if (result != TRUE)
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 630), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 630), &Obj, 1);
 		sLog->outBasic("[UBF][DGAnsCopyCharcterInfo][%s][%s] Character Move(Copy Fail) Result: %d (2,3:Fail), ErrCode: %d (2:No UserInfo / 3: No CharSlot)",
 			Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name, result, subResult);
 		return;
 	}
 
-	GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 629), Obj.m_Index, 1);
+	GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 629), &Obj, 1);
 	sLog->outBasic("[UBF][DGAnsCopyCharcterInfo][%s][%s] Character Move(Copy) Result: %d (1:Succes) ",
 		Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name, result);
 
 	sLog->outBasic("[UBF][DGAnsCopyCharcterInfo][Copy Complete][%s][%s] CharInfoSave : Class=%d Level=%d LVPoint=%d Exp=%I64d Str=%d Dex=%d Vit=%d Energy=%d Leadership:%d Map=%d Pk=%d",
 		Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name, Obj.m_PlayerData->DbClass, Obj.Level, Obj.m_PlayerData->LevelUpPoint, Obj.m_PlayerData->Experience, Obj.m_PlayerData->Strength, Obj.m_PlayerData->Dexterity,
 		Obj.m_PlayerData->Vitality, Obj.m_PlayerData->Energy, Obj.Leadership, Obj.MapNumber, Obj.m_PK_Level);
-	gObjItemTextSave(lpObj);
-	gObjMagicTextSave(lpObj);
+	gObjItemTextSave(Obj);
+	gObjMagicTextSave(Obj);
 
 	sLog->outBasic("[UBF][DGAnsCopyCharacterInfo][%s][%s] Copy Infomation End", Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name);
 }
 
 void CUnityBattleField::GDReqCheckJoinedUnityBattleField(CGameObject &Obj, int IsUnityBattleFieldServer, BYTE ObServerMode)
 {
-	if (!ObjectMaxRange(Obj.m_Index))
-	{
-		return;
-	}
-
-	
 
 	if (Obj.Type != OBJ_USER)
 	{
@@ -232,16 +225,10 @@ void CUnityBattleField::GDReqCheckJoinedUnityBattleField(CGameObject &Obj, int I
 	pMsg.btObserverMode = ObServerMode;
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xF3, 0x01, sizeof(pMsg));
-	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 void CUnityBattleField::DGAnsCheckJoinedUnityBattleField(CGameObject &Obj, BYTE btRegisterState)
-{
-	if (!ObjectMaxRange(Obj.m_Index))
-	{
-		return;
-	}
-
-	
+{	
 
 	if (Obj.Type != OBJ_USER)
 	{
@@ -253,7 +240,7 @@ void CUnityBattleField::DGAnsCheckJoinedUnityBattleField(CGameObject &Obj, BYTE 
 		Obj.m_PlayerData->m_JoinUnityBattle = true;
 		if (Obj.m_bPShopOpen == true)
 		{
-			g_PersonalStore.CGPShopReqClose(Obj.m_Index);
+			g_PersonalStore.CGPShopReqClose(Obj);
 		}
 	}
 
@@ -266,30 +253,24 @@ void CUnityBattleField::DGAnsCheckJoinedUnityBattleField(CGameObject &Obj, BYTE 
 	PHeadSubSetB((BYTE*)&pMsg, 0xCD, 0x01, sizeof(pMsg));
 	pMsg.btResult = btRegisterState;
 
-	IOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
+	GIOCP.DataSend(Obj.m_Index, (BYTE*)&pMsg, pMsg.h.size);
 }
 
 void CUnityBattleField::GDObserverLogoutManager()
 {
-	for (int n = g_ConfigRead.server.GetObjectStartUserIndex(); n < g_ConfigRead.server.GetObjectMax(); n++)
+	for each (std::pair<int,CGameObject*> user in gGameObjects)
 	{
-		CGameObject* lpObj = getGameObject(n);
+		CGameObject* lpObj = user.second;
 
-		if (gObjIsConnected(*lpObj) == TRUE && lpObj->Type == OBJ_USER)
+		if (lpObj->Type == OBJ_USER)
 		{
-			this->GDReqCheckJoinedUnityBattleField(n, g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE ? TRUE : FALSE, TRUE);
+			this->GDReqCheckJoinedUnityBattleField(*lpObj, g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE ? TRUE : FALSE, TRUE);
 		}
 	}
 }
 
 void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCancelType)
 {
-	if (!ObjectMaxRange(Obj.m_Index))
-	{
-		return;
-	}
-
-	
 
 	if (Obj.Type != OBJ_USER)
 	{
@@ -299,7 +280,7 @@ void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCan
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
 		sLog->outBasic("[UBF][GDReqCancelUnityBattleField][%s][%s] In UBF, Can not be canceled", Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name);
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 628), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 628), &Obj, 1);
 		return;
 	}
 
@@ -311,7 +292,7 @@ void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCan
 	pMsg.btCanceled = btCancelType;
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xF3, 0x07, sizeof(pMsg));
-	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);;
+	//wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);;
 
 	sLog->outBasic("[UBF][GDReqCancelUnityBattleField][%s][%s] Request to Cancel UBF",
 		Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name);
@@ -319,12 +300,6 @@ void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCan
 
 void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCancelType, const char *name)
 {
-	if (!ObjectMaxRange(Obj.m_Index))
-	{
-		return;
-	}
-
-	
 
 	if (Obj.Type != OBJ_USER)
 	{
@@ -334,7 +309,7 @@ void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCan
 	if (g_ConfigRead.server.GetServerType() == SERVER_BATTLECORE)
 	{
 		sLog->outBasic("[UBF][GDReqCancelUnityBattleField][%s][%s] In UBF, Can not be canceled", Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name);
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 628), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 628), &Obj, 1);
 		return;
 	}
 
@@ -346,7 +321,7 @@ void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCan
 	pMsg.btCanceled = btCancelType;
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xF3, 0x06, sizeof(pMsg));
-	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);;
+	//wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);;
 
 	sLog->outBasic("[UBF][GDReqCancelUnityBattleField][%s][%s] Request to Cancel UBF",
 		Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name);
@@ -354,12 +329,6 @@ void CUnityBattleField::GDReqCancelUnityBattleField(CGameObject &Obj, BYTE btCan
 
 void CUnityBattleField::DGAnsCancelUnityBattleField(CGameObject &Obj, BYTE aCanceledResult, BYTE deletedResult)
 {
-	if (!ObjectMaxRange(Obj.m_Index))
-	{
-		return;
-	}
-
-	
 
 	if (Obj.Type != OBJ_USER)
 	{
@@ -368,7 +337,7 @@ void CUnityBattleField::DGAnsCancelUnityBattleField(CGameObject &Obj, BYTE aCanc
 
 	if (aCanceledResult == TRUE)
 	{
-		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 627), Obj.m_Index, 1);
+		GSProtocol.GCServerMsgStringSend(Lang.GetText(0, 627), &Obj, 1);
 		Obj.m_PlayerData->m_JoinUnityBattle = false;
 	}
 
@@ -379,17 +348,11 @@ void CUnityBattleField::DGAnsCancelUnityBattleField(CGameObject &Obj, BYTE aCanc
 	PHeadSubSetB((BYTE*)&pResult, 0xCD, 0x07, sizeof(pResult));
 	pResult.btResult = aCanceledResult;
 
-	IOCP.DataSend(Obj.m_Index, (BYTE*)&pResult, pResult.h.size);
+	GIOCP.DataSend(Obj.m_Index, (BYTE*)&pResult, pResult.h.size);
 }
 
 void CUnityBattleField::GDReqGetRealNameAndServerCode(CGameObject &Obj)
 {
-	if (!ObjectMaxRange(Obj.m_Index))
-	{
-		return;
-	}
-
-	
 
 	if (Obj.Type != OBJ_USER)
 	{
@@ -406,7 +369,7 @@ void CUnityBattleField::GDReqGetRealNameAndServerCode(CGameObject &Obj)
 	std::memcpy(pMsg.szUBFName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xF3, 0x08, sizeof(pMsg));
-	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 }
 
 void CUnityBattleField::DGAnsGetRealNameAndServerCode(CGameObject &Obj, int nServerCodeOfHomeWorld)
@@ -416,19 +379,8 @@ void CUnityBattleField::DGAnsGetRealNameAndServerCode(CGameObject &Obj, int nSer
 
 void CUnityBattleField::GDReqUBFGetReward(CGameObject &Obj, BYTE btBattleKind)
 {
-	if (!ObjectMaxRange(Obj.m_Index))
-	{
-		return;
-	}
-
-	
 
 	if (Obj.Type != OBJ_USER)
-	{
-		return;
-	}
-
-	if (gObjIsConnected(Obj.m_Index) == FALSE)
 	{
 		return;
 	}
@@ -446,7 +398,7 @@ void CUnityBattleField::GDReqUBFGetReward(CGameObject &Obj, BYTE btBattleKind)
 	std::memcpy(pMsg.szName, Obj.Name, MAX_ACCOUNT_LEN + 1);
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xF3, 0x06, sizeof(pMsg));
-	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 
 	sLog->outBasic("[UBF][GDReqUBFGetReward][%d][%s][%s] UnityBattleFiled is asking WinnerItem",
 		Obj.m_Index, Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name);
@@ -454,19 +406,8 @@ void CUnityBattleField::GDReqUBFGetReward(CGameObject &Obj, BYTE btBattleKind)
 
 void CUnityBattleField::GDReqSetReceivedWinnerItem(CGameObject &Obj, BYTE btBattleKind)
 {
-	if (!ObjectMaxRange(Obj.m_Index))
-	{
-		return;
-	}
-
-	
 
 	if (Obj.Type != OBJ_USER)
-	{
-		return;
-	}
-
-	if (gObjIsConnected(Obj.m_Index) == FALSE)
 	{
 		return;
 	}
@@ -480,7 +421,7 @@ void CUnityBattleField::GDReqSetReceivedWinnerItem(CGameObject &Obj, BYTE btBatt
 	pMsg.btBattleKind = btBattleKind;
 
 	PHeadSubSetB((BYTE*)&pMsg, 0xF3, 0x05, sizeof(pMsg));
-	wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
+	//wsDataCli.DataSend((char *)&pMsg, pMsg.h.size);
 
 	sLog->outBasic("[UBF][GDReqSetReceivedWinnerItem] Index:%d ID:%s Name:%s RequestSetReceived WinnerItem ",
 		Obj.m_Index, Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name);
@@ -488,19 +429,8 @@ void CUnityBattleField::GDReqSetReceivedWinnerItem(CGameObject &Obj, BYTE btBatt
 
 void CUnityBattleField::DGAnsSetReceivedWinnerItem(CGameObject &Obj, BYTE btReturn)
 {
-	if (!ObjectMaxRange(Obj.m_Index))
-	{
-		return;
-	}
-
-	
 
 	if (Obj.Type != OBJ_USER)
-	{
-		return;
-	}
-
-	if (gObjIsConnected(Obj.m_Index) == FALSE)
 	{
 		return;
 	}
@@ -517,8 +447,3 @@ void CUnityBattleField::DGAnsSetReceivedWinnerItem(CGameObject &Obj, BYTE btRetu
 			Obj.m_Index, Obj.m_PlayerData->ConnectUser->AccountID, Obj.Name, btReturn);
 	}
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
-

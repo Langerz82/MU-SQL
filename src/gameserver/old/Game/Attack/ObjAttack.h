@@ -9,6 +9,7 @@
 
 #include "MagicInf.h"
 #include "ObjBaseAttack.h"
+#include "MuLua.h"
 
 class CObjAttack : public CObjBaseAttack
 {
@@ -38,7 +39,7 @@ BOOL gObjDenorantSprite(CGameObject &Obj);
 BOOL gObjDarkHorse(CGameObject &Obj);
 BOOL gObjFenrir(CGameObject &Obj);
 
-extern CObjAttack gclassObjAttack;
+extern CObjAttack gObjAttack;
 
 #endif
 

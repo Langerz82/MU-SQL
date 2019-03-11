@@ -7,8 +7,10 @@
 
 CBattleSoccer * gBSGround[MAX_BATTLESOCCER_GROUND];
 
-CBattleSoccer::CBattleSoccer(GUILD_INFO_STRUCT &red, GUILD_INFO_STRUCT &blue): m_RedTeam(red), m_BlueTeam(blue)
+CBattleSoccer::CBattleSoccer()
 {
+	this->m_RedTeam = nullptr;
+	this->m_BlueTeam = nullptr;
 	this->m_goalmove = 0;
 	this->m_BallIndex = 0;
 }
@@ -16,6 +18,12 @@ CBattleSoccer::CBattleSoccer(GUILD_INFO_STRUCT &red, GUILD_INFO_STRUCT &blue): m
 CBattleSoccer::~CBattleSoccer()
 {
 	return;
+}
+
+void CBattleSoccer::SetTeams(GUILD_INFO_STRUCT &red, GUILD_INFO_STRUCT &blue)
+{
+	this->m_RedTeam = &red;
+	this->m_BlueTeam = &blue;
 }
 
 void CBattleSoccer::SetGoalMove(int set_code)

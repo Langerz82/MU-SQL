@@ -803,7 +803,7 @@ public:
 
 	char CurrPath[260];
 
-	//MULua m_ItemCalcLua; // Not sure if needed.
+	MULua m_ItemCalcLua;
 
 };
 

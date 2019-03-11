@@ -32,6 +32,7 @@
 #include "PvPBalance.h"
 #include "GameProtocol.h"
 #include "GOFunctions.h"
+#include "IniReader.h"
 
 CObjAttack gclassObjAttack;
 
@@ -1120,7 +1121,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 		if (gObjWingSprite(Obj) == TRUE)
 		{
-			CItemObject * Wing = &Obj.pntInventory[7];
+			CItemObject * Wing = Obj.pntInventory[7];
 
 			int LifeDec = 0;
 
@@ -1242,7 +1243,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			}
 		}
 
-		if (gObjDenorantSprite(lpObj))
+		if (gObjDenorantSprite(Obj))
 		{
 			Obj.Life -= 1.0f;
 
@@ -1519,7 +1520,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 				break;
 			case AT_SKILL_SAHAMUTT:
 			{
-				TargetObj.lpAttackObj = lpObj;
+				TargetObj.lpAttackObj = &Obj;
 				int DOT = 0, Time = 0;
 				gObjUseSkill.m_Lua.Generic_Call("ExplosionDotDamage", "ii>ii", AttackDamage, Obj.m_PlayerData->m_MPSkillOpt->iMpsIncDotDamage, &DOT, &Time);
 				gObjAddBuffEffect(TargetObj, BUFFTYPE_FIREDOT, EFFECTTYPE_GIVE_DMG_TICK, DOT, 0, 0, Time);
@@ -1529,7 +1530,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			{
 				if (gObjCheckUsedBuffEffect(TargetObj, BUFFTYPE_IRON_DEFENSE) == false && gObjCheckUsedBuffEffect(TargetObj, BUFFTYPE_IRON_DEFENSE_STR) == false)
 				{
-					TargetObj.lpAttackObj = lpObj;
+					TargetObj.lpAttackObj = &Obj;
 					int DOT = 0, Time = 0;
 					gObjUseSkill.m_Lua.Generic_Call("RequiemDotDamage", "i>ii", AttackDamage, &DOT, &Time);
 					gObjAddBuffEffect(TargetObj, BUFFTYPE_BLOODDOT, EFFECTTYPE_GIVE_DMG_TICK, DOT, 0, 0, Time);
@@ -1539,7 +1540,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 			case 225:
 				if (gObjCheckUsedBuffEffect(TargetObj, BUFFTYPE_FREEZE) == FALSE)
 				{
-					TargetObj.lpAttackObj = lpObj;
+					TargetObj.lpAttackObj = &Obj;
 					TargetObj.DelayLevel = 1;
 					TargetObj.DelayActionTime = 1000;
 					gObjAddBuffEffect(TargetObj, BUFFTYPE_FREEZE, EFFECTTYPE_REDUCE_MOVE_SPEED, 0, 0, 0, 2);
@@ -1549,7 +1550,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 				gObjAddBuffEffect(TargetObj, BUFFTYPE_LIGHTNINGSHOCK, 0, 0, 0, 0, 1);
 				break;
 			case 232:
-				TargetObj.lpAttackObj = lpObj;
+				TargetObj.lpAttackObj = &Obj;
 				TargetObj.DelayLevel = 1;
 				TargetObj.DelayActionTime = 1000;
 				gObjAddBuffEffect(TargetObj, BUFFTYPE_COLD, EFFECTTYPE_REDUCE_MOVE_SPEED, 0, 0, 0, 10); // 20 -> 10, previous was wrong
@@ -2484,7 +2485,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 						if (fPercent < Obj.m_PlayerData->m_MPSkillOpt->iMpsAddSpring)
 						{
-							gObjBackSpring2(TargetObj, lpObj, 2);
+							gObjBackSpring2(TargetObj, Obj, 2);
 						}
 					}
 				}
@@ -2678,7 +2679,7 @@ BOOL CObjAttack::Attack(CGameObject &Obj, CGameObject &TargetObj, CMagicInf* lpM
 
 			AttackDamage += AttackDamage * Obj.m_SkillInfo->fInfinityArrowIncRate / 100;
 
-			if (gObjFenrir(lpObj))
+			if (gObjFenrir(Obj))
 			{
 				int iIncPercent = 0;
 
