@@ -1,4 +1,4 @@
-# MUSQL
+# MU-SQL
 <br/><br/>
 
 # Overview
