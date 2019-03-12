@@ -19,17 +19,17 @@
 #include "MapClass.h"
 #include "classdef.h"
 #include "CLoginCount.h"
-#include "DragonEvent.h"
-#include "AttackEvent.h"
+//#include "DragonEvent.h"
+//#include "AttackEvent.h"
 #include "WhisperCash.h"
 //#include "WzUdp.h"
 #include "IOCP.h"
 #include "MonsterAttr.h"
 #include "MonsterSetBase.h"
 #include "PartyClass.h"
-#include "CastleSiege.h"
-#include "CastleDeepEvent.h"
-#include "Crywolf.h"
+//#include "CastleSiege.h"
+//#include "CastleDeepEvent.h"
+//#include "Crywolf.h"
 #include "GuildClass.h"
 
 
@@ -73,8 +73,8 @@ extern BOOL JoinServerConnected;
 extern BOOL DataServerConnected;
 extern BOOL GameServerCreated;
 extern BOOL IsEventChipServerConnected;
-extern CDragonEvent * DragonEvent;
-extern CAttackEvent * AttackEvent;
+//extern CDragonEvent * DragonEvent;
+//extern CAttackEvent * AttackEvent;
 
 extern int	gCheckSumSwitch;
 extern int  gSpeedHackPenalty;
