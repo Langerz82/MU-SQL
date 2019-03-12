@@ -6,6 +6,8 @@
 #include "GameServer.h"
 #include "CannonTower.h"
 #include "User/CUserData.h"
+#include "GOFunctions.h"
+#include "GameProtocol.h"
 
 //#include "readscript.h"
 #include "util.h"
@@ -30,7 +32,6 @@ void CCannonTower::CannonTowerAct(CGameObject &Obj) // 0x00560940  1.00.19
 	{
 		return;
 	}
-	CGameObject* lpObj = Obj;
 	int count = 0;
 	int ASBOfs = 0;
 	PMSG_BEATTACK_COUNT pCount;
@@ -57,17 +58,17 @@ void CCannonTower::CannonTowerAct(CGameObject &Obj) // 0x00560940  1.00.19
 
 	while (true)
 	{
-		if (Obj.VpPlayer2[count].state)
+		if (Obj.VpPlayer2[count]->state)
 		{
-			if (Obj.VpPlayer2[count].type == OBJ_USER)
+			if (Obj.VpPlayer2[count]->type == OBJ_USER)
 			{
-				int tObjNum = Obj.VpPlayer2[count].number;
+				int tObjNum = Obj.VpPlayer2[count]->number;
 
 				if (tObjNum >= 0)
 				{
 					if (getGameObject(tObjNum)->m_btCsJoinSide)
 					{
-						if (gObjCalDistance(lpObj, getGameObject(tObjNum)) < 7)
+						if (gObjCalDistance(Obj, *getGameObject(tObjNum)) < 7)
 						{
 							pAttack.NumberH = SET_NUMBERH(tObjNum);
 							pAttack.NumberL = SET_NUMBERL(tObjNum);
@@ -88,7 +89,7 @@ void CCannonTower::CannonTowerAct(CGameObject &Obj) // 0x00560940  1.00.19
 		pCount.h.size = ASBOfs;
 
 		std::memcpy(AttackSendBuff, (BYTE*)&pCount, sizeof(PMSG_BEATTACK_COUNT));
-		GSProtocol.CGBeattackRecv(AttackSendBuff, Obj.m_Index, 1);
+		GSProtocol.CGBeattackRecv(AttackSendBuff, &Obj, 1);
 		WORD MagicNumber = 50;
 		PMSG_DURATION_MAGIC_SEND pSend;
 		PHeadSetBE((BYTE*)&pSend, 0x1E, sizeof(pSend));
@@ -100,11 +101,8 @@ void CCannonTower::CannonTowerAct(CGameObject &Obj) // 0x00560940  1.00.19
 		pSend.NumberH = SET_NUMBERH(Obj.m_Index);
 		pSend.NumberL = SET_NUMBERL(Obj.m_Index);
 
-		GSProtocol.MsgSendV2(lpObj, (PBYTE)&pSend, pSend.h.size);
+		GSProtocol.MsgSendV2(&Obj, (PBYTE)&pSend, pSend.h.size);
 	}
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
 

@@ -4,7 +4,7 @@
 
 #include "StdAfx.h"
 #include "CastleCrownSwitch.h"
-
+#include "GOFunctions.h"
 #include "CastleSiege.h"
 #include "User/CUserData.h"
 #include "Logging/Log.h"
@@ -26,14 +26,12 @@ CCastleCrownSwitch::~CCastleCrownSwitch()
 
 void CCastleCrownSwitch::CastleCrownSwitchAct(CGameObject &Obj)
 {
-	if ( !gObjIsConnected(Obj.m_Index))
-		return;
 
 	if ( Obj.Type != OBJ_NPC ||
 		((Obj.Class < 217 )?FALSE:(Obj.Class > 219-1 )?FALSE:TRUE)==FALSE )
 		return;
 
-	if ( !gObjIsConnected(g_CastleSiege.GetCrownSwitchUserIndex(Obj.Class)) )
+	if ( !gObjIsConnected(*getGameObject(g_CastleSiege.GetCrownSwitchUserIndex(Obj.Class))) )
 	{
 		g_CastleSiege.ResetCrownSwitchUserIndex(Obj.Class);
 
@@ -46,9 +44,9 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(CGameObject &Obj)
 		return;
 	}
 	
-	CGameObject lpObj= Obj;
-	CGameObject lpUserObj = getGameObject(g_CastleSiege.GetCrownSwitchUserIndex(Obj.Class));
-	g_CastleSiege.NotifyCrownSwitchInfo(Obj.m_Index);
+
+	CGameObject &lpUserObj = *getGameObject(g_CastleSiege.GetCrownSwitchUserIndex(Obj.Class));
+	g_CastleSiege.NotifyCrownSwitchInfo(Obj);
 
 	if ( lpUserObj.MapNumber == MAP_INDEX_CASTLESIEGE &&
 		 lpUserObj.m_btCsJoinSide >= 2 )
@@ -59,7 +57,7 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(CGameObject &Obj)
 			int iCrownIndex1 = g_CastleSiege.GetCrownSwitchUserIndex(217);
 			int iCrownIndex2 = g_CastleSiege.GetCrownSwitchUserIndex(218);
 
-			if (gObjIsConnected(iCrownIndex1) && gObjIsConnected(iCrownIndex2) )
+			if (gObjIsConnected(*getGameObject(iCrownIndex1)) && gObjIsConnected(*getGameObject(iCrownIndex2)) )
 			{
 				if ( getGameObject(iCrownIndex1)->m_btCsJoinSide == getGameObject(iCrownIndex2)->m_btCsJoinSide )
 				{
@@ -73,7 +71,7 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(CGameObject &Obj)
 		}
 		else
 		{
-			GSProtocol.GCAnsCsAccessSwitchState(lpUserObj.m_Index, Obj.m_Index, -1, 0);
+			GSProtocol.GCAnsCsAccessSwitchState(&lpUserObj, Obj.m_Index, -1, 0);
 			g_CastleSiege.ResetCrownSwitchUserIndex(Obj.Class);
 
 			if ( g_CastleSiege.GetRegCrownAvailable() == 1 )
@@ -83,12 +81,12 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(CGameObject &Obj)
 			}
 
 			sLog->outBasic("[CastleSiege] [%s][%s] Push Castle Crown Switch Canceled (GUILD:%s) - CS X:%d/Y:%d",
-				lpUserObj.AccountID, lpUserObj.Name, lpUserObj.m_PlayerData->GuildName, Obj.X, Obj.Y);
+				lpUserObj.m_PlayerData->ConnectUser->AccountID, lpUserObj.Name, lpUserObj.m_PlayerData->GuildName, Obj.X, Obj.Y);
 		}
 	}
 	else
 	{
-		GSProtocol.GCAnsCsAccessSwitchState(lpUserObj.m_Index, Obj.m_Index, -1, 0);
+		GSProtocol.GCAnsCsAccessSwitchState(&lpUserObj, Obj.m_Index, -1, 0);
 
 		g_CastleSiege.ResetCrownSwitchUserIndex(Obj.Class);
 
@@ -99,10 +97,4 @@ void CCastleCrownSwitch::CastleCrownSwitchAct(CGameObject &Obj)
 		}
 	}
 }
-
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
 

@@ -259,11 +259,11 @@ public:
 	void ThrowQuestItemByUser(int iBridgeIndex, UINT64 iQuestItemSerial);
 	void CatchQuestItemByUser(int iBridgeIndex, CGameObject &Obj, int iItemLevel);
 
-	bool NpcAngelKing(CGameObject &Npc, CGameObject lpObj);
+	bool NpcAngelKing(CGameObject &Npc, CGameObject &Obj);
 
-	void KillMonsterProc(int iBridgeIndex, CGameObject lpMonsterObj);
-	void DestroyCastleDoor(int iBridgeIndex, CGameObject lpDoorObj);
-	void DestroySaintStatue(int iBridgeIndex, CGameObject lpStatueObj);
+	void KillMonsterProc(int iBridgeIndex, CGameObject &MonsterObj);
+	void DestroyCastleDoor(int iBridgeIndex, CGameObject &DoorObj);
+	void DestroySaintStatue(int iBridgeIndex, CGameObject &StatueObj);
 	
 	bool CheckCastleDoorLive(int iBridgeIndex);
 

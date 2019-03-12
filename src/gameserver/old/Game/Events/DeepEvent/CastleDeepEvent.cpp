@@ -9,6 +9,7 @@
 #include "CastleDeepEvent.h"
 #include "configread.h"
 #include "Main.h"
+#include "GOFunctions.h"
 
 using namespace std;
 CCastleDeepEvent g_CastleDeepEvent;
@@ -363,7 +364,7 @@ void CCastleDeepEvent::ProcState_Closed()
 			}
 		}
 
-		g_Log.AddC(TColor::Green," [CastleDeep Event] ProcState_Closed()	LEFT-MIN:%d", m_iTIME_MSEC_REMAIN/60000);
+		sLog->outBasic(" [CastleDeep Event] ProcState_Closed()	LEFT-MIN:%d", m_iTIME_MSEC_REMAIN/60000);
 	}
 
 	if(m_iTIME_MSEC_REMAIN <= 0)
@@ -444,11 +445,11 @@ using namespace std;
 
 void CCastleDeepEvent::ClearMonster()
 {
-	for(int iIndex = 0; iIndex < g_ConfigRead.server.GetObjectMaxMonster(); iIndex++)
+	for each (std::pair<int,CGameObject*> user in gGameObjects)
 	{
-		if(gObjIsConnected(Obj.m_Index) && Obj.m_Attribute == 62)
+		if(user.second->m_Attribute == 62)
 		{
-			gObjDel(Obj.m_Index);
+			gObjDel(*user.second);
 		}
 	}
 }
@@ -480,37 +481,33 @@ void CCastleDeepEvent::AddMonster(int iAssultType,int iGroup)
 				stMonsterInfo->m_iSX,stMonsterInfo->m_iSY,stMonsterInfo->m_iDX,stMonsterInfo->m_iDY,30) == TRUE)
 			{
 				int result = gObjAddMonster(MAP_INDEX_CASTLESIEGE);
-
+				CGameObject* lpMonster = getGameObject(result);
 				if(result >= 0)
 				{
-					getGameObject(result)->m_PosNum = -1;
-					getGameObject(result)->X = cSX;
-					getGameObject(result)->Y = cSY;
-					getGameObject(result)->MapNumber = MAP_INDEX_CASTLESIEGE;
-					getGameObject(result)->TX = getGameObject(result)->X;
-					getGameObject(result)->TY = getGameObject(result)->Y;
-					getGameObject(result)->m_OldX = getGameObject(result)->X;
-					getGameObject(result)->m_OldY = getGameObject(result)->Y;
-					getGameObject(result)->Dir = 1;
-					getGameObject(result)->StartX = getGameObject(result)->X;
-					getGameObject(result)->StartY = getGameObject(result)->Y;
+					lpMonster->m_PosNum = -1;
+					lpMonster->X = cSX;
+					lpMonster->Y = cSY;
+					lpMonster->MapNumber = MAP_INDEX_CASTLESIEGE;
+					lpMonster->TX = lpMonster->X;
+					lpMonster->TY = lpMonster->Y;
+					lpMonster->m_OldX = lpMonster->X;
+					lpMonster->m_OldY = lpMonster->Y;
+					lpMonster->Dir = 1;
+					lpMonster->StartX = lpMonster->X;
+					lpMonster->StartY = lpMonster->Y;
 
-					gObjSetMonster(result, stMonsterInfo->m_iMonsterType);
+					gObjSetMonster(*lpMonster, stMonsterInfo->m_iMonsterType);
 
-					getGameObject(result)->m_Attribute = 62;
-					getGameObject(result)->MaxRegenTime = 0;
-					getGameObject(result)->Dir = rand()%8;
-					getGameObject(result)->DieRegen = 0;
-					getGameObject(result)->RegenTime = 1;
-					getGameObject(result)->MaxRegenTime = 1000;
-					getGameObject(result)->m_dwLastCheckTick = GetTickCount();
+					lpMonster->m_Attribute = 62;
+					lpMonster->MaxRegenTime = 0;
+					lpMonster->Dir = rand()%8;
+					lpMonster->DieRegen = 0;
+					lpMonster->RegenTime = 1;
+					lpMonster->MaxRegenTime = 1000;
+					lpMonster->m_dwLastCheckTick = GetTickCount();
 				}
 			}
 		}
 	}
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//  vnDev.Games - MuServer S12EP2 IGC v12.0.1.0 - Trong.LIVE - DAO VAN TRONG  //
-////////////////////////////////////////////////////////////////////////////////
 
