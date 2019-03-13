@@ -27,6 +27,8 @@ struct BATTLEZONE_MAP_DATA
 	int m_iMLExcDropBonus[MAX_INFLUENCE_TYPE - 1];
 };
 
+struct GENS_RANKING_DATA;
+
 class GensSystem
 {
 public:
@@ -144,8 +146,8 @@ private:
 	std::map<int, BATTLEZONE_MAP_DATA>	m_mapBattleZoneData;
 	int									m_wBattleZoneWarp[MAX_MOVE_COMMAND];
 
+	GENS_RANKING_DATA					m_GensRanking[MAX_GENS_CLASS];
 	CRITICAL_SECTION					criti;
-	GENS_RANKING_DATA				m_GensRanking[MAX_GENS_CLASS];
 };
 
 extern GensSystem g_GensSystem;

@@ -285,8 +285,8 @@ extern int gPartyExp5;
 extern int gWeaponDefenseDamage;
 extern int gWeaponAttackDamage;
 
-extern CCastleSiege g_CastleSiege;
-extern CCastleDeepEvent g_CastleDeepEvent;
+//extern CCastleSiege g_CastleSiege;
+//extern CCastleDeepEvent g_CastleDeepEvent;
 extern int gIsDropSetItemInCastleHuntZone;
 extern int gSetItemInCastleHuntZoneDropRate;
 extern int gSetItemInCastleHuntZoneDropLevel;
