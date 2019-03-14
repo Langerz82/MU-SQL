@@ -313,7 +313,11 @@ public:
 	bool m_bMapSvrMoveReq_2;
 	DWORD m_dwMapSvrQuitTick;	// 151C
 	short m_sPrevMapSvrCode;	// 1520
-	short m_sDestMapNumber;	// 1522
+	short m_sDestMapNumber;	// 1522	
+	BYTE m_btDestX;	// 1524
+	BYTE m_btDestY;	// 1525
+	bool m_bOff;
+
 
 	struct STR_USER_CHARACTERS* Characters;
 };

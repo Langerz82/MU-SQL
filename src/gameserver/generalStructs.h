@@ -182,10 +182,8 @@ struct STR_CS_USER
 	char HWID[100];
 	BYTE  m_cAccountItemBlock; // 1D0
 
-	//BYTE m_btDestX;	// 1524
-	//BYTE m_btDestY;	// 1525
 	BYTE m_ClientHackLogCount;	// F43
-	bool m_bOff;
+	
 	bool EnableCharacterCreate;
 
 };
