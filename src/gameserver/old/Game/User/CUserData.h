@@ -317,7 +317,7 @@ public:
 	BYTE m_btDestX;	// 1524
 	BYTE m_btDestY;	// 1525
 	bool m_bOff;
-
+	short m_bOffLevel;
 
 	struct STR_USER_CHARACTERS* Characters;
 };

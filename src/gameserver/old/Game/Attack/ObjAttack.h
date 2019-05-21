@@ -39,7 +39,7 @@ BOOL gObjDenorantSprite(CGameObject &Obj);
 BOOL gObjDarkHorse(CGameObject &Obj);
 BOOL gObjFenrir(CGameObject &Obj);
 
-extern CObjAttack gObjAttack;
+extern CObjAttack gcObjAttack;
 
 #endif
 

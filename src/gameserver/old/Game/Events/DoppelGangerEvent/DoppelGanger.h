@@ -45,7 +45,7 @@ public:
 
 	BOOL	Start();
 	BOOL	MonsterHerdItemDrop(CGameObject* lpObj);
-	void	MonsterAttackAction(CGameObject lpObj, CGameObject lpTargetObj);
+	VOID	MonsterAttackAction(CGameObject* lpObj, CGameObject* lpTargetObj);
 	int		AddMonsterEX(int iMonsterType, int bAttackFirst, int nMonsterLevel, int nMonsterHp, int nMonsterAttMin, int nMonsterAttMax, int nMonsterDef);
 	BOOL	GetRandomLocation(BYTE &cX, BYTE &cY);
 	BOOL	SetTotalInfo(int iMapNumber, int iRadius, int nPosInfo, int bMove);

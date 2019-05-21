@@ -40,39 +40,29 @@ BOOL CDoppelGangerMonsterHerd::MonsterHerdItemDrop(CGameObject* lpObj)
 	return FALSE;
 }
 
-void CDoppelGangerMonsterHerd::MonsterAttackAction(CGameObject lpObj, CGameObject lpTargetObj)
+void CDoppelGangerMonsterHerd::MonsterAttackAction(CGameObject* lpObj, CGameObject* lpTargetObj)
 {
-	if (!lpObj)
-	{
-		return;
-	}
-
 	if (gObjCheckUsedBuffEffect(lpObj, BUFFTYPE_STONE) == TRUE)
 	{
 		return;
 	}
 
-	if (!lpTargetObj)
+	if (lpObj->Connected < PLAYER_PLAYING)
 	{
 		return;
 	}
 
-	if (Obj.Connected < PLAYER_PLAYING)
+	if (lpObj->Type != OBJ_USER)
 	{
 		return;
 	}
 
-	if (Obj.Type != OBJ_USER)
+	if (lpTargetObj->Connected < PLAYER_PLAYING)
 	{
 		return;
 	}
 
-	if (lpTargetObj.Connected < PLAYER_PLAYING)
-	{
-		return;
-	}
-
-	Obj.NextActionTime = 1000;
+	lpObj->NextActionTime = 1000;
 }
 
 int CDoppelGangerMonsterHerd::AddMonsterEX(int iMonsterType, int bAttackFirst, int nMonsterLevel, int nMonsterHp, int nMonsterAttMin, int nMonsterAttMax, int nMonsterDef)

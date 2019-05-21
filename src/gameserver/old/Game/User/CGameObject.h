@@ -61,7 +61,7 @@ public:
 
 	bool bEnableDelCharacter;	// C
 	//_PER_SOCKET_CONTEXT* PerSocketContext;	// 10
-	unsigned int m_socket;	// 14
+	// unsigned int m_socket;	// 14
 	int UserNumber;	// 28
 	int DBNumber;	// 2C
 	BYTE EnableCharacterCreate;

@@ -1412,3 +1412,48 @@ void CLoginServerProtocol::GJReqVipAdd(CGameObject &Obj, ISHOP_VIP_BUY *aRecv)
 	this->m_AccountDB.ExecQuery("EXEC IGC_VipAdd '%s', %d, %d", aRecv->AccountID, aRecv->Days, aRecv->Type);
 	this->m_AccountDB.Close();
 }
+
+void GJReqMapSvrMove(CGameObject* Obj, WORD wDesMapSvrCode, WORD wMapNumber, BYTE btX, BYTE btY)
+{
+	PMSG_REQ_MAPSVRMOVE pMsg;
+
+	if (gObjIsConnected(iIndex) == PLAYER_EMPTY)
+	{
+		g_Log.AddC(TColor::Red, "[MapServerMng] Packet Error GJ [0x7A] - User not Connected : %d", iIndex);
+	}
+
+	else if (gObj[iIndex].Type != OBJ_USER)
+	{
+		g_Log.AddC(TColor::Red, "[MapServerMng] Packet Error GJ [0x7A] - User is not character : %d", iIndex);
+	}
+
+	else if (gObj[iIndex].m_bMapSvrMoveReq_2 == true)
+	{
+		g_Log.AddC(TColor::Red, "[MapServerMng] Packet Error GJ [0x7A] - Request already sent : %d", iIndex);
+	}
+
+	else
+	{
+		gObj[iIndex].m_bMapSvrMoveReq_2 = true;
+
+		PHeadSetB((LPBYTE)&pMsg, 0x7A, sizeof(PMSG_REQ_MAPSVRMOVE));
+		pMsg.iIndex = iIndex;
+
+		memcpy(pMsg.szAccountID, gObj[iIndex].AccountID, sizeof(pMsg.szAccountID) - 1);
+		pMsg.szAccountID[10] = 0;
+		memcpy(pMsg.szCharName, gObj[iIndex].Name, sizeof(pMsg.szCharName) - 1);
+		pMsg.szCharName[10] = 0;
+
+		memcpy(pMsg.szPassword, gObj[iIndex].m_PlayerData->Password, sizeof(pMsg.szPassword));
+
+		pMsg.wCurMapSvrCode = g_ConfigRead.server.GetGameServerCode();
+		pMsg.wDstMapSvrCode = wDesMapSvrCode;
+		pMsg.wMapNumber = wMapNumber;
+		pMsg.btX = btX;
+		pMsg.btY = btY;
+		pMsg.btSecurityLock = (BYTE)gObj[iIndex].m_PlayerData->m_bSecurityCheck;
+		pMsg.dwSecurityCode = gObj[iIndex].m_PlayerData->m_iSecurityCode;
+
+		wsJServerCli.DataSend((char*)&pMsg, pMsg.h.size);
+	}
+}

@@ -272,6 +272,8 @@ public:
 
 };
 
+void GJReqMapSvrMove(CGameObject* Obj, WORD wDesMapSvrCode, WORD wMapNumber, BYTE btX, BYTE btY);
+
 #endif // !defined(AFX_SPROTOCOL_H__5309DA38_D6AD_420B_896B_CB391FCD3624__INCLUDED_)
 
 
