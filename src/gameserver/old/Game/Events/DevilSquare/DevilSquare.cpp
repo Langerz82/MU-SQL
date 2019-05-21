@@ -1437,7 +1437,7 @@ void CDevilSquare::ItemClear()
 
 	for (int i = 0; i<g_ConfigRead.server.GetObjectMaxItem(); i++)
 	{
-		MapC[MAP_INDEX_DEVILSQUARE].m_CItemObject[i].m_State = 8;
+		MapC[MAP_INDEX_DEVILSQUARE].m_cItem[i].m_State = 8;
 	}
 }
 

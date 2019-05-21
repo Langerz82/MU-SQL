@@ -373,15 +373,15 @@ void MapClass::SaveItemInfo()
 
 void MapClass::ItemInit()
 {
-	if (this->m_CItemObject != 0)
+	if (this->m_cItem != 0)
 	{
-		delete this->m_CItemObject;
-		this->m_CItemObject = 0;
+		delete this->m_cItem;
+		this->m_cItem = 0;
 	}
 
-	this->m_CItemObject = new CMapItem[g_ConfigRead.server.GetObjectMaxItem()];
+	this->m_cItem = new CMapItem[g_ConfigRead.server.GetObjectMaxItem()];
 
-	if (this->m_CItemObject == NULL)
+	if (this->m_cItem == NULL)
 	{
 		sLog->outError("ERROR - MEMORY ALLOCATION FAILED");
 		ExitProcess(1);
@@ -404,11 +404,11 @@ int MapClass::MonsterItemDrop(int type, int level, float dur, int x, int y, BYTE
 
 	while (true)
 	{
-		if (this->m_CItemObject[count].IsItem() == FALSE)
+		if (this->m_cItem[count].IsItem() == FALSE)
 		{
-			this->m_CItemObject[count].CreateItem(type, level, x, y, dur, Option1, Option2, Option3, NOption, SOption, number, ItemEffectEx, SocketOption, SocketBonusOption);
-			this->m_CItemObject[count].m_UserIndex = number;
-			this->m_CItemObject[count].m_PeriodItemDuration = PeriodDuration;
+			this->m_cItem[count].CreateItem(type, level, x, y, dur, Option1, Option2, Option3, NOption, SOption, number, ItemEffectEx, SocketOption, SocketBonusOption);
+			this->m_cItem[count].m_UserIndex = number;
+			this->m_cItem[count].m_PeriodItemDuration = PeriodDuration;
 			this->m_ItemCount++;
 
 			if (this->m_ItemCount > g_ConfigRead.server.GetObjectMaxItem() - 1)
@@ -459,11 +459,11 @@ BOOL MapClass::ItemDrop(int type, int level, float dur, int x, int y, BYTE Optio
 
 	while (true)
 	{
-		if (this->m_CItemObject[count].IsItem() == FALSE)
+		if (this->m_cItem[count].IsItem() == FALSE)
 		{
-			this->m_CItemObject[count].DropCreateItem(type, level, x, y, dur, Option1, Option2, Option3, NOption, SOption, number, PetLevel, PetExp, ItemEffectEx, SocketOption, SocketBonusOption);
-			this->m_CItemObject[count].m_UserIndex = number;
-			this->m_CItemObject[count].m_PeriodItemDuration = PeriodDuration;
+			this->m_cItem[count].DropCreateItem(type, level, x, y, dur, Option1, Option2, Option3, NOption, SOption, number, PetLevel, PetExp, ItemEffectEx, SocketOption, SocketBonusOption);
+			this->m_cItem[count].m_UserIndex = number;
+			this->m_cItem[count].m_PeriodItemDuration = PeriodDuration;
 			this->m_ItemCount++;
 
 			if (this->m_ItemCount > g_ConfigRead.server.GetObjectMaxItem() - 1)
@@ -524,18 +524,18 @@ BOOL MapClass::MoneyItemDrop(int money, int x, int y)
 
 	while (true)
 	{
-		if (this->m_CItemObject[count].IsItem() == FALSE)
+		if (this->m_cItem[count].IsItem() == FALSE)
 		{
-			this->m_CItemObject[count].m_Type = ITEMGET(14, 15);
-			this->m_CItemObject[count].m_SellMoney = money;
-			this->m_CItemObject[count].m_BuyMoney = money;
-			this->m_CItemObject[count].px = x;
-			this->m_CItemObject[count].py = y;
-			this->m_CItemObject[count].live = 1;
-			this->m_CItemObject[count].Give = 0;
-			this->m_CItemObject[count].m_State = 1;
-			this->m_CItemObject[count].m_Time = GetTickCount() + 20 * 1000;
-			this->m_CItemObject[count].m_LootTime = 0;
+			this->m_cItem[count].m_Type = ITEMGET(14, 15);
+			this->m_cItem[count].m_SellMoney = money;
+			this->m_cItem[count].m_BuyMoney = money;
+			this->m_cItem[count].px = x;
+			this->m_cItem[count].py = y;
+			this->m_cItem[count].live = 1;
+			this->m_cItem[count].Give = 0;
+			this->m_cItem[count].m_State = 1;
+			this->m_cItem[count].m_Time = GetTickCount() + 20 * 1000;
+			this->m_cItem[count].m_LootTime = 0;
 			this->m_ItemCount++;
 
 			if (this->m_ItemCount > g_ConfigRead.server.GetObjectMaxItem() - 1)
@@ -578,23 +578,23 @@ BOOL MapClass::ItemGive(CGameObject &Obj, int item_num, bool bFailNotSend)
 		return FALSE;
 	}
 
-	if (this->m_CItemObject[item_num].IsItem() == FALSE)
+	if (this->m_cItem[item_num].IsItem() == FALSE)
 	{
 		return FALSE;
 	}
 
-	if (this->m_CItemObject[item_num].Give == true)
+	if (this->m_cItem[item_num].Give == true)
 	{
 		return FALSE;
 	}
 
-	if (this->m_CItemObject[item_num].live == false)
+	if (this->m_cItem[item_num].live == false)
 	{
 		return FALSE;
 	}
 
-	int disx = this->m_CItemObject[item_num].px - Obj.X;
-	int disy = this->m_CItemObject[item_num].py - Obj.Y;
+	int disx = this->m_cItem[item_num].px - Obj.X;
+	int disy = this->m_cItem[item_num].py - Obj.Y;
 
 	if (Obj.m_bOffLevel == false)
 	{
@@ -613,23 +613,23 @@ BOOL MapClass::ItemGive(CGameObject &Obj, int item_num, bool bFailNotSend)
 
 	if (gLootingTime > 0)
 	{
-		if (this->m_CItemObject[item_num].m_UserIndex != -1)
+		if (this->m_cItem[item_num].m_UserIndex != -1)
 		{
-			if (GetTickCount() < this->m_CItemObject[item_num].m_LootTime)
+			if (GetTickCount() < this->m_cItem[item_num].m_LootTime)
 			{
-				if (Obj.m_Index != this->m_CItemObject[item_num].m_UserIndex)
+				if (Obj.m_Index != this->m_cItem[item_num].m_UserIndex)
 				{
 					lootresult = 0;
 
-					if (this->m_CItemObject[item_num].m_QuestItem == false)
+					if (this->m_cItem[item_num].m_QuestItem == false)
 					{
 						if (Obj.PartyNumber >= 0)
 						{
-							if (Obj.PartyNumber == getGameObject(this->m_CItemObject[item_num].m_UserIndex)->PartyNumber)
+							if (Obj.PartyNumber == getGameObject(this->m_cItem[item_num].m_UserIndex)->PartyNumber)
 							{
 								if (BC_MAP_RANGE(Obj.MapNumber) != FALSE)
 								{
-									if (this->m_CItemObject[item_num].m_Type == ITEMGET(12, 15) || (this->m_CItemObject[item_num].m_Type == ITEMGET(13, 19) && ((this->m_CItemObject[item_num].m_Level < 0) ? FALSE : (this->m_CItemObject[item_num].m_Level > 2) ? FALSE : TRUE) != FALSE))
+									if (this->m_cItem[item_num].m_Type == ITEMGET(12, 15) || (this->m_cItem[item_num].m_Type == ITEMGET(13, 19) && ((this->m_cItem[item_num].m_Level < 0) ? FALSE : (this->m_cItem[item_num].m_Level > 2) ? FALSE : TRUE) != FALSE))
 									{
 										lootresult = 0;
 									}
@@ -665,9 +665,9 @@ BOOL MapClass::ItemGive(CGameObject &Obj, int item_num, bool bFailNotSend)
 	}
 	else
 	{
-		this->m_CItemObject[item_num].m_State = 8;
-		this->m_CItemObject[item_num].Give = true;
-		this->m_CItemObject[item_num].live = false;
+		this->m_cItem[item_num].m_State = 8;
+		this->m_cItem[item_num].Give = true;
+		this->m_cItem[item_num].live = false;
 
 		return TRUE;
 	}
@@ -681,30 +681,30 @@ void MapClass::StateSetDestroy()
 
 	for (int n = 0; n<g_ConfigRead.server.GetObjectMaxItem(); n++)
 	{
-		if (this->m_CItemObject[n].IsItem() != FALSE)
+		if (this->m_cItem[n].IsItem() != FALSE)
 		{
-			if (this->m_CItemObject[n].m_State == 1)
+			if (this->m_cItem[n].m_State == 1)
 			{
-				this->m_CItemObject[n].m_State = 2;
+				this->m_cItem[n].m_State = 2;
 			}
-			else if (this->m_CItemObject[n].m_State == 8)
+			else if (this->m_cItem[n].m_State == 8)
 			{
-				this->m_CItemObject[n].Clear();
-				this->m_CItemObject[n].live = 0;
-				this->m_CItemObject[n].Give = 1;
+				this->m_cItem[n].Clear();
+				this->m_cItem[n].live = 0;
+				this->m_cItem[n].Give = 1;
 			}
 		}
 
-		if (this->m_CItemObject[n].IsItem() != FALSE)
+		if (this->m_cItem[n].IsItem() != FALSE)
 		{
-			if (this->m_CItemObject[n].m_State != 8)
+			if (this->m_cItem[n].m_State != 8)
 			{
-				if (CurTime > this->m_CItemObject[n].m_Time)
+				if (CurTime > this->m_cItem[n].m_Time)
 				{
-					//sLog->outBasic("Item has disappeared (%s:%d / Level: %d / Skill: %d / Serial: %I64d)", this->m_CItemObject[n].GetName(), this->m_CItemObject[n].m_Type, this->m_CItemObject[n].m_Level, this->m_CItemObject[n].m_Special[0] , this->m_CItemObject[n].m_Number);
-					this->m_CItemObject[n].m_State = 8;
+					//sLog->outBasic("Item has disappeared (%s:%d / Level: %d / Skill: %d / Serial: %I64d)", this->m_cItem[n].GetName(), this->m_cItem[n].m_Type, this->m_cItem[n].m_Level, this->m_cItem[n].m_Special[0] , this->m_cItem[n].m_Number);
+					this->m_cItem[n].m_State = 8;
 
-					if (this->m_CItemObject[n].m_Type == ITEMGET(14, 223))
+					if (this->m_cItem[n].m_Type == ITEMGET(14, 223))
 					{
 						g_IT_Event.SetStatusRegenTime(this->thisMapNumber);
 					}

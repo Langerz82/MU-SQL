@@ -18,6 +18,121 @@
 #include "ArcaBattle.h"
 #include "DevilSquareFinal.h"
 
+struct _stReqGremoryCaseItemList
+{
+	PBMSG_HEAD2 h;
+	int iIndex;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+};
+
+struct _stGremoryCaseItem
+{
+	_stGremoryCaseItem()
+	{
+		this->btStorageType = 0;
+		this->btRewardSource = 0;
+		this->btItemGUID = 0;
+		this->wItemID = 0;
+		this->btItemLevel = 0;
+		this->btItemDurability = 0;
+		this->btItemSkill = 0;
+		this->btItemLuck = 0;
+		this->btItemOption = 0;
+		this->btItemExcOption = 0;
+		this->btItemSetOption = 0;
+		memset(this->btItemSocketOption, -1, sizeof(this->btItemSocketOption));
+		this->btItemMainAttribute = 0;
+		this->wMuunEvoItemType = 0;
+		this->btMuunEvoItemIndex = 0;
+		this->dwAuthCode = 0;
+		this->iReceiveDate = 0;
+		this->iExpireDate = 0;
+	}
+
+	BYTE btStorageType;
+	BYTE btRewardSource;
+	BYTE btItemGUID;
+	WORD wItemID;
+	BYTE btItemLevel;
+	BYTE btItemDurability;
+	BYTE btItemSkill;
+	BYTE btItemLuck;
+	BYTE btItemOption;
+	BYTE btItemExcOption;
+	BYTE btItemSetOption;
+	BYTE btItemSocketOption[5];
+	BYTE btItemMainAttribute;
+	WORD wMuunEvoItemType;
+	BYTE btMuunEvoItemIndex;
+	DWORD dwAuthCode;
+	time_t iReceiveDate;
+	time_t iExpireDate;
+};
+
+struct _stAnsGremoryCaseItemList
+{
+	PWMSG_HEAD2 h;
+	int iIndex;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	BYTE btResult;
+	BYTE btCount;
+};
+
+struct _stReqAddItemToGremoryCase
+{
+	PBMSG_HEAD2 h;
+	int iIndex;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	_stGremoryCaseItem m_GremoryCaseItem;
+};
+
+struct _stAnsAddItemToGremoryCase
+{
+	PBMSG_HEAD2 h;
+	int iIndex;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	BYTE btResult;
+	_stGremoryCaseItem m_GremoryCaseItem;
+};
+
+struct _stReqCheckUseItemGremoryCase
+{
+	PBMSG_HEAD2 h;
+	int iIndex;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	WORD wItemID;
+	DWORD dwItemGUID;
+	DWORD dwAuthCode;
+};
+
+struct _stAnsCheckUseItemGremoryCase
+{
+	PBMSG_HEAD2 h;
+	int iIndex;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	BYTE btResult;
+	WORD wItemID;
+	DWORD dwItemGUID;
+	DWORD dwAuthCode;
+};
+
+struct _stReqDeleteItemFromGremoryCase
+{
+	PBMSG_HEAD2 h;
+	char szAccountID[MAX_ACCOUNT_LEN + 1];
+	char szName[MAX_ACCOUNT_LEN + 1];
+	WORD wItemID;
+	DWORD dwItemGUID;
+	DWORD dwAuthCode;
+};
+
+
 extern void(*ItemCreate)(CGameObject* lpObj, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption, time_t lDuration, BYTE *SocketOption, BYTE MainAttribute);
 
 
